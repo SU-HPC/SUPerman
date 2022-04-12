@@ -31,17 +31,17 @@ Command Line Parameters
 - `-z, --scaleTimes (optional)`: Requires a value which indicates number of time to scale for an scaling approximation algorithm. `Default value is 5`.
 - `-r, --preprocessing (optional)`: Requires a value which indicates the preprocessing to be applied. If `1` is specified, `SortOrder` is applied. If `2` is specified, `SkipOrder` is applied. If not specified, there will be no preprocessing.
 - `-i, --grid (optional)`: When used, a grid graph will be created using `--gridm` and `gridn` dimensions, and a sparse approximation algorithm will be chosen by `--perman`.
-- `-m, --gridm (optional)`: Requires a value which indicates the first dimension of the grid graph. `Default value is 36`.
-- `-n, --gridn (optional)`: Requires a value which indicates the second dimension of the grid graph. `Default value is 36`.
-`-h (optional)`: Use 32 bit data type for calculation. `(Default is 64)`
-`-q (optional)`: Use 128 bit data type for calculation. Available only for CPU. `(Default is 64)`
-`-w (optional)`: Use 32 bit data type for storage. `(Default is 64 for real matrices, 32 for integer and binary matrices)`
-`-v (optional)`: Use 128 bit data type for storage. Available only for CPU. `(Default is 64)`
-`-l (optional)`: Choose GPU with id `l` to run single GPU algorithm.
-`-k (optional)`: Repeat calculation `k` times.
-`-e (optional)`: Multiply CUDA run-time chosen grid dimension for GPU algorithms with `e`.
-`-o (optional)`: Enable decompression.
-`-u <value> (optional) `: Scale input matrix to `value`
+- `-m, --gridm (optional)`: Requires a value which indicates the first dimension of the grid graph. `Default value is 36`.  
+- `-n, --gridn (optional)`: Requires a value which indicates the second dimension of the grid graph. `Default value is 36`.    
+`-h (optional)`: Use 32 bit data type for calculation. `(Default is 64)`  
+`-q (optional)`: Use 128 bit data type for calculation. Available only for CPU. `(Default is 64)`  
+`-w (optional)`: Use 32 bit data type for storage. `(Default is 64 for real matrices, 32 for integer and binary matrices)`  
+`-v (optional)`: Use 128 bit data type for storage. Available only for CPU. `(Default is 64)`  
+`-l (optional)`: Choose GPU with id `l` to run single GPU algorithm.  
+`-k (optional)`: Repeat calculation `k` times.  
+`-e (optional)`: Multiply CUDA run-time chosen grid dimension for GPU algorithms with `e`.  
+`-o (optional)`: Enable decompression.  
+`-u <value> (optional) `: Scale input matrix to `value`  
 
   
 
