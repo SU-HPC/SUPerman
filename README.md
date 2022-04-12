@@ -116,10 +116,15 @@ gpu_perman_xlocal_sparse() is called for GPU device 0 and matrix is converted to
 - `./gpu_perman -f ex.mtx -s -p 1 -c -t 32`  
 parallel_perman_sparse() is called for with 32 threads
 
-
 - `./gpu_perman -f ex.mtx -p 5 -d 4`  
 gpu_perman64_xshared_lbc_mshared_multigpu() is called to run on 4 GPUS.
 
 - `./gpu_perman -f ex.mtx -s -p 5 -d 4 -c -t 64`  
 gpu_perman64_xshared_lbc_mshared_multigpucpu_chunks_sparse() is called to run on 4 GPUS and 64 CPU threads.
+
+- `mpi_run -np 16 ./mpi_perman -f ex.mtx -s -p 5 -d 4 -c -t 64`  
+gpu_perman64_xregister_lbc_plainmatrix_mshared_mpi() is called to run on 16 distributed GPUS.
+
+- `./cpu_perman -f ex.mtx -s -p 1 -c -t 32 -q -v`  
+parallel_perman_sparse() is called for with 32 threads, 128 bit data type for calculation and storage is used.
 
