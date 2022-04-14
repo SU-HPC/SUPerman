@@ -151,6 +151,23 @@ Result RunAlgo(DenseMatrix<S>* densemat, SparseMatrix<S>* sparsemat, flags &flag
       if(RANK == 0) std::cout << "No algorithm with specified setting, exiting.. " << std::endl;
       exit(1);
     }
+    
+
+    if(perman_algo == 2){
+#ifdef DEBUG
+      cout << "Calling, parallel_perman64_avx512()" << endl;
+#endif
+#ifdef STRUCTURAL
+      exit(1);
+#endif
+      flags.algo_name = "parallel_perman_avx512";
+      result = parallel_perman64<double, S>(densemat, flags);	
+    }
+    else{
+      if(RANK == 0) std::cout << "No algorithm with specified setting, exiting.. " << std::endl;
+      exit(1);
+    }
+    
   }
   
   if(cpu && sparse && exact && !gpu){
