@@ -793,42 +793,57 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
       mat_t[(i * nov) + j] = mat[(j * nov) + i];
     }
   }
-
+  
   long long one = 1;
   long long start = 1;
   long long end = (1LL << (nov-1));
   
   long long chunk_size = end / threads + 1;
 
-  int avx_num = (nov / 8) + 1;
-  int avx_size = avx_num * 8;
-  int avx_row = avx_num - 1;
+  int avx_num = (nov / 8) + 1; //How many avx vectors in a row
+  int avx_row = avx_num - 1; //How many avx vectors in a row which only include original values
+  int avx_size = avx_num * 8; //Total element count including fillings
   
-  int no_ones = avx_size - (nov);
+  int avx_row_size = nov + no_ones;
   
-  C* last[8];
+  int no_ones = avx_size - (nov); //How many ones are there in the "last" avx vector
 
-  int reverse_offset = 7 - no_ones;
-  for(int i = 7; i > -1; i--){
-   
-    if(i < (reverse_offset))
-      last[i] = mat[(nov*nov) + ((nov*nov) - (reverse_offset-i))];
-    else
-      last[i] = 1;
-	
-  }
+  S* avx_copy_mat_t = new S[nov*avx_row_size];
 
-  int avx_mat_size = 
-  __m512d* avx_mat = new __m512[nov*avx_num];
+  for(int n = 0; n < nov; n++){    
 
-  C* cptr;
-  for(int i = 0; i < nov; i++){
-    cptr = (*)mat_t[i*nov];
-    for(int n = 0; n < avx_row; n++){
+    int row_start = mat_t[nov*n]; //Start of a row at original matrix
+    int* avx_row_ptr = &avx_copy_mat_t[avx_row_size*n]; //Start of a row at avx copy matrix
+
+    int reverse_offset = 7 - no_ones;
+    
+    for(int i = 0; i < avx_row; i++){ 
+      avx_copy_mat_t[n*avx_row_size + i*8 + 0] = mat_t[n*nov + i*8 + 0];
+      avx_copy_mat_t[n*avx_row_size + i*8 + 1] = mat_t[n*nov + i*8 + 1];
+      avx_copy_mat_t[n*avx_row_size + i*8 + 2] = mat_t[n*nov + i*8 + 2];
+      avx_copy_mat_t[n*avx_row_size + i*8 + 3] = mat_t[n*nov + i*8 + 3];
+      avx_copy_mat_t[n*avx_row_size + i*8 + 4] = mat_t[n*nov + i*8 + 4];
+      avx_copy_mat_t[n*avx_row_size + i*8 + 5] = mat_t[n*nov + i*8 + 5];
+      avx_copy_mat_t[n*avx_row_size + i*8 + 6] = mat_t[n*nov + i*8 + 6];
+      avx_copy_mat_t[n*avx_row_size + i*8 + 7] = mat_t[n*nov + i*8 + 7]; 
+    }
+
+    avx_row_ptr = &avx_copy_mat_t[n*avx_row_size + 8*avx_row];
+    
+    for(int i = 7; i > -1; i--){ //Fill the last vectors with original values and 1s combined
       
+      if(i < (reverse_offset))
+	avx_row_ptr[i] = mat[(nov*n) + ((nov*avx*row) - (reverse_offset-i))];
+      else
+	avx_row = 1;
     }
   }
   
+  
+  __m512d** avx_mat = new __m512*[nov];
+  for(int i = 0; i < nov; i++){
+    avx_mat[i] = new _m512d[nov];
+  }  
   
   #pragma omp parallel num_threads(threads) firstprivate(x)
   { 
@@ -877,8 +892,13 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
     if(i & 1LL) {
       prodSign = -1;
     }
-    
-    for (int i = my_start; i < my_end; i+= 8) {
+
+    //Threads do not merge their iterations, they only will merge inner loop which iterates over matrix and multiply/sum values
+    //Therefore inner loop will be executed 1/8 time with extra cost of summing up the returned array
+    for (int i = my_start; i < my_end; i+= 8) { //This should stay i
+      
+      
+      
       //compute the gray code
       ///*k = __builtin_ctzll(i);
       ///*gray ^= (one << k); // Gray-code order: 1,3,2,6,7,5,4,12,13,15,...
