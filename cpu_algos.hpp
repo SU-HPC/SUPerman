@@ -13,156 +13,156 @@ using namespace std;
 template <class T>
 double greedy(T* mat, int nov, int number_of_times) {
   T* mat_t = new T[nov * nov];
- 
+  
   for (int i = 0; i < nov; i++) {
     for (int j = 0; j < nov; j++) {
       mat_t[(j * nov) + i] = mat[(i * nov) + j];
     }
   }
-
+  
   srand(time(0));
-
+  
   int nt = omp_get_max_threads();
   T sum_perm = 0;
   long long int sum_zeros = 0;
   
-  #pragma omp parallel for num_threads(nt) reduction(+:sum_perm) reduction(+:sum_zeros)
-    for (int time = 0; time < number_of_times; time++) {
-      float row_nnz[nov];
-      float col_nnz[nov];
-      bool row_extracted[nov];
-      bool col_extracted[nov];
-      
-      for (int i = 0; i < nov; i++) {
-        row_nnz[i] = 0;
-        col_nnz[i] = 0;
-        row_extracted[i] = false;
-        col_extracted[i] = false;
-        for (int j = 0; j < nov; j++) {
-          if (mat[(i * nov) + j] != 0) {
-            row_nnz[i] += 1;
-          }
-          if (mat_t[(i * nov) + j] != 0) {
-            col_nnz[i] += 1;
-          }
-        }
+#pragma omp parallel for num_threads(nt) reduction(+:sum_perm) reduction(+:sum_zeros)
+  for (int time = 0; time < number_of_times; time++) {
+    float row_nnz[nov];
+    float col_nnz[nov];
+    bool row_extracted[nov];
+    bool col_extracted[nov];
+    
+    for (int i = 0; i < nov; i++) {
+      row_nnz[i] = 0;
+      col_nnz[i] = 0;
+      row_extracted[i] = false;
+      col_extracted[i] = false;
+      for (int j = 0; j < nov; j++) {
+	if (mat[(i * nov) + j] != 0) {
+	  row_nnz[i] += 1;
+	}
+	if (mat_t[(i * nov) + j] != 0) {
+	  col_nnz[i] += 1;
+	}
       }
-      
-      double perm = 1;
-      int row, col, deg;
-      float sum_pk, pk, random;
-      
-      for (int i = 0; i < nov; i++) {
-        // choose the row to be extracted
-        deg = nov+1;
-        int n = 0;
-        for (int l = 0; l < nov; l++) {
-          if (!row_extracted[l]) {
-            if (row_nnz[l] < deg) {
-              n = 1;
-              row = l;
-              deg = row_nnz[l];
-            } else if (row_nnz[l] == deg) {
-              n++;
-            }
-          }
-        }
-        if (n > 1) {
-          random = rand() % n;
-          for (int l = 0; l < nov; l++) {
-            if (!row_extracted[l] && row_nnz[l] == deg) {
-              if (random == 0) {
-                row = l; break;
-              }
-              random--;
-            }
-          }
-        }
-
-        // compute sum of probabilities, when finding deg = 1, set col
-        sum_pk = 0;
-        int sum_ones = 0;
-        for (int k = 0; k < nov; k++) {
-          if (!col_extracted[k] && mat[row * nov + k] != 0) {
-            sum_pk += 1 / col_nnz[k];
-          }
-        }
-
-        // choose the col to be extracted if not chosen already
-        if (sum_ones == 0) {
-          random = (float(rand()) / RAND_MAX) * sum_pk;
-          sum_pk = 0;
-          for (int k = 0; k < nov; k++) {
-            if (!col_extracted[k] && mat[row * nov + k] != 0) {
-              sum_pk += 1 / col_nnz[k];
-              if (random <= sum_pk) {
-                col = k;
-                pk = 1 / col_nnz[k];
-                break;
-              }
-            }
-          }
-        } else {
-          random = rand() % sum_ones;
-          for (int k = 0; k < nov; k++) {
-            if (!col_extracted[k] && mat[row * nov + k] != 0 && col_nnz[k] == 1) {
-              if (random == 0) {
-                col = k;
-                pk = 1;
-                break;
-              }
-              random--;
-            }
-          }
-        }
-        
-        // multiply permanent with 1 / pk
-        perm /= pk;
-
-        // extract row and col
-        row_extracted[row] = true;
-        col_extracted[col] = true;
-
-        // update number of nonzeros of the rows and cols after extraction
-        bool zero_row = false;
-        for (int r = 0; r < nov; r++) {
-          if (!row_extracted[r] && mat_t[col * nov + r] != 0) {
-            row_nnz[r]--;
-            if (row_nnz[r] == 0) {
-              zero_row = true;
-              break;
-            }
-          }
-        }
-
-        if (zero_row) {
-          perm = 0;
-          sum_zeros += 1;
-          break;
-        }
-
-        for (int c = 0; c < nov; c++) {
-          if (!col_extracted[c] && mat[row * nov + c] != 0) {
-            col_nnz[c]--;
-            if (col_nnz[c] == 0) {
-              zero_row = true;
-              break;
-            }
-          }
-        }
-
-        if (zero_row) {
-          perm = 0;
-          sum_zeros += 1;
-          break;
-        }
-      }
-
-      sum_perm += perm;
     }
-
+    
+    double perm = 1;
+    int row, col, deg;
+    float sum_pk, pk, random;
+    
+    for (int i = 0; i < nov; i++) {
+      // choose the row to be extracted
+      deg = nov+1;
+      int n = 0;
+      for (int l = 0; l < nov; l++) {
+	if (!row_extracted[l]) {
+	  if (row_nnz[l] < deg) {
+	    n = 1;
+	    row = l;
+	    deg = row_nnz[l];
+	  } else if (row_nnz[l] == deg) {
+	    n++;
+	  }
+	}
+      }
+      if (n > 1) {
+	random = rand() % n;
+	for (int l = 0; l < nov; l++) {
+	  if (!row_extracted[l] && row_nnz[l] == deg) {
+	    if (random == 0) {
+	      row = l; break;
+	    }
+	    random--;
+	  }
+	}
+      }
+      
+      // compute sum of probabilities, when finding deg = 1, set col
+      sum_pk = 0;
+      int sum_ones = 0;
+      for (int k = 0; k < nov; k++) {
+	if (!col_extracted[k] && mat[row * nov + k] != 0) {
+	  sum_pk += 1 / col_nnz[k];
+	}
+      }
+      
+      // choose the col to be extracted if not chosen already
+      if (sum_ones == 0) {
+	random = (float(rand()) / RAND_MAX) * sum_pk;
+	sum_pk = 0;
+	for (int k = 0; k < nov; k++) {
+	  if (!col_extracted[k] && mat[row * nov + k] != 0) {
+	    sum_pk += 1 / col_nnz[k];
+	    if (random <= sum_pk) {
+	      col = k;
+	      pk = 1 / col_nnz[k];
+	      break;
+	    }
+	  }
+	}
+      } else {
+	random = rand() % sum_ones;
+	for (int k = 0; k < nov; k++) {
+	  if (!col_extracted[k] && mat[row * nov + k] != 0 && col_nnz[k] == 1) {
+	    if (random == 0) {
+	      col = k;
+	      pk = 1;
+	      break;
+	    }
+	    random--;
+	  }
+	}
+      }
+      
+      // multiply permanent with 1 / pk
+      perm /= pk;
+      
+      // extract row and col
+      row_extracted[row] = true;
+      col_extracted[col] = true;
+      
+      // update number of nonzeros of the rows and cols after extraction
+      bool zero_row = false;
+      for (int r = 0; r < nov; r++) {
+	if (!row_extracted[r] && mat_t[col * nov + r] != 0) {
+	  row_nnz[r]--;
+	  if (row_nnz[r] == 0) {
+	    zero_row = true;
+	    break;
+	  }
+	}
+      }
+      
+      if (zero_row) {
+	perm = 0;
+	sum_zeros += 1;
+	break;
+      }
+      
+      for (int c = 0; c < nov; c++) {
+	if (!col_extracted[c] && mat[row * nov + c] != 0) {
+	  col_nnz[c]--;
+	  if (col_nnz[c] == 0) {
+	    zero_row = true;
+	    break;
+	  }
+	}
+      }
+      
+      if (zero_row) {
+	perm = 0;
+	sum_zeros += 1;
+	break;
+      }
+    }
+    
+    sum_perm += perm;
+  }
+  
   delete[] mat_t;
-
+  
   cout << "number of zeros: " << sum_zeros << endl;
   
   return (sum_perm / number_of_times);
@@ -170,21 +170,21 @@ double greedy(T* mat, int nov, int number_of_times) {
 
 template <class C, class S>
 Result rasmussen_sparse(DenseMatrix<S>* densemat, SparseMatrix<S>* sparsemat, flags flags) {
-
+  
   //Pack parameters
   S* mat = densemat->mat;
   int* rptrs = sparsemat->rptrs;
   int* cols = sparsemat->cols;
   int nov = sparsemat->nov;
   //Pack parameters
-
+  
   //Pack flags//
   int number_of_times = flags.number_of_times;
   int threads = flags.threads;
   //Pack flags//
-
+  
   double starttime = omp_get_wtime();
-
+  
   S* mat_t = new S[nov * nov];
   
   for (int i = 0; i < nov; i++) {
@@ -192,88 +192,88 @@ Result rasmussen_sparse(DenseMatrix<S>* densemat, SparseMatrix<S>* sparsemat, fl
       mat_t[(j * nov) + i] = mat[(i * nov) + j];
     }
   }
-
+  
   srand(time(0));
-
+  
   C sum_perm = 0;
   long long int sum_zeros = 0;
-    
-  #pragma omp parallel for num_threads(threads) reduction(+:sum_perm) reduction(+:sum_zeros)
-    for (int time = 0; time < number_of_times; time++) {
-      int row_nnz[nov];
-      bool col_extracted[nov];
-      bool row_extracted[nov];
-      for (int i = 0; i < nov; i++) {
-        col_extracted[i] = false;
-        row_extracted[i] = false;
-      }
-
-      int row;
-      int min = nov+1;
-      
-      for (int i = 0; i < nov; i++) {
-        row_nnz[i] = rptrs[i+1] - rptrs[i];
-        if (min > row_nnz[i]) {
-          min = row_nnz[i];
-          row = i;
-        }
-      }
-      
-      C perm = 1;
-      
-      for (int k = 0; k < nov; k++) {
-        // multiply permanent with number of nonzeros in the current row
-        perm *= row_nnz[row];
-
-        // choose the column to be extracted randomly
-        int random = rand() % row_nnz[row];
-        int col;
-        for (int i = rptrs[row]; i < rptrs[row+1]; i++) {
-          int c = cols[i];
-          if (!(col_extracted[c])) {
-            if (random == 0) {
-              col = c;
-              break;
-            } else {
-              random--;
-            }        
-          }
-        }
-
-        // exract the column
-        col_extracted[col] = true;
-        row_extracted[row] = true; 
-
-        min = nov+1;
-
-        // update number of nonzeros of the rows after extracting the column
-        bool zero_row = false;
-        for (int r = 0; r < nov; r++) {
-          if (!(row_extracted[r])) {
-            if (mat_t[col * nov + r] != 0) {
-              row_nnz[r]--;
-              if (row_nnz[r] == 0) {
-                zero_row = true;
-                break;
-              }
-            }
-            if (min > row_nnz[r]) {
-              min = row_nnz[r];
-              row = r;
-            }
-          }
-        }
-
-        if (zero_row) {
-          perm = 0;
-          sum_zeros += 1;
-          break;
-        }
-      }
-
-      sum_perm += perm;
+  
+#pragma omp parallel for num_threads(threads) reduction(+:sum_perm) reduction(+:sum_zeros)
+  for (int time = 0; time < number_of_times; time++) {
+    int row_nnz[nov];
+    bool col_extracted[nov];
+    bool row_extracted[nov];
+    for (int i = 0; i < nov; i++) {
+      col_extracted[i] = false;
+      row_extracted[i] = false;
     }
-
+    
+    int row;
+    int min = nov+1;
+    
+    for (int i = 0; i < nov; i++) {
+      row_nnz[i] = rptrs[i+1] - rptrs[i];
+      if (min > row_nnz[i]) {
+	min = row_nnz[i];
+	row = i;
+      }
+    }
+    
+    C perm = 1;
+    
+    for (int k = 0; k < nov; k++) {
+      // multiply permanent with number of nonzeros in the current row
+      perm *= row_nnz[row];
+      
+      // choose the column to be extracted randomly
+      int random = rand() % row_nnz[row];
+      int col;
+      for (int i = rptrs[row]; i < rptrs[row+1]; i++) {
+	int c = cols[i];
+	if (!(col_extracted[c])) {
+	  if (random == 0) {
+	    col = c;
+	    break;
+	  } else {
+	    random--;
+	  }        
+	}
+      }
+      
+      // exract the column
+      col_extracted[col] = true;
+      row_extracted[row] = true; 
+      
+      min = nov+1;
+      
+      // update number of nonzeros of the rows after extracting the column
+      bool zero_row = false;
+      for (int r = 0; r < nov; r++) {
+	if (!(row_extracted[r])) {
+	  if (mat_t[col * nov + r] != 0) {
+	    row_nnz[r]--;
+	    if (row_nnz[r] == 0) {
+	      zero_row = true;
+	      break;
+	    }
+	  }
+	  if (min > row_nnz[r]) {
+	    min = row_nnz[r];
+	    row = r;
+	  }
+	}
+      }
+      
+      if (zero_row) {
+	perm = 0;
+	sum_zeros += 1;
+	break;
+      }
+    }
+    
+    sum_perm += perm;
+  }
+  
   delete[] mat_t;
   
   double duration = omp_get_wtime() - starttime;  
@@ -282,7 +282,7 @@ Result rasmussen_sparse(DenseMatrix<S>* densemat, SparseMatrix<S>* sparsemat, fl
   return result;
 }
 
-//Buradaki C pekala int'de olabilir
+
 template <class C, class S>
 Result rasmussen(DenseMatrix<S>* densemat, flags flags) {
 
@@ -758,6 +758,39 @@ Result parallel_perman64_sparse(DenseMatrix<S>* densemat, SparseMatrix<S>* spars
 
 //template <typename T> std::string type_name();
 
+#ifdef AVX
+
+void avx_debug(double* mat_t, double* avx_copy_mat_t, int nov, int avx_size){
+
+  std::cout << std::fixed;
+  std::cout << std::setprecision(1);
+  
+    
+  printf("##########densemat##########\n");
+
+  for(int i = 0; i < nov; i++){
+    for(int j = 0; j < nov; j++){
+      //printf("%.1e ", densemat->mat[i*nov+j]);
+      std::cout << mat_t[i*nov+j] << " ";
+    }
+    printf("\n");
+  }
+
+  printf("##########densemat##########\n");
+
+
+  printf("##########avx_copy_mat_t##########\n");
+  for(int i = 0; i < nov; i++){
+    for(int j = 0; j < avx_size; j++){
+      //printf("j: %d, %.1e ", j,  avx_copy_mat_t[i*avx_size+j]);
+      std::cout << avx_copy_mat_t[i*avx_size+j] << " ";
+    }
+    printf("\n");
+  }
+  printf("##########avx_copy_mat_t##########\n");
+  
+}
+
 template <class C, class S>
 Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
 
@@ -803,19 +836,19 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
   int avx_num = (nov / 8) + 1; //How many avx vectors in a row
   int avx_row = avx_num - 1; //How many avx vectors in a row which only include original values
   int avx_size = avx_num * 8; //Total element count including fillings
+
+  int no_ones = avx_size - (nov); //How many ones are there in the "last" avx vector
   
   int avx_row_size = nov + no_ones;
   
-  int no_ones = avx_size - (nov); //How many ones are there in the "last" avx vector
-
+  
+  
   S* avx_copy_mat_t = new S[nov*avx_row_size];
 
   for(int n = 0; n < nov; n++){    
 
-    int row_start = mat_t[nov*n]; //Start of a row at original matrix
-    int* avx_row_ptr = &avx_copy_mat_t[avx_row_size*n]; //Start of a row at avx copy matrix
-
-    int reverse_offset = 7 - no_ones;
+    //int row_start = nov*n; //Start of a row at original matrix
+    //S* avx_row_ptr = &avx_copy_mat_t[avx_row_size*n]; //Start of a row at avx copy matrix
     
     for(int i = 0; i < avx_row; i++){ 
       avx_copy_mat_t[n*avx_row_size + i*8 + 0] = mat_t[n*nov + i*8 + 0];
@@ -828,22 +861,42 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
       avx_copy_mat_t[n*avx_row_size + i*8 + 7] = mat_t[n*nov + i*8 + 7]; 
     }
 
-    avx_row_ptr = &avx_copy_mat_t[n*avx_row_size + 8*avx_row];
+    //S* avx_row_ptr = &avx_copy_mat_t[n*avx_row_size + 8*avx_row];
+    //S* avx_row_ptr = &avx_copy_mat_t[n*avx_row_size];
     
-    for(int i = 7; i > -1; i--){ //Fill the last vectors with original values and 1s combined
+    int reverse_offset = 8 - no_ones;
+    std::cout << reverse_offset << std::endl;
+    for(int i = 0; i < 8; i++){ //Fill the last vectors with original values and 1s combined
       
-      if(i < (reverse_offset))
-	avx_row_ptr[i] = mat[(nov*n) + ((nov*avx*row) - (reverse_offset-i))];
-      else
-	avx_row = 1;
+      std::cout << (n+1)*nov + i << " ";
+
+      if( ((n + 1) * avx_row) + i < nov-1){
+	avx_copy_mat_t[(n+1) * avx_row + i] = mat_t[(n+1 * avx_row) + i];
+	std::cout << "Giving: " << mat_t[(n+1 * nov) + i] << std::endl;
+      }
+      else{
+	avx_copy_mat_t[(n+1) * avx_row + i] = (double)1.0;
+	std::cout << "Giving: " << 1.0 << std::endl;
+      }
     }
+
+    std::cout << std::endl;
+    
   }
   
-  
-  __m512d** avx_mat = new __m512*[nov];
+  __m512d** avx_mat = new __m512d*[nov];
   for(int i = 0; i < nov; i++){
-    avx_mat[i] = new _m512d[nov];
-  }  
+    avx_mat[i] = new __m512d[avx_num];
+  }
+
+  avx_debug(mat_t, avx_copy_mat_t, nov, avx_size);
+  
+  for(int i = 0; i < nov; i++){
+    for(int j = 0; j < avx_num; j++){
+      //50% chance of crash ?
+      avx_mat[i][j] = _mm512_load_pd(&avx_copy_mat_t[(i*nov) + (j*8)]);
+    }
+  }
   
   #pragma omp parallel num_threads(threads) firstprivate(x)
   { 
@@ -868,51 +921,24 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
       }
     }
 
-    C ss[8];
     
-    if(tid == 0) printf("Chunk size: %lld \n", chunk_size);
-    
-#pragma omp critical
-    {
-      printf("############################ \n");
-      printf("tid: %d | xvector: \n", tid);
-      for(int j = 0; j < nov; j++){
-	printf("%f ", (double)x[j]);
-      }
-      printf("\n");
-      printf("############################ \n");
-    }
-    
-    printf("my_start: %lld | my_end: %lld \n", my_start, my_end);
-    
-    //int k;
-    int ks[8];
-    
-    int prodSign = 1;
+    int prodSign = 1; 
     if(i & 1LL) {
       prodSign = -1;
     }
-
+    
     //Threads do not merge their iterations, they only will merge inner loop which iterates over matrix and multiply/sum values
     //Therefore inner loop will be executed 1/8 time with extra cost of summing up the returned array
-    for (int i = my_start; i < my_end; i+= 8) { //This should stay i
-      
-      
+    int k = 0;
+    for (int i = my_start; i < my_end; i++) { //This should stay i
+       
       
       //compute the gray code
-      ///*k = __builtin_ctzll(i);
-      ///*gray ^= (one << k); // Gray-code order: 1,3,2,6,7,5,4,12,13,15,...
+      k = __builtin_ctzll(i);
+      gray ^= (one << k); // Gray-code order: 1,3,2,6,7,5,4,12,13,15,...
       //decide if subtract of not - if the kth bit of gray is one then 1, otherwise -1
-      ///*s = ((one << k) & gray) ? 1 : -1;
+      s = ((one << k) & gray) ? 1 : -1;
 
-      for(int j = 0; j < 8; j++){
-
-	ks[j] = __builtin_ctzll(i+j);
-	gray ^= (one >> ks[j]);
-	ss[j] = ((one << ks[j]) & gray) ? 1 : -1;
-	
-      }
-      
       prod = 1.0;
       xptr = (C*)x;
       for (int j = 0; j < nov; j++) {
@@ -940,6 +966,7 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
   Result result(perman, duration);
   return result;
 }
+#endif
 
 template <class C, class S>
 Result parallel_perman64(DenseMatrix<S>* densemat, flags flags) {
@@ -1017,27 +1044,12 @@ Result parallel_perman64(DenseMatrix<S>* densemat, flags flags) {
       }
     }
     
-    if(tid == 0) printf("Chunk size: %lld \n", chunk_size);
-    
-#pragma omp critical
-    {
-      printf("############################ \n");
-      printf("tid: %d | xvector: \n", tid);
-      for(int j = 0; j < nov; j++){
-	printf("%f ", (double)x[j]);
-      }
-      printf("\n");
-      printf("############################ \n");
-    }
-
-    printf("my_start: %lld | my_end: %lld \n", my_start, my_end);
-    
-    int k;
-
     int prodSign = 1;
+    int k = 0;
     if(i & 1LL) {
       prodSign = -1;
     }
+    
     while (i < my_end) {
       //compute the gray code
       k = __builtin_ctzll(i);

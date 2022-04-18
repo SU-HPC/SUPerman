@@ -57,6 +57,9 @@ profile:
 cpu:
 	g++ -o cpu_perman main.cpp mmio.c -fopenmp -O3 -std=c++11 -DONLYCPU
 
+avx:
+	g++ -o cpu_avx_perman main.cpp mmio.c -fopenmp -O3 -std=c++11 -march=skylake-avx512 -DONLYCPU -DAVX
+
 clean:
 	rm gpu_perman
 	rm debug_perman

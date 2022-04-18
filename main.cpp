@@ -12,6 +12,12 @@
 #include "gpu_wrappers.h" //All GPU wrappers will be stored there to simplify things
 #else
 #include "flags.h"
+
+#ifdef AVX
+#include <immintrin.h>
+#include <iomanip> //To debug avx vectors clearly
+#endif
+
 #endif
 
 //
@@ -98,6 +104,25 @@ void print_flags(flags flags){
   //
 }
 
+template <class T>
+DenseMatrix<double>* avx_help(DenseMatrix<T>* densemat){
+
+  int nov = densemat->nov;
+  
+  DenseMatrix<double>* ret_mat = new DenseMatrix<double>;
+
+  ret_mat->nov = densemat->nov;
+  ret_mat->nnz = densemat->nnz;
+
+  ret_mat->mat = new double[nov*nov];
+
+  for(int i = 0; i < nov*nov; i++){
+    ret_mat->mat[i] = (double)densemat->mat[i];
+  }
+
+  return ret_mat;
+  
+}
 
 template <class S>
 Result RunAlgo(DenseMatrix<S>* densemat, SparseMatrix<S>* sparsemat, flags &flags, bool supress) 
@@ -147,22 +172,25 @@ Result RunAlgo(DenseMatrix<S>* densemat, SparseMatrix<S>* sparsemat, flags &flag
       else
 	result = parallel_perman64<double, S>(densemat, flags);	
     }
-    else{
-      if(RANK == 0) std::cout << "No algorithm with specified setting, exiting.. " << std::endl;
-      exit(1);
-    }
-    
 
-    if(perman_algo == 2){
+    
+    else if(perman_algo == 2){
 #ifdef DEBUG
       cout << "Calling, parallel_perman64_avx512()" << endl;
 #endif
 #ifdef STRUCTURAL
       exit(1);
 #endif
+      
+      DenseMatrix<double>* avx_helped = avx_help(densemat);
+      
       flags.algo_name = "parallel_perman_avx512";
-      result = parallel_perman64<double, S>(densemat, flags);	
+      result = parallel_perman64_avx512<double, double>(avx_helped, flags);
+      
+      delete avx_helped;
     }
+
+    
     else{
       if(RANK == 0) std::cout << "No algorithm with specified setting, exiting.. " << std::endl;
       exit(1);
