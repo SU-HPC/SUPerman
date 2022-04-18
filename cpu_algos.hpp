@@ -835,14 +835,10 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
 
   int avx_num = (nov / 8) + 1; //How many avx vectors in a row
   int avx_row = avx_num - 1; //How many avx vectors in a row which only include original values
+  int original_values = avx_row*8;
   int avx_size = avx_num * 8; //Total element count including fillings
-
   int no_ones = avx_size - (nov); //How many ones are there in the "last" avx vector
-  
   int avx_row_size = nov + no_ones;
-  
-  
-  
   S* avx_copy_mat_t = new S[nov*avx_row_size];
 
   for(int n = 0; n < nov; n++){    
@@ -867,16 +863,18 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
     int reverse_offset = 8 - no_ones;
     std::cout << reverse_offset << std::endl;
     for(int i = 0; i < 8; i++){ //Fill the last vectors with original values and 1s combined
-      
-      std::cout << (n+1)*nov + i << " ";
 
-      if( ((n + 1) * avx_row) + i < nov-1){
-	avx_copy_mat_t[(n+1) * avx_row + i] = mat_t[(n+1 * avx_row) + i];
-	std::cout << "Giving: " << mat_t[(n+1 * nov) + i] << std::endl;
+      std::cout << "Should interfere at: " << n * avx_row_size + original_values << std::endl;
+
+      int start = n * avx_row_size + original_values;
+
+      if((start + i) < (n * avx_row_size + nov)){
+	avx_copy_mat_t[start+i] = mat_t[(n*nov)+original_values+i];
+	std::cout << "IF start + i: " << start + i << " |n * avx_row_size + original_values: " << n * avx_row_size + original_values << " |n * avx_row_size + nov: " << n * avx_row_size + nov <<std::endl;
       }
       else{
-	avx_copy_mat_t[(n+1) * avx_row + i] = (double)1.0;
-	std::cout << "Giving: " << 1.0 << std::endl;
+	avx_copy_mat_t[start+i] = (double)1.0;
+	std::cout << "ELSE start + i: " << start + i << " |n * avx_row_size + original_values: " << n * avx_row_size + original_values << " |n * avx_row_size + nov: " << n * avx_row_size + nov <<std::endl;
       }
     }
 
