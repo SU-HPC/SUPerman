@@ -58,10 +58,10 @@ cpu:
 	g++ -o cpu_perman main.cpp mmio.c -fopenmp -O3 -std=c++11 -DONLYCPU
 
 avx:
-	g++ -o cpu_avx_perman main.cpp mmio.c -fopenmp -O3 -std=c++11 -march=skylake-avx512 -DONLYCPU -DAVX
+	g++ -o cpu_avx_perman main.cpp mmio.c -fopenmp -O3 -std=c++11 -march=skylake-avx512 -mtune=skylake-avx512 -DONLYCPU -DAVX
 
 avxgdb:
-	g++ -o cpu_avx_perman main.cpp mmio.c -fopenmp -O3 -std=c++11 -march=skylake-avx512 -DONLYCPU -DAVX -g 
+	g++ -o cpu_avx_perman main.cpp mmio.c -fopenmp -O3 -std=c++11 -march=skylake-avx512 -DONLYCPU -DAVX -D_GLIBCXX_DEBUG -g 
 
 clean:
 	rm gpu_perman
