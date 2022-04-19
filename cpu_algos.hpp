@@ -760,7 +760,7 @@ Result parallel_perman64_sparse(DenseMatrix<S>* densemat, SparseMatrix<S>* spars
 
 #ifdef AVX
 
-void avx_debug(double* mat_t, double* avx_copy_mat_t, int nov, int avx_size){
+void avx_debug(double* mat_t, double** avx_copy_mat_t, int nov, int avx_size, int avx_num){
 
   std::cout << std::fixed;
   std::cout << std::setprecision(1);
@@ -781,9 +781,16 @@ void avx_debug(double* mat_t, double* avx_copy_mat_t, int nov, int avx_size){
 
   printf("##########avx_copy_mat_t##########\n");
   for(int i = 0; i < nov; i++){
-    for(int j = 0; j < avx_size; j++){
+    for(int j = 0; j < avx_num; j++){
       //printf("j: %d, %.1e ", j,  avx_copy_mat_t[i*avx_size+j]);
-      std::cout << avx_copy_mat_t[i*avx_size+j] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][0] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][1] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][2] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][3] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][4] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][5] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][6] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][7] << " ";
     }
     printf("\n");
   }
@@ -841,13 +848,15 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
   int avx_row_size = nov + no_ones;
   //S* avx_copy_mat_t = new S[nov*avx_row_size] __attribute__((align(64)));
   //S* avx_copy_mat_t = (S*)_mm_malloc(avx_size*8, 64);
-  S* avx_copy_mat_t;
-  
-  int succ = posix_memalign((void **)&avx_copy_mat_t, 64, nov*avx_size*sizeof(double));
-
-  if(succ !=0 ){
-    std::cout << "Could not succeed posix_memaling at cpu_algos.hpp:846" << std::endl;
-    exit(1);
+  S** avx_copy_mat_t = new S*[nov*avx_num];
+  for(int i = 0; i < nov*avx_num; i++){
+    
+    int succ = posix_memalign((void **)&avx_copy_mat_t[i], alignof(__m512d), 8*sizeof(double));
+    
+    if(succ !=0 ){
+      std::cout << "Could not succeed posix_memaling at cpu_algos.hpp:847 -- i: " << i << std::endl;
+      exit(1);
+    }
   }
     
   std::cout << "Seg -2" << std::endl;
@@ -859,25 +868,25 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
     
     for(int i = 0; i < avx_row; i++){
       std::cout << "Seg -1.9" << std::endl;
-      avx_copy_mat_t[n*avx_row_size + i*8 + 0] = mat_t[n*nov + i*8 + 0];
-      avx_copy_mat_t[n*avx_row_size + i*8 + 1] = mat_t[n*nov + i*8 + 1];
-      avx_copy_mat_t[n*avx_row_size + i*8 + 2] = mat_t[n*nov + i*8 + 2];
-      avx_copy_mat_t[n*avx_row_size + i*8 + 3] = mat_t[n*nov + i*8 + 3];
-      avx_copy_mat_t[n*avx_row_size + i*8 + 4] = mat_t[n*nov + i*8 + 4];
-      avx_copy_mat_t[n*avx_row_size + i*8 + 5] = mat_t[n*nov + i*8 + 5];
-      avx_copy_mat_t[n*avx_row_size + i*8 + 6] = mat_t[n*nov + i*8 + 6];
-      avx_copy_mat_t[n*avx_row_size + i*8 + 7] = mat_t[n*nov + i*8 + 7]; 
+      avx_copy_mat_t[(n*avx_num)+i][0] = mat_t[n*nov + i*8 + 0];
+      avx_copy_mat_t[(n*avx_num)+i][1] = mat_t[n*nov + i*8 + 1];
+      avx_copy_mat_t[(n*avx_num)+i][2] = mat_t[n*nov + i*8 + 2];
+      avx_copy_mat_t[(n*avx_num)+i][3] = mat_t[n*nov + i*8 + 3];
+      avx_copy_mat_t[(n*avx_num)+i][4] = mat_t[n*nov + i*8 + 4];
+      avx_copy_mat_t[(n*avx_num)+i][5] = mat_t[n*nov + i*8 + 5];
+      avx_copy_mat_t[(n*avx_num)+i][6] = mat_t[n*nov + i*8 + 6];
+      avx_copy_mat_t[(n*avx_num)+i][7] = mat_t[n*nov + i*8 + 7];
     }
     
     for(int i = 0; i < 8; i++){ //Fill the last vectors with original values and 1s combined
       std::cout << "Seg -1.8" << std::endl;
-      int start = n * avx_row_size + original_values;
+      
 
       if((start + i) < (n * avx_row_size + nov)){
-	avx_copy_mat_t[start+i] = mat_t[(n*nov)+original_values+i];
+	avx_copy_mat_t[(n*avx_num) + avx_row][i] = mat_t[(n*nov)+original_values+i];
       }
       else{
-	avx_copy_mat_t[start+i] = (double)1.0;
+	avx_copy_mat_t[(n*avx_num) + avx_row][i] = (double)1.0;
       }
     }
   }
@@ -887,17 +896,30 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
   std::cout << "Seg -1.65" << std::endl;
   for(int i = 0; i < nov; i++){
     std::cout << "Seg -1.6" << std::endl;
-    avx_mat[i] = new __m512d[avx_num];
+    //avx_mat[i] = new __m512d[avx_num];
+    //This is not necessary ?
+    posix_memalign((void **)&avx_mat[i], alignof(__m512d), 8*sizeof(double));
   }
 
   std::cout << "Seg -1" << std::endl;
 
-  avx_debug(mat_t, avx_copy_mat_t, nov, avx_size);
+  avx_debug(mat_t, avx_copy_mat_t, nov, avx_size, avx_num);
+
+  /*
+  for(int i = 0; i < nov; i++){
+    for(int j = 0; j < avx_num; j++){
+      //double* addr = &avx_copy_mat_t[i][0];
+      std::cout << &avx_copy_mat_t[i*nov+j] << std::endl;
+    }
+  }
+  */
   
   for(int i = 0; i < nov; i++){
     for(int j = 0; j < avx_num; j++){
-      std::cout << "i: " << i << " j: " << j << " |i*avx_size + (j*8): " << (i*avx_size)+(j*8) << std::endl;
-      avx_mat[i][j] = _mm512_load_pd((void const*)&avx_copy_mat_t[(i*avx_size) + (j*8)]);
+      std::cout << "i: " << i << " j: " << j << " |i*avx_size + (j*8): " << (i*avx_size)+(j*8) << " " <<&avx_copy_mat_t[i*avx_num+j] <<std::endl;
+      
+      avx_mat[i][j] = _mm512_load_pd(avx_copy_mat_t[i*avx_num+j]);
+      
     }
   }
 
@@ -939,7 +961,8 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
       }
     }
 
-    C* avx_x_copy = new C[avx_size];
+    C* avx_x_copy;// = new C[avx_size];
+    posix_memalign((void**) &avx_x_copy, alignof(__m512d), avx_size*sizeof(C));
     for(int i = 0; i < nov; i++){
       avx_x_copy[i] = x[i];
     }
@@ -949,7 +972,7 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
     __m512d* avx_x = new __m512d[avx_num];
 
     for(int i = 0; i < avx_num; i++){
-      avx_x[i] = _mm512_load_pd(&avx_x_copy[i*8]);
+      avx_x[i] = _mm512_load_pd(avx_x_copy + (i*8));
     }
 
     
