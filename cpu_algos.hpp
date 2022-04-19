@@ -843,7 +843,7 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
   //S* avx_copy_mat_t = (S*)_mm_malloc(avx_size*8, 64);
   S* avx_copy_mat_t;
   
-  int succ = posix_memalign((void **)&avx_copy_mat_t, 64, avx_size*sizeof(double));
+  int succ = posix_memalign((void **)&avx_copy_mat_t, 64, nov*avx_size*sizeof(double));
 
   if(succ !=0 ){
     std::cout << "Could not succeed posix_memaling at cpu_algos.hpp:846" << std::endl;
@@ -896,8 +896,8 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
   
   for(int i = 0; i < nov; i++){
     for(int j = 0; j < avx_num; j++){
-      std::cout << "i: " << i << " j: " << j << " |i*nov + (j*8): " << (i*nov)+(j*8) << std::endl;
-      avx_mat[i][j] = _mm512_load_pd((void const*)&avx_copy_mat_t[(i*nov) + (j*8)]);
+      std::cout << "i: " << i << " j: " << j << " |i*avx_size + (j*8): " << (i*avx_size)+(j*8) << std::endl;
+      avx_mat[i][j] = _mm512_load_pd((void const*)&avx_copy_mat_t[(i*avx_size) + (j*8)]);
     }
   }
 
