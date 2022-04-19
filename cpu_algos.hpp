@@ -856,30 +856,18 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
       avx_copy_mat_t[n*avx_row_size + i*8 + 6] = mat_t[n*nov + i*8 + 6];
       avx_copy_mat_t[n*avx_row_size + i*8 + 7] = mat_t[n*nov + i*8 + 7]; 
     }
-
-    //S* avx_row_ptr = &avx_copy_mat_t[n*avx_row_size + 8*avx_row];
-    //S* avx_row_ptr = &avx_copy_mat_t[n*avx_row_size];
     
-    int reverse_offset = 8 - no_ones;
-    std::cout << reverse_offset << std::endl;
     for(int i = 0; i < 8; i++){ //Fill the last vectors with original values and 1s combined
-
-      std::cout << "Should interfere at: " << n * avx_row_size + original_values << std::endl;
 
       int start = n * avx_row_size + original_values;
 
       if((start + i) < (n * avx_row_size + nov)){
 	avx_copy_mat_t[start+i] = mat_t[(n*nov)+original_values+i];
-	std::cout << "IF start + i: " << start + i << " |n * avx_row_size + original_values: " << n * avx_row_size + original_values << " |n * avx_row_size + nov: " << n * avx_row_size + nov <<std::endl;
       }
       else{
 	avx_copy_mat_t[start+i] = (double)1.0;
-	std::cout << "ELSE start + i: " << start + i << " |n * avx_row_size + original_values: " << n * avx_row_size + original_values << " |n * avx_row_size + nov: " << n * avx_row_size + nov <<std::endl;
       }
     }
-
-    std::cout << std::endl;
-    
   }
   
   __m512d** avx_mat = new __m512d*[nov];
@@ -891,12 +879,24 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
   
   for(int i = 0; i < nov; i++){
     for(int j = 0; j < avx_num; j++){
-      //50% chance of crash ?
       avx_mat[i][j] = _mm512_load_pd(&avx_copy_mat_t[(i*nov) + (j*8)]);
     }
   }
+
+  int reverse_offset = 8 - no_ones;
+  int to_mask = 0;
   
-  #pragma omp parallel num_threads(threads) firstprivate(x)
+  for(int i = 0; i < reverse_offset; i++){
+    to_mask += pow(2,i);
+  }
+
+  to_mask = 255 - to_mask;
+
+  std::cout << "##to mask: " << to_mask << std::endl;
+  __mmask8 last_mask = _mm512_int2mask(to_mask);
+  
+  
+#pragma omp parallel num_threads(threads) firstprivate(x)
   { 
     int tid = omp_get_thread_num();
     long long my_start = start + tid * chunk_size;
@@ -919,33 +919,61 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
       }
     }
 
+    C* avx_x_copy = new C[avx_size];
+    for(int i = 0; i < nov; i++){
+      avx_x_copy[i] = x[i];
+    }
+    for(int i = nov; i < avx_size; i++){
+      avx_x_copy[i] = (double)1.0;
+    }
+    __m512d* avx_x = new __m512d[avx_num];
+
+    for(int i = 0; i < avx_num; i++){
+      avx_x[i] = _mm512_load_pd(&avx_x_copy[i*8]);
+    }
+
     
-    int prodSign = 1; 
+    
+    int prodSign = 1;
     if(i & 1LL) {
       prodSign = -1;
     }
     
-    //Threads do not merge their iterations, they only will merge inner loop which iterates over matrix and multiply/sum values
-    //Therefore inner loop will be executed 1/8 time with extra cost of summing up the returned array
     int k = 0;
     for (int i = my_start; i < my_end; i++) { //This should stay i
-       
+      
       
       //compute the gray code
       k = __builtin_ctzll(i);
       gray ^= (one << k); // Gray-code order: 1,3,2,6,7,5,4,12,13,15,...
       //decide if subtract of not - if the kth bit of gray is one then 1, otherwise -1
       s = ((one << k) & gray) ? 1 : -1;
-
-      prod = 1.0;
-      xptr = (C*)x;
-      for (int j = 0; j < nov; j++) {
-        *xptr += s * mat_t[(k * nov) + j]; // see Nijenhuis and Wilf - update x vector entries
-	prod *= *xptr++;  //product of the elements in vector 'x'
-      }
-
-      //extra last here
       
+      prod = 1.0;
+      //xptr = (C*)x;
+      for (int j = 0; j < avx_num-1; j++) {
+	if(s > 0)
+	  avx_x[j] = _mm512_add_pd(avx_x[j], avx_mat[k][j]);
+	else
+	  avx_x[j] = _mm512_sub_pd(avx_x[j], avx_mat[k][j]);
+	
+	//*xptr += s * avx_mat_t[k][j]; // see Nijenhuis and Wilf - update x vector entries
+	//prod *= *xptr++;  //product of the elements in vector 'x'
+      }
+      //Loop unrolling for last avx vector since it contains non-original values
+      //Which should remain 10.
+      if(s > 0)
+	avx_x[avx_num-1] = _mm512_maskz_add_pd(last_mask, avx_x[avx_num-1], avx_mat[k][avx_num-1]);
+      else
+	avx_x[avx_num-1] = _mm512_maskz_sub_pd(last_mask, avx_x[avx_num-1], avx_mat[k][avx_num-1]);
+
+
+      for(int i = 0; i < avx_num; i++){
+	prod *= _mm512_reduce_mul_pd(avx_x[i]);
+      }
+      
+      
+      //extra last here
       my_p += prodSign * prod; 
       prodSign *= -1;
       i++;
