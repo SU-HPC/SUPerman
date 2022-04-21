@@ -1100,23 +1100,22 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
       
       prod = 1.0;
       //xptr = (C*)x;
-      for (int j = 0; j < avx_num-1; j++) {
-	if(s > 0)
+      
+      if(s > 0){
+	for (int j = 0; j < avx_num-1; j++) {
 	  avx_x[j] = _mm512_add_pd(avx_x[j], avx_mat[(k*avx_num)+j]);
-	else
-	  avx_x[j] = _mm512_sub_pd(avx_x[j], avx_mat[(k*avx_num)+j]);
-	
-	//*xptr += s * avx_mat_t[k][j]; // see Nijenhuis and Wilf - update x vector entries
-	//prod *= *xptr++;  //product of the elements in vector 'x'
-      }
-      //Loop unrolling for last avx vector since it contains non-original values
-      //Which should remain 1
-      if(s > 0)
+	}
 	avx_x[avx_num-1] = _mm512_maskz_add_pd(last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
-      else
+      }
+      
+      else{
+	for (int j = 0; j < avx_num-1; j++) {
+	  avx_x[j] = _mm512_sub_pd(avx_x[j], avx_mat[(k*avx_num)+j]);
+	}
 	avx_x[avx_num-1] = _mm512_maskz_sub_pd(last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
+      }
 
-
+      
       for(int i = 0; i < avx_num; i++){
 	prod *= _mm512_reduce_mul_pd(avx_x[i]);
       }
