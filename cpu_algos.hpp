@@ -783,7 +783,68 @@ Result parallel_perman64_sparse(DenseMatrix<S>* densemat, SparseMatrix<S>* spars
 
 #ifdef AVX
 
-void avx_debug(double* mat_t, double** avx_copy_mat_t, int nov, int avx_size, int avx_num){
+void avx_debug(double* mat_t, double** avx_copy_mat_t, __m512d* avx_mat, int nov, int avx_size, int avx_num){
+
+  std::cout << std::fixed;
+  std::cout << std::setprecision(1);
+  
+    
+  printf("##########densemat##########\n");
+
+  for(int i = 0; i < nov; i++){
+    for(int j = 0; j < nov; j++){
+      //printf("%.1e ", densemat->mat[i*nov+j]);
+      std::cout << mat_t[i*nov+j] << " ";
+    }
+    printf("\n");
+  }
+
+  printf("##########densemat##########\n");
+
+
+  printf("##########avx_copy_mat_t##########\n");
+  for(int i = 0; i < nov; i++){
+    for(int j = 0; j < avx_num; j++){
+      //printf("j: %d, %.1e ", j,  avx_copy_mat_t[i*avx_size+j]);
+      std::cout << avx_copy_mat_t[i*avx_num+j][0] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][1] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][2] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][3] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][4] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][5] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][6] << " ";
+      std::cout << avx_copy_mat_t[i*avx_num+j][7] << " ";
+    }
+    printf("\n");
+  }
+  printf("##########avx_copy_mat_t##########\n");
+
+
+  
+  printf("##########avx_mat(_m512d)##########\n");
+  for(int i = 0; i < nov; i++){
+    for(int j = 0; j < avx_num; j++){
+      double pr[8] __attribute__ ((aligned(64)));
+      _mm512_store_pd(pr, avx_mat[i*avx_num+j]);
+      std::cout << pr[0] << " ";
+      std::cout << pr[1] << " ";
+      std::cout << pr[2] << " ";
+      std::cout << pr[3] << " ";
+      std::cout << pr[4] << " ";
+      std::cout << pr[5] << " ";
+      std::cout << pr[6] << " ";
+      std::cout << pr[7] << " ";
+    }
+    printf("\n");
+  }
+  printf("##########avx_mat(_m512d)##########\n");
+
+  
+  
+  
+}
+
+void avx_debug_old(double* mat_t, double** avx_copy_mat_t, int nov, int avx_size, int avx_num){
 
   std::cout << std::fixed;
   std::cout << std::setprecision(1);
@@ -877,7 +938,7 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
 
   S** avx_copy_mat_t;
 
-  int succ = posix_memalign((void** )&avx_copy_mat_t, alignof(__m512d), nov*avx_num*sizeof(double*));
+  int succ = posix_memalign((void **)&avx_copy_mat_t, alignof(__m512d), nov*avx_num*sizeof(double*));
 
   if(succ != 0)
       std::cout << "Could not succeed in posix_memalign at .. i: " << -1 << std::endl;
@@ -912,42 +973,174 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
     } 
   } 
 
-  //__m512d** avx_mat = new __m512d*[nov];
-  //for(int i = 0; i < nov; i++){
-  //avx_mat[i] = new __m512d[avx_num]; 
-  //}
-
+  
   __m512d* avx_mat;
   succ = posix_memalign((void **)&avx_mat, alignof(__m512d), nov*avx_num*sizeof(__m512d)); //This is safe
   
-  double xcc[8] __attribute__ ((aligned(64)));
-  
+    
 
   for(int i = 0; i < nov; i++){
     for(int j = 0; j < avx_num; j++){
-      std::cout << "Loading avx vector: " << (i*avx_num)+j << " : " << avx_copy_mat_t[(i*avx_num)+j] << std::endl;
-      std::cout << "i: " << i << " nov: " << nov << " j: " << j << std::endl;
-      //avx_mat[i][j] = _mm512_load_pd(avx_copy_mat_t[(i*avx_num)+j]);
-      //avx_mat[(i*avx_num)+j].vec = _mm512_load_pd(&avx_copy_mat_t[(i*avx_num)+j]);
-      //Problem is definitely with avx_vec
-     avx_mat[i] = _mm512_load_pd(avx_copy_mat_t[(i*avx_num)+j]);
+      std::cout << "Loading: " << std::endl;
+      for(int c = 0; c < 8; c++){
+	std::cout << *avx_copy_mat_t[(i*avx_num)+j]+c << " ";
+      }
+      std::cout << std::endl;
+      
+      avx_mat[(i*avx_num)+j] = _mm512_load_pd(avx_copy_mat_t[(i*avx_num)+j]);
+      //There is a small problem
+
+      std::cout << "Just loaded: " << std::endl;
+      double pr[8] __attribute__ ((aligned(64)));
+      _mm512_store_pd(pr, avx_mat[i*avx_num+j]);
+      for(int i = 0; i < 8; i++){
+	std::cout << pr[i] << " ";
+      }
+      std::cout << std::endl;
     }
   }
   
-  int* xx = new int[8];
+  avx_debug(mat_t, avx_copy_mat_t, avx_mat, nov, avx_size, avx_num);
 
   std::cout << "Seg 1.01" << std::endl;
+
+
+  int to_mask = 0;
+
+  for(int i = 0; i < reverse_offset; i++){
+    to_mask += pow(2,i);
+  }
+
+  to_mask = 255 - to_mask;
+
+  std::cout << "##to mask: " << to_mask << std::endl;
+  __mmask8 last_mask = _mm512_int2mask(to_mask);
+
+  std::cout << "Seg 1.02" << std::endl;
   
-#pragma omp parallel for schedule(static,1)
+  double* xx = new double[8];
+  
+#pragma omp parallel for schedule(static,1) num_threads(8)
   for(int i = 0; i < 8; i++){
     int nt = omp_get_thread_num();
     std::cout << "This: " << nt << std::endl;
     xx[nt] = nt;
   }
+  
+#pragma omp parallel num_threads(threads) firstprivate(x)
+  {
+    std::cout << "Seg 1.05" << std::endl;
+    int tid = omp_get_thread_num();
+    long long my_start = start + tid * chunk_size;
+    long long my_end = min(start + ((tid+1) * chunk_size), end);
+    
+    std::cout << "Seg 1.1" << std::endl;
+    
+    C *xptr;
+    
+    std::cout << "Seg 1.2" << std::endl;
+    C s;  //+1 or -1 
+    C prod; //product of the elements in vector 'x'
+    C my_p = 0;
+    long long i = my_start;
+    long long gray = (i-1) ^ ((i-1) >> 1);
+    
+    for (int k = 0; k < (nov-1); k++) {
+      if ((gray >> k) & 1LL) { // whether kth column should be added to x vector or not
+        xptr = (C*)x;
+        for (int j = 0; j < nov; j++) {
+          *xptr += mat_t[(k * nov) + j]; // see Nijenhuis and Wilf - update x vector entries
+          xptr++;
+        }
+      }
+    }
+    
+    std::cout << "Seg 1.4" << std::endl;
+    
+    double** avx_x_copy;
+    succ = posix_memalign((void **)&avx_x_copy, alignof(__m512d), avx_num*sizeof(double*));
+    for(int i = 0; i < avx_num;i++){
+      std::cout << "Seg 1.5" << std::endl;
+      posix_memalign((void **) &avx_x_copy[i], alignof(__m512d), 8*sizeof(double));
+    }
+    
+    for(int i = 0; i < nov; i++){
+      avx_x_copy[i/8][i%8] = x[i];
+    }
+    
+    for(int i = nov; i < avx_size; i++){
+      avx_x_copy[avx_num-1][i%8] = (double)1.0;
+    }
+    
+    __m512d* avx_x = new __m512d[avx_num];
+    succ = posix_memalign((void **)&avx_x, alignof(__m512d), avx_num*sizeof(__m512d));
+    
+    for(int i = 0; i < avx_num; i++){
+      avx_x[i] = _mm512_load_pd(avx_x_copy + (i*8));
+    }
 
+    
+    
+    int prodSign = 1;
+    if(i & 1LL) {
+      prodSign = -1;
+    }
+    
+    int k = 0;
+    for (int i = my_start; i < my_end; i++) { //This should stay i
+      
+      
+      //compute the gray code
+      k = __builtin_ctzll(i);
+      gray ^= (one << k); // Gray-code order: 1,3,2,6,7,5,4,12,13,15,...
+      //decide if subtract of not - if the kth bit of gray is one then 1, otherwise -1
+      s = ((one << k) & gray) ? 1 : -1;
+
+      //Önce if sonra for biraderim çıldırdın mı ?
+      
+      prod = 1.0;
+      //xptr = (C*)x;
+      for (int j = 0; j < avx_num-1; j++) {
+	if(s > 0)
+	  avx_x[j] = _mm512_add_pd(avx_x[j], avx_mat[(k*avx_num)+j]);
+	else
+	  avx_x[j] = _mm512_sub_pd(avx_x[j], avx_mat[(k*avx_num)+j]);
+	
+	//*xptr += s * avx_mat_t[k][j]; // see Nijenhuis and Wilf - update x vector entries
+	//prod *= *xptr++;  //product of the elements in vector 'x'
+      }
+      //Loop unrolling for last avx vector since it contains non-original values
+      //Which should remain 1
+      if(s > 0)
+	avx_x[avx_num-1] = _mm512_maskz_add_pd(last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
+      else
+	avx_x[avx_num-1] = _mm512_maskz_sub_pd(last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
+
+
+      for(int i = 0; i < avx_num; i++){
+	prod *= _mm512_reduce_mul_pd(avx_x[i]);
+      }
+      
+      
+      //extra last here
+      my_p += prodSign * prod; 
+      prodSign *= -1;
+      i++;
+    }
+
+#pragma omp critical
+    {
+      p += my_p;
+    }
+  }
+
+  delete [] mat_t;
+
+  double duration = omp_get_wtime() - starttime;  
+  double perman = (4*(nov&1)-2) * p;
+  Result result(perman, duration);
+  return result;
   
-  
-  return Result(3.14, 0.01);
 }
   
 
