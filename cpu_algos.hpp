@@ -938,13 +938,37 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
   __mmask8 last_mask = _mm512_int2mask(to_mask);
   
   std::cout << "Seg 1" << std::endl;
+
+  int* xx = new int[8];
+
+  std::cout << "Seg 1.01" << std::endl;
+  
+#pragma omp parallel for schedule(static,1)
+  for(int i = 0; i < 8; i++){
+    int nt = omp_get_thread_num();
+    std::cout << "Fucker: " << nt << std::endl;
+    xx[nt] = nt;
+  }
+
+  std::cout << "Seg 1.02" << std::endl;
+  
+  for(int i = 0; i < 8; i++){
+    std::cout << "nt[" << i << "]: " << xx[i] << std::endl;
+  }
+  
+  
 #pragma omp parallel num_threads(threads) firstprivate(x)
-  { 
+  {
+    std::cout << "Seg 1.05" << std::endl;
     int tid = omp_get_thread_num();
     long long my_start = start + tid * chunk_size;
     long long my_end = min(start + ((tid+1) * chunk_size), end);
+
+    std::cout << "Seg 1.1" << std::endl;
     
-    C *xptr; 
+    C *xptr;
+
+    std::cout << "Seg 1.2" << std::endl;
     C s;  //+1 or -1 
     C prod; //product of the elements in vector 'x'
     C my_p = 0;
@@ -961,14 +985,25 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
       }
     }
 
-    C* avx_x_copy;// = new C[avx_size];
-    posix_memalign((void**) &avx_x_copy, alignof(__m512d), avx_size*sizeof(C));
+    std::cout << "Seg 1.4" << std::endl;
+    
+    C** avx_x_copy = new C*[avx_num];
+    for(int i = 0; i < avx_num;i++){
+      std::cout << "Seg 1.5" << std::endl;
+      posix_memalign((void **) &avx_x_copy[i], alignof(__m512d), 8*sizeof(double));
+    }
+
+    
+    
     for(int i = 0; i < nov; i++){
-      avx_x_copy[i] = x[i];
+      avx_x_copy[i/8][i%8] = x[i];
     }
+    
     for(int i = nov; i < avx_size; i++){
-      avx_x_copy[i] = (double)1.0;
+      avx_x_copy[avx_num-1][i%8] = (double)1.0;
     }
+    
+    std::cout << "Seg 2" << std::endl;
     __m512d* avx_x = new __m512d[avx_num];
 
     for(int i = 0; i < avx_num; i++){
@@ -991,6 +1026,8 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
       gray ^= (one << k); // Gray-code order: 1,3,2,6,7,5,4,12,13,15,...
       //decide if subtract of not - if the kth bit of gray is one then 1, otherwise -1
       s = ((one << k) & gray) ? 1 : -1;
+
+      //Önce if sonra for biraderim çıldırdın mı ?
       
       prod = 1.0;
       //xptr = (C*)x;
@@ -1004,7 +1041,7 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
 	//prod *= *xptr++;  //product of the elements in vector 'x'
       }
       //Loop unrolling for last avx vector since it contains non-original values
-      //Which should remain 10.
+      //Which should remain 1
       if(s > 0)
 	avx_x[avx_num-1] = _mm512_maskz_add_pd(last_mask, avx_x[avx_num-1], avx_mat[k][avx_num-1]);
       else
