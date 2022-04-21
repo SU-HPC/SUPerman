@@ -10,6 +10,29 @@
 #include <typeinfo>
 using namespace std;
 
+struct matD
+{
+  double* _matvector;
+  
+  matD(){
+    
+    int succ = posix_memalign((void **) &_matvector, alignof(__m512d), 8*sizeof(double));
+
+    if(succ != 0){
+      std::cout << "Failed to allocate aligned memory in matD constructor.. " << std::endl;
+      exit(1);
+    }
+  }
+  
+};
+
+struct avxS
+{
+  __m512d vec;
+};
+
+
+
 template <class T>
 double greedy(T* mat, int nov, int number_of_times) {
   T* mat_t = new T[nov * nov];
@@ -798,8 +821,141 @@ void avx_debug(double* mat_t, double** avx_copy_mat_t, int nov, int avx_size, in
   
 }
 
+
 template <class C, class S>
 Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
+
+  //Pack parameters//
+  S* mat = densemat->mat;
+  int nov = densemat->nov;
+  //Pack parameters//
+
+  //Pack Flags//
+  int threads = flags.threads;
+  //Pack Flags//
+
+  double starttime = omp_get_wtime();
+
+  C x[nov];
+  C rs; //row sum
+  C p = 1; //Product of the elements in vector 'x'
+
+  //create the x vector and initiate the permanent                                                  
+  for (int j = 0; j < nov; j++) {
+    rs = .0f;
+    for (int k = 0; k < nov; k++) {
+      rs += mat[(j * nov) + k];  // sum of row j                                                    
+    }
+    x[j] = mat[(j * nov) + (nov-1)] - rs/2;  // see Nijenhuis and Wilf - x vector entry             
+    p *= x[j];   // product of the elements in vector 'x'                                           
+  }
+
+  //create the transpose of the matrix                                                              
+  S* mat_t = new S[nov * nov];
+  for (int i = 0; i < nov; i++) {
+    for (int j = 0; j < nov; j++) {
+      mat_t[(i * nov) + j] = mat[(j * nov) + i];
+    }
+  }
+
+
+  long long one = 1;
+  long long start = 1;
+  long long end = (1LL << (nov-1));
+
+  long long chunk_size = end / threads + 1;
+
+  int avx_num = (nov / 8) + 1; //How many avx vectors in a row
+  int avx_row = avx_num - 1; //How many avx vectors in a row which only include original values
+  int original_values = avx_row * 8;
+  int avx_size = avx_num * 8; //Total element count including 1 fillings
+  int no_ones = avx_size - nov;
+  int avx_row_size = nov + no_ones;
+
+  int reverse_offset = 8 - no_ones;
+  //S** avx_copy_mat_t = new S*[nov*avx_num];
+
+  S** avx_copy_mat_t;
+
+  int succ = posix_memalign((void** )&avx_copy_mat_t, alignof(__m512d), nov*avx_num*sizeof(double*));
+
+  if(succ != 0)
+      std::cout << "Could not succeed in posix_memalign at .. i: " << -1 << std::endl;
+
+  for(int i = 0; i < nov * avx_num; i++){
+    succ = posix_memalign((void **)&avx_copy_mat_t[i], alignof(__m512d), 8*sizeof(double)); //This is safe
+
+    if(succ != 0){
+      std::cout << "Could not succeed in posix_memalign at .. i: " << i << std::endl;
+    }
+  }
+
+  for(int n = 0; n < nov; n++){
+    for(int i = 0; i < avx_row; i++){
+      avx_copy_mat_t[(n*avx_num)+i][0] = mat_t[n*nov + i*8 + 0];
+      avx_copy_mat_t[(n*avx_num)+i][1] = mat_t[n*nov + i*8 + 1];
+      avx_copy_mat_t[(n*avx_num)+i][2] = mat_t[n*nov + i*8 + 2];
+      avx_copy_mat_t[(n*avx_num)+i][3] = mat_t[n*nov + i*8 + 3];
+      avx_copy_mat_t[(n*avx_num)+i][4] = mat_t[n*nov + i*8 + 4];
+      avx_copy_mat_t[(n*avx_num)+i][5] = mat_t[n*nov + i*8 + 5];
+      avx_copy_mat_t[(n*avx_num)+i][6] = mat_t[n*nov + i*8 + 6];
+      avx_copy_mat_t[(n*avx_num)+i][7] = mat_t[n*nov + i*8 + 7];
+    }
+    std::cout << "Unrolling row: " << n << std::endl;
+    //Loop unrolling for "last" avx vector
+    for(int i = 0; i < 8; i++){
+      
+      if(i < reverse_offset)
+	avx_copy_mat_t[(n*avx_num)+avx_row][i] = mat_t[(n*nov) + original_values - i];
+      else
+	avx_copy_mat_t[(n*avx_num)+avx_row][i] = (double)1.0;
+    } 
+  } 
+
+  //__m512d** avx_mat = new __m512d*[nov];
+  //for(int i = 0; i < nov; i++){
+  //avx_mat[i] = new __m512d[avx_num]; 
+  //}
+
+  __m512d* avx_mat;
+  succ = posix_memalign((void **)&avx_mat, alignof(__m512d), nov*avx_num*sizeof(__m512d)); //This is safe
+  
+  double xcc[8] __attribute__ ((aligned(64)));
+  
+
+  for(int i = 0; i < nov; i++){
+    for(int j = 0; j < avx_num; j++){
+      std::cout << "Loading avx vector: " << (i*avx_num)+j << " : " << avx_copy_mat_t[(i*avx_num)+j] << std::endl;
+      std::cout << "i: " << i << " nov: " << nov << " j: " << j << std::endl;
+      //avx_mat[i][j] = _mm512_load_pd(avx_copy_mat_t[(i*avx_num)+j]);
+      //avx_mat[(i*avx_num)+j].vec = _mm512_load_pd(&avx_copy_mat_t[(i*avx_num)+j]);
+      //Problem is definitely with avx_vec
+     avx_mat[i] = _mm512_load_pd(avx_copy_mat_t[(i*avx_num)+j]);
+    }
+  }
+  
+  int* xx = new int[8];
+
+  std::cout << "Seg 1.01" << std::endl;
+  
+#pragma omp parallel for schedule(static,1)
+  for(int i = 0; i < 8; i++){
+    int nt = omp_get_thread_num();
+    std::cout << "This: " << nt << std::endl;
+    xx[nt] = nt;
+  }
+
+  
+  
+  return Result(3.14, 0.01);
+}
+  
+
+
+  
+
+template <class C, class S>
+Result parallel_perman64_avx512_old(DenseMatrix<S>* densemat, flags flags) {
 
   //Pack parameters//
   S* mat = densemat->mat;
@@ -896,9 +1052,10 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
   std::cout << "Seg -1.65" << std::endl;
   for(int i = 0; i < nov; i++){
     std::cout << "Seg -1.6" << std::endl;
-    //avx_mat[i] = new __m512d[avx_num];
+    avx_mat[i] = new __m512d[avx_num];
     //This is not necessary ?
-    posix_memalign((void **)&avx_mat[i], alignof(__m512d), 8*sizeof(double));
+    //This line possibly cause weird error: malloc corrupted top size when entering pragma loop
+    //posix_memalign((void **)&avx_mat[i], alignof(__m512d), 8*sizeof(double));
   }
 
   std::cout << "Seg -1" << std::endl;
@@ -916,9 +1073,9 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
   
   for(int i = 0; i < nov; i++){
     for(int j = 0; j < avx_num; j++){
-      std::cout << "i: " << i << " j: " << j << " |i*avx_size + (j*8): " << (i*avx_size)+(j*8) << " " <<&avx_copy_mat_t[i*avx_num+j] <<std::endl;
+      std::cout << "i: " << i << " j: " << j << " |i*avx_size + (j*8): " << (i*avx_size)+(j*8) << " " << &avx_copy_mat_t[i][j] <<std::endl;
       
-      avx_mat[i][j] = _mm512_load_pd(avx_copy_mat_t[i*avx_num+j]);
+      avx_mat[i][j] = _mm512_load_pd(&avx_copy_mat_t[i]);
       
     }
   }
