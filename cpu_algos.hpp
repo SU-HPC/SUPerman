@@ -927,6 +927,7 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
   long long chunk_size = end / threads + 1;
 
   int avx_num = (nov / 8) + 1; //How many avx vectors in a row
+  //if(nov%8 == 0) avx_num -= 1;
   int avx_row = avx_num - 1; //How many avx vectors in a row which only include original values
   int original_values = avx_row * 8;
   int avx_size = avx_num * 8; //Total element count including 1 fillings
@@ -967,7 +968,7 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
     for(int i = 0; i < 8; i++){
       
       if(i < reverse_offset)
-	avx_copy_mat_t[(n*avx_num)+avx_row][i] = mat_t[(n*nov) + original_values - i];
+	avx_copy_mat_t[(n*avx_num)+avx_row][i] = mat_t[(n*nov) + original_values + i];
       else
 	avx_copy_mat_t[(n*avx_num)+avx_row][i] = (double)1.0;
     } 
