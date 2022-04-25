@@ -1043,6 +1043,9 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
     //std::cout << "This: " << nt << std::endl;
     //xx[nt] = nt;
   //}
+
+  ////################31!!!!!!!!!!!!!//First thing to do:
+  ////################31!!!!!!!!!!!!!//Change this: every iterator's name is i. May cause a bug
   
 #pragma omp parallel num_threads(threads) firstprivate(x)
   {
@@ -1167,9 +1170,8 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
 	//std::cout << "i: " << i << " ";
 	//avx_x_debug(avx_x[i]);
       }
-      
-      
-      
+
+            
       my_p += prodSign * prod; 
       prodSign *= -1;
       i++;
