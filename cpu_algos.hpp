@@ -1079,7 +1079,7 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
     
     std::cout << "Seg 1.4" << std::endl;
     
-    double** avx_x_copy;
+    S** avx_x_copy;
     succ = posix_memalign((void **)&avx_x_copy, alignof(__m512d), avx_num*sizeof(double*));
     for(int i = 0; i < avx_num;i++){
       std::cout << "Seg 1.5" << std::endl;
@@ -1105,8 +1105,8 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
     succ = posix_memalign((void **)&avx_x, alignof(__m512d), avx_num*sizeof(__m512d));
     
     for(int i = 0; i < avx_num; i++){
-      //avx_mat[(i*avx_num)+j] = _mm512_load_pd(avx_copy_mat_t[(i*avx_num)+j]);
-      avx_x[i] = _mm512_load_pd(avx_x_copy[i*8][0]); //That's probably the problem
+      std::cout << "i: " << i << std::endl;
+      avx_x[i] = _mm512_load_pd(avx_x_copy[i]); //That's probably the problem
     }
 
     for(int i = 0; i < avx_num; i++){
