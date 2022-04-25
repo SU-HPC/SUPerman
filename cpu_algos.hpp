@@ -783,6 +783,23 @@ Result parallel_perman64_sparse(DenseMatrix<S>* densemat, SparseMatrix<S>* spars
 
 #ifdef AVX
 
+void avx_x_debug(__m512d avx_x_part){
+  
+  double pr[8] __attribute__ ((aligned(64)));
+  _mm512_store_pd(pr, avx_x_part);
+  std::cout << "Part of x: ";
+  std::cout << pr[0] << " ";
+  std::cout << pr[1] << " ";
+  std::cout << pr[2] << " ";
+  std::cout << pr[3] << " ";
+  std::cout << pr[4] << " ";
+  std::cout << pr[5] << " ";
+  std::cout << pr[6] << " ";
+  std::cout << pr[7] << " ";
+  
+  printf("\n"); 
+}
+
 void avx_debug(double* mat_t, double** avx_copy_mat_t, __m512d* avx_mat, int nov, int avx_size, int avx_num){
 
   std::cout << std::fixed;
@@ -984,7 +1001,7 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
     for(int j = 0; j < avx_num; j++){
       std::cout << "Loading: " << std::endl;
       for(int c = 0; c < 8; c++){
-	std::cout << *avx_copy_mat_t[(i*avx_num)+j]+c << " ";
+	std::cout << *(avx_copy_mat_t[(i*avx_num)+j]+c) << " ";
       }
       std::cout << std::endl;
       
@@ -1030,6 +1047,10 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
   
 #pragma omp parallel num_threads(threads) firstprivate(x)
   {
+    //std::cout << "avx debug inside parallel region: " << std::endl;
+    //avx_debug(mat_t, avx_copy_mat_t, avx_mat, nov, avx_size, avx_num);
+    //exit(1);
+    
     std::cout << "Seg 1.05" << std::endl;
     int tid = omp_get_thread_num();
     long long my_start = start + tid * chunk_size;
@@ -1072,14 +1093,26 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
     for(int i = nov; i < avx_size; i++){
       avx_x_copy[avx_num-1][i%8] = (double)1.0;
     }
-    
-    __m512d* avx_x = new __m512d[avx_num];
+
+    std::cout << "##############avx_x_copy##############" << std::endl;
+    for(int i = 0; i < avx_size; i++){
+      std::cout << avx_x_copy[i/8][i%8] << " ";
+    }
+    std::cout << std::endl;
+    std::cout << "##############avx_x_copy##############" << std::endl;
+   
+    __m512d* avx_x;// = new __m512d[avx_num];
     succ = posix_memalign((void **)&avx_x, alignof(__m512d), avx_num*sizeof(__m512d));
     
     for(int i = 0; i < avx_num; i++){
-      avx_x[i] = _mm512_load_pd(avx_x_copy + (i*8));
+      //avx_mat[(i*avx_num)+j] = _mm512_load_pd(avx_copy_mat_t[(i*avx_num)+j]);
+      avx_x[i] = _mm512_load_pd(avx_x_copy[i*8][0]); //That's probably the problem
     }
 
+    for(int i = 0; i < avx_num; i++){
+      avx_x_debug(avx_x[i]);
+    }
+    exit(1);
     
     
     int prodSign = 1;
@@ -1101,24 +1134,39 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
       
       prod = 1.0;
       //xptr = (C*)x;
+
+      //We also have: add_ps -> for float, 32bit single precision
+      //              add_ph -> for "half", 16 bit single precision, 32 elements at once
       
       if(s > 0){
 	for (int j = 0; j < avx_num-1; j++) {
 	  avx_x[j] = _mm512_add_pd(avx_x[j], avx_mat[(k*avx_num)+j]);
+	  //std::cout << "s: " << s << " add" << std::endl;
+	  //avx_x_debug(avx_x[avx_num-1]); //This is for debug
+	  //std::cout << "adding mat: " << std::endl;
+	  //avx_x_debug(avx_mat[(k*avx_num)+j]);
 	}
 	avx_x[avx_num-1] = _mm512_maskz_add_pd(last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
+	//avx_x_debug(avx_x[avx_num-1]); //This is for debug
       }
       
       else{
 	for (int j = 0; j < avx_num-1; j++) {
 	  avx_x[j] = _mm512_sub_pd(avx_x[j], avx_mat[(k*avx_num)+j]);
+	  //std::cout << "s: " << s << " sub" << std::endl;
+	  //avx_x_debug(avx_x[avx_num-1]); //This is for debug
+	  //std::cout << "adding mat: " << std::endl;
+	  //avx_x_debug(avx_mat[(k*avx_num)+j]);
 	}
 	avx_x[avx_num-1] = _mm512_maskz_sub_pd(last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
+	//avx_x_debug(avx_x[avx_num-1]); //This is for debug
       }
 
       
       for(int i = 0; i < avx_num; i++){
 	prod *= _mm512_reduce_mul_pd(avx_x[i]);
+	std::cout << "i: " << i << " ";
+	avx_x_debug(avx_x[i]);
       }
       
       
@@ -1352,11 +1400,18 @@ Result parallel_perman64_avx512_old(DenseMatrix<S>* densemat, flags flags) {
     for(int i = nov; i < avx_size; i++){
       avx_x_copy[avx_num-1][i%8] = (double)1.0;
     }
+
+    std::cout << "############avx_x_copy############" << std::endl;
+    for(int i = 0; i < avx_num; i++){
+      std::cout << avx_x_copy[i][i%8] << " ";
+    }
+    std::cout << "############avx_x_copy############" << std::endl;
     
     std::cout << "Seg 2" << std::endl;
     __m512d* avx_x = new __m512d[avx_num];
 
     for(int i = 0; i < avx_num; i++){
+      //avx_mat[i][j] = _mm512_load_pd(&avx_copy_mat_t[i]);
       avx_x[i] = _mm512_load_pd(avx_x_copy + (i*8));
     }
 
