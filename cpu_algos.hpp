@@ -10,28 +10,6 @@
 #include <typeinfo>
 using namespace std;
 
-struct matD
-{
-  double* _matvector;
-  
-  matD(){
-    
-    int succ = posix_memalign((void **) &_matvector, alignof(__m512d), 8*sizeof(double));
-
-    if(succ != 0){
-      std::cout << "Failed to allocate aligned memory in matD constructor.. " << std::endl;
-      exit(1);
-    }
-  }
-  
-};
-
-struct avxS
-{
-  __m512d vec;
-};
-
-
 
 template <class T>
 double greedy(T* mat, int nov, int number_of_times) {
@@ -782,6 +760,27 @@ Result parallel_perman64_sparse(DenseMatrix<S>* densemat, SparseMatrix<S>* spars
 //template <typename T> std::string type_name();
 
 #ifdef AVX
+
+struct matD
+{
+  double* _matvector;
+  
+  matD(){
+    
+    int succ = posix_memalign((void **) &_matvector, alignof(__m512d), 8*sizeof(double));
+
+    if(succ != 0){
+      std::cout << "Failed to allocate aligned memory in matD constructor.. " << std::endl;
+      exit(1);
+    }
+  }
+  
+};
+
+struct avxS
+{
+  __m512d vec;
+};
 
 void avx_x_debug(__m512d avx_x_part){
   
