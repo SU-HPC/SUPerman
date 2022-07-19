@@ -191,7 +191,7 @@ Result RunAlgo(DenseMatrix<S>* densemat, SparseMatrix<S>* sparsemat, flags &flag
       delete avx_helped;
     }
 #endif
-
+    
     
     else{
       if(RANK == 0) std::cout << "No algorithm with specified setting, exiting.. " << std::endl;

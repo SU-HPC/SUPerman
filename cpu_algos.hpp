@@ -1027,9 +1027,9 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
     to_mask += pow(2,i);
   }
 
-  to_mask = 255 - to_mask;
+  //to_mask = 255 - to_mask;
 
-  //std::cout << "##to mask: " << to_mask << std::endl;
+  std::cout << "##to mask: " << to_mask << std::endl;
   __mmask8 last_mask = _mm512_int2mask(to_mask);
 
   //std::cout << "Seg 1.02" << std::endl;
@@ -1147,7 +1147,8 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
 	  //std::cout << "adding mat: " << std::endl;
 	  //avx_x_debug(avx_mat[(k*avx_num)+j]);
 	}
-	avx_x[avx_num-1] = _mm512_maskz_add_pd(last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
+	//avx_x[avx_num-1] = _mm512_maskz_add_pd(last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
+	avx_x[avx_num-1] = _mm512_mask_add_pd(avx_x[avx_num-1], last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
 	//avx_x_debug(avx_x[avx_num-1]); //This is for debug
       }
       
@@ -1159,23 +1160,24 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
 	  //std::cout << "adding mat: " << std::endl;
 	  //avx_x_debug(avx_mat[(k*avx_num)+j]);
 	}
-	avx_x[avx_num-1] = _mm512_maskz_sub_pd(last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
+	//avx_x[avx_num-1] = _mm512_maskz_sub_pd(last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
+	avx_x[avx_num-1] = _mm512_mask_sub_pd(avx_x[avx_num-1], last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
 	//avx_x_debug(avx_x[avx_num-1]); //This is for debug
       }
 
       
-      for(int i = 0; i < avx_num; i++){
-	prod *= _mm512_reduce_mul_pd(avx_x[i]);
-	//std::cout << "i: " << i << " ";
-	//avx_x_debug(avx_x[i]);
+      for(int j = 0; j < avx_num; j++){
+	prod *= _mm512_reduce_mul_pd(avx_x[j]);
+	//std::cout << "i: " << i <<" j: " << j << " ";
+	//avx_x_debug(avx_x[j]);
       }
-
             
+      
       my_p += prodSign * prod; 
       prodSign *= -1;
-      i++;
+      //i++;
     }
-
+    
 #pragma omp critical
     {
       p += my_p;
@@ -1344,7 +1346,6 @@ Result parallel_perman64_avx512_old(DenseMatrix<S>* densemat, flags flags) {
 #pragma omp parallel for schedule(static,1)
   for(int i = 0; i < 8; i++){
     int nt = omp_get_thread_num();
-    std::cout << "Fucker: " << nt << std::endl;
     xx[nt] = nt;
   }
 
