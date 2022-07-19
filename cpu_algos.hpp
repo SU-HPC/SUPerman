@@ -1110,6 +1110,7 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
       avx_x[i] = _mm512_load_pd(avx_x_copy[i]); //That's probably the problem
     }
 
+    std::cout << "###################" << std::endl;
     for(int i = 0; i < avx_num; i++){
       avx_x_debug(avx_x[i]);
     }
@@ -1148,7 +1149,7 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
 	  //avx_x_debug(avx_mat[(k*avx_num)+j]);
 	}
 	//avx_x[avx_num-1] = _mm512_maskz_add_pd(last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
-	avx_x[avx_num-1] = _mm512_mask_add_pd(avx_x[avx_num-1], last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
+	avx_x[avx_num-1] = _mm512_mask_add_pd(avx_x[avx_num-1], last_mask, avx_x[avx_num-1], avx_mat[k*avx_num+(avx_num-1)]);
 	//avx_x_debug(avx_x[avx_num-1]); //This is for debug
       }
       
@@ -1161,11 +1162,13 @@ Result parallel_perman64_avx512(DenseMatrix<S>* densemat, flags flags) {
 	  //avx_x_debug(avx_mat[(k*avx_num)+j]);
 	}
 	//avx_x[avx_num-1] = _mm512_maskz_sub_pd(last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
-	avx_x[avx_num-1] = _mm512_mask_sub_pd(avx_x[avx_num-1], last_mask, avx_x[avx_num-1], avx_mat[k*(avx_num-1)]);
+	avx_x[avx_num-1] = _mm512_mask_sub_pd(avx_x[avx_num-1], last_mask, avx_x[avx_num-1], avx_mat[k*avx_num+(avx_num-1)]);
 	//avx_x_debug(avx_x[avx_num-1]); //This is for debug
       }
 
+
       
+      //std::cout << "###################" << std::endl;
       for(int j = 0; j < avx_num; j++){
 	prod *= _mm512_reduce_mul_pd(avx_x[j]);
 	//std::cout << "i: " << i <<" j: " << j << " ";
@@ -1483,6 +1486,9 @@ Result parallel_perman64_avx512_old(DenseMatrix<S>* densemat, flags flags) {
 template <class C, class S>
 Result parallel_perman64(DenseMatrix<S>* densemat, flags flags) {
 
+  std::cout << std::fixed;
+  std::cout << std::setprecision(1);
+  
   //Pack parameters//
   S* mat = densemat->mat;
   int nov = densemat->nov;
@@ -1575,6 +1581,21 @@ Result parallel_perman64(DenseMatrix<S>* densemat, flags flags) {
         *xptr += s * mat_t[(k * nov) + j]; // see Nijenhuis and Wilf - update x vector entries
         prod *= *xptr++;  //product of the elements in vector 'x'
       }
+
+      /*
+      //x debug
+      xptr = (C*)x;
+      std::cout << "################" << std::endl;
+      std::cout << "i: " << i << std::endl;
+      for(int m = 0; m < 4; m++){
+	for(int l = 0; l < 8; l++){
+	  std::cout << (double)xptr[m*8+l] << " ";
+	}
+	std::cout << std::endl;
+      }
+      std::cout << std::endl;
+      //x debug
+      */
 
       my_p += prodSign * prod; 
       prodSign *= -1;

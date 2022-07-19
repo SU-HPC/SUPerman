@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <getopt.h>
 #include "util.h" //evaluate_data_return_parameters() --> To be implemented
+#include <iomanip> //To debug avx vectors clearly
 
 #ifndef ONLYCPU
 #include "gpu_wrappers.h" //All GPU wrappers will be stored there to simplify things
@@ -15,7 +16,6 @@
 
 #ifdef AVX
 #include <immintrin.h>
-#include <iomanip> //To debug avx vectors clearly
 #endif
 
 #endif
