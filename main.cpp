@@ -190,6 +190,22 @@ Result RunAlgo(DenseMatrix<S>* densemat, SparseMatrix<S>* sparsemat, flags &flag
       
       delete avx_helped;
     }
+
+    else if(perman_algo == 3){
+#ifdef DEBUG
+      cout << "Calling, parallel_perman64_avx512()" << endl;
+#endif
+#ifdef STRUCTURAL
+      exit(1);
+#endif
+      
+      DenseMatrix<double>* avx_helped = avx_help(densemat);
+      
+      flags.algo_name = "parallel_perman_avx512_32bit";
+      result = parallel_perman64_avx512_32bit<double, double>(avx_helped, flags);
+      
+      delete avx_helped;
+    }
 #endif
     
     
