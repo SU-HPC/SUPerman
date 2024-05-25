@@ -9,13 +9,6 @@
 #include "omp.h"
 
 
-enum MatrixType
-{
-    Sparse,
-    Dense,
-    MatrixTypeEnds
-};
-
 enum MatrixProperty
 {
     PatternSymmetric,
@@ -24,72 +17,41 @@ enum MatrixProperty
     PropertyEnds
 };
 
-enum Algorithm
-{
-    PermanSparse,
-    PermanDense,
-    ParallelSkipper,
-    ParallelSkipperBalanced,
-    Perman,
-    GPUPermanGlobal,
-    AlgorithmEnds
-};
-
 enum Precision
 {
-    Half,
-    Double,
-    Quad,
+    HALF,
+    DOUBLE,
+    QUAD,
     PrecisionEnds
+};
+
+enum Algorithm
+{
+    SPXLOCALMGLOBAL,
+    SPXLOCALMSHARED,
+    SPXSHAREDMGLOBAL,
+    SPXSHAREDMSHARED,
+    AlgorithmEnds
 };
 
 struct Settings
 {
-    Settings(Precision calculationPrecision, Precision storagePrecision)
-    :   matrixType(MatrixTypeEnds),
-        algorithm(AlgorithmEnds),
-        calculationPrecision(calculationPrecision),
-        storagePrecision(storagePrecision),
-        threadC(omp_get_max_threads()) {}
-
-    Settings(MatrixType matrixType, std::vector<MatrixProperty> matrixProperties, Algorithm algorithm, Precision calculationPrecision, Precision storagePrecision, unsigned threadC)
-    :   matrixType(matrixType),
-        matrixProperties(matrixProperties),
-        algorithm(algorithm),
-        calculationPrecision(calculationPrecision),
-        storagePrecision(storagePrecision),
-        threadC(threadC) {}
-
-    Settings(MatrixType matrixType, std::vector<MatrixProperty> matrixProperties, Algorithm algorithm, Precision calculationPrecision, Precision storagePrecision, unsigned gridDim, unsigned blockDim, unsigned deviceID, unsigned gridDimMultiplier, int synchronizedGray, unsigned gpuNum)
-    :   matrixType(matrixType),
-        matrixProperties(matrixProperties),
-        algorithm(algorithm),
-        calculationPrecision(calculationPrecision),
-        storagePrecision(storagePrecision),
-        gridDim(gridDim),
-        blockDim(blockDim),
-        deviceID(deviceID),
-        gridDimMultiplier(gridDimMultiplier),
-        synchronizedGray(synchronizedGray),
-        gpuNum(gpuNum),
-        threadC(1) {}
-
-    MatrixType matrixType;
+    // General
     std::vector<MatrixProperty> matrixProperties;
-    Algorithm algorithm;
     Precision calculationPrecision;
     Precision storagePrecision;
+    Algorithm algorithm;
 
     // CPU Specific
-    unsigned threadC;
+    int threadC;
 
     // GPU Specific
-    unsigned gridDim;
-    unsigned blockDim;
-    unsigned deviceID;
-    unsigned gridDimMultiplier;
-    int synchronizedGray;
-    unsigned gpuNum;
+    int deviceID;
+    int gpuNum;
+
+    // MPI Specific
+    int machineID;
+    int processorNum;
 };
 
 

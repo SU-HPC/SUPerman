@@ -20,13 +20,13 @@ public:
 
 private:
     template <class S>
-    static void skipOrder(Matrix<S>* densemat);
+    static void skipOrder(Matrix<S>* matrix);
 
     template <class S>
-    static void sortOrder(Matrix<S>* densemat);
+    static void sortOrder(Matrix<S>* matrix, int nnz);
 
     template <class S>
-    static Matrix<S>* matToSparse(Matrix<S>* densemat, int nnz);
+    static Matrix<S>* denseToSparse(Matrix<S>* matrix, int nnz);
 };
 
 
@@ -34,6 +34,10 @@ template <class S>
 Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
 {
     std::ifstream file(filename);
+    if (!file.is_open())
+    {
+        throw std::runtime_error("File could not be opened.");
+    }
 
     bool isPattern = false;
     bool isBinary = false;
@@ -87,8 +91,8 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
             file >> x >> y >> cast;
         }
 
-        x -= 1; // Convert from 1-based to 0-based
-        y -= 1;
+//        x -= 1; // Convert from 1-based to 0-based
+//        y -= 1;
 
         if (isPattern || isBinary)
             mat[x * noRow + y] = (int)1;
@@ -109,172 +113,84 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
 
     file.close();
 
-    Matrix<S>* densemat = new Matrix<S>(mat, noRow, noCol);
+    Matrix<S>* matrix = new Matrix<S>(mat, noRow);
 
-    double nnz = noLines;
-    double size = noRow * noCol;
-    double sparsity = (nnz / size) * 100;
+    int nnz = noLines;
+    int size = noRow * noCol;
+    double sparsity = (double(nnz) / double(size)) * 100;
 
+    std::cout << "Number of rows/columns of matrix is: " << noRow << std::endl;
+    std::cout << "Total number of nonzeros is: " << nnz << std::endl;
     std::cout << "Sparsity of the matrix is determined to be: " << sparsity << std::endl;
     if (sparsity < 30)
     {
-        std::cout << "Proceed to use skip order" << std::endl;
-        IO::skipOrder(densemat);
-        return IO::matToSparse(densemat, nnz);
+        std::cout << "Proceeding to use skip order..." << std::endl;
+        IO::skipOrder(matrix);
+        return IO::denseToSparse(matrix, nnz);
     }
     if (sparsity < 50)
     {
-        std::cout << "Proceed to use sort order" << std::endl;
-        IO::sortOrder(densemat);
-        return IO::matToSparse(densemat, nnz);
+        std::cout << "Proceeding to use sort order..." << std::endl;
+        IO::sortOrder(matrix, nnz);
+        return IO::denseToSparse(matrix, nnz);
     }
 
-    return densemat;
+    return matrix;
 }
 
 template<class S>
-void IO::skipOrder(Matrix<S>* densemat)
-{
-    S* mat = densemat->mat;
-    int nov = densemat->noRow;
-
-    int rowPerm[nov];
-    int colPerm[nov];
-    bool rowVisited[nov];
-    int degs[nov];
-
-    for(int i = 0; i < nov; i++)
-    {
-        rowPerm[i] = 0;
-        colPerm[i] = 0;
-    }
-
-    for (int j = 0; j < nov; j++)
-    {
-        degs[j] = 0;
-        rowVisited[j] = false;
-    }
-
-    for (int i = 0; i < nov; i++)
-    {
-        for (int j = 0; j < nov; j++)
-        {
-            if (mat[i*nov + j] != 0)
-            {
-                degs[j]++;
-            }
-        }
-    }
-
-    int i = 0;
-    for (int j = 0; j < nov; j++)
-    {
-        int curCol;
-        int temp = INT8_MAX;
-        for (int l = 0; l < nov; l++)
-        {
-            if (degs[l] < temp)
-            {
-                temp = degs[l];
-                curCol = l;
-            }
-        }
-        degs[curCol] = INT8_MAX;
-        colPerm[j] = curCol;
-        for (int l = 0; l < nov; l++)
-        {
-            if (mat[l*nov + curCol] != 0)
-            {
-                if (!rowVisited[l])
-                {
-                    rowVisited[l] = true;
-                    rowPerm[i] = l;
-                    i++;
-                    for (int k = 0; k < nov; k++)
-                    {
-                        if (mat[l*nov + k] != 0)
-                        {
-                            if (degs[k] != INT8_MAX)
-                            {
-                                degs[k]--;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    S* matPrev = new S[nov*nov];
-    for (int r = 0; r < nov; r++)
-    {
-        for(int c = 0; c < nov; c++)
-        {
-            matPrev[r*nov + c] = mat[r*nov + c];
-        }
-    }
-
-    for (int r = 0; r < nov; r++)
-    {
-        for(int c = 0; c < nov; c++)
-        {
-            mat[r*nov + c] = matPrev[rowPerm[r]*nov + colPerm[c]];
-        }
-    }
-
-    delete[] matPrev;
-}
-
-template<class S>
-void IO::sortOrder(Matrix<S>* densemat)
+void IO::skipOrder(Matrix<S>* matrix)
 {
 
 }
 
 template<class S>
-Matrix<S> *IO::matToSparse(Matrix<S>* densemat, int nnz)
+void IO::sortOrder(Matrix<S>* matrix, int nnz)
 {
-    //Note that there is a known bug about generated dense grid graph to sparse matrix
 
-    SparseMatrix<S>* sparsemat = new SparseMatrix<S>(densemat, nnz);
-    delete densemat;
+}
 
-    int curr_elt_r = 0;
-    int curr_elt_c = 0;
+template<class S>
+Matrix<S> *IO::denseToSparse(Matrix<S>* denseMatrix, int nnz)
+{
+    SparseMatrix<S>* sparseMatrix = new SparseMatrix<S>(denseMatrix, nnz);
+    delete denseMatrix;
 
-    S* mat = sparsemat->mat;
-    int* cptrs = sparsemat->cptrs;
-    int* rptrs = sparsemat->rptrs;
-    int* rows = sparsemat->rows;
-    int* cols = sparsemat->cols;
-    S* cvals = sparsemat->cvals;
-    S* rvals = sparsemat->rvals;
-    int nov = sparsemat->noRow;
+    S* mat = sparseMatrix->mat;
+    int* cptrs = sparseMatrix->cptrs;
+    int* rptrs = sparseMatrix->rptrs;
+    int* rows = sparseMatrix->rows;
+    int* cols = sparseMatrix->cols;
+    S* cvals = sparseMatrix->cvals;
+    S* rvals = sparseMatrix->rvals;
+    int nov = sparseMatrix->nov;
 
-    for (int i = 0; i < nov; ++i)
+    int rowNNZ = 0;
+    int colNNZ = 0;
+    for (int i = 0 ; i < nov; ++i)
     {
-        rptrs[i] = curr_elt_r;
-        cptrs[i] = curr_elt_c;
-        for(int j = 0; j < nov; ++j)
+        rptrs[i] = rowNNZ;
+        cptrs[i] = colNNZ;
+        for (int j = 0; j < nov; ++j)
         {
-            if (mat[i*nov + j] > 0)
+            if (mat[i * nov + j] != 0)
             {
-                cols[curr_elt_r] = j; // invalid write
-                rvals[curr_elt_r] = mat[i*nov + j]; // invalid write
-                curr_elt_r++;
+                cols[rowNNZ] = j;
+                rvals[rowNNZ] = mat[i * nov + j];
+                ++rowNNZ;
             }
-            if (mat[j*nov + i] > 0)
+            if (mat[j * nov + i] != 0)
             {
-                rows[curr_elt_c] = j; // invalid write
-                cvals[curr_elt_c] = mat[j*nov + i]; // invalid write
-                curr_elt_c++;
+                rows[colNNZ] = j;
+                cvals[colNNZ] = mat[j*nov + i];
+                ++colNNZ;
             }
         }
     }
-    rptrs[nov] = curr_elt_r;
-    cptrs[nov] = curr_elt_c;
+    rptrs[nov] = rowNNZ;
+    cptrs[nov] = colNNZ;
 
-    return sparsemat;
+    return sparseMatrix;
 }
 
 

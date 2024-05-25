@@ -13,7 +13,7 @@ template <class S>
 class SparseMatrix: public Matrix<S>
 {
 public:
-    SparseMatrix(Matrix<S>* densemat, int nnz);
+    SparseMatrix(Matrix<S>* denseMatrix, int nnz);
 
     SparseMatrix(const SparseMatrix& other);
     SparseMatrix& operator=(const SparseMatrix& other) = delete;
@@ -23,23 +23,28 @@ public:
     virtual ~SparseMatrix() override;
 
 public:
+    // for ccs
     int* cptrs;
-    int* rptrs;
     int* rows;
-    int* cols;
     S* cvals;
+
+    // for csr
+    int* rptrs;
+    int* cols;
     S* rvals;
+
+    // for both
     int nnz;
     double sparsity;
 };
 
 
 template<class S>
-SparseMatrix<S>::SparseMatrix(Matrix<S>* densemat, int nnz)
-:   Matrix<S>(std::move(*densemat)),
+SparseMatrix<S>::SparseMatrix(Matrix<S>* denseMatrix, int nnz)
+:   Matrix<S>(std::move(*denseMatrix)),
     nnz(nnz)
 {
-    int nov = this->noRow;
+    int nov = this->nov;
 
     rvals = new S[nnz];
     cvals = new S[nnz];
@@ -48,7 +53,7 @@ SparseMatrix<S>::SparseMatrix(Matrix<S>* densemat, int nnz)
     rows = new int[nnz];
     cols = new int[nnz];
 
-    sparsity = ((double)nnz / (double)(this->noRow * this->noCol)) * 100;
+    sparsity = (double(nnz) / double(nov * nov)) * 100;
 }
 
 template<class S>
@@ -57,7 +62,7 @@ SparseMatrix<S>::SparseMatrix(const SparseMatrix &other)
     nnz(other.nnz),
     sparsity(other.sparsity)
 {
-    int nov = this->noRow;
+    int nov = this->nov;
 
     rvals = new S[nnz];
     cvals = new S[nnz];
@@ -106,7 +111,6 @@ SparseMatrix<S>::SparseMatrix(SparseMatrix &&other)
 template<class S>
 SparseMatrix<S>::~SparseMatrix()
 {
-    std::cout << "Sparse destructor called" << std::endl;
     delete[] cptrs;
     delete[] rptrs;
     delete[] rows;

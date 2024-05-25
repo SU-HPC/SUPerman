@@ -9,17 +9,7 @@
 #include "Matrix.h"
 #include "Settings.h"
 #include <algorithm>
-
-
-struct Result
-{
-    Result(double time, double permanent)
-    :   time(time),
-        permanent(permanent) {}
-
-    double time;
-    double permanent;
-};
+#include "Result.h"
 
 
 template <class C, class S>

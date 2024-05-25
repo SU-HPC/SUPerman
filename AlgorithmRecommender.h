@@ -9,33 +9,29 @@
 #include "Matrix.h"
 #include "SparseMatrix.h"
 #include "Settings.h"
-#include "Permanent.h"
-#include "cuda_runtime.h"
+#include "Result.h"
 
 
 template <class C, class S>
 class AlgorithmRecommender
 {
 public:
-    static Permanent<C, S>* recommendAlgorithm(Matrix<S>* matrix, Settings* settings);
+    typedef Result (*Algorithm)(Matrix<S>* matrix, Settings* settings);
+
+public:
+    static AlgorithmRecommender<C, S>::Algorithm recommendAlgorithm(Matrix<S>* matrix, Settings* settings);
 };
 
 
 template<class C, class S>
-Permanent<C, S> *AlgorithmRecommender<C, S>::recommendAlgorithm(Matrix<S> *matrix, Settings *settings)
+typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::recommendAlgorithm(Matrix<S> *matrix, Settings *settings)
 {
     SparseMatrix<S>* sparseMatrix = dynamic_cast<SparseMatrix<S>*>(matrix);
-    settings->threadC = omp_get_max_threads();
+    settings->threadC = 16;
     settings->gpuNum = 4;
-    if (sparseMatrix)
-    {
-        settings->matrixType = Sparse;
-        return new SparsePermanSharedCoalescing<C, S>(matrix, *settings);
-    }
-    else
-    {
-        settings->matrixType = Dense;
-    }
+    settings->deviceID = 0;
+    settings->algorithm = SPXLOCALMSHARED;
+    return gpuSPMultiGPU<C, S>;
 }
 
 

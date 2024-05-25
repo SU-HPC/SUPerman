@@ -7,6 +7,7 @@
 
 #include "Permanent.h"
 #include "SparseMatrix.h"
+#include <cstring>
 
 
 template <class C, class S>
@@ -23,110 +24,122 @@ public:
 template<class C, class S>
 double ParallelPermanSparse<C, S>::permanentFunction()
 {
-    SparseMatrix<S> *sparsemat = dynamic_cast<SparseMatrix<S> *>(this->m_Matrix);
+    SparseMatrix<S>* ccs = dynamic_cast<SparseMatrix<S>*>(this->m_Matrix);
 
-    //Pack parameters//
-    S *mat = sparsemat->mat;
-    int *cptrs = sparsemat->cptrs;
-    int *rows = sparsemat->rows;
-    S *cvals = sparsemat->cvals;
-    int nov = sparsemat->noRow;
-    //Pack parameters//
+    int nov = ccs->nov;
+    S* mat = ccs->mat;
+    int* cptrs = ccs->cptrs;
+    int* rows = ccs->rows;
+    S* cvals = ccs->cvals;
 
-    //Pack flags//
     int threads = this->m_Settings.threadC;
-    //Pack flags//
 
     C x[nov];
-    C rs; //row sum
-    C p = 1; //product of the elements in vector 'x'
-
-    //create the x vector and initiate the permanent
-    for (int j = 0; j < nov; j++) {
-        rs = .0f;
-        for (int k = 0; k < nov; k++) {
-            rs += mat[(j * nov) + k];  // sum of row j
+    C rowSum;
+    C product = 1;
+    for (int i = 0; i < nov; ++i)
+    {
+        rowSum = 0;
+        for (int j = 0; j < nov; ++j)
+        {
+            rowSum += mat[(i * nov) + j];
         }
-        x[j] = mat[(j * nov) + (nov - 1)] - rs / 2;  // see Nijenhuis and Wilf - x vector entry
-        p *= x[j];   // product of the elements in vector 'x'
+        x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
+        product *= x[i];
     }
 
-    long long one = 1;
     long long start = 1;
     long long end = (1LL << (nov - 1));
 
-    long long chunk_size = end / threads + 1;
-
-#pragma omp parallel num_threads(threads) firstprivate(x)
+#pragma omp parallel num_threads(threads) reduction(+:product)
     {
-        int tid = omp_get_thread_num();
-        long long my_start = start + tid * chunk_size;
-        long long my_end = std::min(start + ((tid + 1) * chunk_size), end);
+        int threadID = omp_get_thread_num();
+        C myResult = 0;
 
-        C s;  //+1 or -1
-        C prod; //product of the elements in vector 'x'
-        C my_p = 0;
-        long long i = my_start;
-        long long gray = (i - 1) ^ ((i - 1) >> 1);
+        C myX[nov];
+        memcpy(myX, x, sizeof(C) * nov);
 
-        for (int k = 0; k < (nov - 1); k++) {
-            if ((gray >> k) & 1LL) { // whether kth column should be added to x vector or not
-                for (int j = cptrs[k]; j < cptrs[k + 1]; j++) {
-                    x[rows[j]] += cvals[j]; // see Nijenhuis and Wilf - update x vector entries
+        long long chunkSize = (end - start) / threads + 1;
+        long long myStart = start + (threadID * chunkSize);
+        long long myEnd = std::min(start + ((threadID + 1) * chunkSize), end);
+
+        long long gray = (myStart - 1) ^ ((myStart - 1) >> 1); // gray code for the previous subset
+        // getting the x vector from the previous subset
+        for (int j = 0; j < (nov - 1); ++j)
+        {
+            if ((gray >> j) & 1LL) // was jth column included?
+            {
+                for (int i = cptrs[j]; i < cptrs[j + 1]; ++i)
+                {
+                    myX[rows[i]] += cvals[i];
                 }
             }
         }
 
-        prod = 1.0;
-        int zero_num = 0;
-        for (int j = 0; j < nov; j++) {
-            if (x[j] == 0) {
-                zero_num++;
-            } else {
-                prod *= x[j];  //product of the elements in vector 'x'
+        C myProduct = 1.0;
+        int zeroNumber = 0;
+        // product from the previous subset
+        for (int i = 0; i < nov; ++i)
+        {
+            if (myX[i] == 0)
+            {
+                ++zeroNumber;
+            }
+            else
+            {
+                myProduct *= myX[i];
             }
         }
-        int k;
 
-        int prodSign = 1;
-        if (i & 1LL) {
-            prodSign = -1;
+        int productSign = 1;
+        // are starting with a negative product sign?
+        if(myStart & 1LL)
+        {
+            productSign = -1;
         }
-        while (i < my_end) {
-            //compute the gray code
-            k = __builtin_ctzll(i);
-            gray ^= (one << k); // Gray-code order: 1,3,2,6,7,5,4,12,13,15,...
-            //decide if subtract of not - if the kth bit of gray is one then 1, otherwise -1
-            s = ((one << k) & gray) ? 1 : -1;
 
-            for (int j = cptrs[k]; j < cptrs[k + 1]; j++) {
-                if (x[rows[j]] == 0) {
-                    zero_num--;
-                    x[rows[j]] += s * cvals[j]; // see Nijenhuis and Wilf - update x vector entries
-                    prod *= x[rows[j]];  //product of the elements in vector 'x'
-                } else {
-                    prod /= x[rows[j]];
-                    x[rows[j]] += s * cvals[j]; // see Nijenhuis and Wilf - update x vector entries
-                    if (x[rows[j]] == 0) {
-                        zero_num++;
-                    } else {
-                        prod *= x[rows[j]];  //product of the elements in vector 'x'
+        for (long long i = myStart; i < myEnd; ++i)
+        {
+            int columnChanged = __builtin_ctzll(i); // column no that was added or removed
+            gray ^= (1LL << columnChanged);
+
+            // is column removed or added
+            C added = ((1LL << columnChanged) & gray) ? 1 : -1;
+
+            for (int j = cptrs[columnChanged]; j < cptrs[columnChanged + 1]; j++)
+            {
+                if (myX[rows[j]] == 0)
+                {
+                    --zeroNumber;
+                    myX[rows[j]] += added * cvals[j];
+                    myProduct *= myX[rows[j]];
+                }
+                else
+                {
+                    myProduct /= myX[rows[j]];
+                    myX[rows[j]] += added * cvals[j];
+                    if (myX[rows[j]] == 0)
+                    {
+                        ++zeroNumber;
+                    }
+                    else
+                    {
+                        myProduct *= myX[rows[j]]; // product of the elements in vector 'x'
                     }
                 }
             }
 
-            if (zero_num == 0) {
-                my_p += prodSign * prod;
+            if (zeroNumber == 0)
+            {
+                myResult += productSign * myProduct;
             }
-            prodSign *= -1;
-            i++;
+            productSign *= -1;
         }
 
-#pragma omp critical
-        p += my_p;
+        product += myResult;
     }
 
-    return (4*(nov&1)-2) * p;
+    return (4 * (nov & 1) - 2) * product;
 }
 
 

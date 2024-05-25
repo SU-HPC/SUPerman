@@ -12,17 +12,15 @@ template <class S>
 class Matrix
 {
 public:
-    Matrix(int noRow, int noCol)
-    :   noRow(noRow),
-        noCol(noCol)
+    Matrix(int nov)
+    :   nov(nov)
     {
-        mat = new S[noRow * noCol];
+        mat = new S[nov * nov];
     }
 
-    Matrix(S* mat, int noRow, int noCol)
+    Matrix(S* mat, int nov)
     :   mat(mat),
-        noRow(noRow),
-        noCol(noCol) {}
+        nov(nov) {}
 
     Matrix(const Matrix& other);
     Matrix& operator=(const Matrix& other) = delete;
@@ -33,24 +31,21 @@ public:
 
 public:
     S* mat;
-    int noRow;
-    int noCol;
+    int nov;
 };
 
 
 template<class S>
 Matrix<S>::Matrix(const Matrix &other)
-:   noRow(other.noRow),
-    noCol(other.noCol)
+:   nov(other.nov)
 {
-    mat = new S[noRow * noCol];
-    memcpy(mat, other.mat, sizeof(S) * noRow * noCol);
+    mat = new S[nov * nov];
+    memcpy(mat, other.mat, sizeof(S) * nov * nov);
 }
 
 template<class S>
 Matrix<S>::Matrix(Matrix &&other)
-:   noRow(other.noRow),
-    noCol(other.noCol)
+:   nov(other.nov)
 {
     mat = other.mat;
     other.mat = nullptr;
@@ -59,7 +54,6 @@ Matrix<S>::Matrix(Matrix &&other)
 template<class S>
 Matrix<S>::~Matrix()
 {
-    std::cout << "Matrix destructor called" << std::endl;
     delete[] mat;
 }
 

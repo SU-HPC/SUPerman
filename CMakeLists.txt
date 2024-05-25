@@ -1,16 +1,40 @@
 cmake_minimum_required(VERSION 3.24.3)
 project(SUPerman_Reborn)
 
-# Set C++ standard
+# C++ standard
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_BUILD_TYPE Debug)
 
-# Find packages
+# OpenMP
 find_package(OpenMP REQUIRED)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+if(OpenMP_FOUND)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif()
 
+# Cuda
+include(CheckLanguage)
+check_language(CUDA)
+if(CMAKE_CUDA_COMPILER)
+    enable_language(CUDA)
+    add_definitions(-DGPU_AVAILABLE)
+    set(CMAKE_CUDA_FLAGS_DEBUG "${CMAKE_CUDA_FLAGS_DEBUG} -G -lineinfo")
+    find_package(CUDAToolkit REQUIRED)
+endif()
+
+# MPI
+find_package(MPI REQUIRED)
+if(MPI_FOUND)
+    add_definitions(-DMPI_AVAILABLE)
+    include_directories(${MPI_INCLUDE_PATH})
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MPI_CXX_COMPILE_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${MPI_CXX_LINK_FLAGS}")
+endif()
+
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+
+# Directories
 include_directories(.)
 include_directories(Structures)
 include_directories(IO)
@@ -19,9 +43,14 @@ include_directories(ExactAlgorithms/CPU)
 include_directories(ExactAlgorithms/GPU)
 include_directories(ExactAlgorithms/GPU/Dense)
 include_directories(ExactAlgorithms/GPU/Sparse)
+include_directories(ExactAlgorithms/MPI)
+include_directories(ExactAlgorithms/MPI/Dense)
+include_directories(ExactAlgorithms/MPI/Sparse)
 
+# Files
 set(COMMON_HEADER_FILES
         Settings.h
+        Result.h
         Permanent.h
         Structures/Matrix.h
         Structures/SparseMatrix.h
@@ -30,70 +59,73 @@ set(COMMON_HEADER_FILES
         ExactAlgorithms/AllExactAlgorithms.h
 )
 
+# CPU Files
 set(CPU_HEADER_FILES
         ExactAlgorithms/CPU/ParallelPermanSparse.h
-        ExactAlgorithms/CPU/ParallelPermanDense.h
-        ExactAlgorithms/CPU/ParallelSkipPerman.h
-        ExactAlgorithms/CPU/ParallelSkipPermanBalanced.h
-        ExactAlgorithms/CPU/SequentialPerman.h
 )
 
+# GPU Files
 set(GPU_HEADER_FILES
-        ExactAlgorithms/GPU/GPUHelpers.h
-
-        ### DENSE ###
-        ExactAlgorithms/GPU/Dense/DenseKernelDefinitions.cuh
-        ExactAlgorithms/GPU/Dense/PermanGlobal.cuh
-        ExactAlgorithms/GPU/Dense/PermanLocal.cuh
-        ExactAlgorithms/GPU/Dense/PermanRegisterCoalescingCGray.cuh
-        ExactAlgorithms/GPU/Dense/PermanRegisterCoalescingPlainMatrixShared.cuh
-        ExactAlgorithms/GPU/Dense/PermanRegisterCoalescingPlainMatrixSharedCGray.cuh
-        ExactAlgorithms/GPU/Dense/PermanRegisterCoalescingPlainMatrixSharedPerwarp.cuh
-        ExactAlgorithms/GPU/Dense/PermanShared.cuh
-        ExactAlgorithms/GPU/Dense/PermanSharedCoalescing.cuh
-        ExactAlgorithms/GPU/Dense/PermanSharedCoalescingPlainMatrix.cuh
-        ExactAlgorithms/GPU/Dense/PermanSharedCoalescingPlainMatrixShared.cuh
-        ExactAlgorithms/GPU/Dense/PermanSharedCoalescingPlainMatrixSharedPerwarp.cuh
-        ExactAlgorithms/GPU/Dense/PermanSharedCoalescingPlainMatrixTexfour.cuh
-        ExactAlgorithms/GPU/Dense/PermanSharedCoalescingPlainMatrixTexeight.cuh
-        ExactAlgorithms/GPU/Dense/PermanSharedCoalescingShared.cuh
-        ExactAlgorithms/GPU/Dense/PermanSharedCoalescingSharedCGray.cuh
-        ExactAlgorithms/GPU/Dense/PermanSharedCoalescingSharedMultiGPU.cuh
-        ExactAlgorithms/GPU/Dense/PermanSharedCoalescingSharedMultiGPUCPUChunks.cuh
-
-        ### SPARSE ###
+        ExactAlgorithms/GPU/GPUHelpers.cuh
         ExactAlgorithms/GPU/Sparse/SparseKernelDefinitions.cuh
-        ExactAlgorithms/GPU/Sparse/SparsePermanLocal.cuh
-        ExactAlgorithms/GPU/Sparse/SparsePermanShared.cuh
-        ExactAlgorithms/GPU/Sparse/SparsePermanSharedCoalescing.cuh
-        ExactAlgorithms/GPU/Sparse/SparsePermanSharedCoalescingShared.cuh
-        ExactAlgorithms/GPU/Sparse/SparsePermanSharedCoalescingSharedMultiGPU.cuh
-        ExactAlgorithms/GPU/Sparse/SparsePermanSharedCoalescingSharedMultiGPUCPUChunks.cuh
-        ExactAlgorithms/GPU/Sparse/SparsePermanSharedCoalescingSharedSkipper.cuh
-        ExactAlgorithms/GPU/Sparse/SparsePermanSharedCoalescingSharedMultiGPUCPUChunksSkipper.cuh
+        ExactAlgorithms/GPU/Sparse/spMultiGPU.cuh
+        ExactAlgorithms/GPU/Sparse/spSingleGPU.cuh
+        ExactAlgorithms/GPU/Sparse/spMultiGPUMPI.cuh
+        ExactAlgorithms/GPU/Sparse/spMultiGPUCPU.cuh
 )
 
+set(GPU_WRAPPER_FILES
+        ExactAlgorithms/GPU/GPUKernelWrappers.h
+)
+
+# MPI Files
+set(MPI_WRAPPER_FILES
+        mpi_wrapper.h
+)
+
+# All Files
 set(FILES
         ${COMMON_HEADER_FILES}
         ${CPU_HEADER_FILES}
 )
 
-include(CheckLanguage)
-check_language(CUDA)
+# Add GPU Files to All Files if Cuda detected
 if(CMAKE_CUDA_COMPILER)
-    enable_language(CUDA)
-    add_definitions(-DGPU)
-    find_package(CUDAToolkit REQUIRED)
-    include_directories(${CUDA_INCLUDE_DIRS})
     list(APPEND FILES ${GPU_HEADER_FILES})
+    list(APPEND FILES ${GPU_WRAPPER_FILES})
 endif()
 
+# Add MPI Files to All Files if MPI detected
+if(MPI_FOUND)
+    list(APPEND FILES ${MPI_WRAPPER_FILES})
+endif()
+
+# Create executable
 add_executable(SUPerman_Reborn
-        main.cu
+        main.cpp
         ${FILES}
 )
 
-set_target_properties(SUPerman_Reborn PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+# Shared Library
+set(SHARED_LIBRARY_PATH "${CMAKE_SOURCE_DIR}")
+set(SHARED_LIBRARY_NAME "libGPUKernelWrappers.so")
 
-target_link_libraries(SUPerman_Reborn OpenMP::OpenMP_CXX)
-target_link_libraries(SUPerman_Reborn CUDA::cudart ${CUDA_LIBRARIES} ${CUDA_CUBLAS_LIBRARIES} ${CUDA_cusparse_LIBRARY})
+# Link the shared library
+target_link_libraries(SUPerman_Reborn
+        OpenMP::OpenMP_CXX
+        CUDA::cudart
+        ${CUDA_LIBRARIES}
+        ${CUDA_CUBLAS_LIBRARIES}
+        ${CUDA_cusparse_LIBRARY}
+        MPI::MPI_CXX
+        ${SHARED_LIBRARY_PATH}/${SHARED_LIBRARY_NAME}
+)
+
+# Runtime recognition of the shared library
+set_target_properties(SUPerman_Reborn PROPERTIES
+        BUILD_RPATH "${SHARED_LIBRARY_PATH}"
+        INSTALL_RPATH "${SHARED_LIBRARY_PATH}"
+)
+
+# Probably no needed but who cares
+set_target_properties(SUPerman_Reborn PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
