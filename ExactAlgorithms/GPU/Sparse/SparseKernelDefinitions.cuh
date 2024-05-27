@@ -26,7 +26,7 @@ namespace Definitions
 
         C myResult = 0;
 
-        C myX[40]; // matrices of size bigger than 40x40, DO NOT RUN THIS KERNEL
+        volatile C myX[40]; // matrices of size bigger than 40x40, DO NOT RUN THIS KERNEL
         for (int i = 0; i < nov; ++i)
         {
             myX[i] = x[i];
@@ -138,10 +138,17 @@ namespace Definitions
         int* sharedRows = (int*)&sharedCPtrs[nov + 1];  // size: nnz
         S* sharedCVals = (S*)&sharedRows[nnz]; // size: nnz
 
-        C myX[40]; // matrices of size bigger than 40x40, DO NOT RUN THIS KERNEL
+        volatile C myX[40]; // matrices of size bigger than 40x40, DO NOT RUN THIS KERNEL
+        for (int i = 0; i < nov; ++i)
+        {
+            myX[i] = x[i];
+            sharedCPtrs[i] = cptrs[i];
+        }
+        sharedCPtrs[nov] = cptrs[nov];
 
         for (int i = 0; i < nnz; ++i)
         {
+            sharedRows[i] = rows[i];
             sharedCVals[i] = cvals[i];
         }
 
@@ -358,7 +365,6 @@ namespace Definitions
                                    long long start,
                                    long long end)
    {
-
        int globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
        int localThreadID = threadIdx.x;
        int totalThreadCount = gridDim.x * blockDim.x;
@@ -373,27 +379,17 @@ namespace Definitions
        int* sharedRows = (int*)&sharedCPtrs[nov + 1];  // size: nnz
        S* sharedCVals = (S*)&sharedRows[nnz]; // size: nnz
 
-       if (localThreadID == 0)
+       for (int i = 0; i < nov; ++i)
        {
-           for (int i = 0; i < nov; ++i)
-           {
-               myX[threadsPerBlock * i + localThreadID] = x[i];
-               sharedCPtrs[i] = cptrs[i];
-           }
-           sharedCPtrs[nov] = cptrs[nov];
-
-           for (int i = 0; i < nnz; ++i)
-           {
-               sharedRows[i] = rows[i];
-               sharedCVals[i] = cvals[i];
-           }
+           myX[threadsPerBlock * i + localThreadID] = x[i];
+           sharedCPtrs[i] = cptrs[i];
        }
-       else
+       sharedCPtrs[nov] = cptrs[nov];
+
+       for (int i = 0; i < nnz; ++i)
        {
-           for (int i = 0; i < nov; ++i)
-           {
-               myX[threadsPerBlock * i + localThreadID] = x[i];
-           }
+           sharedRows[i] = rows[i];
+           sharedCVals[i] = cvals[i];
        }
 
         __syncthreads();

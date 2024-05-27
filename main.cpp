@@ -13,9 +13,9 @@
 
 
 // will be determined at runtime
-#define S double
+#define S float
 #define C double
-#define filename "/home/users/deniz/sample_matrices/chesapeake.mat"
+#define filename "/home/users/deniz/sample_matrices/football.mat"
 
 
 int main()
@@ -33,15 +33,7 @@ int main()
     settings.processorNum = numberOfProcessors;
 #endif
 
-    std::vector<MatrixProperty> matrixProperties =
-            {
-                Binary,
-                PatternSymmetric,
-                Symmetric
-            };
-    settings.matrixProperties = matrixProperties;
-
-    settings.storagePrecision = DOUBLE;
+    settings.storagePrecision = HALF;
     settings.calculationPrecision = DOUBLE;
 
     Matrix<S>* mat = IO::readMatrix<S>(filename, settings);

@@ -43,9 +43,6 @@ include_directories(ExactAlgorithms/CPU)
 include_directories(ExactAlgorithms/GPU)
 include_directories(ExactAlgorithms/GPU/Dense)
 include_directories(ExactAlgorithms/GPU/Sparse)
-include_directories(ExactAlgorithms/MPI)
-include_directories(ExactAlgorithms/MPI/Dense)
-include_directories(ExactAlgorithms/MPI/Sparse)
 
 # Files
 set(COMMON_HEADER_FILES
@@ -71,7 +68,6 @@ set(GPU_HEADER_FILES
         ExactAlgorithms/GPU/Sparse/spMultiGPU.cuh
         ExactAlgorithms/GPU/Sparse/spSingleGPU.cuh
         ExactAlgorithms/GPU/Sparse/spMultiGPUMPI.cuh
-        ExactAlgorithms/GPU/Sparse/spMultiGPUCPU.cuh
 )
 
 set(GPU_WRAPPER_FILES

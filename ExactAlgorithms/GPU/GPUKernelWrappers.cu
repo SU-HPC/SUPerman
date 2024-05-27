@@ -120,8 +120,11 @@ extern Result gpuSPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
 // For compilation
 template extern Result gpuSPSingleGPU<double, double>(Matrix<double>* matrix, Settings* settings);
 template extern Result gpuSPMultiGPU<double, double>(Matrix<double>* matrix, Settings* settings);
+template extern Result gpuSPSingleGPU<double, float>(Matrix<float>* matrix, Settings* settings);
+template extern Result gpuSPMultiGPU<double, float>(Matrix<float>* matrix, Settings* settings);
 #ifdef MPI
 template extern Result gpuSPMultiGPUMPI<double, double>(Matrix<double>* matrix, Settings* settings);
+template extern Result gpuSPMultiGPUMPI<double, float>(Matrix<float>* matrix, Settings* settings);
 #endif
 
 template extern Result gpuSPSingleGPU<float, float>(Matrix<float>* matrix, Settings* settings);
