@@ -1,9 +1,5 @@
-orderings -> skiporder sortorder (learn them as well)
+orderings -> skiporder sortorder
 scaling
-learn kernels in a detailed manner
+decomposition
 spMultiGPUMPI work implementation and distribution
-
-x local m shared -> misaligned access
-x shared m shared -> misaligned access
-meaning that m is misalignedly accessed in shared memory
-it is happening when the data type is double, as their size differ than unsigned int by 4 bytes
+configure shared memory by bytes rather than double to prevent misalignment problems
