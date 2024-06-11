@@ -7,39 +7,19 @@
 
 #include <vector>
 #include "omp.h"
+#include "cuda_runtime.h"
 
-
-enum MatrixProperty
-{
-    PatternSymmetric,
-    Binary,
-    Symmetric,
-    PropertyEnds
-};
-
-enum Precision
-{
-    HALF,
-    DOUBLE,
-    QUAD,
-    PrecisionEnds
-};
 
 enum Algorithm
 {
-    SPXLOCALMGLOBAL,
     SPXLOCALMSHARED,
-    SPXSHAREDMGLOBAL,
-    SPXSHAREDMSHARED,
+    SPXLOCALMGLOBAL,
     AlgorithmEnds
 };
 
 struct Settings
 {
     // General
-    std::vector<MatrixProperty> matrixProperties;
-    Precision calculationPrecision;
-    Precision storagePrecision;
     Algorithm algorithm;
 
     // CPU Specific
@@ -48,6 +28,7 @@ struct Settings
     // GPU Specific
     int deviceID;
     int gpuNum;
+    std::vector<cudaStream_t> streams;
 
     // MPI Specific
     int machineID;

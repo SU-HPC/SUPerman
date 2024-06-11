@@ -8,6 +8,7 @@
 #include "Permanent.h"
 #include "SparseMatrix.h"
 #include "SparseKernelDefinitions.cuh"
+#include "mpi_wrapper.h"
 
 
 template <typename C, typename S, KernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
@@ -47,23 +48,43 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         product *= x[i];
     }
 
+    int machineID = this->m_Settings.machineID; // machine id or rank
+
+    int numberOfProcessors = this->m_Settings.processorNum;
     int gpuNum = this->m_Settings.gpuNum;
+    int totalComputeDevices = numberOfProcessors * gpuNum;
+
     C productSums[gpuNum];
     memset(productSums, product, sizeof(C) * gpuNum);
 
-    int totalComputeCapability = 0;
-    int computeCapabilities[gpuNum];
+    int computeCapabilities[gpuNum]; // per machine compute capabilities
+    memset(computeCapabilities, 0, sizeof(int) * gpuNum);
     for (int i = 0; i < gpuNum; ++i)
     {
         cudaDeviceProp deviceProp;
         cudaGetDeviceProperties(&deviceProp, i);
         computeCapabilities[i] = deviceProp.major;
-        totalComputeCapability += deviceProp.major;
     }
+
+    int totalComputeCapabilities[totalComputeDevices]; // entire distributed environment compute capabilities
+    memset(totalComputeCapabilities, 0, sizeof(int) * totalComputeDevices);
+    mpiAllgather(computeCapabilities, gpuNum, getMPI_INT(),
+                  totalComputeCapabilities, gpuNum, getMPI_INT(),
+                  getMPI_COMM_WORLD());
+
+    int totalComputeCapability = 0;
+    for (int i = 0; i < totalComputeDevices; ++i)
+    {
+        totalComputeCapability += totalComputeCapabilities[i];
+    }
+
+    mpiBarrier(getMPI_COMM_WORLD());
 
 #pragma omp parallel num_threads(gpuNum)
     {
         int gpuNo = omp_get_thread_num();
+        int myID = gpuNum * machineID + gpuNo;
+
         C myX[nov];
         memcpy(myX, x, sizeof(C) * nov);
 
@@ -128,12 +149,13 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         long long end = (1LL << (nov - 1));
 
         long long chunkSize = (end - start) / totalComputeCapability + 1;
-        int myComputeCapability = computeCapabilities[gpuNo];
+        int myComputeCapability = totalComputeCapabilities[myID];
         int soFar = 0;
-        for (int i = 0; i < gpuNo; ++i)
+        for (int i = 0; i < myID; ++i)
         {
-            soFar += computeCapabilities[i];
+            soFar += totalComputeCapabilities[i];
         }
+
         long long myStart = start + soFar * chunkSize;
         long long myEnd = std::min(start + (soFar + myComputeCapability) * chunkSize, end);
 
@@ -146,7 +168,8 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                 nov,
                 nnz,
                 myStart,
-                myEnd);
+                myEnd,
+                -1);
 
         gpuErrchk( cudaPeekAtLastError() )
         gpuErrchk( cudaDeviceSynchronize() )
@@ -168,13 +191,17 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         delete[] h_products;
     };
 
-    C productSum = 0;
+    C gpuReducedProductSum = 0;
     for (int i = 0; i < gpuNum; ++i)
     {
-        productSum += productSums[i];
+        gpuReducedProductSum += productSums[i];
     }
 
-    return (4 * (nov & 1) - 2) * productSum;
+    mpiBarrier(getMPI_COMM_WORLD());
+    double mpiReducedProductSum = 0;
+    mpiReduce(&gpuReducedProductSum, &mpiReducedProductSum, 1, getMPI_DOUBLE(), getMPI_SUM(), 0, getMPI_COMM_WORLD());
+
+    return (4 * (nov & 1) - 2) * mpiReducedProductSum;
 }
 
 

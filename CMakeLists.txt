@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24.3)
-project(SUPerman_Reborn)
+project(SUPerman)
 
 # C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -8,7 +8,7 @@ set(CMAKE_BUILD_TYPE Debug)
 # OpenMP
 find_package(OpenMP REQUIRED)
 if(OpenMP_FOUND)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler ${OpenMP_CXX_FLAGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
@@ -20,17 +20,18 @@ if(CMAKE_CUDA_COMPILER)
     enable_language(CUDA)
     add_definitions(-DGPU_AVAILABLE)
     set(CMAKE_CUDA_FLAGS_DEBUG "${CMAKE_CUDA_FLAGS_DEBUG} -G -lineinfo")
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler ${OpenMP_CXX_FLAGS}")
     find_package(CUDAToolkit REQUIRED)
 endif()
 
 # MPI
-find_package(MPI REQUIRED)
-if(MPI_FOUND)
-    add_definitions(-DMPI_AVAILABLE)
-    include_directories(${MPI_INCLUDE_PATH})
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MPI_CXX_COMPILE_FLAGS}")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${MPI_CXX_LINK_FLAGS}")
-endif()
+#find_package(MPI REQUIRED)
+#if(MPI_FOUND)
+#    add_definitions(-DMPI_AVAILABLE)
+#    include_directories(${MPI_INCLUDE_PATH})
+#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MPI_CXX_COMPILE_FLAGS}")
+#    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${MPI_CXX_LINK_FLAGS}")
+#endif()
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 
@@ -48,7 +49,9 @@ include_directories(ExactAlgorithms/GPU/Sparse)
 set(COMMON_HEADER_FILES
         Settings.h
         Result.h
+        Helpers.h
         Permanent.h
+        DecomposePerman.h
         Structures/Matrix.h
         Structures/SparseMatrix.h
         IO/IO.h
@@ -58,20 +61,21 @@ set(COMMON_HEADER_FILES
 
 # CPU Files
 set(CPU_HEADER_FILES
-        ExactAlgorithms/CPU/ParallelPermanSparse.h
+        ExactAlgorithms/CPU/spNaivePerman.h
 )
 
 # GPU Files
 set(GPU_HEADER_FILES
         ExactAlgorithms/GPU/GPUHelpers.cuh
         ExactAlgorithms/GPU/Sparse/SparseKernelDefinitions.cuh
-        ExactAlgorithms/GPU/Sparse/spMultiGPU.cuh
         ExactAlgorithms/GPU/Sparse/spSingleGPU.cuh
+        ExactAlgorithms/GPU/Sparse/spMultiGPU.cuh
         ExactAlgorithms/GPU/Sparse/spMultiGPUMPI.cuh
 )
 
 set(GPU_WRAPPER_FILES
         ExactAlgorithms/GPU/GPUKernelWrappers.h
+        ExactAlgorithms/GPU/GPUKernelWrappers.cu
 )
 
 # MPI Files
@@ -97,31 +101,33 @@ if(MPI_FOUND)
 endif()
 
 # Create executable
-add_executable(SUPerman_Reborn
+add_executable(SUPerman
         main.cpp
         ${FILES}
 )
 
 # Shared Library
 set(SHARED_LIBRARY_PATH "${CMAKE_SOURCE_DIR}")
-set(SHARED_LIBRARY_NAME "libGPUKernelWrappers.so")
+set(SHARED_LIBRARY_NAME "libWrappers.so")
 
 # Link the shared library
-target_link_libraries(SUPerman_Reborn
+target_link_libraries(SUPerman
         OpenMP::OpenMP_CXX
         CUDA::cudart
         ${CUDA_LIBRARIES}
         ${CUDA_CUBLAS_LIBRARIES}
         ${CUDA_cusparse_LIBRARY}
-        MPI::MPI_CXX
+#        MPI::MPI_CXX
         ${SHARED_LIBRARY_PATH}/${SHARED_LIBRARY_NAME}
 )
 
 # Runtime recognition of the shared library
-set_target_properties(SUPerman_Reborn PROPERTIES
+set_target_properties(SUPerman PROPERTIES
         BUILD_RPATH "${SHARED_LIBRARY_PATH}"
         INSTALL_RPATH "${SHARED_LIBRARY_PATH}"
 )
 
+target_compile_options(SUPerman PRIVATE -O3)
+
 # Probably no needed but who cares
-set_target_properties(SUPerman_Reborn PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set_target_properties(SUPerman PROPERTIES CUDA_SEPARABLE_COMPILATION ON)

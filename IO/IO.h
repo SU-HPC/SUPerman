@@ -10,6 +10,8 @@
 #include <fstream>
 #include "Settings.h"
 #include "SparseMatrix.h"
+#include <vector>
+#include <cstring>
 
 
 class IO
@@ -18,7 +20,6 @@ public:
     template <class S>
     static Matrix<S>* readMatrix(std::string filename, Settings& settings);
 
-private:
     template <class S>
     static void skipOrder(Matrix<S>* matrix);
 
@@ -26,7 +27,7 @@ private:
     static void sortOrder(Matrix<S>* matrix, int nnz);
 
     template <class S>
-    static Matrix<S>* denseToSparse(Matrix<S>* matrix, int nnz);
+    static Matrix<S>* denseToSparse(Matrix<S>* denseMatrix, int nnz);
 };
 
 
@@ -39,75 +40,51 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
         throw std::runtime_error("File could not be opened.");
     }
 
-    bool isPattern = false;
-    bool isBinary = false;
-    bool isSymmetric = false;
-    for (auto& property: settings.matrixProperties)
+    bool anyComments = false;
+    while (file.peek() == '%')
     {
-        if (property == MatrixProperty::PatternSymmetric)
-        {
-            isPattern = true;
-        }
-        if (property == MatrixProperty::Binary)
-        {
-            isBinary = true;
-        }
-        if (property == MatrixProperty::Symmetric)
-        {
-            isSymmetric = true;
-        }
+        anyComments = true;
+        file.ignore(2048, '\n');
     }
-
-    //Ignore comment headers
-    while (file.peek() == '%') file.ignore(2048, '\n');
 
     int noRow, noCol, noLines;
     file >> noRow >> noCol >> noLines;
 
-    S* mat = new S[noRow * noCol];
-
-    for(int i = 0; i < (noRow * noCol); i++)
-    {
-        mat[i] = (S)0;
-    }
-
-    double cast;
+    double val;
     int x, y;
 
+    std::vector<std::vector<std::pair<std::pair<int, int>, double>>> colBuckets(noCol);
     for(int i = 0; i < noLines; i++)
     {
-        if(isPattern)
+        file >> x >> y >> val;
+
+        if (anyComments)
         {
-            file >> x >> y;
-            cast = (int)1; // Just for safety
-        }
-        else if(!isPattern && isBinary)
-        {
-            file >> x >> y >> cast;
-            cast = (int)1; // Just for safety
-        }
-        else
-        {
-            file >> x >> y >> cast;
+            x -= 1; // Convert from 1-based to 0-based
+            y -= 1;
         }
 
-//        x -= 1; // Convert from 1-based to 0-based
-//        y -= 1;
+        colBuckets[y].push_back({{x, y}, val});
+    }
 
-        if (isPattern || isBinary)
-            mat[x * noRow + y] = (int)1;
-        else
-            mat[x * noRow + y] = (S)cast;
-
-        if (isSymmetric)
+    std::vector<std::vector<std::pair<std::pair<int, int>, double>>> rowBuckets(noRow);
+    for (const auto& bucket: colBuckets)
+    {
+        for (const auto& el: bucket)
         {
-            if(x != y)
-            {
-                if(isPattern || isBinary)
-                    mat[y * noRow + x] = (int)1;
-                else
-                    mat[y * noRow + x] = (S)cast;
-            }
+            rowBuckets[el.first.first].push_back(el);
+        }
+    }
+
+    colBuckets.clear();
+
+    S* mat = new S[noRow * noCol];
+    memset(mat, 0, sizeof(S) * noRow * noCol);
+    for (const auto& bucket: rowBuckets)
+    {
+        for (const auto& el: bucket)
+        {
+            mat[el.first.first * noRow + el.first.second] = el.second;
         }
     }
 
@@ -122,17 +99,16 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     std::cout << "Number of rows/columns of matrix is: " << noRow << std::endl;
     std::cout << "Total number of nonzeros is: " << nnz << std::endl;
     std::cout << "Sparsity of the matrix is determined to be: " << sparsity << std::endl;
+
     if (sparsity < 30)
     {
         std::cout << "Proceeding to use skip order..." << std::endl;
         IO::skipOrder(matrix);
-        return IO::denseToSparse(matrix, nnz);
     }
-    if (sparsity < 50)
+    else if (sparsity < 50)
     {
         std::cout << "Proceeding to use sort order..." << std::endl;
         IO::sortOrder(matrix, nnz);
-        return IO::denseToSparse(matrix, nnz);
     }
 
     return matrix;
@@ -141,7 +117,84 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
 template<class S>
 void IO::skipOrder(Matrix<S>* matrix)
 {
+    S* mat = matrix->mat;
+    int nov = matrix->nov;
 
+    int rowPermutation[nov]; // shows where the rth row has gone to
+    int colPermutation[nov]; // shows where the cth col has gone to
+    bool visited[nov];
+    int degrees[nov]; // note that this is in-degree
+
+    for (int i = 0; i < nov; ++i)
+    {
+        rowPermutation[i] = i;
+        colPermutation[i] = i;
+        degrees[i] = 0;
+        visited[i] = false;
+    }
+
+    for (int i = 0; i < nov; ++i)
+    {
+        for (int j = 0; j < nov; ++j)
+        {
+            if (mat[i * nov + j] != 0)
+            {
+                ++degrees[j];
+            }
+        }
+    }
+
+    int i = 0;
+    for (int j = 0; j < nov; ++j)
+    {
+        int currentCol;
+        int temp = INT8_MAX;
+        for (int l = 0; l < nov; ++l)
+        {
+            if (degrees[l] < temp)
+            {
+                temp = degrees[l];
+                currentCol = l;
+            }
+        }
+        degrees[currentCol] = INT8_MAX;
+        colPermutation[j] = currentCol;
+        for (int l = 0; l < nov; ++l)
+        {
+            if (mat[l * nov + currentCol] != 0)
+            {
+                if (!visited[l])
+                {
+                    visited[l] = true;
+                    rowPermutation[i] = l;
+                    ++i;
+                    for (int k = 0; k < nov; ++k)
+                    {
+                        if (mat[l * nov + k] != 0)
+                        {
+                            if (degrees[k] != INT8_MAX)
+                            {
+                                degrees[k]--;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    S* matPrev = new S[nov * nov];
+    memcpy(matPrev, mat, sizeof(S) * nov * nov);
+
+    for (int r = 0; r < nov; ++r)
+    {
+        for(int c = 0; c < nov; ++c)
+        {
+            mat[r * nov + c] = matPrev[rowPermutation[r] * nov + colPermutation[c]];
+        }
+    }
+
+    delete[] matPrev;
 }
 
 template<class S>

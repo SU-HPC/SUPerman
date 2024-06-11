@@ -1,0 +1,8 @@
+//
+// Created by delbek on 6/11/24.
+//
+
+#ifndef SUPERMAN_DPMULTIGPUMPI_CUH
+#define SUPERMAN_DPMULTIGPUMPI_CUH
+
+#endif //SUPERMAN_DPMULTIGPUMPI_CUH

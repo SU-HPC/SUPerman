@@ -5,8 +5,6 @@
 #include "IO.h"
 #include <iostream>
 #include "AlgorithmRecommender.h"
-#include <vector>
-#include <string>
 #ifdef MPI_AVAILABLE
 #include "mpi.h"
 #endif
@@ -15,15 +13,15 @@
 // will be determined at runtime
 #define S float
 #define C double
-#define filename "/home/users/deniz/sample_matrices/football.mat"
 
 
-int main()
+int main(int argc, const char* argv[])
 {
     Settings settings;
+    if (argc == 4) settings.gpuNum = std::stoi(argv[3]);
 
-#ifdef MPI_AVAILABLE
     int machineID;
+#ifdef MPI_AVAILABLE
     int numberOfProcessors;
 
     MPI_Init(nullptr, nullptr);
@@ -33,17 +31,16 @@ int main()
     settings.processorNum = numberOfProcessors;
 #endif
 
-    settings.storagePrecision = HALF;
-    settings.calculationPrecision = DOUBLE;
+    std::cout << "MATRIX NAME: " << argv[1] << std::endl;
+    Matrix<S>* mat = IO::readMatrix<S>(argv[1], settings);
 
-    Matrix<S>* mat = IO::readMatrix<S>(filename, settings);
-
-    AlgorithmRecommender<C, S>::Algorithm algorithm = AlgorithmRecommender<C, S>::recommendAlgorithm(mat, &settings);
+    AlgorithmRecommender<C, S>::Algorithm algorithm = AlgorithmRecommender<C, S>::recommendAlgorithm(mat, &settings, std::stoi(argv[2]));
     Result result = algorithm(mat, &settings);
 
-    std::cout << "Permanent: " << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl;
-
-    delete mat;
+    if (machineID == 0)
+    {
+        std::cout << "Permanent: " << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl;
+    }
 
 #ifdef MPI_AVAILABLE
     MPI_Finalize();

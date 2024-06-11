@@ -11,22 +11,27 @@
 #include <algorithm>
 
 
+#define X_SIZE 40
+#define PTRS_SIZE 41
+#define INDS_SIZE 340
+#define VALS_SIZE 340
+
 static const int COMPUTE_CAPABILITY_TO_WEIGHT[10] =
         {
-                1,
-                1,
-                1,
-                1,
-                1,
-                5,
-                40,
-                5,
-                5,
-                5
+           /* 0 */     5,
+           /* 1 */     5,
+           /* 2 */     5,
+           /* 3 */     5,
+           /* 4 */     5,
+           /* 5 */     5,
+           /* 6 */     40,
+           /* 7 */     40,
+           /* 8 */     40,
+           /* 9 */     40
         };
 
 template <typename C, typename S>
-using KernelPointer = void(*)(int*, int*, S*, C*, C*, int, int, long long, long long);
+using KernelPointer = void(*)(int*, int*, S*, C*, C*, int, int, long long, long long, long long);
 
 template <typename C, typename S>
 using SharedMemoryFunctionPointer = int(*)(int);
@@ -56,6 +61,13 @@ inline int spMShared(int b)
     size_t intSize = sizeof(int);
     size_t storageSize = sizeof(S);
     return (V + 1) * intSize + E * (intSize + storageSize);
+}
+
+template <class C, class S>
+inline int spMSharedBinary(int b)
+{
+    size_t intSize = sizeof(int);
+    return (V + 1 + E) * intSize;
 }
 
 template<class C, class S>

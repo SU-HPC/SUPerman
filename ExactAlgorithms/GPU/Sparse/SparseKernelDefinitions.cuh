@@ -19,20 +19,24 @@ namespace Definitions
                                   int nov,
                                   int nnz,
                                   long long start,
-                                  long long end)
+                                  long long end,
+                                  long long chunkSize)
     {
         int threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
         int totalThreadCount = gridDim.x * blockDim.x;
 
         C myResult = 0;
 
-        volatile C myX[40]; // matrices of size bigger than 40x40, DO NOT RUN THIS KERNEL
+        volatile C myX[X_SIZE];
         for (int i = 0; i < nov; ++i)
         {
             myX[i] = x[i];
         }
 
-        long long chunkSize = (end - start) / totalThreadCount + 1;
+        if (chunkSize == -1)
+        {
+            chunkSize = (end - start) / totalThreadCount + 1;
+        }
         long long myStart = start + (threadID * chunkSize);
         long long myEnd = min(start + ((threadID + 1) * chunkSize), end);
 
@@ -49,7 +53,7 @@ namespace Definitions
             }
         }
 
-        C product = 1.0;
+        C product = 1;
         int zeroNumber = 0;
         // product from the previous subset
         for (int i = 0; i < nov; ++i)
@@ -64,12 +68,8 @@ namespace Definitions
             }
         }
 
-        int productSign = 1;
         // are starting with a negative product sign?
-        if(myStart & 1LL)
-        {
-            productSign = -1;
-        }
+        int productSign = (myStart & 1LL) ? -1 : 1;
 
         for (long long i = myStart; i < myEnd; ++i)
         {
@@ -85,25 +85,30 @@ namespace Definitions
                 int rowNeigbour = rows[j];
                 C xValue = myX[rowNeigbour];
                 S value = cvals[j];
+                C temp = added * value;
+
+                // excluding
                 if (xValue == 0)
                 {
                     --zeroNumber;
-                    xValue += added * value;
-                    product *= xValue;
                 }
                 else
                 {
                     product /= xValue;
-                    xValue += added * value;
-                    if (xValue == 0)
-                    {
-                        ++zeroNumber;
-                    }
-                    else
-                    {
-                        product *= xValue;
-                    }
                 }
+
+                xValue += temp;
+
+                // including
+                if (xValue == 0)
+                {
+                    ++zeroNumber;
+                }
+                else
+                {
+                    product *= xValue;
+                }
+
                 myX[rowNeigbour] = xValue;
             }
 
@@ -111,6 +116,7 @@ namespace Definitions
             {
                 myResult += productSign * product;
             }
+
             productSign *= -1; // sign for the next subset
         }
 
@@ -126,35 +132,55 @@ namespace Definitions
                                   int nov,
                                   int nnz,
                                   long long start,
-                                  long long end)
+                                  long long end,
+                                  long long chunkSize)
     {
         int threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
         int totalThreadCount = gridDim.x * blockDim.x;
 
         C myResult = 0;
 
-        extern __shared__ double sharedMemory[];
-        int* sharedCPtrs = (int*)&sharedMemory; // size: nov + 1
-        int* sharedRows = (int*)&sharedCPtrs[nov + 1];  // size: nnz
-        S* sharedCVals = (S*)&sharedRows[nnz]; // size: nnz
+        volatile C myX[X_SIZE];
 
-        volatile C myX[40]; // matrices of size bigger than 40x40, DO NOT RUN THIS KERNEL
-        for (int i = 0; i < nov; ++i)
+        extern __shared__ char sharedMemory[];
+        int* sharedCPtrs = (int*)sharedMemory; // size: (nov + 1) * sizeof(int)
+
+        size_t sharedRowsOffset = ((nov + 1) * sizeof(int) + (sizeof(int) - 1)) & ~(sizeof(int) - 1);
+        int* sharedRows = (int*)&sharedMemory[sharedRowsOffset]; // size: nnz * sizeof(int)
+
+        size_t sharedCValsOffset = (sharedRowsOffset + nnz * sizeof(int) + (alignof(S) - 1)) & ~(alignof(S) - 1);
+        S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
+
+        if (threadIdx.x == 0)
         {
-            myX[i] = x[i];
-            sharedCPtrs[i] = cptrs[i];
+            for (int i = 0; i < nov; ++i)
+            {
+                myX[i] = x[i];
+                sharedCPtrs[i] = cptrs[i];
+            }
+
+            sharedCPtrs[nov] = cptrs[nov];
+
+            for (int i = 0; i < nnz; ++i)
+            {
+                sharedRows[i] = rows[i];
+                sharedCVals[i] = cvals[i];
+            }
         }
-        sharedCPtrs[nov] = cptrs[nov];
-
-        for (int i = 0; i < nnz; ++i)
+        else
         {
-            sharedRows[i] = rows[i];
-            sharedCVals[i] = cvals[i];
+            for (int i = 0; i < nov; ++i)
+            {
+                myX[i] = x[i];
+            }
         }
 
         __syncthreads();
 
-        long long chunkSize = (end - start) / totalThreadCount + 1;
+        if (chunkSize == -1)
+        {
+            chunkSize = (end - start) / totalThreadCount + 1;
+        }
         long long myStart = start + (threadID * chunkSize);
         long long myEnd = min(start + ((threadID + 1) * chunkSize), end);
 
@@ -164,14 +190,14 @@ namespace Definitions
         {
             if ((gray >> j) & 1LL) // was jth column included?
             {
-                for (int i = cptrs[j]; i < cptrs[j + 1]; ++i)
+                for (int ptr = sharedCPtrs[j]; ptr < sharedCPtrs[j + 1]; ++ptr)
                 {
-                    myX[rows[i]] += cvals[i];
+                    myX[sharedRows[ptr]] += sharedCVals[ptr];
                 }
             }
         }
 
-        C product = 1.0;
+        C product = 1;
         int zeroNumber = 0;
         // product from the previous subset
         for (int i = 0; i < nov; ++i)
@@ -186,12 +212,8 @@ namespace Definitions
             }
         }
 
-        int productSign = 1;
         // are starting with a negative product sign?
-        if(myStart & 1LL)
-        {
-            productSign = -1;
-        }
+        int productSign = (myStart & 1LL) ? -1 : 1;
 
         for (long long i = myStart; i < myEnd; ++i)
         {
@@ -202,30 +224,35 @@ namespace Definitions
             // is column removed or added
             C added = ((1LL << columnChanged) & gray) ? 1 : -1;
 
-            for (int j = cptrs[columnChanged]; j < cptrs[columnChanged + 1]; ++j)
+            for (int ptr = sharedCPtrs[columnChanged]; ptr < sharedCPtrs[columnChanged + 1]; ++ptr)
             {
-                int rowNeigbour = rows[j];
+                int rowNeigbour = sharedRows[ptr];
                 C xValue = myX[rowNeigbour];
-                S value = cvals[j];
+                S value = sharedCVals[ptr];
+                C temp = added * value;
+
+                // excluding
                 if (xValue == 0)
                 {
                     --zeroNumber;
-                    xValue += added * value;
-                    product *= xValue;
                 }
                 else
                 {
                     product /= xValue;
-                    xValue += added * value;
-                    if (xValue == 0)
-                    {
-                        ++zeroNumber;
-                    }
-                    else
-                    {
-                        product *= xValue;
-                    }
                 }
+
+                xValue += temp;
+
+                // including
+                if (xValue == 0)
+                {
+                    ++zeroNumber;
+                }
+                else
+                {
+                    product *= xValue;
+                }
+
                 myX[rowNeigbour] = xValue;
             }
 
@@ -233,6 +260,7 @@ namespace Definitions
             {
                 myResult += productSign * product;
             }
+
             productSign *= -1; // sign for the next subset
         }
 
@@ -249,7 +277,7 @@ namespace Definitions
                                    int nnz,
                                    long long start,
                                    long long end)
-{
+    {
         int globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
         int localThreadID = threadIdx.x;
         int totalThreadCount = gridDim.x * blockDim.x;
@@ -257,7 +285,7 @@ namespace Definitions
 
         C myResult = 0;
 
-        extern __shared__ double sharedMemory[];
+        extern __shared__ char sharedMemory[];
         C* myX = (C*)sharedMemory;
 
         // note that the x vectors are stored in the shared memory
@@ -364,121 +392,135 @@ namespace Definitions
                                    int nnz,
                                    long long start,
                                    long long end)
-   {
-       int globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
-       int localThreadID = threadIdx.x;
-       int totalThreadCount = gridDim.x * blockDim.x;
-       int threadsPerBlock = blockDim.x;
+    {
+        int globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        int localThreadID = threadIdx.x;
+        int totalThreadCount = gridDim.x * blockDim.x;
+        int threadsPerBlock = blockDim.x;
 
-       C myResult = 0;
+        C myResult = 0;
 
-       extern __shared__ double sharedMemory[];
+        extern __shared__ char sharedMemory[];
+        C* myX = (C*)sharedMemory; // size: nov * threadsPerBlock ----- again soa pattern rather than aos
+        int* sharedCPtrs = (int*)&myX[nov * threadsPerBlock]; // size: (nov + 1) * sizeof(int)
 
-       C* myX = (C*)sharedMemory; // size: nov * threadsPerBlock
-       int* sharedCPtrs = (int*)&myX[nov * threadsPerBlock]; // size: nov + 1
-       int* sharedRows = (int*)&sharedCPtrs[nov + 1];  // size: nnz
-       S* sharedCVals = (S*)&sharedRows[nnz]; // size: nnz
+        size_t sharedRowsOffset = ((nov + 1) * sizeof(int) + (sizeof(int) - 1)) & ~(sizeof(int) - 1);
+        int* sharedRows = (int*)&sharedMemory[sharedRowsOffset]; // size: nnz * sizeof(int)
 
-       for (int i = 0; i < nov; ++i)
-       {
-           myX[threadsPerBlock * i + localThreadID] = x[i];
-           sharedCPtrs[i] = cptrs[i];
-       }
-       sharedCPtrs[nov] = cptrs[nov];
+        size_t sharedCValsOffset = (sharedRowsOffset + nnz * sizeof(int) + (alignof(S) - 1)) & ~(alignof(S) - 1);
+        S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
 
-       for (int i = 0; i < nnz; ++i)
-       {
-           sharedRows[i] = rows[i];
-           sharedCVals[i] = cvals[i];
-       }
+        if (localThreadID == 0)
+        {
+            for (int i = 0; i < nov; ++i)
+            {
+                myX[threadsPerBlock * i + localThreadID] = x[i];
+                sharedCPtrs[i] = cptrs[i];
+            }
+
+            sharedCPtrs[nov] = cptrs[nov];
+
+            for (int i = 0; i < nnz; ++i)
+            {
+                sharedRows[i] = rows[i];
+                sharedCVals[i] = cvals[i];
+            }
+        }
+        else
+        {
+            for (int i = 0; i < nov; ++i)
+            {
+                myX[threadsPerBlock * i + localThreadID] = x[i];
+            }
+        }
 
         __syncthreads();
 
-       long long chunkSize = (end - start) / totalThreadCount + 1;
-       long long myStart = start + (globalThreadID * chunkSize);
-       long long myEnd = min(start + ((globalThreadID + 1) * chunkSize), end);
+        long long chunkSize = (end - start) / totalThreadCount + 1;
+        long long myStart = start + (globalThreadID * chunkSize);
+        long long myEnd = min(start + ((globalThreadID + 1) * chunkSize), end);
 
-       long long gray = (myStart - 1) ^ ((myStart - 1) >> 1); // gray code for the previous subset
-       // getting the x vector from the previous subset
-       for (int j = 0; j < (nov - 1); ++j)
-       {
-           if ((gray >> j) & 1LL) // was jth column included?
-           {
-               for (int i = sharedCPtrs[j]; i < sharedCPtrs[j + 1]; ++i)
-               {
-                   myX[threadsPerBlock * rows[i] + localThreadID] += sharedCVals[i];
-               }
-           }
-       }
+        long long gray = (myStart - 1) ^ ((myStart - 1) >> 1); // gray code for the previous subset
+        // getting the x vector from the previous subset
+        for (int j = 0; j < (nov - 1); ++j)
+        {
+            if ((gray >> j) & 1LL) // was jth column included?
+            {
+                for (int i = sharedCPtrs[j]; i < sharedCPtrs[j + 1]; ++i)
+                {
+                    myX[threadsPerBlock * rows[i] + localThreadID] += sharedCVals[i];
+                }
+            }
+        }
 
-       C product = 1.0;
-       int zeroNumber = 0;
-       // product from the previous subset
-       for (int i = 0; i < nov; ++i)
-       {
-           int index = threadsPerBlock * i + localThreadID;
-           if (myX[index] == 0)
-           {
-               ++zeroNumber;
-           }
-           else
-           {
-               product *= myX[index];
-           }
-       }
+        C product = 1.0;
+        int zeroNumber = 0;
+        // product from the previous subset
+        for (int i = 0; i < nov; ++i)
+        {
+            int index = threadsPerBlock * i + localThreadID;
+            if (myX[index] == 0)
+            {
+                ++zeroNumber;
+            }
+            else
+            {
+                product *= myX[index];
+            }
+        }
 
-       int productSign = 1;
-       // are starting with a negative product sign?
-       if(myStart & 1LL)
-       {
-           productSign = -1;
-       }
+        int productSign = 1;
+        // are starting with a negative product sign?
+        if(myStart & 1LL)
+        {
+            productSign = -1;
+        }
 
-       for (long long i = myStart; i < myEnd; ++i)
-       {
-           long long grayDifference = (i ^ (i >> 1)) ^ gray;
-           int columnChanged = __ffsll(grayDifference) - 1; // column no that was added or removed
-           gray ^= (1LL << columnChanged);
+        for (long long i = myStart; i < myEnd; ++i)
+        {
+            long long grayDifference = (i ^ (i >> 1)) ^ gray;
+            int columnChanged = __ffsll(grayDifference) - 1; // column no that was added or removed
+            gray ^= (1LL << columnChanged);
 
-           // is column removed or added
-           C added = ((1LL << columnChanged) & gray) ? 1 : -1;
+            // is column removed or added
+            C added = ((1LL << columnChanged) & gray) ? 1 : -1;
 
-           for (int j = sharedCPtrs[columnChanged]; j < sharedCPtrs[columnChanged + 1]; ++j)
-           {
-               int rowNeigbour = sharedRows[j];
-               int index = threadsPerBlock * rowNeigbour + localThreadID;
-               C xValue = myX[index];
-               S value = sharedCVals[j];
-               if (xValue == 0)
-               {
-                   --zeroNumber;
-                   xValue += added * value;
-                   product *= xValue;
-               }
-               else
-               {
-                   product /= xValue;
-                   xValue += added * value;
-                   if (xValue == 0)
-                   {
-                       ++zeroNumber;
-                   }
-                   else
-                   {
-                       product *= xValue;
-                   }
-               }
-               myX[index] = xValue;
-           }
+            for (int j = sharedCPtrs[columnChanged]; j < sharedCPtrs[columnChanged + 1]; ++j)
+            {
+                int rowNeigbour = sharedRows[j];
+                int index = threadsPerBlock * rowNeigbour + localThreadID;
+                C xValue = myX[index];
+                S value = sharedCVals[j];
+                if (xValue == 0)
+                {
+                    --zeroNumber;
+                    xValue += added * value;
+                    product *= xValue;
+                }
+                else
+                {
+                    product /= xValue;
+                    xValue += added * value;
+                    if (xValue == 0)
+                    {
+                        ++zeroNumber;
+                    }
+                    else
+                    {
+                        product *= xValue;
+                    }
+                }
+                myX[index] = xValue;
+            }
 
-           if(zeroNumber == 0)
-           {
-               myResult += productSign * product;
-           }
-           productSign *= -1; // sign for the next subset
-       }
+            if(zeroNumber == 0)
+            {
+                myResult += productSign * product;
+            }
+            productSign *= -1; // sign for the next subset
+        }
 
-       p[globalThreadID] = myResult;
+        p[globalThreadID] = myResult;
     }
 }
 

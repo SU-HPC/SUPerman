@@ -6,16 +6,21 @@
 #define SUPERMAN_REBORN_MATRIX_H
 
 #include <iostream>
+#include <cstring>
 
 
 template <class S>
 class Matrix
 {
 public:
+    Matrix() {}
+
     Matrix(int nov)
     :   nov(nov)
     {
-        mat = new S[nov * nov];
+        int entry = nov * nov;
+        mat = new S[entry];
+        memset(mat, 0, sizeof(S) * entry);
     }
 
     Matrix(S* mat, int nov)
@@ -39,8 +44,9 @@ template<class S>
 Matrix<S>::Matrix(const Matrix &other)
 :   nov(other.nov)
 {
-    mat = new S[nov * nov];
-    memcpy(mat, other.mat, sizeof(S) * nov * nov);
+    int entry = nov * nov;
+    mat = new S[entry];
+    memcpy(mat, other.mat, sizeof(S) * entry);
 }
 
 template<class S>

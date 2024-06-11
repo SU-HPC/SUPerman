@@ -76,10 +76,11 @@ if [ "$MPI_FOUND" = true ] && [ "$CUDA_FOUND" = true ]; then
         -IExactAlgorithms/MPI/Sparse \
         $INCLUDE_DIRS \
         -DMPI -DGPU \
+        --ptxas-options=-v \
         -Xcompiler "-fopenmp $MPI_CXX_COMPILE_FLAGS -fPIC"
 
     # link objects
-    g++ -shared -o libGPUKernelWrappers.so mpi_wrapper.o GPUKernelWrappers.o $LIB_DIRS $LIBS $CUDA_LIBS -fopenmp
+    g++ -shared -o libWrappers.so mpi_wrapper.o GPUKernelWrappers.o $LIB_DIRS $LIBS $CUDA_LIBS -fopenmp
 
 elif [ "$MPI_FOUND" = true ] && [ "$CUDA_FOUND" != true ]; then
     echo "Only MPI found."
@@ -105,7 +106,7 @@ elif [ "$MPI_FOUND" = true ] && [ "$CUDA_FOUND" != true ]; then
     g++ -c -o mpi_wrapper.o mpi_wrapper.cpp $MPI_CXX_COMPILE_FLAGS -fPIC
 
     # link objects
-    g++ -shared -o libMPIWrappers.so mpi_wrapper.o $LIB_DIRS $LIBS -DMPI -fopenmp
+    g++ -shared -o libWrappers.so mpi_wrapper.o $LIB_DIRS $LIBS -DMPI -fopenmp
 
 elif [ "$MPI_FOUND" != true ] && [ "$CUDA_FOUND" = true ]; then
     echo "Only CUDA found."
@@ -125,10 +126,11 @@ elif [ "$MPI_FOUND" != true ] && [ "$CUDA_FOUND" = true ]; then
         -IExactAlgorithms/MPI/Dense \
         -IExactAlgorithms/MPI/Sparse \
         -DGPU \
+        --ptxas-options=-v \
         -Xcompiler "-fopenmp -fPIC"
 
     # link objects
-    g++ -shared -o libGPUWrappers.so GPUKernelWrappers.o -L$CUDA_LIB_DIR -lcudart -lcuda -fopenmp
+    g++ -shared -o libWrappers.so GPUKernelWrappers.o -L$CUDA_LIB_DIR -lcudart -lcuda -fopenmp
 
 else
     echo "Neither MPI nor CUDA found. Creating a shared library without them."

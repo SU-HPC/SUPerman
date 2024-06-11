@@ -1,5 +1,2 @@
-orderings -> skiporder sortorder
 scaling
-decomposition
-spMultiGPUMPI work implementation and distribution
-configure shared memory by bytes rather than double to prevent misalignment problems
+dense

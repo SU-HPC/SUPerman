@@ -18,6 +18,10 @@ public:
     :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
+
+public:
+    C productSum;
+    double time;
 };
 
 
@@ -28,30 +32,36 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     cudaDeviceProp prop;
     cudaGetDeviceProperties(&prop, this->m_Settings.deviceID);
-    printf("Permanent is being computed on device id: %d, %s\n", this->m_Settings.deviceID, prop.name);
+
+#ifdef LOUD
+      printf("Permanent is being computed on device id: %d, %s\n", this->m_Settings.deviceID, prop.name);
+#endif
 
     gpuErrchk( cudaSetDevice(this->m_Settings.deviceID) )
 
     int nov = ccs->nov;
     int nnz = ccs->nnz;
+    int* cptrs = ccs->cptrs;
+    int* rows = ccs->rows;
+    S* cvals = ccs->cvals;
+    int* rptrs = ccs->rptrs;
+    int* cols = ccs->cols;
+    S* rvals = ccs->rvals;
     S* mat = ccs->mat;
 
     C x[nov];
-    C rowSum;
     C product = 1;
     for (int i = 0; i < nov; ++i)
     {
-        rowSum = 0;
-        for (int j = 0; j < nov; ++j)
+        C rowSum = 0;
+        for (int ptr = rptrs[i]; ptr < rptrs[i + 1]; ++ptr)
         {
-            if (mat[(i * nov) + j] != 0)
-            {
-                rowSum += mat[(i * nov) + j];
-            }
+            rowSum += rvals[ptr];
         }
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
     }
+    productSum = product;
 
     int gridDim;
     int blockDim;
@@ -78,6 +88,7 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
             sharedMemoryPerBlock
     ) )
 
+#ifdef LOUD
     printf("Matrix Size: %d\n", (nov + 1) * sizeof(int) + nnz * (sizeof(int) + sizeof(S)));
     printf("X Vector Size: %d\n", nov * sizeof(C));
     printf("Number of streaming multiprocessors: %d\n", noSM);
@@ -89,12 +100,13 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
     printf("Total number of threads: %d\n", totalThreadCount);
     std::cout << "Maximum number of blocks running concurrently on each SM: " << maxBlocks << std::endl;
     std::cout << "Maximum number of blocks running concurrently throughout the GPU: " << maxBlocks * noSM << std::endl;
+#endif
 
-    C *d_x;
+    C* d_x;
     C* d_products;
     int* d_cptrs;
     int* d_rows;
-    S *d_cvals;
+    S* d_cvals;
 
     gpuErrchk( cudaMalloc(&d_x, nov * sizeof(C)) )
     gpuErrchk( cudaMalloc(&d_products, totalThreadCount * sizeof(C)) )
@@ -103,12 +115,54 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk( cudaMalloc(&d_cvals, nnz * sizeof(S)) )
 
     gpuErrchk( cudaMemcpy(d_x, x, nov * sizeof(C), cudaMemcpyHostToDevice) )
-    gpuErrchk( cudaMemcpy(d_cptrs, ccs->cptrs, (nov + 1) * sizeof(int), cudaMemcpyHostToDevice) )
-    gpuErrchk( cudaMemcpy(d_rows, ccs->rows, nnz * sizeof(int), cudaMemcpyHostToDevice) )
-    gpuErrchk( cudaMemcpy(d_cvals, ccs->cvals, nnz * sizeof(S), cudaMemcpyHostToDevice) )
+    gpuErrchk( cudaMemcpy(d_cptrs, cptrs, (nov + 1) * sizeof(int), cudaMemcpyHostToDevice) )
+    gpuErrchk( cudaMemcpy(d_rows, rows, nnz * sizeof(int), cudaMemcpyHostToDevice) )
+    gpuErrchk( cudaMemcpy(d_cvals, cvals, nnz * sizeof(S), cudaMemcpyHostToDevice) )
+
+    C* h_products = new C[totalThreadCount];
 
     long long start = 1;
     long long end = (1LL << (nov - 1));
+
+    long long left = end;
+    double passed = 0;
+
+    double s = omp_get_wtime();
+
+    while (passed < 0.99)
+    {
+        long long chunkSize = 1;
+        while ((chunkSize * totalThreadCount) < left)
+        {
+            chunkSize *= 2;
+        }
+        chunkSize /= 2;
+
+        Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
+                d_cptrs,
+                d_rows,
+                d_cvals,
+                d_x,
+                d_products,
+                nov,
+                nnz,
+                start,
+                end,
+                chunkSize);
+
+        gpuErrchk( cudaDeviceSynchronize() )
+        gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
+
+        for (int i = 0; i < totalThreadCount; ++i)
+        {
+            productSum += h_products[i];
+        }
+
+        long long thisIteration = totalThreadCount * chunkSize;
+        left -= thisIteration;
+        passed = 1 - (double)left / double(end);
+        start += thisIteration;
+    }
 
     Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
             d_cptrs,
@@ -119,13 +173,18 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
             nov,
             nnz,
             start,
-            end);
+            end,
+            -1);
 
-    gpuErrchk( cudaPeekAtLastError() )
+    double e = omp_get_wtime();
+
     gpuErrchk( cudaDeviceSynchronize() )
-
-    C* h_products = new C[totalThreadCount];
     gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
+
+    for (int i = 0; i < totalThreadCount; ++i)
+    {
+        productSum += h_products[i];
+    }
 
     gpuErrchk( cudaFree(d_x) )
     gpuErrchk( cudaFree(d_products) )
@@ -133,15 +192,11 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk( cudaFree(d_rows) )
     gpuErrchk( cudaFree(d_cvals) )
 
-    C productSum = product;
-    for (int i = 0; i < totalThreadCount; ++i)
-    {
-        productSum += h_products[i];
-    }
-
     delete[] h_products;
 
-    return (4 * (nov & 1) - 2) * productSum;
+    time = e - s;
+
+    return 0;
 }
 
 

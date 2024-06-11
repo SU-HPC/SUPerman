@@ -19,19 +19,36 @@ public:
     typedef Result (*Algorithm)(Matrix<S>* matrix, Settings* settings);
 
 public:
-    static AlgorithmRecommender<C, S>::Algorithm recommendAlgorithm(Matrix<S>* matrix, Settings* settings);
+    static AlgorithmRecommender<C, S>::Algorithm recommendAlgorithm(Matrix<S>* matrix, Settings* settings, int mode);
 };
 
 
 template<class C, class S>
-typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::recommendAlgorithm(Matrix<S> *matrix, Settings *settings)
+typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::recommendAlgorithm(Matrix<S> *matrix, Settings *settings, int mode)
 {
-    SparseMatrix<S>* sparseMatrix = dynamic_cast<SparseMatrix<S>*>(matrix);
-    settings->threadC = 16;
-    settings->gpuNum = 4;
-    settings->deviceID = 0;
     settings->algorithm = SPXLOCALMSHARED;
-    return gpuSPMultiGPU<C, S>;
+
+    settings->threadC = 16;
+    settings->deviceID = 0;
+
+    if (mode == 0)
+    {
+        return cpuSPNaivePerman<C, S>;
+    }
+    else if (mode == 1)
+    {
+        return gpuSPSingleGPU<C, S>;
+    }
+    else if (mode == 2)
+    {
+        return gpuSPMultiGPU<C, S>;
+    }
+    else
+    {
+#ifdef MPI_AVAILABLE
+        return gpuSPMultiGPUMPI<C, S>;
+#endif
+    }
 }
 
 

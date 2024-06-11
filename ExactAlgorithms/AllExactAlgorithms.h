@@ -7,12 +7,14 @@
 
 
 // CPU
-#include "ParallelPermanSparse.h"
+#include "spNaivePerman.h"
+#include "DecomposePerman.h"
+
 template <typename C, typename S>
-Result cpuSPPerman(Matrix<S>* matrix, Settings* settings)
+Result cpuSPNaivePerman(Matrix<S>* matrix, Settings* settings)
 {
-    Permanent<C, S>* permanent = new ParallelPermanSparse<C, S>(matrix, *settings);
-    Result result = permanent->computePermanent();
+    auto permanent = new DecomposePerman<C, S, spNaivePerman<C, S> >(matrix, *settings);
+    Result result = permanent->computePermanentRecursively();
     delete permanent;
     return result;
 }

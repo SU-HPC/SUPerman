@@ -15,6 +15,7 @@ void initMPI(int *argc, char ***argv);
 void finalizeMPI();
 void mpiBarrier(MPI_Comm comm);
 void mpiReduce(const void *sendbuf, void *recvbuf, int count, MPI_Datatype datatype, MPI_Op op, int root, MPI_Comm comm);
+void mpiAllgather(const void* sendbuf, int sendCount, MPI_Datatype sendType, void* recvbuf, int recvCount, MPI_Datatype recvType, MPI_Comm comm);
 
 MPI_Comm getMPI_COMM_WORLD();
 MPI_Datatype getMPI_DOUBLE();

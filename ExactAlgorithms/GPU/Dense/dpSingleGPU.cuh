@@ -1,0 +1,8 @@
+//
+// Created by delbek on 6/11/24.
+//
+
+#ifndef SUPERMAN_DPSINGLEGPU_CUH
+#define SUPERMAN_DPSINGLEGPU_CUH
+
+#endif //SUPERMAN_DPSINGLEGPU_CUH

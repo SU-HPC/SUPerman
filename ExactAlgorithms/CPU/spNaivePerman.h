@@ -8,21 +8,26 @@
 #include "Permanent.h"
 #include "SparseMatrix.h"
 #include <cstring>
+#include "omp.h"
 
 
 template <class C, class S>
-class ParallelPermanSparse: public Permanent<C, S>
+class spNaivePerman: public Permanent<C, S>
 {
 public:
-    ParallelPermanSparse(Matrix<S>* matrix, Settings settings)
+    spNaivePerman(Matrix<S>* matrix, Settings settings)
     :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
+
+public:
+    C productSum;
+    double time;
 };
 
 
 template<class C, class S>
-double ParallelPermanSparse<C, S>::permanentFunction()
+double spNaivePerman<C, S>::permanentFunction()
 {
     SparseMatrix<S>* ccs = dynamic_cast<SparseMatrix<S>*>(this->m_Matrix);
 
@@ -31,27 +36,32 @@ double ParallelPermanSparse<C, S>::permanentFunction()
     int* cptrs = ccs->cptrs;
     int* rows = ccs->rows;
     S* cvals = ccs->cvals;
+    int* rptrs = ccs->rptrs;
+    int* cols = ccs->cols;
+    S* rvals = ccs->rvals;
 
     int threads = this->m_Settings.threadC;
 
     C x[nov];
-    C rowSum;
     C product = 1;
     for (int i = 0; i < nov; ++i)
     {
-        rowSum = 0;
-        for (int j = 0; j < nov; ++j)
+        C rowSum = 0;
+        for (int ptr = rptrs[i]; ptr < rptrs[i + 1]; ++ptr)
         {
-            rowSum += mat[(i * nov) + j];
+            rowSum += rvals[ptr];
         }
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
     }
+    productSum = product;
 
     long long start = 1;
     long long end = (1LL << (nov - 1));
 
-#pragma omp parallel num_threads(threads) reduction(+:product)
+    double s = omp_get_wtime();
+
+#pragma omp parallel num_threads(threads)
     {
         int threadID = omp_get_thread_num();
         C myResult = 0;
@@ -76,7 +86,7 @@ double ParallelPermanSparse<C, S>::permanentFunction()
             }
         }
 
-        C myProduct = 1.0;
+        C myProduct = 1;
         int zeroNumber = 0;
         // product from the previous subset
         for (int i = 0; i < nov; ++i)
@@ -91,12 +101,8 @@ double ParallelPermanSparse<C, S>::permanentFunction()
             }
         }
 
-        int productSign = 1;
         // are starting with a negative product sign?
-        if(myStart & 1LL)
-        {
-            productSign = -1;
-        }
+        int productSign = (myStart & 1LL) ? -1 : 1;
 
         for (long long i = myStart; i < myEnd; ++i)
         {
@@ -106,40 +112,55 @@ double ParallelPermanSparse<C, S>::permanentFunction()
             // is column removed or added
             C added = ((1LL << columnChanged) & gray) ? 1 : -1;
 
-            for (int j = cptrs[columnChanged]; j < cptrs[columnChanged + 1]; j++)
+            for (int j = cptrs[columnChanged]; j < cptrs[columnChanged + 1]; ++j)
             {
-                if (myX[rows[j]] == 0)
+                int rowNeigbour = rows[j];
+                C xValue = myX[rowNeigbour];
+                S value = cvals[j];
+                C temp = added * value;
+
+                // excluding
+                if (xValue == 0)
                 {
                     --zeroNumber;
-                    myX[rows[j]] += added * cvals[j];
-                    myProduct *= myX[rows[j]];
                 }
                 else
                 {
-                    myProduct /= myX[rows[j]];
-                    myX[rows[j]] += added * cvals[j];
-                    if (myX[rows[j]] == 0)
-                    {
-                        ++zeroNumber;
-                    }
-                    else
-                    {
-                        myProduct *= myX[rows[j]]; // product of the elements in vector 'x'
-                    }
+                    myProduct /= xValue;
                 }
+
+                xValue += temp;
+
+                // including
+                if (xValue == 0)
+                {
+                    ++zeroNumber;
+                }
+                else
+                {
+                    myProduct *= xValue;
+                }
+
+                myX[rowNeigbour] = xValue;
             }
 
             if (zeroNumber == 0)
             {
                 myResult += productSign * myProduct;
             }
+
             productSign *= -1;
         }
 
-        product += myResult;
+        #pragma omp atomic
+            productSum += myResult;
     }
 
-    return (4 * (nov & 1) - 2) * product;
+    double e = omp_get_wtime();
+
+    time = e - s;
+
+    return 0;
 }
 
 

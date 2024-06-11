@@ -13,7 +13,7 @@ template <class S>
 class SparseMatrix: public Matrix<S>
 {
 public:
-    SparseMatrix(Matrix<S>* denseMatrix, int nnz);
+    SparseMatrix(Matrix<S>* matrix, int nnz);
 
     SparseMatrix(const SparseMatrix& other);
     SparseMatrix& operator=(const SparseMatrix& other) = delete;
@@ -40,8 +40,8 @@ public:
 
 
 template<class S>
-SparseMatrix<S>::SparseMatrix(Matrix<S>* denseMatrix, int nnz)
-:   Matrix<S>(std::move(*denseMatrix)),
+SparseMatrix<S>::SparseMatrix(Matrix<S>* matrix, int nnz)
+:   Matrix<S>(std::move(*matrix)),
     nnz(nnz)
 {
     int nov = this->nov;
