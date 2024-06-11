@@ -10,7 +10,7 @@
 #include "SparseMatrix.h"
 
 
-template <typename C, typename S, KernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
+template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
 class spSingleGPU: public Permanent<C, S>
 {
 public:
@@ -25,9 +25,11 @@ public:
 };
 
 
-template <typename C, typename S, KernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
+template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
 double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
 {
+    double s = omp_get_wtime();
+
     SparseMatrix<S>* ccs = dynamic_cast<SparseMatrix<S>*>(this->m_Matrix);
 
     cudaDeviceProp prop;
@@ -127,8 +129,6 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
     long long left = end;
     double passed = 0;
 
-    double s = omp_get_wtime();
-
     while (passed < 0.99)
     {
         long long chunkSize = 1;
@@ -176,8 +176,6 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
             end,
             -1);
 
-    double e = omp_get_wtime();
-
     gpuErrchk( cudaDeviceSynchronize() )
     gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
 
@@ -193,6 +191,8 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk( cudaFree(d_cvals) )
 
     delete[] h_products;
+
+    double e = omp_get_wtime();
 
     time = e - s;
 

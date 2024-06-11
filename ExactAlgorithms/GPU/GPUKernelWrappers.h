@@ -10,7 +10,7 @@
 #include "Matrix.h"
 
 
-// SPARSE KERNEL WRAPPERS START
+// SPARSE KERNEL WRAPPERS
 template <class C, class S>
 extern Result gpuSPSingleGPU(Matrix<S>* matrix, Settings* settings);
 
@@ -21,7 +21,21 @@ extern Result gpuSPMultiGPU(Matrix<S>* matrix, Settings* settings);
 template <class C, class S>
 extern Result gpuSPMultiGPUMPI(Matrix<S>* matrix, Settings* settings);
 #endif
-// SPARSE KERNEL WRAPPERS END
+// SPARSE KERNEL WRAPPERS
+
+
+// DENSE KERNEL WRAPPERS
+template <class C, class S>
+extern Result gpuDPSingleGPU(Matrix<S>* matrix, Settings* settings);
+
+template <class C, class S>
+extern Result gpuDPMultiGPU(Matrix<S>* matrix, Settings* settings);
+
+#ifdef MPI_AVAILABLE
+template <class C, class S>
+extern Result gpuDPMultiGPUMPI(Matrix<S>* matrix, Settings* settings);
+#endif
+// DENSE KERNEL WRAPPERS
 
 
 #endif //SUPERMAN_REBORN_GPUKERNELWRAPPERS_H

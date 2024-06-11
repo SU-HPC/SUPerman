@@ -6,10 +6,10 @@
 #define SUPERMAN_REBORN_DENSEKERNELDEFINITIONS_CUH
 
 #include "cuda_runtime.h"
-#include "GPUHelpers.h"
+#include "GPUHelpers.cuh"
 
 
-namespace Definitions
+namespace DenseDefinitions
 {
     template<class C, class S>
     __global__ void kernel_xglobal(S *mat_t,

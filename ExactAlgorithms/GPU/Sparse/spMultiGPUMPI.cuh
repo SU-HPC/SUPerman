@@ -11,7 +11,7 @@
 #include "mpi_wrapper.h"
 
 
-template <typename C, typename S, KernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
+template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
 class spMultiGPUMPI: public Permanent<C, S>
 {
 public:
@@ -22,13 +22,19 @@ public:
 };
 
 
-template <typename C, typename S, KernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
+template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
 double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 {
     SparseMatrix<S>* ccs = dynamic_cast<SparseMatrix<S>*>(this->m_Matrix);
 
     int nov = ccs->nov;
     int nnz = ccs->nnz;
+    int* cptrs = ccs->cptrs;
+    int* rows = ccs->rows;
+    S* cvals = ccs->cvals;
+    int* rptrs = ccs->rptrs;
+    int* cols = ccs->cols;
+    S* rvals = ccs->rvals;
     S* mat = ccs->mat;
 
     C x[nov];
@@ -39,10 +45,7 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         rowSum = 0;
         for (int j = 0; j < nov; ++j)
         {
-            if (mat[(i * nov) + j] != 0)
-            {
-                rowSum += mat[(i * nov) + j];
-            }
+            rowSum += mat[(i * nov) + j];
         }
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
@@ -141,9 +144,9 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         gpuErrchk( cudaMalloc(&d_cvals, nnz * sizeof(S)) )
 
         gpuErrchk( cudaMemcpy(d_x, x, nov * sizeof(C), cudaMemcpyHostToDevice) )
-        gpuErrchk( cudaMemcpy(d_cptrs, ccs->cptrs, (nov + 1) * sizeof(int), cudaMemcpyHostToDevice) )
-        gpuErrchk( cudaMemcpy(d_rows, ccs->rows, nnz * sizeof(int), cudaMemcpyHostToDevice) )
-        gpuErrchk( cudaMemcpy(d_cvals, ccs->cvals, nnz * sizeof(S), cudaMemcpyHostToDevice) )
+        gpuErrchk( cudaMemcpy(d_cptrs, cptrs, (nov + 1) * sizeof(int), cudaMemcpyHostToDevice) )
+        gpuErrchk( cudaMemcpy(d_rows, rows, nnz * sizeof(int), cudaMemcpyHostToDevice) )
+        gpuErrchk( cudaMemcpy(d_cvals, cvals, nnz * sizeof(S), cudaMemcpyHostToDevice) )
 
         long long start = 1;
         long long end = (1LL << (nov - 1));

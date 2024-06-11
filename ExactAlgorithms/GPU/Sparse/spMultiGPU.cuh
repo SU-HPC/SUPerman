@@ -10,7 +10,7 @@
 #include "SparseKernelDefinitions.cuh"
 
 
-template <typename C, typename S, KernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
+template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
 class spMultiGPU: public Permanent<C, S>
 {
 public:
@@ -25,9 +25,11 @@ public:
 };
 
 
-template <typename C, typename S, KernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
+template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
 double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
 {
+    double s = omp_get_wtime();
+
     SparseMatrix<S>* ccs = dynamic_cast<SparseMatrix<S>*>(this->m_Matrix);
 
     int nov = ccs->nov;
@@ -65,8 +67,6 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
         weights[i] = COMPUTE_CAPABILITY_TO_WEIGHT[deviceProp.major];
         totalWeight += weights[i];
     }
-
-    double s = omp_get_wtime();
 
 #pragma omp parallel num_threads(gpuNum)
     {

@@ -8,7 +8,7 @@
 #include "GPUHelpers.cuh"
 
 
-namespace Definitions
+namespace SparseDefinitions
 {
     template <class C, class S>
     __global__ void xLocalMGlobal(int* cptrs,

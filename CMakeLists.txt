@@ -41,6 +41,8 @@ include_directories(Structures)
 include_directories(IO)
 include_directories(ExactAlgorithms)
 include_directories(ExactAlgorithms/CPU)
+include_directories(ExactAlgorithms/CPU/Dense)
+include_directories(ExactAlgorithms/CPU/Sparse)
 include_directories(ExactAlgorithms/GPU)
 include_directories(ExactAlgorithms/GPU/Dense)
 include_directories(ExactAlgorithms/GPU/Sparse)
@@ -61,7 +63,8 @@ set(COMMON_HEADER_FILES
 
 # CPU Files
 set(CPU_HEADER_FILES
-        ExactAlgorithms/CPU/spNaivePerman.h
+        ExactAlgorithms/CPU/Dense/dpNaivePerman.h
+        ExactAlgorithms/CPU/Sparse/spNaivePerman.h
 )
 
 # GPU Files
@@ -71,6 +74,10 @@ set(GPU_HEADER_FILES
         ExactAlgorithms/GPU/Sparse/spSingleGPU.cuh
         ExactAlgorithms/GPU/Sparse/spMultiGPU.cuh
         ExactAlgorithms/GPU/Sparse/spMultiGPUMPI.cuh
+        ExactAlgorithms/GPU/Dense/DenseKernelDefinitions.cuh
+        ExactAlgorithms/GPU/Dense/dpSingleGPU.cuh
+        ExactAlgorithms/GPU/Dense/dpMultiGPU.cuh
+        ExactAlgorithms/GPU/Dense/dpMultiGPUMPI.cuh
 )
 
 set(GPU_WRAPPER_FILES
