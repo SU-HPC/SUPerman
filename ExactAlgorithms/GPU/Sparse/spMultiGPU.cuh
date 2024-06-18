@@ -2,8 +2,8 @@
 // Created by deniz on 4/22/24.
 //
 
-#ifndef SUPERMAN_REBORN_SPMULTIGPU_CUH
-#define SUPERMAN_REBORN_SPMULTIGPU_CUH
+#ifndef SUPERMAN_SPMULTIGPU_CUH
+#define SUPERMAN_SPMULTIGPU_CUH
 
 #include "Permanent.h"
 #include "SparseMatrix.h"
@@ -227,4 +227,4 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
 }
 
 
-#endif //SUPERMAN_REBORN_SPMULTIGPU_CUH
+#endif //SUPERMAN_SPMULTIGPU_CUH

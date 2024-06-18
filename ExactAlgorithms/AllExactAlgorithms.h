@@ -2,8 +2,8 @@
 // Created by deniz on 4/22/24.
 //
 
-#ifndef SUPERMAN_REBORN_ALLEXACTALGORITHMS_H
-#define SUPERMAN_REBORN_ALLEXACTALGORITHMS_H
+#ifndef SUPERMAN_ALLEXACTALGORITHMS_H
+#define SUPERMAN_ALLEXACTALGORITHMS_H
 
 
 // CPU
@@ -36,4 +36,4 @@ Result cpuDPNaivePerman(Matrix<S>* matrix, Settings* settings)
 #endif
 
 
-#endif //SUPERMAN_REBORN_ALLEXACTALGORITHMS_H
+#endif //SUPERMAN_ALLEXACTALGORITHMS_H

@@ -2,8 +2,8 @@
 // Created by deniz on 4/13/24.
 //
 
-#ifndef SUPERMAN_REBORN_IO_H
-#define SUPERMAN_REBORN_IO_H
+#ifndef SUPERMAN_IO_H
+#define SUPERMAN_IO_H
 
 #include "Matrix.h"
 #include <string>
@@ -21,13 +21,17 @@ public:
     static Matrix<S>* readMatrix(std::string filename, Settings& settings);
 
     template <class S>
+    static Matrix<S>* denseToSparse(Matrix<S>* denseMatrix, int nnz);
+
+    template <class S>
+    static void order(Matrix<S>* matrix);
+
+private:
+    template <class S>
     static void skipOrder(Matrix<S>* matrix);
 
     template <class S>
-    static void sortOrder(Matrix<S>* matrix, int nnz);
-
-    template <class S>
-    static Matrix<S>* denseToSparse(Matrix<S>* denseMatrix, int nnz);
+    static void sortOrder(Matrix<S>* matrix);
 };
 
 
@@ -100,18 +104,22 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     std::cout << "Total number of nonzeros is: " << nnz << std::endl;
     std::cout << "Sparsity of the matrix is determined to be: " << sparsity << std::endl;
 
-    if (sparsity < 30)
-    {
-        std::cout << "Proceeding to use skip order..." << std::endl;
-        IO::skipOrder(matrix);
-    }
-    else if (sparsity < 50)
-    {
-        std::cout << "Proceeding to use sort order..." << std::endl;
-        IO::sortOrder(matrix, nnz);
-    }
+    matrix->sparsity = sparsity;
 
     return matrix;
+}
+
+template <class S>
+void IO::order(Matrix<S> *matrix)
+{
+    if (matrix->sparsity < 30)
+    {
+        IO::skipOrder(matrix);
+    }
+    else if (matrix->sparsity < 50)
+    {
+        IO::sortOrder(matrix);
+    }
 }
 
 template<class S>
@@ -198,7 +206,7 @@ void IO::skipOrder(Matrix<S>* matrix)
 }
 
 template<class S>
-void IO::sortOrder(Matrix<S>* matrix, int nnz)
+void IO::sortOrder(Matrix<S>* matrix)
 {
 
 }
@@ -247,4 +255,4 @@ Matrix<S> *IO::denseToSparse(Matrix<S>* denseMatrix, int nnz)
 }
 
 
-#endif //SUPERMAN_REBORN_IO_H
+#endif //SUPERMAN_IO_H

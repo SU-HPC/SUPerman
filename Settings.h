@@ -2,8 +2,8 @@
 // Created by deniz on 4/13/24.
 //
 
-#ifndef SUPERMAN_REBORN_SETTINGS_H
-#define SUPERMAN_REBORN_SETTINGS_H
+#ifndef SUPERMAN_SETTINGS_H
+#define SUPERMAN_SETTINGS_H
 
 #include <vector>
 #include "omp.h"
@@ -34,7 +34,6 @@ struct Settings
     // GPU Specific
     int deviceID;
     int gpuNum;
-    std::vector<cudaStream_t> streams;
 
     // MPI Specific
     int machineID;
@@ -42,4 +41,4 @@ struct Settings
 };
 
 
-#endif //SUPERMAN_REBORN_SETTINGS_H
+#endif //SUPERMAN_SETTINGS_H

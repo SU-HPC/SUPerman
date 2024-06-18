@@ -2,8 +2,8 @@
 // Created by deniz on 4/13/24.
 //
 
-#ifndef SUPERMAN_REBORN_PARALLELPERMANSPARSE_H
-#define SUPERMAN_REBORN_PARALLELPERMANSPARSE_H
+#ifndef SUPERMAN_SPNAIVEPERMAN_H
+#define SUPERMAN_SPNAIVEPERMAN_H
 
 #include "Permanent.h"
 #include "SparseMatrix.h"
@@ -164,4 +164,4 @@ double spNaivePerman<C, S>::permanentFunction()
 }
 
 
-#endif //SUPERMAN_REBORN_PARALLELPERMANSPARSE_H
+#endif //SUPERMAN_SPNAIVEPERMAN_H

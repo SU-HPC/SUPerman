@@ -2,8 +2,8 @@
 // Created by deniz on 5/25/24.
 //
 
-#ifndef SUPERMAN_REBORN_GPUHELPERS_CUH
-#define SUPERMAN_REBORN_GPUHELPERS_CUH
+#ifndef SUPERMAN_GPUHELPERS_CUH
+#define SUPERMAN_GPUHELPERS_CUH
 
 #include "cuda_runtime.h"
 #include <iostream>
@@ -106,4 +106,4 @@ inline int dpXSharedMShared(int b)
 }
 
 
-#endif //SUPERMAN_REBORN_GPUHELPERS_CUH
+#endif //SUPERMAN_GPUHELPERS_CUH

@@ -2,8 +2,8 @@
 // Created by deniz on 5/25/24.
 //
 
-#ifndef SUPERMAN_REBORN_SPSINGLEGPU_CUH
-#define SUPERMAN_REBORN_SPSINGLEGPU_CUH
+#ifndef SUPERMAN_SPSINGLEGPU_CUH
+#define SUPERMAN_SPSINGLEGPU_CUH
 
 #include "Permanent.h"
 #include "SparseKernelDefinitions.cuh"
@@ -200,4 +200,4 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
 }
 
 
-#endif //SUPERMAN_REBORN_SPSINGLEGPU_CUH
+#endif //SUPERMAN_SPSINGLEGPU_CUH

@@ -2,8 +2,8 @@
 // Created by deniz on 5/25/24.
 //
 
-#ifndef SUPERMAN_REBORN_SPMULTIGPUMPI_CUH
-#define SUPERMAN_REBORN_SPMULTIGPUMPI_CUH
+#ifndef SUPERMAN_SPMULTIGPUMPI_CUH
+#define SUPERMAN_SPMULTIGPUMPI_CUH
 
 #include "Permanent.h"
 #include "SparseMatrix.h"
@@ -208,4 +208,4 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 }
 
 
-#endif //SUPERMAN_REBORN_SPMULTIGPUMPI_CUH
+#endif //SUPERMAN_SPMULTIGPUMPI_CUH

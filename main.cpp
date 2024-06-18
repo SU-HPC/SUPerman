@@ -42,6 +42,8 @@ int main(int argc, const char* argv[])
         std::cout << "Permanent: " << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl;
     }
 
+    delete mat;
+
 #ifdef MPI_AVAILABLE
     MPI_Finalize();
 #endif

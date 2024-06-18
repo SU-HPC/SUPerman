@@ -2,8 +2,8 @@
 // Created by deniz on 4/13/24.
 //
 
-#ifndef SUPERMAN_REBORN_SPARSEMATRIX_H
-#define SUPERMAN_REBORN_SPARSEMATRIX_H
+#ifndef SUPERMAN_SPARSEMATRIX_H
+#define SUPERMAN_SPARSEMATRIX_H
 
 #include <algorithm>
 #include "Matrix.h"
@@ -35,7 +35,6 @@ public:
 
     // for both
     int nnz;
-    double sparsity;
 };
 
 
@@ -52,15 +51,12 @@ SparseMatrix<S>::SparseMatrix(Matrix<S>* matrix, int nnz)
     rptrs = new int[nov + 1];
     rows = new int[nnz];
     cols = new int[nnz];
-
-    sparsity = (double(nnz) / double(nov * nov)) * 100;
 }
 
 template<class S>
 SparseMatrix<S>::SparseMatrix(const SparseMatrix &other)
 :   Matrix<S>(other),
-    nnz(other.nnz),
-    sparsity(other.sparsity)
+    nnz(other.nnz)
 {
     int nov = this->nov;
 
@@ -90,8 +86,7 @@ SparseMatrix<S>::SparseMatrix(const SparseMatrix &other)
 template<class S>
 SparseMatrix<S>::SparseMatrix(SparseMatrix &&other)
 :   Matrix<S>(std::move(other)),
-    nnz(other.nnz),
-    sparsity(other.sparsity)
+    nnz(other.nnz)
 {
     rvals = other.rvals;
     cvals = other.cvals;
@@ -120,4 +115,4 @@ SparseMatrix<S>::~SparseMatrix()
 }
 
 
-#endif //SUPERMAN_REBORN_SPARSEMATRIX_H
+#endif //SUPERMAN_SPARSEMATRIX_H

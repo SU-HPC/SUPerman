@@ -2,8 +2,8 @@
 // Created by deniz on 4/13/24.
 //
 
-#ifndef SUPERMAN_REBORN_PERMANENT_H
-#define SUPERMAN_REBORN_PERMANENT_H
+#ifndef SUPERMAN_PERMANENT_H
+#define SUPERMAN_PERMANENT_H
 
 #include "omp.h"
 #include "Matrix.h"
@@ -44,8 +44,11 @@ public:
 template <class C, class S>
 Result Permanent<C, S>::computePermanent()
 {
-    IO::skipOrder(m_Matrix);
-    m_Matrix = IO::denseToSparse(m_Matrix, getNNZ(m_Matrix));
+    if (m_Matrix->sparsity < 50)
+    {
+        IO::order(m_Matrix);
+        m_Matrix = IO::denseToSparse(m_Matrix, getNNZ(m_Matrix));
+    }
 
     double start = omp_get_wtime();
     double permanent = this->permanentFunction();
@@ -57,4 +60,4 @@ Result Permanent<C, S>::computePermanent()
 }
 
 
-#endif //SUPERMAN_REBORN_PERMANENT_H
+#endif //SUPERMAN_PERMANENT_H

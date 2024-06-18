@@ -2,8 +2,8 @@
 // Created by deniz on 5/24/24.
 //
 
-#ifndef SUPERMAN_REBORN_GPUKERNELWRAPPERS_H
-#define SUPERMAN_REBORN_GPUKERNELWRAPPERS_H
+#ifndef SUPERMAN_GPUKERNELWRAPPERS_H
+#define SUPERMAN_GPUKERNELWRAPPERS_H
 
 #include "Result.h"
 #include "Settings.h"
@@ -38,4 +38,4 @@ extern Result gpuDPMultiGPUMPI(Matrix<S>* matrix, Settings* settings);
 // DENSE KERNEL WRAPPERS
 
 
-#endif //SUPERMAN_REBORN_GPUKERNELWRAPPERS_H
+#endif //SUPERMAN_GPUKERNELWRAPPERS_H

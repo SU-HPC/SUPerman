@@ -2,8 +2,8 @@
 // Created by deniz on 4/13/24.
 //
 
-#ifndef SUPERMAN_REBORN_MATRIX_H
-#define SUPERMAN_REBORN_MATRIX_H
+#ifndef SUPERMAN_MATRIX_H
+#define SUPERMAN_MATRIX_H
 
 #include <iostream>
 #include <cstring>
@@ -37,12 +37,14 @@ public:
 public:
     S* mat;
     int nov;
+    double sparsity;
 };
 
 
 template<class S>
 Matrix<S>::Matrix(const Matrix &other)
-:   nov(other.nov)
+:   nov(other.nov),
+    sparsity(other.sparsity)
 {
     int entry = nov * nov;
     mat = new S[entry];
@@ -51,7 +53,8 @@ Matrix<S>::Matrix(const Matrix &other)
 
 template<class S>
 Matrix<S>::Matrix(Matrix &&other)
-:   nov(other.nov)
+:   nov(other.nov),
+    sparsity(other.sparsity)
 {
     mat = other.mat;
     other.mat = nullptr;
@@ -64,4 +67,4 @@ Matrix<S>::~Matrix()
 }
 
 
-#endif //SUPERMAN_REBORN_MATRIX_H
+#endif //SUPERMAN_MATRIX_H

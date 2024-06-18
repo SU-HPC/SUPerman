@@ -69,7 +69,6 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
 
     Result result(time, overall);
 
-    delete m_Matrix;
     return result;
 }
 
