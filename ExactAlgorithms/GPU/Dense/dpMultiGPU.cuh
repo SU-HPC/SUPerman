@@ -31,8 +31,8 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
     double s = omp_get_wtime();
 
     int nov = this->m_Matrix->nov;
-    int nnz = this->m_Matrix->nnz;
     S* mat = this->m_Matrix->mat;
+    S* matTransposed = new S[nov * nov];
 
     C x[nov];
     C product = 1;
@@ -47,6 +47,14 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
         product *= x[i];
     }
     productSum = product;
+
+    for (int i = 0; i < nov; ++i)
+    {
+        for (int j = 0; j < nov; ++j)
+        {
+            matTransposed[j * nov + i] = mat[i * nov + j];
+        }
+    }
 
     int gpuNum = this->m_Settings.gpuNum;
 
@@ -72,7 +80,6 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
         int gridDim;
         int blockDim;
         V = nov;
-        E = nnz;
         gpuErrchk( cudaOccupancyMaxPotentialBlockSizeVariableSMem(
                 &gridDim,
                 &blockDim,
@@ -115,7 +122,7 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
         gpuErrchk( cudaMalloc(&d_mat, (nov * nov) * sizeof(S)) )
 
         gpuErrchk( cudaMemcpy(d_x, x, nov * sizeof(C), cudaMemcpyHostToDevice) )
-        gpuErrchk( cudaMemcpy(d_mat, mat, (nov * nov) * sizeof(S), cudaMemcpyHostToDevice) )
+        gpuErrchk( cudaMemcpy(d_mat, matTransposed, (nov * nov) * sizeof(S), cudaMemcpyHostToDevice) )
 
         C* h_products = new C[totalThreadCount];
         C myProductSum = 0;
@@ -152,7 +159,6 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
                     d_x,
                     d_products,
                     nov,
-                    nnz,
                     myStart,
                     myEnd,
                     chunkSize);
@@ -176,7 +182,6 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
                 d_x,
                 d_products,
                 nov,
-                nnz,
                 myStart,
                 myEnd,
                 -1);
@@ -198,6 +203,8 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
 #pragma omp atomic
         productSum += myProductSum;
     }
+
+    delete[] matTransposed;
 
     double e = omp_get_wtime();
 

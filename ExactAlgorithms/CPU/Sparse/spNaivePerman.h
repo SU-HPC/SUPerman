@@ -29,6 +29,8 @@ public:
 template<class C, class S>
 double spNaivePerman<C, S>::permanentFunction()
 {
+    double s = omp_get_wtime();
+
     SparseMatrix<S>* ccs = dynamic_cast<SparseMatrix<S>*>(this->m_Matrix);
 
     int nov = ccs->nov;
@@ -58,8 +60,6 @@ double spNaivePerman<C, S>::permanentFunction()
 
     long long start = 1;
     long long end = (1LL << (nov - 1));
-
-    double s = omp_get_wtime();
 
 #pragma omp parallel num_threads(threads)
     {
@@ -101,7 +101,7 @@ double spNaivePerman<C, S>::permanentFunction()
             }
         }
 
-        // are starting with a negative product sign?
+        // are we starting with a negative product sign?
         int productSign = (myStart & 1LL) ? -1 : 1;
 
         for (long long i = myStart; i < myEnd; ++i)

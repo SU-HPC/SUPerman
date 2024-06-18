@@ -12,22 +12,22 @@
 
 
 template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
-class spMultiGPUMPI: public Permanent<C, S>
+class dpMultiGPUMPI: public Permanent<C, S>
 {
 public:
-    spMultiGPUMPI(Matrix<S>* matrix, Settings settings)
-            :   Permanent<C, S>(matrix, settings) {}
+    dpMultiGPUMPI(Matrix<S>* matrix, Settings settings)
+    :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
 };
 
 
 template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
-double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
+double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 {
     int nov = this->m_Matrix->nov;
-    int nnz = this->m_Matrix->nnz;
     S* mat = this->m_Matrix->mat;
+    S* matTransposed = new S[nov * nov];
 
     C x[nov];
     C product = 1;
@@ -40,6 +40,14 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         }
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
+    }
+
+    for (int i = 0; i < nov; ++i)
+    {
+        for (int j = 0; j < nov; ++j)
+        {
+            matTransposed[j * nov + i] = mat[i * nov + j];
+        }
     }
 
     int machineID = this->m_Settings.machineID; // machine id or rank
@@ -90,7 +98,6 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         int gridDim;
         int blockDim;
         V = nov;
-        E = nnz;
         gpuErrchk( cudaOccupancyMaxPotentialBlockSizeVariableSMem(
                 &gridDim,
                 &blockDim,
@@ -131,7 +138,7 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         gpuErrchk( cudaMalloc(&d_mat, (nov * nov) * sizeof(S)) )
 
         gpuErrchk( cudaMemcpy(d_x, x, nov * sizeof(C), cudaMemcpyHostToDevice) )
-        gpuErrchk( cudaMemcpy(d_mat, mat, (nov * nov) * sizeof(S), cudaMemcpyHostToDevice) )
+        gpuErrchk( cudaMemcpy(d_mat, matTransposed, (nov * nov) * sizeof(S), cudaMemcpyHostToDevice) )
 
         long long start = 1;
         long long end = (1LL << (nov - 1));
@@ -152,7 +159,6 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                 d_x,
                 d_products,
                 nov,
-                nnz,
                 myStart,
                 myEnd,
                 -1);
@@ -174,6 +180,8 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 
         delete[] h_products;
     };
+
+    delete[] matTransposed;
 
     C gpuReducedProductSum = 0;
     for (int i = 0; i < gpuNum; ++i)

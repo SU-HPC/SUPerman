@@ -26,27 +26,27 @@ public:
 template<class C, class S>
 typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::recommendAlgorithm(Matrix<S> *matrix, Settings *settings, int mode)
 {
-    settings->algorithm = SPXLOCALMSHARED;
+    settings->algorithm = DPXSHAREDMGLOBAL;
 
     settings->threadC = 16;
     settings->deviceID = 0;
 
     if (mode == 0)
     {
-        return cpuSPNaivePerman<C, S>;
+        return cpuDPNaivePerman<C, S>;
     }
     else if (mode == 1)
     {
-        return gpuSPSingleGPU<C, S>;
+        return gpuDPSingleGPU<C, S>;
     }
     else if (mode == 2)
     {
-        return gpuSPMultiGPU<C, S>;
+        return gpuDPMultiGPU<C, S>;
     }
     else
     {
 #ifdef MPI_AVAILABLE
-        return gpuSPMultiGPUMPI<C, S>;
+        return gpuDPMultiGPUMPI<C, S>;
 #endif
     }
 }

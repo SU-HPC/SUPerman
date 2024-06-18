@@ -40,8 +40,8 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk( cudaSetDevice(this->m_Settings.deviceID) )
 
     int nov = this->m_Matrix->nov;
-    int nnz = this->m_Matrix->nnz;
     S* mat = this->m_Matrix->mat;
+    S* matTransposed = new S[nov * nov];
 
     C x[nov];
     C product = 1;
@@ -57,10 +57,17 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
     }
     productSum = product;
 
+    for (int i = 0; i < nov; ++i)
+    {
+        for (int j = 0; j < nov; ++j)
+        {
+            matTransposed[j * nov + i] = mat[i * nov + j];
+        }
+    }
+
     int gridDim;
     int blockDim;
     V = nov;
-    E = nnz;
     gpuErrchk( cudaOccupancyMaxPotentialBlockSizeVariableSMem(
             &gridDim,
             &blockDim,
@@ -105,7 +112,7 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk( cudaMalloc(&d_mat, (nov * nov) * sizeof(S)) )
 
     gpuErrchk( cudaMemcpy(d_x, x, nov * sizeof(C), cudaMemcpyHostToDevice) )
-    gpuErrchk( cudaMemcpy(d_mat, mat, (nov * nov) * sizeof(S), cudaMemcpyHostToDevice) )
+    gpuErrchk( cudaMemcpy(d_mat, matTransposed, (nov * nov) * sizeof(S), cudaMemcpyHostToDevice) )
 
     C* h_products = new C[totalThreadCount];
 
@@ -129,7 +136,6 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
                 d_x,
                 d_products,
                 nov,
-                nnz,
                 start,
                 end,
                 chunkSize);
@@ -153,7 +159,6 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
             d_x,
             d_products,
             nov,
-            nnz,
             start,
             end,
             -1);
@@ -171,6 +176,7 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk( cudaFree(d_mat) )
 
     delete[] h_products;
+    delete[] matTransposed;
 
     double e = omp_get_wtime();
 

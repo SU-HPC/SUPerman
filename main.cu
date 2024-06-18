@@ -20,7 +20,7 @@ int main(int argc, const char* argv[])
     Settings settings;
     if (argc == 4) settings.gpuNum = std::stoi(argv[3]);
 
-    int machineID;
+    int machineID = 0;
 #ifdef MPI_AVAILABLE
     int numberOfProcessors;
 

@@ -34,7 +34,7 @@ template <typename C, typename S>
 using SparseKernelPointer = void(*)(int*, int*, S*, C*, C*, int, int, long long, long long, long long);
 
 template <typename C, typename S>
-using DenseKernelPointer = void(*)(S*, C*, C*, int, int, long long, long long, long long);
+using DenseKernelPointer = void(*)(S*, C*, C*, int, long long, long long, long long);
 
 template <typename C, typename S>
 using SharedMemoryFunctionPointer = int(*)(int);
