@@ -102,7 +102,7 @@ inline int dpXShared(int b)
 template<class C, class S>
 inline int dpXSharedMShared(int b)
 {
-    return spXShared<C, S>(b) + spMShared<C, S>(b);
+    return dpXShared<C, S>(b) + dpMShared<C, S>(b);
 }
 
 

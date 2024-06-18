@@ -145,17 +145,29 @@ namespace SparseDefinitions
         extern __shared__ char sharedMemory[];
         int* sharedCPtrs = (int*)sharedMemory; // size: (nov + 1) * sizeof(int)
 
+        size_t sharedRowsOffset = (nov + 1) * sizeof(int);
+        int* sharedRows = (int*)&sharedMemory[sharedRowsOffset]; // size: nnz * sizeof(int)
+
+        size_t sharedCValsOffset = sharedRowsOffset + nnz * sizeof(int);
+        S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
+
+
+        /* following is tested and verified working but is there really a need to align the structures
+        extern __shared__ char sharedMemory[];
+        int* sharedCPtrs = (int*)sharedMemory; // size: (nov + 1) * sizeof(int)
+
         size_t sharedRowsOffset = ((nov + 1) * sizeof(int) + (sizeof(int) - 1)) & ~(sizeof(int) - 1);
         int* sharedRows = (int*)&sharedMemory[sharedRowsOffset]; // size: nnz * sizeof(int)
 
         size_t sharedCValsOffset = (sharedRowsOffset + nnz * sizeof(int) + (alignof(S) - 1)) & ~(alignof(S) - 1);
         S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
+        */
+
 
         if (threadIdx.x == 0)
         {
             for (int i = 0; i < nov; ++i)
             {
-                myX[i] = x[i];
                 sharedCPtrs[i] = cptrs[i];
             }
 
@@ -167,15 +179,13 @@ namespace SparseDefinitions
                 sharedCVals[i] = cvals[i];
             }
         }
-        else
-        {
-            for (int i = 0; i < nov; ++i)
-            {
-                myX[i] = x[i];
-            }
-        }
 
         __syncthreads();
+
+        for (int i = 0; i < nov; ++i)
+        {
+            myX[i] = x[i];
+        }
 
         if (chunkSize == -1)
         {
@@ -408,14 +418,32 @@ namespace SparseDefinitions
         C myResult = 0;
 
         extern __shared__ char sharedMemory[];
-        C* sharedX = (C*)sharedMemory; // size: nov * threadsPerBlock
-        int* sharedCPtrs = (int*)&sharedX[nov * threadsPerBlock]; // size: nov + 1
+        C* sharedX = (C*)sharedMemory; // size: nov * threadsPerBlock * sizeof(C)
 
-        size_t sharedRowsOffset = ((nov + 1) * sizeof(int) + (sizeof(int) - 1)) & ~(sizeof(int) - 1);
-        int* sharedRows = (int*)&sharedMemory[sharedRowsOffset]; // size: nnz
+        size_t sharedCPtrsOffset = threadsPerBlock * nov * sizeof(C);
+        int* sharedCPtrs = (int*)&sharedMemory[sharedCPtrsOffset]; // size: nov + 1 * sizeof(int)
+
+        size_t sharedRowsOffset = sharedCPtrsOffset + (nov + 1) * sizeof(int);
+        int* sharedRows = (int*)&sharedMemory[sharedRowsOffset]; // size: nnz * sizeof(int)
+
+        size_t sharedCValsOffset = sharedRowsOffset + nnz * sizeof(int);
+        S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
+
+
+        /* following is tested and verified working but is there really a need to align the structures
+        extern __shared__ char sharedMemory[];
+        C* sharedX = (C*)sharedMemory; // size: nov * threadsPerBlock * sizeof(C)
+
+        size_t sharedCPtrsOffset = threadsPerBlock * nov * sizeof(C);
+        int* sharedCPtrs = (int*)&sharedMemory[sharedCPtrsOffset]; // size: nov + 1 * sizeof(int)
+
+        size_t sharedRowsOffset = sharedCPtrsOffset + ((nov + 1) * sizeof(int) + (sizeof(int) - 1)) & ~(sizeof(int) - 1);
+        int* sharedRows = (int*)&sharedMemory[sharedRowsOffset]; // size: nnz * sizeof(int)
 
         size_t sharedCValsOffset = (sharedRowsOffset + nnz * sizeof(int) + (alignof(S) - 1)) & ~(alignof(S) - 1);
-        S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz
+        S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
+        */
+
 
         // note that the x vectors are stored in the shared memory
         // in a structure of arrays pattern for a coalesced access
@@ -423,7 +451,6 @@ namespace SparseDefinitions
         {
             for (int i = 0; i < nov; ++i)
             {
-                sharedX[threadsPerBlock * i + localThreadID] = x[i];
                 sharedCPtrs[i] = cptrs[i];
             }
 
@@ -435,15 +462,13 @@ namespace SparseDefinitions
                 sharedCVals[i] = cvals[i];
             }
         }
-        else
-        {
-            for (int i = 0; i < nov; ++i)
-            {
-                sharedX[threadsPerBlock * i + localThreadID] = x[i];
-            }
-        }
 
         __syncthreads();
+
+        for (int i = 0; i < nov; ++i)
+        {
+            sharedX[threadsPerBlock * i + localThreadID] = x[i];
+        }
 
         if (chunkSize == -1)
         {

@@ -290,7 +290,7 @@ namespace DenseDefinitions
             {
                 for (int i = 0; i < nov; ++i)
                 {
-                    sharedX[i] += sharedMat[j * nov + i];
+                    sharedX[threadsPerBlock * i + localThreadID] += sharedMat[j * nov + i];
                 }
             }
         }

@@ -109,7 +109,7 @@ endif()
 
 # Create executable
 add_executable(SUPerman
-        main.cu
+        main.cpp
         ${FILES}
 )
 

@@ -6,5 +6,3 @@ xregister xmacro
 
 solve following problems:
 memory leak of the initial/original matrix
-dense kernels
-xsharedmshared kernels memory access error
