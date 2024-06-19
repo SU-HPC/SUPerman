@@ -135,7 +135,7 @@ extern Result gpuSPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
         throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.");
     }
 
-Result result = permanent->computePermanent();
+    Result result = permanent->computePermanent();
     delete permanent;
     return result;
 }
@@ -248,7 +248,7 @@ extern Result gpuDPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
         throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.");
     }
 
-Result result = permanent->computePermanent();
+    Result result = permanent->computePermanent();
     delete permanent;
     return result;
 }

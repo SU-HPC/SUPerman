@@ -21,15 +21,12 @@ public:
 
 public:
     C productSum;
-    double time;
 };
 
 
 template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
 double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
 {
-    double s = omp_get_wtime();
-
     SparseMatrix<S>* ccs = dynamic_cast<SparseMatrix<S>*>(this->m_Matrix);
 
     cudaDeviceProp prop;
@@ -191,10 +188,6 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk( cudaFree(d_cvals) )
 
     delete[] h_products;
-
-    double e = omp_get_wtime();
-
-    time = e - s;
 
     return 0;
 }

@@ -22,15 +22,12 @@ public:
 
 public:
     C productSum;
-    double time;
 };
 
 
 template<class C, class S>
 double spNaivePerman<C, S>::permanentFunction()
 {
-    double s = omp_get_wtime();
-
     SparseMatrix<S>* ccs = dynamic_cast<SparseMatrix<S>*>(this->m_Matrix);
 
     int nov = ccs->nov;
@@ -155,10 +152,6 @@ double spNaivePerman<C, S>::permanentFunction()
         #pragma omp atomic
             productSum += myResult;
     }
-
-    double e = omp_get_wtime();
-
-    time = e - s;
 
     return 0;
 }

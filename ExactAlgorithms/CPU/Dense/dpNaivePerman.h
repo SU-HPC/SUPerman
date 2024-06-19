@@ -22,15 +22,12 @@ public:
 
 public:
     C productSum;
-    double time;
 };
 
 
 template<class C, class S>
 double dpNaivePerman<C, S>::permanentFunction()
 {
-    double s = omp_get_wtime();
-
     int nov = this->m_Matrix->nov;
     S* mat = this->m_Matrix->mat;
 
@@ -114,10 +111,6 @@ double dpNaivePerman<C, S>::permanentFunction()
     }
 
     delete[] matTransposed;
-
-    double e = omp_get_wtime();
-
-    time = e - s;
 
     return 0;
 }

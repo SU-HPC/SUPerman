@@ -21,15 +21,12 @@ public:
 
 public:
     C productSum;
-    double time;
 };
 
 
 template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
 double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
 {
-    double s = omp_get_wtime();
-
     int nov = this->m_Matrix->nov;
     S* mat = this->m_Matrix->mat;
     S* matTransposed = new S[nov * nov];
@@ -205,10 +202,6 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
     }
 
     delete[] matTransposed;
-
-    double e = omp_get_wtime();
-
-    time = e - s;
 
     return 0;
 }

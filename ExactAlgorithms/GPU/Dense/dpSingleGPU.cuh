@@ -21,15 +21,12 @@ public:
 
 public:
     C productSum;
-    double time;
 };
 
 
 template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
 double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
 {
-    double s = omp_get_wtime();
-
     cudaDeviceProp prop;
     cudaGetDeviceProperties(&prop, this->m_Settings.deviceID);
 
@@ -177,10 +174,6 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     delete[] h_products;
     delete[] matTransposed;
-
-    double e = omp_get_wtime();
-
-    time = e - s;
 
     return 0;
 }
