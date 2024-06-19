@@ -54,20 +54,20 @@ protected:
 template <class C, class S, class Permanent>
 Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
 {
+    double start = omp_get_wtime();
+
     startRecursion(m_Matrix);
 
     C overall = 0;
-    double time = 0;
-
     for (auto& permanent: m_Permanents)
     {
         auto derived = dynamic_cast<Permanent*>(permanent);
         overall += ((4 * (derived->m_Matrix->nov & 1) - 2) * derived->productSum);
-        time += derived->time;
         delete derived;
     }
 
-    Result result(time, overall);
+    double end = omp_get_wtime();
+    Result result(end - start, overall);
 
     return result;
 }

@@ -1,9 +1,12 @@
 todos:
-sort order
 scaling
 decomposition cuda stream
 cgray cuda stream
 xregister xmacro
+dynamic subset pool implementation (dense) maybe sparse
+create excel for all optimizations
+scaling sum to n (for benefits use grid matrices or values of the matrices that are so big that the permanent overflows)
+you can create matrices for which you know the permanent
 
 
 solve following problems:

@@ -112,7 +112,7 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
 template <class S>
 void IO::order(Matrix<S> *matrix)
 {
-    if (matrix->sparsity < 30)
+    if (matrix->sparsity < 10)
     {
         IO::skipOrder(matrix);
     }
@@ -182,7 +182,7 @@ void IO::skipOrder(Matrix<S>* matrix)
                         {
                             if (degrees[k] != INT8_MAX)
                             {
-                                degrees[k]--;
+                                --degrees[k];
                             }
                         }
                     }
@@ -208,7 +208,50 @@ void IO::skipOrder(Matrix<S>* matrix)
 template<class S>
 void IO::sortOrder(Matrix<S>* matrix)
 {
+    S* mat = matrix->mat;
+    int nov = matrix->nov;
 
+    typedef std::pair<int, S*> Entry;
+    Entry arr[nov];
+    for (int j = 0; j < nov; j++)
+    {
+        int currNNZ = 0;
+        S* col = new S[nov];
+        memset(col, 0, sizeof(S) * nov);
+        for(int i = 0; i < nov; i++)
+        {
+            S& entry = mat[i * nov + j];
+            if (entry != 0)
+            {
+                col[i] = entry;
+                ++currNNZ;
+            }
+        }
+        arr[j] = Entry(currNNZ, col);
+    }
+
+    typedef std::vector<Entry*> Bucket;
+    std::vector<Bucket> buckets(nov + 1);
+
+    for (int i = 0; i < nov; ++i)
+    {
+        buckets[arr[i].first].push_back(&arr[i]);
+    }
+
+    S* tempMat = new S[nov * nov];
+    int j = 0;
+    for (int i = nov; i >= 0; --i)
+    {
+        for (Entry*& entryPtr: buckets[i])
+        {
+            memcpy(&tempMat[j * nov], entryPtr->second, sizeof(S) * nov);
+            ++j;
+            delete entryPtr->second;
+        }
+    }
+
+    memcpy(mat, tempMat, sizeof(S) * nov * nov);
+    delete[] tempMat;
 }
 
 template<class S>
