@@ -3,7 +3,7 @@ project(SUPerman)
 
 # C++ standard
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_BUILD_TYPE Debug)
 
 # OpenMP
 find_package(OpenMP REQUIRED)
@@ -19,7 +19,7 @@ check_language(CUDA)
 if(CMAKE_CUDA_COMPILER)
     enable_language(CUDA)
     add_definitions(-DGPU_AVAILABLE)
-    set(CMAKE_CUDA_FLAGS_DEBUG "${CMAKE_CUDA_FLAGS_DEBUG} -G -lineinfo")
+    #set(CMAKE_CUDA_FLAGS_DEBUG "${CMAKE_CUDA_FLAGS_DEBUG} -G -lineinfo")
     set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler ${OpenMP_CXX_FLAGS}")
     find_package(CUDAToolkit REQUIRED)
 endif()
@@ -33,7 +33,7 @@ endif()
 #    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${MPI_CXX_LINK_FLAGS}")
 #endif()
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 
 # Directories
 include_directories(.)
@@ -135,6 +135,3 @@ set_target_properties(SUPerman PROPERTIES
 )
 
 target_compile_options(SUPerman PRIVATE -O3)
-
-# Probably no needed but who cares
-set_target_properties(SUPerman PROPERTIES CUDA_SEPARABLE_COMPILATION ON)

@@ -119,7 +119,7 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
     long long left = end;
     double passed = 0;
 
-    while (passed < 0.99)
+    while (passed < 0.99 && totalThreadCount <= left)
     {
         long long chunkSize = 1;
         while ((chunkSize * totalThreadCount) < left)

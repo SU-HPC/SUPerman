@@ -142,7 +142,7 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
         long long left = total;
         double passed = 0;
 
-        while (passed < 0.99)
+        while (passed < 0.99 && totalThreadCount <= left)
         {
             chunkSize = 1;
             while ((chunkSize * totalThreadCount) < left)

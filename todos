@@ -1,14 +1,7 @@
 todos:
-decomposition cuda stream
-cgray cuda stream
 xregister xmacro
 dynamic subset pool implementation (dense) maybe sparse
 create excel for all optimizations
 creating matrices for which you know the permanent
 scaling (sum to n)
 valgrind-compute sanitizer memcheck
-
-
-interesting performance difference:
-compiling with build.sh and using main.cpp yields to an almost 10x speedup compared to
-not compiling with build.sh and using main.cu instead
