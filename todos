@@ -1,7 +1,15 @@
+todos:
 sort order
 scaling
 decomposition cuda stream
+cgray cuda stream
 xregister xmacro
+
 
 solve following problems:
 memory leak of the initial/original matrix
+
+
+interesting performance difference:
+compiling with build.sh and using main.cpp yields to an almost 10x speedup compared to
+not compiling with build.sh and using main.cu instead
