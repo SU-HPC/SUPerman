@@ -1,4 +1,4 @@
-SUPerman - an efficient permament computation library
+SUPerman - an efficient permanent computation library
 
 Step 1: Execute ./build.sh command from within source directory
 
