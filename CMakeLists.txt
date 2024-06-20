@@ -25,13 +25,13 @@ if(CMAKE_CUDA_COMPILER)
 endif()
 
 # MPI
-#find_package(MPI REQUIRED)
-#if(MPI_FOUND)
-#    add_definitions(-DMPI_AVAILABLE)
-#    include_directories(${MPI_INCLUDE_PATH})
-#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MPI_CXX_COMPILE_FLAGS}")
-#    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${MPI_CXX_LINK_FLAGS}")
-#endif()
+find_package(MPI REQUIRED)
+if(MPI_FOUND)
+    add_definitions(-DMPI_AVAILABLE)
+    include_directories(${MPI_INCLUDE_PATH})
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MPI_CXX_COMPILE_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${MPI_CXX_LINK_FLAGS}")
+endif()
 
 #set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 
@@ -88,6 +88,7 @@ set(GPU_WRAPPER_FILES
 # MPI Files
 set(MPI_WRAPPER_FILES
         mpi_wrapper.h
+        mpi_wrapper.cpp
 )
 
 # All Files
@@ -124,7 +125,7 @@ target_link_libraries(SUPerman
         ${CUDA_LIBRARIES}
         ${CUDA_CUBLAS_LIBRARIES}
         ${CUDA_cusparse_LIBRARY}
-#        MPI::MPI_CXX
+        MPI::MPI_CXX
         ${SHARED_LIBRARY_PATH}/${SHARED_LIBRARY_NAME}
 )
 
