@@ -5,28 +5,32 @@
 #ifndef SUPERMAN_SETTINGS_H
 #define SUPERMAN_SETTINGS_H
 
-#include <vector>
-#include "omp.h"
-#include "cuda_runtime.h"
-
 
 enum Algorithm
 {
-    SPXLOCALMSHARED,
-    SPXLOCALMGLOBAL,
-    SPXSHAREDMGLOBAL,
-    SPXSHAREDMSHARED,
-    DPXLOCALMSHARED,
-    DPXLOCALMGLOBAL,
-    DPXSHAREDMGLOBAL,
-    DPXSHAREDMSHARED,
+    XLOCALMSHARED,
+    XLOCALMGLOBAL,
+    XSHAREDMGLOBAL,
+    XSHAREDMSHARED,
     AlgorithmEnds
+};
+
+enum Mode
+{
+    CPU,
+    SingleGPU,
+    MultiGPU,
+    MultiGPUMPI,
+    ModeEnds
 };
 
 struct Settings
 {
     // General
     Algorithm algorithm;
+    Mode mode;
+    bool binary;
+    bool scaling;
 
     // CPU Specific
     int threadC;

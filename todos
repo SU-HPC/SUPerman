@@ -1,7 +1,8 @@
 todos:
+dynamic subset pool implementation
 xregister xmacro
-dynamic subset pool implementation (dense) maybe sparse
+scaling (sum to n)
+
 create excel for all optimizations
 creating matrices for which you know the permanent
-scaling (sum to n)
 valgrind-compute sanitizer memcheck

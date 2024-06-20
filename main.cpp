@@ -15,10 +15,9 @@
 #define C double
 
 
-int main(int argc, const char* argv[])
+int main()
 {
     Settings settings;
-    if (argc == 5) settings.gpuNum = std::stoi(argv[4]);
 
     int machineID = 0;
 #ifdef MPI_AVAILABLE
@@ -31,18 +30,24 @@ int main(int argc, const char* argv[])
     settings.processorNum = numberOfProcessors;
 #endif
 
-    std::cout << "MATRIX NAME: " << argv[1] << std::endl;
-    Matrix<S>* mat = IO::readMatrix<S>(argv[1], settings);
-
-    AlgorithmRecommender<C, S>::Algorithm algorithm = AlgorithmRecommender<C, S>::recommendAlgorithm(mat, &settings, std::stoi(argv[2]), std::stoi(argv[3]));
-    Result result = algorithm(mat, &settings);
-
-    if (machineID == 0)
+    std::string filename;
+    while (IO::readSettings<S>(filename, settings))
     {
-        std::cout << "Permanent: " << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl;
-    }
+        std::cout << "MATRIX NAME: " << filename << std::endl;
+        Matrix<S>* mat = IO::readMatrix<S>(filename, settings);
 
-    delete mat;
+        AlgorithmRecommender<C, S>::Algorithm algorithm = AlgorithmRecommender<C, S>::recommendAlgorithm(mat, &settings);
+        Result result = algorithm(mat, &settings);
+
+        if (machineID == 0)
+        {
+            std::cout << "Permanent: " << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl;
+        }
+
+        delete mat;
+
+        std::cout << std::endl;
+    }
 
 #ifdef MPI_AVAILABLE
     MPI_Finalize();

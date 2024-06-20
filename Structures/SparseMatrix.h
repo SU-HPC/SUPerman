@@ -5,7 +5,6 @@
 #ifndef SUPERMAN_SPARSEMATRIX_H
 #define SUPERMAN_SPARSEMATRIX_H
 
-#include <algorithm>
 #include "Matrix.h"
 
 

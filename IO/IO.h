@@ -12,11 +12,17 @@
 #include "SparseMatrix.h"
 #include <vector>
 #include <cstring>
+#include <sstream>
+#include "Helpers.h"
+#include "algorithm"
 
 
 class IO
 {
 public:
+    template <class S>
+    static bool readSettings(std::string& filename, Settings& settings);
+
     template <class S>
     static Matrix<S>* readMatrix(std::string filename, Settings& settings);
 
@@ -32,8 +38,137 @@ private:
 
     template <class S>
     static void sortOrder(Matrix<S>* matrix);
+
+    template <class S>
+    static void trim(std::string &s);
+
+    template <class S>
+    static std::vector<std::string> split(const std::string& s, char delimiter);
+
+    template <class S>
+    static std::string merge(const std::vector<std::string> &splittedVersion);
 };
 
+
+template <class S>
+bool IO::readSettings(std::string& filename, Settings& settings)
+{
+    static std::ifstream settingsFile("../CALCULATE.txt");
+    static std::string MATRIX_DIRECTORY;
+    static bool matrixDirectoryRead = false;
+    bool matrixFound = false;
+
+    std::string line;
+    while (getline(settingsFile, line))
+    {
+        if (line == "END_MATRIX")
+        {
+            matrixFound = true;
+            break;
+        }
+        // Skip empty lines and comments
+        if (line.empty() || line.substr(0, 2) == "//") continue;
+
+        std::vector<std::string> lineCommentsDeleted = IO::split<S>(line, ' ');
+        for (auto i = lineCommentsDeleted.begin(); i != lineCommentsDeleted.end(); ++i)
+        {
+            if (i->substr(0, 2) == "//")
+            {
+                lineCommentsDeleted.erase(i, lineCommentsDeleted.end());
+                break;
+            }
+        }
+        line = IO::merge<S>(lineCommentsDeleted);
+
+        std::vector<std::string> lineSplitted = IO::split<S>(line, '=');
+
+        if (!matrixDirectoryRead)
+        {
+            if (lineSplitted[0] == "MATRIX_DIRECTORY")
+            {
+                MATRIX_DIRECTORY = lineSplitted[1];
+                matrixDirectoryRead = true;
+            }
+            continue;
+        }
+
+        if (lineSplitted[0] == "MATRIX_NAME")
+        {
+            filename = MATRIX_DIRECTORY + lineSplitted[1];
+        }
+
+        else if (lineSplitted[0] == "ALGORITHM")
+        {
+            if (lineSplitted[1] == "AUTO")
+            {
+                settings.algorithm = AlgorithmEnds;
+            }
+            else if (lineSplitted[1] == "xLocalMShared")
+            {
+                settings.algorithm = XLOCALMSHARED;
+            }
+            else if (lineSplitted[1] == "xLocalMGlobal")
+            {
+                settings.algorithm = XLOCALMGLOBAL;
+            }
+            else if (lineSplitted[1] == "xSharedMGlobal")
+            {
+                settings.algorithm = XSHAREDMGLOBAL;
+            }
+            else if (lineSplitted[1] == "xSharedMShared")
+            {
+                settings.algorithm = XSHAREDMSHARED;
+            }
+        }
+
+        else if (lineSplitted[0] == "MODE")
+        {
+            if (lineSplitted[1] == "CPU")
+            {
+                settings.mode = CPU;
+            }
+            else if (lineSplitted[1] == "SingleGPU")
+            {
+                settings.mode = SingleGPU;
+            }
+            else if (lineSplitted[1] == "MultiGPU")
+            {
+                settings.mode = MultiGPU;
+            }
+            else if (lineSplitted[1] == "MultiGPUMPI")
+            {
+                settings.mode = MultiGPUMPI;
+            }
+        }
+
+        else if (lineSplitted[0] == "THREAD_COUNT")
+        {
+            settings.threadC = std::stoi(lineSplitted[1]);
+        }
+
+        else if (lineSplitted[0] == "DEVICE_ID")
+        {
+            settings.deviceID = std::stoi(lineSplitted[1]);
+        }
+
+        else if (lineSplitted[0] == "GPU_NUM")
+        {
+            settings.gpuNum = std::stoi(lineSplitted[1]);
+        }
+
+        else if (lineSplitted[0] == "BINARY")
+        {
+            settings.binary = lineSplitted[1] == "True";
+        }
+
+        else if (lineSplitted[0] == "SCALING")
+        {
+            settings.scaling = lineSplitted[1] == "True";
+        }
+    }
+
+    return matrixFound;
+}
 
 template <class S>
 Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
@@ -44,10 +179,8 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
         throw std::runtime_error("File could not be opened.");
     }
 
-    bool anyComments = false;
     while (file.peek() == '%')
     {
-        anyComments = true;
         file.ignore(2048, '\n');
     }
 
@@ -60,13 +193,14 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     std::vector<std::vector<std::pair<std::pair<int, int>, double>>> colBuckets(noCol);
     for(int i = 0; i < noLines; i++)
     {
-        file >> x >> y >> val;
+        file >> x >> y;
 
-        if (anyComments)
-        {
-            x -= 1; // Convert from 1-based to 0-based
-            y -= 1;
-        }
+        // binary read check
+        if (!settings.binary) file >> val;
+        else val = 1;
+
+        x -= 1; // Convert from 1-based to 0-based
+        y -= 1;
 
         colBuckets[y].push_back({{x, y}, val});
     }
@@ -295,6 +429,46 @@ Matrix<S> *IO::denseToSparse(Matrix<S>* denseMatrix, int nnz)
     cptrs[nov] = colNNZ;
 
     return sparseMatrix;
+}
+
+template <class S>
+void IO::trim(std::string &s)
+{
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch)
+    {
+        return !std::isspace(ch);
+    }));
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch)
+    {
+        return !std::isspace(ch);
+    }).base(), s.end());
+}
+
+template <class S>
+std::vector<std::string> IO::split(const std::string& s, char delimiter)
+{
+    std::vector<std::string> tokens;
+    std::string token;
+    std::istringstream tokenStream(s);
+
+    while (std::getline(tokenStream, token, delimiter))
+    {
+        trim<S>(token);
+        tokens.push_back(token);
+    }
+
+    return tokens;
+}
+
+template <class S>
+std::string IO::merge(const std::vector<std::string> &splittedVersion)
+{
+    std::string merged;
+    for (const auto& token: splittedVersion)
+    {
+        merged += token;
+    }
+    return merged;
 }
 
 
