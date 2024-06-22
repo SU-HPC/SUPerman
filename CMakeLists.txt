@@ -125,9 +125,14 @@ target_link_libraries(SUPerman
         ${CUDA_LIBRARIES}
         ${CUDA_CUBLAS_LIBRARIES}
         ${CUDA_cusparse_LIBRARY}
-        MPI::MPI_CXX
         ${SHARED_LIBRARY_PATH}/${SHARED_LIBRARY_NAME}
 )
+
+if(MPI_FOUND)
+    target_link_libraries(SUPerman
+            MPI::MPI_CXX
+    )
+endif()
 
 # Runtime recognition of the shared library
 set_target_properties(SUPerman PROPERTIES

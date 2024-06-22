@@ -54,16 +54,10 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
     }
 
     int gpuNum = this->m_Settings.gpuNum;
-
-    int totalWeight = 0;
-    int weights[gpuNum];
-    for (int i = 0; i < gpuNum; ++i)
-    {
-        cudaDeviceProp deviceProp;
-        cudaGetDeviceProperties(&deviceProp, i);
-        weights[i] = COMPUTE_CAPABILITY_TO_WEIGHT[deviceProp.major];
-        totalWeight += weights[i];
-    }
+    long long start = 1;
+    long long end = (1LL << (nov - 1));
+    long long CHUNK_SIZE = (end - start + (gpuNum * 10) - 1) / (gpuNum * 10);
+    long long currentChunkStart = start;
 
 #pragma omp parallel num_threads(gpuNum)
     {
@@ -124,32 +118,58 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
         C* h_products = new C[totalThreadCount];
         C myProductSum = 0;
 
-        long long start = 1;
-        long long end = (1LL << (nov - 1));
-
-        long long chunkSize = (end - start + totalWeight - 1) / totalWeight;
-        int soFar = 0;
-        for (int i = 0; i < gpuNo; ++i)
+        bool finish = false;
+        while (true)
         {
-            soFar += weights[i];
-        }
-        int myWeight = weights[gpuNo];
-        long long myStart = start + soFar * chunkSize;
-        long long myEnd = start + (soFar + myWeight) * chunkSize;
-        if (myEnd > end) myEnd = end;
-
-        long long total = myEnd - myStart;
-        long long left = total;
-        double passed = 0;
-
-        while (passed < 0.99 && totalThreadCount <= left)
-        {
-            chunkSize = 1;
-            while ((chunkSize * totalThreadCount) < left)
+            long long myStart;
+            long long myEnd;
+            #pragma omp critical
             {
-                chunkSize *= 2;
+                if (currentChunkStart >= end)
+                {
+                    finish = true;
+                }
+                myStart = currentChunkStart;
+                currentChunkStart += CHUNK_SIZE;
+                myEnd = currentChunkStart;
             }
-            chunkSize /= 2;
+            if (finish) break;
+
+            if (myEnd > end) myEnd = end;
+            long long left = CHUNK_SIZE;
+            double passed = 0;
+
+            while (passed < 0.99 && totalThreadCount <= left)
+            {
+                long long chunkSize = 1;
+                while ((chunkSize * totalThreadCount) < left)
+                {
+                    chunkSize *= 2;
+                }
+                chunkSize /= 2;
+
+                Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
+                        d_mat,
+                        d_x,
+                        d_products,
+                        nov,
+                        myStart,
+                        myEnd,
+                        chunkSize);
+
+                gpuErrchk( cudaDeviceSynchronize() )
+                gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
+
+                for (int i = 0; i < totalThreadCount; ++i)
+                {
+                    myProductSum += h_products[i];
+                }
+
+                long long thisIteration = totalThreadCount * chunkSize;
+                left -= thisIteration;
+                passed = 1 - (double)left / double(CHUNK_SIZE);
+                myStart += thisIteration;
+            }
 
             Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
                     d_mat,
@@ -158,7 +178,7 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
                     nov,
                     myStart,
                     myEnd,
-                    chunkSize);
+                    -1);
 
             gpuErrchk( cudaDeviceSynchronize() )
             gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
@@ -167,28 +187,6 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
             {
                 myProductSum += h_products[i];
             }
-
-            long long thisIteration = totalThreadCount * chunkSize;
-            left -= thisIteration;
-            passed = 1 - (double)left / double(total);
-            myStart += thisIteration;
-        }
-
-        Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
-                d_mat,
-                d_x,
-                d_products,
-                nov,
-                myStart,
-                myEnd,
-                -1);
-
-        gpuErrchk( cudaDeviceSynchronize() )
-        gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
-
-        for (int i = 0; i < totalThreadCount; ++i)
-        {
-            myProductSum += h_products[i];
         }
 
         gpuErrchk( cudaFree(d_x) )
@@ -197,7 +195,7 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
 
         delete[] h_products;
 
-#pragma omp atomic
+    #pragma omp atomic
         productSum += myProductSum;
     }
 

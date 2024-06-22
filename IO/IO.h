@@ -179,6 +179,13 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
         throw std::runtime_error("File could not be opened.");
     }
 
+    bool isMTX = false;
+    std::string extension = split<S>(filename, '.').back();
+    if (extension == "mtx")
+    {
+        isMTX = true;
+    }
+
     while (file.peek() == '%')
     {
         file.ignore(2048, '\n');
@@ -199,8 +206,11 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
         if (!settings.binary) file >> val;
         else val = 1;
 
-        x -= 1; // Convert from 1-based to 0-based
-        y -= 1;
+        if (isMTX)
+        {
+            x -= 1; // Convert from 1-based to 0-based
+            y -= 1;
+        }
 
         colBuckets[y].push_back({{x, y}, val});
     }

@@ -1,8 +1,8 @@
 todos:
-dynamic subset pool implementation
+dynamic subset for mpi kernels as well?
 xregister xmacro
 scaling (sum to n)
+write the register usage of the kernels as an output in the LOUD compilation
 
 create excel for all optimizations
-creating matrices for which you know the permanent
 valgrind-compute sanitizer memcheck

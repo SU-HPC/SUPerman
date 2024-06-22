@@ -6,6 +6,7 @@
 #define SUPERMAN_HELPERS_H
 
 #include "Matrix.h"
+#include <cmath>
 
 
 template <class S>
@@ -82,6 +83,39 @@ inline bool isRankDeficient(Matrix<S>* matrix)
         if (getColNNZ(matrix, i) == 0) return true;
     }
     return false;
+}
+
+template <class C>
+C computeFactorial(int n)
+{
+    if (n == 0 || n == 1)
+    {
+        return 1;
+    }
+
+    C fac = 1;
+    for (int i = 2; i <=n; ++i)
+    {
+        fac *= i;
+    }
+
+    return fac;
+}
+
+template <class C, class S>
+C generatePermanentKnownMatrix(Matrix<S>** matrix, int nov, int entry)
+{
+    *matrix = new Matrix<S>(nov);
+
+    (*matrix)->sparsity = 100;
+
+    S* mat = (*matrix)->mat;
+    for (int i = 0; i < nov * nov; ++i)
+    {
+        mat[i] = entry;
+    }
+
+    return computeFactorial<C>(nov) * std::pow(entry, nov);
 }
 
 
