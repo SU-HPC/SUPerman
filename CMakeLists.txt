@@ -25,8 +25,9 @@ if(CMAKE_CUDA_COMPILER)
 endif()
 
 # MPI
-find_package(MPI REQUIRED)
+check_language(MPI)
 if(MPI_FOUND)
+    find_package(MPI REQUIRED)
     add_definitions(-DMPI_AVAILABLE)
     include_directories(${MPI_INCLUDE_PATH})
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MPI_CXX_COMPILE_FLAGS}")
