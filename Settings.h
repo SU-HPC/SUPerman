@@ -31,6 +31,7 @@ struct Settings
     Mode mode;
     bool binary;
     bool scaling;
+    double scalingThreshold;
 
     // CPU Specific
     int threadC;

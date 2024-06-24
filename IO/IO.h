@@ -32,6 +32,9 @@ public:
     template <class S>
     static void order(Matrix<S>* matrix);
 
+    template <class S>
+    static void scale(Matrix<S>* matrix, const Settings& settings, S* rowScale, S* colScale);
+
 private:
     template <class S>
     static void skipOrder(Matrix<S>* matrix);
@@ -49,6 +52,90 @@ private:
     static std::string merge(const std::vector<std::string> &splittedVersion);
 };
 
+
+template<class S>
+void IO::scale(Matrix<S> *matrix, const Settings& settings, S *rowScale, S *colScale)
+{
+    int nov = matrix->nov;
+    S* mat = matrix->mat;
+    S scalingThreshold = settings.scalingThreshold;
+
+    for(int i = 0; i < nov; ++i)
+    {
+        rowScale[i] = colScale[i] = 1;
+    }
+
+    S colMax = getMax(matrix, colScale);
+    S rowMax = getMax(matrix, rowScale);
+
+    S maxError = 100;
+
+    while(maxError > 10)
+    {
+        for (int j = 0; j < nov; ++j)
+        {
+            S sum = 0;
+            for (int i = 0; i < nov; ++i)
+            {
+                sum += (mat[i * nov + j] * colScale[j] * rowScale[i]);
+            }
+            if (sum != 0)
+            {
+                colScale[j] = scalingThreshold / sum;
+            }
+        }
+
+        for (int i = 0; i < nov; ++i)
+        {
+            S sum = 0;
+            for (int j = 0; j < nov; ++j)
+            {
+                sum += (mat[i * nov + j] * colScale[j] * rowScale[i]);
+            }
+            if (sum != 0)
+            {
+                rowScale[i] = scalingThreshold / sum;
+            }
+        }
+
+        S colSum = 0;
+        S rowSum = 0;
+
+        for(int j = 0; j < nov; ++j)
+        {
+            for (int i = 0; i < nov; ++i)
+            {
+                colSum += (mat[i * nov + j] * colScale[j] * rowScale[i]);
+            }
+        }
+
+        for(int i = 0; i < nov; ++i)
+        {
+            for (int j = 0; j < nov; ++j)
+            {
+                rowSum += (mat[i * nov + j] * colScale[j] * rowScale[i]);
+            }
+        }
+
+        maxError = std::max(fabs(scalingThreshold - (colSum / S(nov))), fabs(scalingThreshold - (rowSum / S(nov))));
+    }
+
+    for (int i = 0; i < nov; ++i)
+    {
+        for (int j = 0; j < nov; ++j)
+        {
+            mat[i * nov + j] *= rowScale[i];
+        }
+    }
+
+    for (int j = 0; j < nov; ++j)
+    {
+        for (int i = 0; i < nov; ++i)
+        {
+            mat[i * nov + j] *= colScale[j];
+        }
+    }
+}
 
 template <class S>
 bool IO::readSettings(std::string& filename, Settings& settings)
@@ -164,6 +251,10 @@ bool IO::readSettings(std::string& filename, Settings& settings)
         else if (lineSplitted[0] == "SCALING")
         {
             settings.scaling = lineSplitted[1] == "True";
+        }
+        else if (lineSplitted[0] == "SCALING_THRESHOLD")
+        {
+            settings.scalingThreshold = std::stod(lineSplitted[1]);
         }
     }
 

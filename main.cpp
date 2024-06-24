@@ -36,8 +36,29 @@ int main()
         std::cout << "MATRIX NAME: " << filename << std::endl;
         Matrix<S>* mat = IO::readMatrix<S>(filename, settings);
 
+        S* rowScale;
+        S* colScale;
+        if (settings.scaling)
+        {
+            rowScale = new S[mat->nov];
+            colScale = new S[mat->nov];
+            IO::scale(mat, settings, rowScale, colScale);
+        }
+
         AlgorithmRecommender<C, S>::Algorithm algorithm = AlgorithmRecommender<C, S>::recommendAlgorithm(mat, &settings);
         Result result = algorithm(mat, &settings);
+
+        if (settings.scaling)
+        {
+            for (int i = 0; i < mat->nov; ++i)
+            {
+                result.permanent /= rowScale[i];
+                result.permanent /= colScale[i];
+            }
+
+            delete[] rowScale;
+            delete[] colScale;
+        }
 
         if (machineID == 0)
         {

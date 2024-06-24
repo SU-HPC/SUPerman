@@ -12,6 +12,7 @@
 #include "Matrix.h"
 #include <stdexcept>
 #include "SparseMatrix.h"
+#include "cuda_runtime.h"
 
 // SP
 #include "SparseKernelDefinitions.cuh"
@@ -28,6 +29,28 @@
 #include "spMultiGPUMPI.cuh"
 #include "dpMultiGPUMPI.cuh"
 #endif
+
+
+// WRAPPED HELPERS
+extern DeviceProperties getDeviceProperties(int deviceNum)
+{
+    DeviceProperties props;
+
+    cudaDeviceProp prop;
+    cudaGetDeviceProperties(&prop, deviceNum);
+
+    props.sharedMemoryPerBlock = prop.sharedMemPerBlock;
+    props.sharedMemoryPerSM = prop.sharedMemPerMultiprocessor;
+    props.regsPerBlock = prop.regsPerBlock;
+    props.regsPerSM = prop.regsPerMultiprocessor;
+    props.constantMemorySize = prop.totalConstMem;
+    props.noSM = prop.multiProcessorCount;
+    props.maxThreadsPerBlock = prop.maxThreadsPerBlock;
+    props.maxThreadsPerSM = prop.maxThreadsPerMultiProcessor;
+
+    return props;
+}
+// WRAPPED HELPERS
 
 
 // SPARSE WRAPPERS

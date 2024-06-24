@@ -10,6 +10,23 @@
 #include "Matrix.h"
 
 
+struct DeviceProperties
+{
+    unsigned sharedMemoryPerBlock;
+    unsigned sharedMemoryPerSM;
+    unsigned regsPerBlock;
+    unsigned regsPerSM;
+    unsigned constantMemorySize;
+    unsigned noSM;
+    unsigned maxThreadsPerBlock;
+    unsigned maxThreadsPerSM;
+};
+
+// WRAPPED HELPERS
+extern DeviceProperties getDeviceProperties(int deviceNum);
+// WRAPPED HELPERS
+
+
 // SPARSE KERNEL WRAPPERS
 template <class C, class S>
 extern Result gpuSPSingleGPU(Matrix<S>* matrix, Settings* settings);

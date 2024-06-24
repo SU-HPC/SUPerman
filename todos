@@ -1,8 +1,6 @@
 todos:
 dynamic subset for mpi kernels as well?
 xregister xmacro
-scaling (sum to n)
-write the register usage of the kernels as an output in the LOUD compilation
 
 create excel for all optimizations
 valgrind-compute sanitizer memcheck

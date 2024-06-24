@@ -85,6 +85,27 @@ inline bool isRankDeficient(Matrix<S>* matrix)
     return false;
 }
 
+template<class S>
+inline S getMax(Matrix<S>* matrix, S* xv)
+{
+    int nov = matrix->nov;
+    S* mat = matrix->mat;
+
+    S xMax = 0;
+    for (int i = 0; i < nov; ++i)
+    {
+        for (int j = 0; j < nov; ++j)
+        {
+            S val = xv[i] * mat[i * nov + j];
+            if (xMax < val)
+            {
+                xMax = val;
+            }
+        }
+    }
+    return xMax;
+}
+
 template <class C>
 C computeFactorial(int n)
 {
