@@ -1,6 +1,7 @@
 todos:
 dynamic subset for mpi kernels as well?
 xregister xmacro
+scaling requires fix, not working at the moment -> conflict with decomposition?
 
 create excel for all optimizations
 valgrind-compute sanitizer memcheck

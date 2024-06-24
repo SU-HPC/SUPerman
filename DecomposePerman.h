@@ -122,6 +122,8 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
     }
     else
     {
+        int nnz = getNNZ(matrix);
+        matrix->sparsity = nnz / (matrix->nov * matrix->nov);
         Matrix<S>* newMatrix = new Matrix<S>(*matrix);
         Permanent* newPermanent = new Permanent(newMatrix, m_Settings);
         newPermanent->computePermanent();

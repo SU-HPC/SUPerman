@@ -125,14 +125,7 @@ void IO::scale(Matrix<S> *matrix, const Settings& settings, S *rowScale, S *colS
         for (int j = 0; j < nov; ++j)
         {
             mat[i * nov + j] *= rowScale[i];
-        }
-    }
-
-    for (int j = 0; j < nov; ++j)
-    {
-        for (int i = 0; i < nov; ++i)
-        {
-            mat[i * nov + j] *= colScale[j];
+            mat[j * nov + i] *= colScale[i];
         }
     }
 }
