@@ -122,10 +122,8 @@ set(SHARED_LIBRARY_NAME "libWrappers.so")
 # Link the shared library
 target_link_libraries(SUPerman
         OpenMP::OpenMP_CXX
-        CUDA::cudart
+        cuda
         ${CUDA_LIBRARIES}
-        ${CUDA_CUBLAS_LIBRARIES}
-        ${CUDA_cusparse_LIBRARY}
         ${SHARED_LIBRARY_PATH}/${SHARED_LIBRARY_NAME}
 )
 
@@ -137,8 +135,8 @@ endif()
 
 # Runtime recognition of the shared library
 set_target_properties(SUPerman PROPERTIES
-        BUILD_RPATH "${SHARED_LIBRARY_PATH}"
-        INSTALL_RPATH "${SHARED_LIBRARY_PATH}"
+    BUILD_RPATH "${SHARED_LIBRARY_PATH}"
+    INSTALL_RPATH "${SHARED_LIBRARY_PATH}"
 )
 
 target_compile_options(SUPerman PRIVATE -O3)

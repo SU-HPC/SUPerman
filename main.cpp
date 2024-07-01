@@ -9,13 +9,11 @@
 #include "mpi.h"
 #endif
 
-
-// will be determined at runtime
-#define S float
+#define S double
 #define C double
 
 
-int main()
+int main(int argv, char* argc[])
 {
     Settings settings;
 
@@ -31,26 +29,26 @@ int main()
 #endif
 
     std::string filename;
-    while (IO::readSettings<S>(filename, settings))
+    while (IO::readSettings<S>(filename, settings, argv, argc))
     {
         std::cout << "MATRIX NAME: " << filename << std::endl;
-        Matrix<S>* mat = IO::readMatrix<S>(filename, settings);
+        Matrix<S>* matrix = IO::readMatrix<S>(filename, settings);
 
         S* rowScale;
         S* colScale;
         if (settings.scaling)
         {
-            rowScale = new S[mat->nov];
-            colScale = new S[mat->nov];
-            IO::scale(mat, settings, rowScale, colScale);
+            rowScale = new S[matrix->nov];
+            colScale = new S[matrix->nov];
+            IO::scale(matrix, settings, rowScale, colScale);
         }
 
-        AlgorithmRecommender<C, S>::Algorithm algorithm = AlgorithmRecommender<C, S>::recommendAlgorithm(mat, &settings);
-        Result result = algorithm(mat, &settings);
+        AlgorithmRecommender<C, S>::Algorithm algorithm = AlgorithmRecommender<C, S>::recommendAlgorithm(matrix, &settings);
+        Result result = algorithm(matrix, &settings);
 
         if (settings.scaling)
         {
-            for (int i = 0; i < mat->nov; ++i)
+            for (int i = 0; i < matrix->nov; ++i)
             {
                 result.permanent /= rowScale[i];
                 result.permanent /= colScale[i];
@@ -65,7 +63,7 @@ int main()
             std::cout << "Permanent: " << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl;
         }
 
-        delete mat;
+        delete matrix;
 
         std::cout << std::endl;
     }

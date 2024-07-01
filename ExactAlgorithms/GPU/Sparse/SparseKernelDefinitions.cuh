@@ -142,6 +142,7 @@ namespace SparseDefinitions
 
         volatile C myX[X_SIZE];
 
+        /*
         extern __shared__ char sharedMemory[];
         int* sharedCPtrs = (int*)sharedMemory; // size: (nov + 1) * sizeof(int)
 
@@ -150,9 +151,8 @@ namespace SparseDefinitions
 
         size_t sharedCValsOffset = sharedRowsOffset + nnz * sizeof(int);
         S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
+        */
 
-
-        /* following is tested and verified working but is there really a need to align the structures
         extern __shared__ char sharedMemory[];
         int* sharedCPtrs = (int*)sharedMemory; // size: (nov + 1) * sizeof(int)
 
@@ -161,8 +161,6 @@ namespace SparseDefinitions
 
         size_t sharedCValsOffset = (sharedRowsOffset + nnz * sizeof(int) + (alignof(S) - 1)) & ~(alignof(S) - 1);
         S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
-        */
-
 
         if (threadIdx.x == 0)
         {
@@ -417,6 +415,7 @@ namespace SparseDefinitions
 
         C myResult = 0;
 
+        /*
         extern __shared__ char sharedMemory[];
         C* sharedX = (C*)sharedMemory; // size: nov * threadsPerBlock * sizeof(C)
 
@@ -428,9 +427,8 @@ namespace SparseDefinitions
 
         size_t sharedCValsOffset = sharedRowsOffset + nnz * sizeof(int);
         S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
+        */
 
-
-        /* following is tested and verified working but is there really a need to align the structures
         extern __shared__ char sharedMemory[];
         C* sharedX = (C*)sharedMemory; // size: nov * threadsPerBlock * sizeof(C)
 
@@ -442,8 +440,6 @@ namespace SparseDefinitions
 
         size_t sharedCValsOffset = (sharedRowsOffset + nnz * sizeof(int) + (alignof(S) - 1)) & ~(alignof(S) - 1);
         S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
-        */
-
 
         // note that the x vectors are stored in the shared memory
         // in a structure of arrays pattern for a coalesced access

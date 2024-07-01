@@ -30,10 +30,6 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
     cudaDeviceProp prop;
     cudaGetDeviceProperties(&prop, this->m_Settings.deviceID);
 
-#ifdef LOUD
-    printf("Permanent is being computed on device id: %d, %s\n", this->m_Settings.deviceID, prop.name);
-#endif
-
     gpuErrchk( cudaSetDevice(this->m_Settings.deviceID) )
 
     int nov = this->m_Matrix->nov;
@@ -88,21 +84,27 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
             sharedMemoryPerBlock
     ) )
 
-#ifdef LOUD
-    printf("Matrix Size: %d bytes\n", (nov * nov) * sizeof(S));
-    printf("X Vector Size: %d bytes\n", nov * sizeof(C));
-    printf("Number of streaming multiprocessors: %d\n", noSM);
-    printf("Shared memory used per block: %d bytes\n", sharedMemoryPerBlock);
-    printf("Shared memory used per SM: %d bytes\n", sharedMemoryPerBlock * maxBlocks);
-    printf("%f%% of the entire shared memory dedicated per block is used\n", (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
-    printf("%f%% of the entire shared memory dedicated per SM is used\n", ((double(sharedMemoryPerBlock) * maxBlocks) / double(maxSharedMemoryPerSM)) * 100);
-    printf("Maximum number of registers that could be used per block: %d\n", maxRegsPerBlock);
-    printf("Maximum number of registers that could be used per SM: %d\n", maxRegsPerSM);
-    printf("Grid Dimension: %d\n", gridDim);
-    printf("Block Dimension: %d\n", blockDim);
-    printf("Total number of threads: %d\n", totalThreadCount);
-    printf("Maximim number of blocks running concurrently on each SM: %d\n", maxBlocks);
-    printf("Maximim number of blocks running concurrently throughout the GPU: %d\n", maxBlocks * noSM);
+#ifndef SILENT
+    static bool printed = false;
+    if (!printed)
+    {
+        printf("Permanent is being computed on device id: %d, %s\n", this->m_Settings.deviceID, prop.name);
+        printf("Matrix Size: %d bytes\n", (nov * nov) * sizeof(S));
+        printf("X Vector Size: %d bytes\n", nov * sizeof(C));
+        printf("Number of streaming multiprocessors: %d\n", noSM);
+        printf("Shared memory used per block: %d bytes\n", sharedMemoryPerBlock);
+        printf("Shared memory used per SM: %d bytes\n", sharedMemoryPerBlock * maxBlocks);
+        printf("%f%% of the entire shared memory dedicated per block is used\n", (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
+        printf("%f%% of the entire shared memory dedicated per SM is used\n", ((double(sharedMemoryPerBlock) * maxBlocks) / double(maxSharedMemoryPerSM)) * 100);
+        printf("Maximum number of registers that could be used per block: %d\n", maxRegsPerBlock);
+        printf("Maximum number of registers that could be used per SM: %d\n", maxRegsPerSM);
+        printf("Grid Dimension: %d\n", gridDim);
+        printf("Block Dimension: %d\n", blockDim);
+        printf("Total number of threads: %d\n", totalThreadCount);
+        printf("Maximim number of blocks running concurrently on each SM: %d\n", maxBlocks);
+        printf("Maximim number of blocks running concurrently throughout the GPU: %d\n", maxBlocks * noSM);
+        printed = true;
+    }
 #endif
 
     C* d_x;

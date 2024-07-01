@@ -21,7 +21,7 @@ class IO
 {
 public:
     template <class S>
-    static bool readSettings(std::string& filename, Settings& settings);
+    static bool readSettings(std::string& filename, Settings& settings, int argc, char* argv[]);
 
     template <class S>
     static Matrix<S>* readMatrix(std::string filename, Settings& settings);
@@ -131,8 +131,9 @@ void IO::scale(Matrix<S> *matrix, const Settings& settings, S *rowScale, S *colS
 }
 
 template <class S>
-bool IO::readSettings(std::string& filename, Settings& settings)
+bool IO::readSettings(std::string& filename, Settings& settings, int argc, char* argv[])
 {
+    // For providing arguments from CALCULATE.txt file
     static std::ifstream settingsFile("../CALCULATE.txt");
     static std::string MATRIX_DIRECTORY;
     static bool matrixDirectoryRead = false;

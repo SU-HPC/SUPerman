@@ -1,4 +1,5 @@
 todos:
+mtx undirected graphs, what to do while reading (setting a standard for it?)
 dynamic subset for mpi kernels as well?
 xregister xmacro
 scaling requires fix, not working at the moment -> conflict with decomposition?

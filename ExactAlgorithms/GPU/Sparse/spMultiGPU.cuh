@@ -94,16 +94,21 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
                 sharedMemoryPerBlock
         ) )
 
-#ifdef LOUD
-        printf("%s (%d): Number of streaming multiprocessors: %d\n", prop.name, gpuNo, noSM);
-        printf("%s (%d): Shared memory used per block: %d\n", prop.name, gpuNo, sharedMemoryPerBlock);
-        printf("%s (%d): %f%% of the entire shared memory dedicated per block is used\n", prop.name, gpuNo, (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
-        printf("%s (%d): Maximum number of registers that could be used per block: %d\n", prop.name, gpuNo, maxRegsPerBlock);
-        printf("%s (%d): Grid Dimension: %d\n", prop.name, gpuNo, gridDim);
-        printf("%s (%d): Block Dimension: %d\n", prop.name, gpuNo, blockDim);
-        printf("%s (%d): Total number of threads: %d\n", prop.name, gpuNo, totalThreadCount);
-        printf("%s (%d): Maximum number of blocks running concurrently on each SM: %d\n", prop.name, gpuNo, maxBlocks);
-        printf("%s (%d): Maximum number of blocks running concurrently throughout the GPU: %d\n", prop.name, gpuNo, maxBlocks * noSM);
+#ifndef SILENT
+        static bool printed = false;
+        if (!printed)
+        {
+            printf("%s (%d): Number of streaming multiprocessors: %d\n", prop.name, gpuNo, noSM);
+            printf("%s (%d): Shared memory used per block: %d\n", prop.name, gpuNo, sharedMemoryPerBlock);
+            printf("%s (%d): %f%% of the entire shared memory dedicated per block is used\n", prop.name, gpuNo, (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
+            printf("%s (%d): Maximum number of registers that could be used per block: %d\n", prop.name, gpuNo, maxRegsPerBlock);
+            printf("%s (%d): Grid Dimension: %d\n", prop.name, gpuNo, gridDim);
+            printf("%s (%d): Block Dimension: %d\n", prop.name, gpuNo, blockDim);
+            printf("%s (%d): Total number of threads: %d\n", prop.name, gpuNo, totalThreadCount);
+            printf("%s (%d): Maximum number of blocks running concurrently on each SM: %d\n", prop.name, gpuNo, maxBlocks);
+            printf("%s (%d): Maximum number of blocks running concurrently throughout the GPU: %d\n", prop.name, gpuNo, maxBlocks * noSM);
+            printed = true;
+        }
 #endif
 
         C *d_x;

@@ -29,12 +29,6 @@ public:
 template<class C, class S>
 typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::recommendAlgorithm(Matrix<S> *matrix, Settings *settings)
 {
-    if (matrix->nov > 63)
-    {
-        std::string errMessage = "Permanent is a #P problem. The exact permanent of the matrix of size " + std::to_string(matrix->nov) + " is not computable. Consider using approximation algorithms.";
-        throw std::runtime_error(errMessage);
-    }
-
 #ifdef GPU_AVAILABLE
     if (settings->algorithm == AlgorithmEnds && settings->mode != Mode::CPU)
     {
@@ -44,14 +38,17 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::recom
 
         unsigned matrixSize = (matrix->sparsity / 100) * matrix->nov * matrix->nov * sizeof(S);
         unsigned xsize = matrix->nov * sizeof(C);
-        unsigned sparseMatrixAccessPerIteration = 3;
+
+        unsigned sparseMatrixAccessPerIteration = 4;
         unsigned denseMatrixAccessPerIteration = 1;
         unsigned xVectorAccessPerIteration = 2;
-        unsigned registerMemAccessLatency = 1;
+
+        unsigned registerMemAccessLatency = ((sizeof(C) * 8) / 32) * 2;
         unsigned sharedMemAccessLatency = 19;
-        unsigned l1DataAccessLatency = 32;
-        unsigned l2DataAccessLatency = 188;
-        unsigned globalMemAccessLatency = 316;
+
+        double averageL1CacheMiss = 0.01;
+        unsigned l1DataAccessLatency = 28;
+        unsigned l2DataAccessLatency = 193;
 
         unsigned expectedThreadsPerSM;
         unsigned latencyTotal;
@@ -75,13 +72,15 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::recom
         if (matrix->sparsity < 50)
         {
             expectedThreadsPerSM = double(properties.regsPerSM) / double(54);
-            latencyTotal = registerMemAccessLatency * xVectorAccessPerIteration + l2DataAccessLatency * sparseMatrixAccessPerIteration;
+            latencyTotal = registerMemAccessLatency * xVectorAccessPerIteration;
+            latencyTotal += l2DataAccessLatency * averageL1CacheMiss * sparseMatrixAccessPerIteration + l1DataAccessLatency * (1 - averageL1CacheMiss) * sparseMatrixAccessPerIteration;
             xlocalmglobalScore = double(expectedThreadsPerSM) / double(latencyTotal);
         }
         else
         {
             expectedThreadsPerSM = double(properties.regsPerSM) / double(40);
-            latencyTotal = registerMemAccessLatency * xVectorAccessPerIteration + l2DataAccessLatency * denseMatrixAccessPerIteration;
+            latencyTotal = registerMemAccessLatency * xVectorAccessPerIteration;
+            latencyTotal += l2DataAccessLatency * averageL1CacheMiss * denseMatrixAccessPerIteration + l1DataAccessLatency * (1 - averageL1CacheMiss) * denseMatrixAccessPerIteration;
             xlocalmglobalScore = double(expectedThreadsPerSM) / double(latencyTotal);
         }
         // XLOCALMGLOBAL
@@ -104,12 +103,14 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::recom
         expectedThreadsPerSM = double(properties.sharedMemoryPerSM) / double(xsize);
         if (matrix->sparsity < 50)
         {
-            latencyTotal = sharedMemAccessLatency * xVectorAccessPerIteration + l2DataAccessLatency * sparseMatrixAccessPerIteration;
+            latencyTotal = sharedMemAccessLatency * xVectorAccessPerIteration;
+            latencyTotal += l2DataAccessLatency * averageL1CacheMiss * sparseMatrixAccessPerIteration + l1DataAccessLatency * (1 - averageL1CacheMiss) * sparseMatrixAccessPerIteration;
             xsharedmglobalScore = double(expectedThreadsPerSM) / double(latencyTotal);
         }
         else
         {
-            latencyTotal = sharedMemAccessLatency * xVectorAccessPerIteration + l2DataAccessLatency * denseMatrixAccessPerIteration;
+            latencyTotal = sharedMemAccessLatency * xVectorAccessPerIteration;
+            latencyTotal += l2DataAccessLatency * averageL1CacheMiss * denseMatrixAccessPerIteration + l1DataAccessLatency * (1 - averageL1CacheMiss) * denseMatrixAccessPerIteration;
             xsharedmglobalScore = double(expectedThreadsPerSM) / double(latencyTotal);
         }
 
@@ -161,6 +162,10 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::recom
         {
             return gpuSPMultiGPU<C, S>;
         }
+        else
+        {
+            throw std::runtime_error("Invalid Mode");
+        }
     }
     else
     {
@@ -179,6 +184,10 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::recom
         if (settings->mode == Mode::MultiGPUMPI)
         {
             return gpuDPMultiGPU<C, S>;
+        }
+        else
+        {
+            throw std::runtime_error("Invalid Mode");
         }
     }
 }
