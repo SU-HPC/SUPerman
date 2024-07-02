@@ -283,14 +283,12 @@ extern Result gpuDPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
 
 // FOR COMPILATION -SPARSE-
 
-/*
 // Calculation: Double | Storage: Float
 template extern Result gpuSPSingleGPU<double, float>(Matrix<float>* matrix, Settings* settings);
 template extern Result gpuSPMultiGPU<double, float>(Matrix<float>* matrix, Settings* settings);
 #ifdef MPI
 template extern Result gpuSPMultiGPUMPI<double, float>(Matrix<float>* matrix, Settings* settings);
 #endif
-*/
 
 // Calcultion: Double | Storage: Double
 template extern Result gpuSPSingleGPU<double, double>(Matrix<double>* matrix, Settings* settings);
@@ -304,16 +302,14 @@ template extern Result gpuSPMultiGPUMPI<double, double>(Matrix<double>* matrix, 
 
 // FOR COMPILATION -DENSE-
 
-/*
 // Calculation: Double | Storage: Float
 template extern Result gpuDPSingleGPU<double, float>(Matrix<float>* matrix, Settings* settings);
 template extern Result gpuDPMultiGPU<double, float>(Matrix<float>* matrix, Settings* settings);
 #ifdef MPI
 template extern Result gpuDPMultiGPUMPI<double, float>(Matrix<float>* matrix, Settings* settings);
 #endif
-*/
 
-// Calcultion: Double | Storage: Double
+// Calculation: Double | Storage: Double
 template extern Result gpuDPSingleGPU<double, double>(Matrix<double>* matrix, Settings* settings);
 template extern Result gpuDPMultiGPU<double, double>(Matrix<double>* matrix, Settings* settings);
 #ifdef MPI

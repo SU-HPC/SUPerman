@@ -15,13 +15,14 @@
 #include <sstream>
 #include "Helpers.h"
 #include "algorithm"
+#include "omp.h"
 
 
 class IO
 {
 public:
     template <class S>
-    static bool readSettings(std::string& filename, Settings& settings, int argc, char* argv[]);
+    static void readSettings(std::string& filename, Settings& settings, int argc, char* argv[]);
 
     template <class S>
     static Matrix<S>* readMatrix(std::string filename, Settings& settings);
@@ -47,9 +48,6 @@ private:
 
     template <class S>
     static std::vector<std::string> split(const std::string& s, char delimiter);
-
-    template <class S>
-    static std::string merge(const std::vector<std::string> &splittedVersion);
 };
 
 
@@ -131,128 +129,141 @@ void IO::scale(Matrix<S> *matrix, const Settings& settings, S *rowScale, S *colS
 }
 
 template <class S>
-bool IO::readSettings(std::string& filename, Settings& settings, int argc, char* argv[])
+void IO::readSettings(std::string& filename, Settings& settings, int argc, char* argv[])
 {
-    // For providing arguments from CALCULATE.txt file
-    static std::ifstream settingsFile("../CALCULATE.txt");
-    static std::string MATRIX_DIRECTORY;
-    static bool matrixDirectoryRead = false;
-    bool matrixFound = false;
+    settings.algorithm = AlgorithmEnds;
+    settings.mode = Mode::CPU;
+    settings.binary = false;
+    settings.scaling = false;
+    settings.threadC = omp_get_max_threads();
+    settings.deviceID = 0;
+    settings.gpuNum = 1;
 
-    std::string line;
-    while (getline(settingsFile, line))
+    bool filenameFound = false;
+    for (int i = 1; i < argc; ++i)
     {
-        if (line == "END_MATRIX")
+        std::vector<std::string> argumentSplitted = split<S>(argv[i], '=');
+        std::string arg = argumentSplitted[0];
+        std::string value = argumentSplitted[1];
+
+        if (arg == "filename")
         {
-            matrixFound = true;
-            break;
+            filename = value;
+            filenameFound = true;
         }
-        // Skip empty lines and comments
-        if (line.empty() || line.substr(0, 2) == "//") continue;
-
-        std::vector<std::string> lineCommentsDeleted = IO::split<S>(line, ' ');
-        for (auto i = lineCommentsDeleted.begin(); i != lineCommentsDeleted.end(); ++i)
+        else if (arg == "algorithm")
         {
-            if (i->substr(0, 2) == "//")
-            {
-                lineCommentsDeleted.erase(i, lineCommentsDeleted.end());
-                break;
-            }
-        }
-        line = IO::merge<S>(lineCommentsDeleted);
-
-        std::vector<std::string> lineSplitted = IO::split<S>(line, '=');
-
-        if (!matrixDirectoryRead)
-        {
-            if (lineSplitted[0] == "MATRIX_DIRECTORY")
-            {
-                MATRIX_DIRECTORY = lineSplitted[1];
-                matrixDirectoryRead = true;
-            }
-            continue;
-        }
-
-        if (lineSplitted[0] == "MATRIX_NAME")
-        {
-            filename = MATRIX_DIRECTORY + lineSplitted[1];
-        }
-
-        else if (lineSplitted[0] == "ALGORITHM")
-        {
-            if (lineSplitted[1] == "AUTO")
+            if (value == "auto")
             {
                 settings.algorithm = AlgorithmEnds;
             }
-            else if (lineSplitted[1] == "xLocalMShared")
+            else if (value == "xlocal_mshared")
             {
                 settings.algorithm = XLOCALMSHARED;
             }
-            else if (lineSplitted[1] == "xLocalMGlobal")
+            else if (value == "xlocal_mglobal")
             {
                 settings.algorithm = XLOCALMGLOBAL;
             }
-            else if (lineSplitted[1] == "xSharedMGlobal")
+            else if (value == "xshared_mglobal")
             {
                 settings.algorithm = XSHAREDMGLOBAL;
             }
-            else if (lineSplitted[1] == "xSharedMShared")
+            else if (value == "xshared_mshared")
             {
                 settings.algorithm = XSHAREDMSHARED;
             }
+            else
+            {
+                std::cout << "UNKNOWN ALGORITHM: " << value << " - selecting automatically instead." << std::endl;
+            }
         }
-
-        else if (lineSplitted[0] == "MODE")
+        else if (arg == "mode")
         {
-            if (lineSplitted[1] == "CPU")
+            if (value == "cpu")
             {
                 settings.mode = CPU;
             }
-            else if (lineSplitted[1] == "SingleGPU")
+            else if (value == "single_gpu")
             {
                 settings.mode = SingleGPU;
             }
-            else if (lineSplitted[1] == "MultiGPU")
+            else if (value == "multi_gpu")
             {
                 settings.mode = MultiGPU;
             }
-            else if (lineSplitted[1] == "MultiGPUMPI")
+            else if (value == "multi_gpu_mpi")
             {
                 settings.mode = MultiGPUMPI;
             }
+            else
+            {
+                std::cout << "UNKNOWN MODE: " << value << " - selecting CPU by default instead." << std::endl;
+                settings.mode = CPU;
+            }
         }
-
-        else if (lineSplitted[0] == "THREAD_COUNT")
+        else if (arg == "thread_count")
         {
-            settings.threadC = std::stoi(lineSplitted[1]);
+            try
+            {
+                settings.threadC = std::stoi(value);
+            }
+            catch (const std::exception& e)
+            {
+                throw std::runtime_error("An integer value should be provided to the thread_count argument!");
+            }
         }
-
-        else if (lineSplitted[0] == "DEVICE_ID")
+        else if (arg == "device_id")
         {
-            settings.deviceID = std::stoi(lineSplitted[1]);
+            try
+            {
+                settings.deviceID = std::stoi(value);
+            }
+            catch (const std::exception& e)
+            {
+                throw std::runtime_error("An integer value should be provided to the device_id argument!");
+            }
         }
-
-        else if (lineSplitted[0] == "GPU_NUM")
+        else if (arg == "gpu_num")
         {
-            settings.gpuNum = std::stoi(lineSplitted[1]);
+            try
+            {
+                settings.gpuNum = std::stoi(value);
+            }
+            catch (const std::exception& e)
+            {
+                throw std::runtime_error("An integer value should be provided to the gpu_num argument!");
+            }
         }
-
-        else if (lineSplitted[0] == "BINARY")
+        else if (arg == "binary")
         {
-            settings.binary = lineSplitted[1] == "True";
+            settings.binary = value == "true";
         }
-
-        else if (lineSplitted[0] == "SCALING")
+        else if (arg == "scaling")
         {
-            settings.scaling = lineSplitted[1] == "True";
+            settings.scaling = value == "true";
         }
-        else if (lineSplitted[0] == "SCALING_THRESHOLD")
+        else if (arg == "scaling_threshold")
         {
-            settings.scalingThreshold = std::stod(lineSplitted[1]);
+            try
+            {
+                settings.scalingThreshold = std::stod(value);
+            }
+            catch (const std::exception& e)
+            {
+                throw std::runtime_error("A double value should be provided to the scaling_threshold argument!");
+            }
+        }
+        else
+        {
+            std::cout << "UNKNOWN ARGUMENT: " << arg << " - skipping it." << std::endl;
         }
     }
 
-    return matrixFound;
+    if (!filenameFound)
+    {
+        throw std::runtime_error("You are required to provide the absolute path of the matrix file that you want to calculate the matrix permanent for to the executable of this program!");
+    }
 }
 
 template <class S>
@@ -553,17 +564,6 @@ std::vector<std::string> IO::split(const std::string& s, char delimiter)
     }
 
     return tokens;
-}
-
-template <class S>
-std::string IO::merge(const std::vector<std::string> &splittedVersion)
-{
-    std::string merged;
-    for (const auto& token: splittedVersion)
-    {
-        merged += token;
-    }
-    return merged;
 }
 
 

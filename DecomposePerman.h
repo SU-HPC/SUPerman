@@ -59,6 +59,7 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
     startRecursion(m_Matrix);
 
     C overall = 0;
+    std::cout << "The computation of the original permanent is partitioned into the computation of the " << m_Permanents.size() << " sub-permanent." << std::endl;
     for (auto& permanent: m_Permanents)
     {
         auto derived = dynamic_cast<Permanent*>(permanent);
@@ -123,7 +124,7 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
     else
     {
         int nnz = getNNZ(matrix);
-        matrix->sparsity = nnz / (matrix->nov * matrix->nov);
+        matrix->sparsity = double(nnz) / double(matrix->nov * matrix->nov);
         Matrix<S>* newMatrix = new Matrix<S>(*matrix);
         Permanent* newPermanent = new Permanent(newMatrix, m_Settings);
         newPermanent->computePermanent();

@@ -29,44 +29,42 @@ int main(int argv, char* argc[])
 #endif
 
     std::string filename;
-    while (IO::readSettings<S>(filename, settings, argv, argc))
+    IO::readSettings<S>(filename, settings, argv, argc);
+    std::cout << "MATRIX NAME: " << filename << std::endl;
+    Matrix<S>* matrix = IO::readMatrix<S>(filename, settings);
+
+    S* rowScale;
+    S* colScale;
+    if (settings.scaling)
     {
-        std::cout << "MATRIX NAME: " << filename << std::endl;
-        Matrix<S>* matrix = IO::readMatrix<S>(filename, settings);
-
-        S* rowScale;
-        S* colScale;
-        if (settings.scaling)
-        {
-            rowScale = new S[matrix->nov];
-            colScale = new S[matrix->nov];
-            IO::scale(matrix, settings, rowScale, colScale);
-        }
-
-        AlgorithmRecommender<C, S>::Algorithm algorithm = AlgorithmRecommender<C, S>::recommendAlgorithm(matrix, &settings);
-        Result result = algorithm(matrix, &settings);
-
-        if (settings.scaling)
-        {
-            for (int i = 0; i < matrix->nov; ++i)
-            {
-                result.permanent /= rowScale[i];
-                result.permanent /= colScale[i];
-            }
-
-            delete[] rowScale;
-            delete[] colScale;
-        }
-
-        if (machineID == 0)
-        {
-            std::cout << "Permanent: " << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl;
-        }
-
-        delete matrix;
-
-        std::cout << std::endl;
+        rowScale = new S[matrix->nov];
+        colScale = new S[matrix->nov];
+        IO::scale(matrix, settings, rowScale, colScale);
     }
+
+    AlgorithmRecommender<C, S>::Algorithm algorithm = AlgorithmRecommender<C, S>::recommendAlgorithm(matrix, &settings);
+    Result result = algorithm(matrix, &settings);
+
+    if (settings.scaling)
+    {
+        for (int i = 0; i < matrix->nov; ++i)
+        {
+            result.permanent /= rowScale[i];
+            result.permanent /= colScale[i];
+        }
+
+        delete[] rowScale;
+        delete[] colScale;
+    }
+
+    if (machineID == 0)
+    {
+        std::cout << "Permanent: " << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl;
+    }
+
+    delete matrix;
+
+    std::cout << std::endl;
 
 #ifdef MPI_AVAILABLE
     MPI_Finalize();
