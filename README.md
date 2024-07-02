@@ -8,6 +8,7 @@
 
    Run the `build.sh` script to set up the necessary environment and dependencies for building the project.
     ```bash
+    chmod +x build.sh
     ./build.sh
     ```
 
@@ -46,6 +47,7 @@ Alternatively, you can configure and run the provided bash script to execute the
 
    Run the `build.sh` script to set up the necessary environment and dependencies for building the project.
     ```bash
+    chmod +x build.sh
     ./build.sh
     ```
 
