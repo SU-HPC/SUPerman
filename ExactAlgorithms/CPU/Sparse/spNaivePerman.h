@@ -15,8 +15,8 @@ template <class C, class S>
 class spNaivePerman: public Permanent<C, S>
 {
 public:
-    spNaivePerman(Matrix<S>* matrix, Settings settings)
-    :   Permanent<C, S>(matrix, settings) {}
+    spNaivePerman(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
+    :   Permanent<C, S>(kernelName, matrix, settings) {}
 
     virtual double permanentFunction() final;
 

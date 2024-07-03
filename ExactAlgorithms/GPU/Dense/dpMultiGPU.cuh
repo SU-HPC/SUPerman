@@ -14,8 +14,8 @@ template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFun
 class dpMultiGPU: public Permanent<C, S>
 {
 public:
-    dpMultiGPU(Matrix<S>* matrix, Settings settings)
-    :   Permanent<C, S>(matrix, settings) {}
+    dpMultiGPU(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
+    :   Permanent<C, S>(kernelName, matrix, settings) {}
 
     virtual double permanentFunction() final;
 
@@ -91,6 +91,17 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
                 blockDim,
                 sharedMemoryPerBlock
         ) )
+
+        static int prevSet = -1;
+        if (sharedMemoryPerBlock > prevSet)
+        {
+            gpuErrchk( cudaFuncSetAttribute(
+                    Algo,
+                    cudaFuncAttributeMaxDynamicSharedMemorySize,
+                    sharedMemoryPerBlock
+            ) )
+            prevSet = sharedMemoryPerBlock;
+        }
 
 #ifndef SILENT
         static bool printed = false;

@@ -17,8 +17,9 @@ template <class C, class S>
 class Permanent
 {
 public:
-    Permanent(Matrix<S>* matrix, Settings settings)
+    Permanent(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
     :
+        m_KernelName(kernelName),
         m_Matrix(matrix),
         m_Settings(settings) {}
 
@@ -36,6 +37,7 @@ public:
     virtual double permanentFunction() = 0;
 
 public:
+    Algorithm m_KernelName;
     Matrix<S>* m_Matrix;
     Settings m_Settings;
 };

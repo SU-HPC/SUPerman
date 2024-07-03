@@ -77,6 +77,7 @@ if [ "$MPI_FOUND" = true ] && [ "$CUDA_FOUND" = true ]; then
         $INCLUDE_DIRS \
         -DMPI -DGPU \
         --ptxas-options=-v \
+        -Xptxas -dlcm=ca \
         -Xcompiler "-fopenmp $MPI_CXX_COMPILE_FLAGS -fPIC"
 
     # link objects
@@ -127,6 +128,7 @@ elif [ "$MPI_FOUND" != true ] && [ "$CUDA_FOUND" = true ]; then
         -IExactAlgorithms/MPI/Sparse \
         -DGPU \
         --ptxas-options=-v \
+        -Xptxas -dlcm=ca \
         -Xcompiler "-fopenmp -fPIC"
 
     # link objects

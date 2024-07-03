@@ -2,13 +2,13 @@
 
 build_directory="build"
 matrix_directory="/common_data/matrices/"
-filenames=("cage5.mtx" "football.mtx" "GD95_a.mtx")
+filenames=("can_61.mtx" "can_62.mtx" "dwt_59.mtx")
 algorithms=("auto" "auto" "auto")
-modes=("single_gpu" "single_gpu" "single_gpu")
+modes=("cpu" "cpu" "cpu")
 thread_counts=(16 16 16)
 device_ids=(0 0 0)
 gpu_nums=(1 1 1)
-binarys=("false" "false" "true")
+binarys=("true" "true" "true")
 scalings=("false" "false" "false")
 scaling_thresholds=(0 0 0)
 

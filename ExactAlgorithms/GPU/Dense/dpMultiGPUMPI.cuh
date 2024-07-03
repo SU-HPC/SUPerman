@@ -15,8 +15,8 @@ template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFun
 class dpMultiGPUMPI: public Permanent<C, S>
 {
 public:
-    dpMultiGPUMPI(Matrix<S>* matrix, Settings settings)
-    :   Permanent<C, S>(matrix, settings) {}
+    dpMultiGPUMPI(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
+    :   Permanent<C, S>(kernelName, matrix, settings) {}
 
     virtual double permanentFunction() final;
 };
@@ -118,6 +118,17 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                 blockDim,
                 sharedMemoryPerBlock
         ) )
+
+        static int prevSet = -1;
+        if (sharedMemoryPerBlock > prevSet)
+        {
+            gpuErrchk( cudaFuncSetAttribute(
+                    Algo,
+                    cudaFuncAttributeMaxDynamicSharedMemorySize,
+                    sharedMemoryPerBlock
+            ) )
+            prevSet = sharedMemoryPerBlock;
+        }
 
         printf("%s (%d): Number of streaming multiprocessors: %d\n", prop.name, gpuNo, noSM);
         printf("%s (%d): Shared memory used per block: %d\n", prop.name, gpuNo, sharedMemoryPerBlock);

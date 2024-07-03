@@ -14,8 +14,8 @@ template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFun
 class dpSingleGPU: public Permanent<C, S>
 {
 public:
-    dpSingleGPU(Matrix<S>* matrix, Settings settings)
-    :   Permanent<C, S>(matrix, settings) {}
+    dpSingleGPU(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
+    :   Permanent<C, S>(kernelName, matrix, settings) {}
 
     virtual double permanentFunction() final;
 
@@ -83,6 +83,17 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
             blockDim,
             sharedMemoryPerBlock
     ) )
+
+    static int prevSet = -1;
+    if (sharedMemoryPerBlock > prevSet)
+    {
+        gpuErrchk( cudaFuncSetAttribute(
+                Algo,
+                cudaFuncAttributeMaxDynamicSharedMemorySize,
+                sharedMemoryPerBlock
+        ) )
+        prevSet = sharedMemoryPerBlock;
+    }
 
 #ifndef SILENT
     static bool printed = false;

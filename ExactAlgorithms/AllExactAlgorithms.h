@@ -14,7 +14,7 @@
 template <typename C, typename S>
 Result cpuSPNaivePerman(Matrix<S>* matrix, Settings* settings)
 {
-    auto permanent = new DecomposePerman<C, S, spNaivePerman<C, S> >(matrix, *settings);
+    auto permanent = new DecomposePerman<C, S, spNaivePerman<C, S> >(Algorithm::AlgorithmEnds, matrix, *settings);
     Result result = permanent->computePermanentRecursively();
     delete permanent;
     return result;
@@ -23,7 +23,7 @@ Result cpuSPNaivePerman(Matrix<S>* matrix, Settings* settings)
 template <typename C, typename S>
 Result cpuDPNaivePerman(Matrix<S>* matrix, Settings* settings)
 {
-    auto permanent = new DecomposePerman<C, S, dpNaivePerman<C, S> >(matrix, *settings);
+    auto permanent = new DecomposePerman<C, S, dpNaivePerman<C, S> >(Algorithm::AlgorithmEnds, matrix, *settings);
     Result result = permanent->computePermanentRecursively();
     delete permanent;
     return result;

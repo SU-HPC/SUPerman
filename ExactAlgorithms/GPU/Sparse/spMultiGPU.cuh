@@ -15,8 +15,8 @@ template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFu
 class spMultiGPU: public Permanent<C, S>
 {
 public:
-    spMultiGPU(Matrix<S>* matrix, Settings settings)
-    :   Permanent<C, S>(matrix, settings) {}
+    spMultiGPU(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
+    :   Permanent<C, S>(kernelName, matrix, settings) {}
 
     virtual double permanentFunction() final;
 
@@ -93,6 +93,17 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
                 blockDim,
                 sharedMemoryPerBlock
         ) )
+
+        static int prevSet = -1;
+        if (sharedMemoryPerBlock > prevSet)
+        {
+            gpuErrchk( cudaFuncSetAttribute(
+                    Algo,
+                    cudaFuncAttributeMaxDynamicSharedMemorySize,
+                    sharedMemoryPerBlock
+            ) )
+            prevSet = sharedMemoryPerBlock;
+        }
 
 #ifndef SILENT
         static bool printed = false;

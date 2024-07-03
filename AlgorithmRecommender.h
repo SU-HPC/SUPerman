@@ -22,12 +22,57 @@ public:
     typedef Result (*Algorithm)(Matrix<S>* matrix, Settings* settings);
 
 public:
-    static AlgorithmRecommender<C, S>::Algorithm recommendAlgorithm(Matrix<S>* matrix, Settings* settings);
+    static AlgorithmRecommender<C, S>::Algorithm selectMode(Matrix<S>* matrix, Settings* settings);
+    static void selectAlgorithm(Matrix<S>* matrix, Settings* settings);
 };
 
 
 template<class C, class S>
-typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::recommendAlgorithm(Matrix<S> *matrix, Settings *settings)
+typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::selectMode(Matrix<S> *matrix, Settings *settings)
+{
+    if (matrix->sparsity < 50)
+    {
+        if (settings->mode == Mode::CPU)
+        {
+            return cpuSPNaivePerman<C, S>;
+        }
+        if (settings->mode == Mode::SingleGPU)
+        {
+            return gpuSPSingleGPU<C, S>;
+        }
+        if (settings->mode == Mode::MultiGPU)
+        {
+            return gpuSPMultiGPU<C, S>;
+        }
+        if (settings->mode == Mode::MultiGPUMPI)
+        {
+            return gpuSPMultiGPU<C, S>;
+        }
+    }
+    else
+    {
+        if (settings->mode == Mode::CPU)
+        {
+            return cpuDPNaivePerman<C, S>;
+        }
+        if (settings->mode == Mode::SingleGPU)
+        {
+            return gpuDPSingleGPU<C, S>;
+        }
+        if (settings->mode == Mode::MultiGPU)
+        {
+            return gpuDPMultiGPU<C, S>;
+        }
+        if (settings->mode == Mode::MultiGPUMPI)
+        {
+            return gpuDPMultiGPU<C, S>;
+        }
+    }
+    return nullptr;
+}
+
+template<class C, class S>
+void AlgorithmRecommender<C, S>::selectAlgorithm(Matrix<S> *matrix, Settings *settings)
 {
 #ifdef GPU_AVAILABLE
     if (settings->algorithm == AlgorithmEnds && settings->mode != Mode::CPU)
@@ -113,6 +158,7 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::recom
             latencyTotal += l2DataAccessLatency * averageL1CacheMiss * denseMatrixAccessPerIteration + l1DataAccessLatency * (1 - averageL1CacheMiss) * denseMatrixAccessPerIteration;
             xsharedmglobalScore = double(expectedThreadsPerSM) / double(latencyTotal);
         }
+        // XSHAREDMGLOBAL
 
 #ifndef SILENT
         std::cout << "XLOCALMSHARED SCORE: " << xlocalmsharedScore << std::endl;
@@ -143,53 +189,6 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::recom
         }
     }
 #endif
-
-    if (matrix->sparsity < 50)
-    {
-        if (settings->mode == Mode::CPU)
-        {
-            return cpuSPNaivePerman<C, S>;
-        }
-        if (settings->mode == Mode::SingleGPU)
-        {
-            return gpuSPSingleGPU<C, S>;
-        }
-        if (settings->mode == Mode::MultiGPU)
-        {
-            return gpuSPMultiGPU<C, S>;
-        }
-        if (settings->mode == Mode::MultiGPUMPI)
-        {
-            return gpuSPMultiGPU<C, S>;
-        }
-        else
-        {
-            throw std::runtime_error("Invalid Mode");
-        }
-    }
-    else
-    {
-        if (settings->mode == Mode::CPU)
-        {
-            return cpuDPNaivePerman<C, S>;
-        }
-        if (settings->mode == Mode::SingleGPU)
-        {
-            return gpuDPSingleGPU<C, S>;
-        }
-        if (settings->mode == Mode::MultiGPU)
-        {
-            return gpuDPMultiGPU<C, S>;
-        }
-        if (settings->mode == Mode::MultiGPUMPI)
-        {
-            return gpuDPMultiGPU<C, S>;
-        }
-        else
-        {
-            throw std::runtime_error("Invalid Mode");
-        }
-    }
 }
 
 

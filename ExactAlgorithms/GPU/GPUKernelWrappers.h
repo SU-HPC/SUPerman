@@ -12,14 +12,8 @@
 
 struct DeviceProperties
 {
-    unsigned sharedMemoryPerBlock;
     unsigned sharedMemoryPerSM;
-    unsigned regsPerBlock;
     unsigned regsPerSM;
-    unsigned constantMemorySize;
-    unsigned noSM;
-    unsigned maxThreadsPerBlock;
-    unsigned maxThreadsPerSM;
 
     // non-device related -> although it shouldn't be placed here, it will remain there for now.
     unsigned xSize;
