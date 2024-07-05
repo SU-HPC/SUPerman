@@ -134,6 +134,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
     settings.algorithm = AlgorithmEnds;
     settings.mode = Mode::CPU;
     settings.binary = false;
+    settings.undirected = false;
     settings.scaling = false;
     settings.threadC = omp_get_max_threads();
     settings.deviceID = 0;
@@ -239,6 +240,10 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
         {
             settings.binary = value == "true";
         }
+        else if (arg == "undirected")
+        {
+            settings.undirected = value == "true";
+        }
         else if (arg == "scaling")
         {
             settings.scaling = value == "true";
@@ -309,6 +314,11 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
         }
 
         colBuckets[y].push_back({{x, y}, val});
+
+        if (settings.undirected)
+        {
+            colBuckets[x].push_back({{y, x}, val});
+        }
     }
 
     std::vector<std::vector<std::pair<std::pair<int, int>, double>>> rowBuckets(noRow);
@@ -336,7 +346,15 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
 
     Matrix<S>* matrix = new Matrix<S>(mat, noRow);
 
-    int nnz = noLines;
+    int nnz;
+    if (settings.undirected)
+    {
+        nnz = noLines * 2;
+    }
+    else
+    {
+        nnz = noLines;
+    }
     int size = noRow * noCol;
     double sparsity = (double(nnz) / double(size)) * 100;
 

@@ -30,6 +30,7 @@ struct Settings
     Algorithm algorithm;
     Mode mode;
     bool binary;
+    bool undirected;
     bool scaling;
     double scalingThreshold;
 
