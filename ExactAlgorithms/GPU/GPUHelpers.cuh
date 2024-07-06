@@ -9,8 +9,11 @@
 #include <iostream>
 #include "omp.h"
 #include <algorithm>
+#include "Registers.inc"
 
 #define X_SIZE 40
+#define SPECIFIC REGISTERS
+#define NOV 40
 
 
 template <typename C, typename S>

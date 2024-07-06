@@ -175,11 +175,41 @@ extern Result gpuDPSingleGPU(Matrix<S>* matrix, Settings* settings)
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
+    else if (selectedAlgorithm == Algorithm::XREGISTERMSHARED)
+    {
+        if (settings->matSpecificCompilation)
+        {
+            auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xRegisterMSharedMatSpecificCompilation, dpMShared<C, S> > >(Algorithm::XREGISTERMSHARED, matrix, *settings);
+            result = permanent->computePermanentRecursively();
+            delete permanent;
+        }
+        else
+        {
+            auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xRegisterMShared, dpMShared<C, S> > >(Algorithm::XREGISTERMSHARED, matrix, *settings);
+            result = permanent->computePermanentRecursively();
+            delete permanent;
+        }
+    }
     else if (selectedAlgorithm == Algorithm::XLOCALMGLOBAL)
     {
         auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xLocalMGlobal, dpNoShared<C, S> > >(Algorithm::XLOCALMGLOBAL, matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
+    }
+    else if (selectedAlgorithm == Algorithm::XREGISTERMGLOBAL)
+    {
+        if (settings->matSpecificCompilation)
+        {
+            auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xRegisterMGlobalMatSpecificCompilation, dpNoShared<C, S> > >(Algorithm::XREGISTERMGLOBAL, matrix, *settings);
+            result = permanent->computePermanentRecursively();
+            delete permanent;
+        }
+        else
+        {
+            auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xRegisterMGlobal, dpNoShared<C, S> > >(Algorithm::XREGISTERMGLOBAL, matrix, *settings);
+            result = permanent->computePermanentRecursively();
+            delete permanent;
+        }
     }
     else if (selectedAlgorithm == Algorithm::XSHAREDMGLOBAL)
     {
@@ -213,11 +243,41 @@ extern Result gpuDPMultiGPU(Matrix<S>* matrix, Settings* settings)
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
+    else if (selectedAlgorithm == Algorithm::XREGISTERMSHARED)
+    {
+        if (settings->matSpecificCompilation)
+        {
+            auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xRegisterMSharedMatSpecificCompilation, dpMShared<C, S> > >(Algorithm::XREGISTERMSHARED, matrix, *settings);
+            result = permanent->computePermanentRecursively();
+            delete permanent;
+        }
+        else
+        {
+            auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xRegisterMShared, dpMShared<C, S> > >(Algorithm::XREGISTERMSHARED, matrix, *settings);
+            result = permanent->computePermanentRecursively();
+            delete permanent;
+        }
+    }
     else if (selectedAlgorithm == Algorithm::XLOCALMGLOBAL)
     {
         auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xLocalMGlobal, dpNoShared<C, S> > >(Algorithm::XLOCALMGLOBAL, matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
+    }
+    else if (selectedAlgorithm == Algorithm::XREGISTERMGLOBAL)
+    {
+        if (settings->matSpecificCompilation)
+        {
+            auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xRegisterMGlobalMatSpecificCompilation, dpNoShared<C, S> > >(Algorithm::XREGISTERMGLOBAL, matrix, *settings);
+            result = permanent->computePermanentRecursively();
+            delete permanent;
+        }
+        else
+        {
+            auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xRegisterMGlobal, dpNoShared<C, S> > >(Algorithm::XREGISTERMGLOBAL, matrix, *settings);
+            result = permanent->computePermanentRecursively();
+            delete permanent;
+        }
     }
     else if (selectedAlgorithm == Algorithm::XSHAREDMGLOBAL)
     {
@@ -250,9 +310,31 @@ extern Result gpuDPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
     {
         permanent = new dpMultiGPUMPI<C, S, &DenseDefinitions::xLocalMShared, dpMShared<C, S> >(Algorithm::XLOCALMSHARED, matrix, *settings);
     }
+    else if (selectedAlgorithm == Algorithm::XREGISTERMSHARED)
+    {
+        if (settings->matSpecificCompilation)
+        {
+            permanent = new dpMultiGPUMPI<C, S, &DenseDefinitions::xRegisterMSharedMatSpecificCompilation, dpMShared<C, S> >(Algorithm::XREGISTERMSHARED, matrix, *settings);
+        }
+        else
+        {
+            permanent = new dpMultiGPUMPI<C, S, &DenseDefinitions::xRegisterMShared, dpMShared<C, S> >(Algorithm::XREGISTERMSHARED, matrix, *settings);
+        }
+    }
     else if (selectedAlgorithm == Algorithm::XLOCALMGLOBAL)
     {
         permanent = new dpMultiGPUMPI<C, S, &DenseDefinitions::xLocalMGlobal, dpNoShared<C, S> >(Algorithm::XLOCALMGLOBAL, matrix, *settings);
+    }
+    else if (selectedAlgorithm == Algorithm::XREGISTERMGLOBAL)
+    {
+        if (settings->matSpecificCompilation)
+        {
+            permanent = new dpMultiGPUMPI<C, S, &DenseDefinitions::xRegisterMGlobalMatSpecificCompilation, dpNoShared<C, S> >(Algorithm::XREGISTERMGLOBAL, matrix, *settings);
+        }
+        else
+        {
+            permanent = new dpMultiGPUMPI<C, S, &DenseDefinitions::xRegisterMGlobal, dpNoShared<C, S> >(Algorithm::XREGISTERMGLOBAL, matrix, *settings);
+        }
     }
     else if (selectedAlgorithm == Algorithm::XSHAREDMGLOBAL)
     {
@@ -276,7 +358,6 @@ extern Result gpuDPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
 
 
 // FOR COMPILATION -SPARSE-
-
 // Calculation: Double | Storage: Float
 template extern Result gpuSPSingleGPU<double, float>(Matrix<float>* matrix, Settings* settings);
 template extern Result gpuSPMultiGPU<double, float>(Matrix<float>* matrix, Settings* settings);
@@ -284,18 +365,16 @@ template extern Result gpuSPMultiGPU<double, float>(Matrix<float>* matrix, Setti
 template extern Result gpuSPMultiGPUMPI<double, float>(Matrix<float>* matrix, Settings* settings);
 #endif
 
-// Calcultion: Double | Storage: Double
+// Calculation: Double | Storage: Double
 template extern Result gpuSPSingleGPU<double, double>(Matrix<double>* matrix, Settings* settings);
 template extern Result gpuSPMultiGPU<double, double>(Matrix<double>* matrix, Settings* settings);
 #ifdef MPI
 template extern Result gpuSPMultiGPUMPI<double, double>(Matrix<double>* matrix, Settings* settings);
 #endif
-
 // FOR COMPILATION -SPARSE-
 
 
 // FOR COMPILATION -DENSE-
-
 // Calculation: Double | Storage: Float
 template extern Result gpuDPSingleGPU<double, float>(Matrix<float>* matrix, Settings* settings);
 template extern Result gpuDPMultiGPU<double, float>(Matrix<float>* matrix, Settings* settings);
@@ -309,5 +388,4 @@ template extern Result gpuDPMultiGPU<double, double>(Matrix<double>* matrix, Set
 #ifdef MPI
 template extern Result gpuDPMultiGPUMPI<double, double>(Matrix<double>* matrix, Settings* settings);
 #endif
-
 // FOR COMPILATION -DENSE-

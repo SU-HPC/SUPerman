@@ -139,6 +139,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
     settings.threadC = omp_get_max_threads();
     settings.deviceID = 0;
     settings.gpuNum = 1;
+    settings.matSpecificCompilation = false;
 
     bool filenameFound = false;
     for (int i = 1; i < argc; ++i)
@@ -162,9 +163,17 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             {
                 settings.algorithm = XLOCALMSHARED;
             }
+            else if (value == "xregister_mshared")
+            {
+                settings.algorithm = XREGISTERMSHARED;
+            }
             else if (value == "xlocal_mglobal")
             {
                 settings.algorithm = XLOCALMGLOBAL;
+            }
+            else if (value == "xregister_mglobal")
+            {
+                settings.algorithm = XREGISTERMGLOBAL;
             }
             else if (value == "xshared_mglobal")
             {

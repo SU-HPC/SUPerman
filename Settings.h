@@ -9,7 +9,9 @@
 enum Algorithm
 {
     XLOCALMSHARED,
+    XREGISTERMSHARED,
     XLOCALMGLOBAL,
+    XREGISTERMGLOBAL,
     XSHAREDMGLOBAL,
     XSHAREDMSHARED,
     AlgorithmEnds
@@ -33,6 +35,7 @@ struct Settings
     bool undirected;
     bool scaling;
     double scalingThreshold;
+    bool matSpecificCompilation;
 
     // CPU Specific
     int threadC;
