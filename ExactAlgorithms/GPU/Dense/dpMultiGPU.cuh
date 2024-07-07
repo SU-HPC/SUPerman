@@ -92,17 +92,6 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
                 sharedMemoryPerBlock
         ) )
 
-        static int prevSet = -1;
-        if (sharedMemoryPerBlock > prevSet)
-        {
-            gpuErrchk( cudaFuncSetAttribute(
-                    Algo,
-                    cudaFuncAttributeMaxDynamicSharedMemorySize,
-                    sharedMemoryPerBlock
-            ) )
-            prevSet = sharedMemoryPerBlock;
-        }
-
 #ifndef SILENT
         static bool printed = false;
         if (!printed)

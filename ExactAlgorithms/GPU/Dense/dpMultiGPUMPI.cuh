@@ -119,17 +119,6 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                 sharedMemoryPerBlock
         ) )
 
-        static int prevSet = -1;
-        if (sharedMemoryPerBlock > prevSet)
-        {
-            gpuErrchk( cudaFuncSetAttribute(
-                    Algo,
-                    cudaFuncAttributeMaxDynamicSharedMemorySize,
-                    sharedMemoryPerBlock
-            ) )
-            prevSet = sharedMemoryPerBlock;
-        }
-
         printf("%s (%d): Number of streaming multiprocessors: %d\n", prop.name, gpuNo, noSM);
         printf("%s (%d): Shared memory used per block: %d\n", prop.name, gpuNo, sharedMemoryPerBlock);
         printf("%s (%d): %f%% of the entire shared memory dedicated per block is used\n", prop.name, gpuNo, (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
