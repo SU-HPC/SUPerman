@@ -6,6 +6,7 @@
 #define SUPERMAN_REGISTERS_INC
 
 
+#ifndef REGISTERS
 #define REGISTERS                       \
     REG(reg0, 0)                        \
     REG(reg1, 1)                        \
@@ -47,6 +48,7 @@
     REG(reg37, 37)                      \
     REG(reg38, 38)                      \
     REG(reg39, 39)
+#endif
 
 
 #endif //SUPERMAN_REGISTERS_INC

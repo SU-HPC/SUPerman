@@ -49,6 +49,9 @@ Result Permanent<C, S>::computePermanent()
     if (m_Matrix->sparsity < 50)
     {
         IO::order(m_Matrix);
+    }
+    if (m_Settings.algorithm != XREGISTERMSHARED && m_Settings.algorithm != XREGISTERMGLOBAL && m_Matrix->sparsity < 50)
+    {
         m_Matrix = IO::denseToSparse(m_Matrix, getNNZ(m_Matrix));
     }
 

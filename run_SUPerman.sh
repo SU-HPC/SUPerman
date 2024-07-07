@@ -2,14 +2,14 @@
 
 build_directory="build"
 matrix_directory="/common_data/matrices/"
-filenames=("cage5.mtx")
-algorithms=("auto")
-modes=("single_gpu")
-thread_counts=(44)
-device_ids=(0)
-gpu_nums=(1)
-is_binary=("false")
-is_undirected=("false")
+filenames=("chesapeake.mtx")
+algorithms=("xregister_mglobal" "xregister_mshared" "xlocal_mglobal" "xlocal_mshared" "xshared_mglobal" "xshared_mshared")
+modes=("single_gpu" "single_gpu" "single_gpu" "single_gpu" "single_gpu" "single_gpu")
+thread_counts=(44 44 44 44 44 44)
+device_ids=(0 0 0 0 0 0)
+gpu_nums=(1 1 1 1 1 1)
+is_binary=("true")
+is_undirected=("true")
 requires_scaling=("false")
 scaling_thresholds=(0)
 

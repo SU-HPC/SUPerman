@@ -42,8 +42,8 @@ int main(int argv, char* argc[])
         IO::scale(matrix, settings, rowScale, colScale);
     }
 
-    AlgorithmRecommender<C, S>::Algorithm algorithm = AlgorithmRecommender<C, S>::selectMode(matrix, &settings);
     AlgorithmRecommender<C, S>::selectAlgorithm(matrix, &settings);
+    AlgorithmRecommender<C, S>::Algorithm algorithm = AlgorithmRecommender<C, S>::selectMode(matrix, &settings);
     Result result = algorithm(matrix, &settings);
 
     if (settings.scaling)

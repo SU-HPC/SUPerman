@@ -112,8 +112,8 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
         printf("Grid Dimension: %d\n", gridDim);
         printf("Block Dimension: %d\n", blockDim);
         printf("Total number of threads: %d\n", totalThreadCount);
-        printf("Maximim number of blocks running concurrently on each SM: %d\n", maxBlocks);
-        printf("Maximim number of blocks running concurrently throughout the GPU: %d\n", maxBlocks * noSM);
+        printf("Maximum number of blocks running concurrently on each SM: %d\n", maxBlocks);
+        printf("Maximum number of blocks running concurrently throughout the GPU: %d\n", maxBlocks * noSM);
         printed = true;
     }
 #endif

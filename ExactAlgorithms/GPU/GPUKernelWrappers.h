@@ -10,20 +10,6 @@
 #include "Matrix.h"
 
 
-struct DeviceProperties
-{
-    unsigned sharedMemoryPerSM;
-    unsigned regsPerSM;
-
-    // non-device related -> although it shouldn't be placed here, it will remain there for now.
-    unsigned xSize;
-};
-
-// WRAPPED HELPERS
-extern DeviceProperties getDeviceProperties(int deviceNum);
-// WRAPPED HELPERS
-
-
 // SPARSE KERNEL WRAPPERS
 template <class C, class S>
 extern Result gpuSPSingleGPU(Matrix<S>* matrix, Settings* settings);
