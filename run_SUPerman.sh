@@ -2,7 +2,7 @@
 
 build_directory="build"
 matrix_directory="/common_data/matrices/"
-filenames=("chesapeake.mtx" "chesapeake.mtx" "chesapeake.mtx" "chesapeake.mtx" "chesapeake.mtx" "chesapeake.mtx")
+filenames=("curtis54.mtx" "curtis54.mtx" "curtis54.mtx" "curtis54.mtx" "curtis54.mtx" "curtis54.mtx")
 algorithms=("xregister_mglobal" "xregister_mshared" "xlocal_mglobal" "xlocal_mshared" "xshared_mglobal" "xshared_mshared")
 modes=("single_gpu" "single_gpu" "single_gpu" "single_gpu" "single_gpu" "single_gpu")
 thread_counts=(44 44 44 44 44 44)

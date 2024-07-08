@@ -79,6 +79,7 @@ set(GPU_HEADER_FILES
         ExactAlgorithms/GPU/Dense/dpSingleGPU.cuh
         ExactAlgorithms/GPU/Dense/dpMultiGPU.cuh
         ExactAlgorithms/GPU/Dense/dpMultiGPUMPI.cuh
+        ExactAlgorithms/GPU/Registers.inc
 )
 
 set(GPU_WRAPPER_FILES

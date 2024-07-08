@@ -11,7 +11,9 @@
 #include <algorithm>
 #include "Registers.inc"
 
-#define X_SIZE 40
+#define X_SIZE 63
+#define SPECIFIC REGISTERS50
+#define NOV 50
 
 
 template <typename C, typename S>
