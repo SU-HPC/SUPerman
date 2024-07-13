@@ -30,7 +30,10 @@ int main(int argv, char* argc[])
 
     std::string filename;
     IO::readSettings<S>(filename, settings, argv, argc);
-    std::cout << "MATRIX NAME: " << filename << std::endl;
+    if (machineID == 0)
+    {
+        std::cout << "MATRIX NAME: " << filename << std::endl;
+    }
     Matrix<S>* matrix = IO::readMatrix<S>(filename, settings);
 
     S* rowScale;
@@ -61,11 +64,10 @@ int main(int argv, char* argc[])
     if (machineID == 0)
     {
         std::cout << "Permanent: " << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl;
+        std::cout << std::endl;
     }
 
     delete matrix;
-
-    std::cout << std::endl;
 
 #ifdef MPI_AVAILABLE
     MPI_Finalize();

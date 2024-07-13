@@ -18,6 +18,9 @@
 #include "IO.h"
 #include <vector>
 #include "Helpers.h"
+#ifdef MPI_AVAILABLE
+#include "mpi_wrapper.h"
+#endif
 
 
 template <class C, class S, class Permanent>
@@ -61,7 +64,10 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
     startRecursion(m_Matrix);
 
     C overall = 0;
-    std::cout << "The computation of the original permanent is partitioned into the computation of the " << m_Permanents.size() << " sub-permanent." << std::endl;
+    if (m_Settings.machineID == 0)
+    {
+        std::cout << "The computation of the original permanent is partitioned into the computation of the " << m_Permanents.size() << " sub-permanent." << std::endl;
+    }
     for (auto& permanent: m_Permanents)
     {
         auto derived = dynamic_cast<Permanent*>(permanent);

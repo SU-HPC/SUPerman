@@ -19,6 +19,9 @@ public:
     :   Permanent<C, S>(kernelName, matrix, settings) {}
 
     virtual double permanentFunction() final;
+
+public:
+    C productSum;
 };
 
 
@@ -190,10 +193,11 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
     }
 
     mpiBarrier(getMPI_COMM_WORLD());
-    double mpiReducedProductSum = 0;
-    mpiReduce(&gpuReducedProductSum, &mpiReducedProductSum, 1, getMPI_DOUBLE(), getMPI_SUM(), 0, getMPI_COMM_WORLD());
+    productSum = 0;
+    mpiReduce(&gpuReducedProductSum, &productSum, 1, getMPI_DOUBLE(), getMPI_SUM(), 0, getMPI_COMM_WORLD());
+    productSum += product;
 
-    return (4 * (nov & 1) - 2) * mpiReducedProductSum;
+    return 0;
 }
 
 
