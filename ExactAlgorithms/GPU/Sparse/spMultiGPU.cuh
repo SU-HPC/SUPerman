@@ -55,9 +55,10 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
     productSum = product;
 
     int gpuNum = this->m_Settings.gpuNum;
+    unsigned partition = this->m_Settings.partition;
     long long start = 1;
     long long end = (1LL << (nov - 1));
-    long long CHUNK_SIZE = (end - start + (gpuNum * 10) - 1) / (gpuNum * 10);
+    long long CHUNK_SIZE = (end - start + (gpuNum * partition) - 1) / (gpuNum * partition);
     long long currentChunkStart = start;
 
 #pragma omp parallel num_threads(gpuNum)
@@ -95,8 +96,8 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
         ) )
 
 #ifndef SILENT
-        static bool printed = false;
-        if (!printed)
+        static std::vector<bool> printed(gpuNum, false);
+        if (!printed[gpuNo])
         {
             printf("%s (%d): Number of streaming multiprocessors: %d\n", prop.name, gpuNo, noSM);
             printf("%s (%d): Shared memory used per block: %d\n", prop.name, gpuNo, sharedMemoryPerBlock);
@@ -107,7 +108,7 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
             printf("%s (%d): Total number of threads: %d\n", prop.name, gpuNo, totalThreadCount);
             printf("%s (%d): Maximum number of blocks running concurrently on each SM: %d\n", prop.name, gpuNo, maxBlocks);
             printf("%s (%d): Maximum number of blocks running concurrently throughout the GPU: %d\n", prop.name, gpuNo, maxBlocks * noSM);
-            printed = true;
+            printed[gpuNo] = true;
         }
 #endif
 

@@ -35,7 +35,6 @@ struct Settings
     bool undirected;
     bool scaling;
     double scalingThreshold;
-    bool matSpecificCompilation;
 
     // CPU Specific
     int threadC;
@@ -43,6 +42,7 @@ struct Settings
     // GPU Specific
     int deviceID;
     int gpuNum;
+    unsigned partition;
 
     // MPI Specific
     int machineID;

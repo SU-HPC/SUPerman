@@ -10,9 +10,6 @@
 #include "SparseMatrix.h"
 #include "Settings.h"
 #include "Result.h"
-#ifdef GPU_AVAILABLE
-#include "GPUKernelWrappers.h"
-#endif
 
 
 template <class C, class S>
@@ -36,6 +33,7 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::selec
         {
             return cpuSPNaivePerman<C, S>;
         }
+#ifdef GPU_AVAILABLE
         if (settings->mode == Mode::SingleGPU)
         {
             return gpuSPSingleGPU<C, S>;
@@ -44,6 +42,7 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::selec
         {
             return gpuSPMultiGPU<C, S>;
         }
+#endif
 #ifdef MPI_AVAILABLE
         if (settings->mode == Mode::MultiGPUMPI)
         {
@@ -57,6 +56,7 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::selec
         {
             return cpuDPNaivePerman<C, S>;
         }
+#ifdef GPU_AVAILABLE
         if (settings->mode == Mode::SingleGPU)
         {
             return gpuDPSingleGPU<C, S>;
@@ -65,6 +65,7 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::selec
         {
             return gpuDPMultiGPU<C, S>;
         }
+#endif
 #ifdef MPI_AVAILABLE
         if (settings->mode == Mode::MultiGPUMPI)
         {
@@ -72,7 +73,7 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::selec
         }
 #endif
     }
-    return nullptr;
+    throw std::runtime_error("The mode you want to calculate the permanent in is unavailable for launch. Terminating...");
 }
 
 template<class C, class S>

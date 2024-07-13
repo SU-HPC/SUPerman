@@ -77,7 +77,7 @@ Alternatively, you can configure and run the provided bash script to execute the
 
     ```bash
    #!/bin/bash
-
+   
    build_directory="build"
    matrix_directory="/common_data/matrices/"
    filenames=("football.mtx" "GD95_a.mtx")
@@ -90,9 +90,10 @@ Alternatively, you can configure and run the provided bash script to execute the
    is_undirected=("true" "false")
    requires_scaling=("false" "false")
    scaling_thresholds=(0 0)
+   chunk_partitionings=(10 10)
    
    for i in "${!filenames[@]}"; do
-   ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" scaling="${requires_scaling[$i]}" scaling_threshold="${scaling_thresholds[$i]}"
+   ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" scaling="${requires_scaling[$i]}" scaling_threshold="${scaling_thresholds[$i]}" chunk_partitioning="${chunk_partitionings[$i]}"
    done
     ```
 
@@ -169,7 +170,7 @@ To utilize this compilation method, follow these two essential steps:
 During execution, if you encounter the following error, please refer to the troubleshooting tips below:
 
 ```error
-It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? READ README for details.
+It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? Read README.md for details.
 ```
 
 This error can arise from:

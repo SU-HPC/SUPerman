@@ -11,6 +11,7 @@
 #include "dpNaivePerman.h"
 #include "DecomposePerman.h"
 
+
 template <typename C, typename S>
 Result cpuSPNaivePerman(Matrix<S>* matrix, Settings* settings)
 {

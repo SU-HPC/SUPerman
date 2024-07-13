@@ -125,8 +125,8 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         ) )
 
 #ifndef SILENT
-        static bool printed = false;
-        if (!printed)
+        static std::vector<bool> printed(gpuNum, false);
+        if (!printed[gpuNo])
         {
             printf("RANK: %d, %s (%d): Number of streaming multiprocessors: %d\n", machineID, prop.name, gpuNo, noSM);
             printf("RANK: %d, %s (%d): Shared memory used per block: %d\n", machineID, prop.name, gpuNo, sharedMemoryPerBlock);
@@ -137,7 +137,7 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
             printf("RANK: %d, %s (%d): Total number of threads: %d\n", machineID, prop.name, gpuNo, totalThreadCount);
             printf("RANK: %d, %s (%d): Maximum number of blocks running concurrently on each SM: %d\n", machineID, prop.name, gpuNo, maxBlocks);
             printf("RANK: %d, %s (%d): Maximum number of blocks running concurrently throughout the GPU: %d\n", machineID, prop.name, gpuNo, maxBlocks * noSM);
-            printed = true;
+            printed[gpuNo] = true;
         }
 #endif
 

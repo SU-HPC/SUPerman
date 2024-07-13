@@ -1,7 +1,6 @@
 todos:
 dynamic subset for mpi kernels as well?
-subset partitioning is determined by the user
 scaling requires fix
 perhaps combine build.sh with cmakelists?
 
-valgrind memcheck - lead detection
+valgrind memcheck - leak detection

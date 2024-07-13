@@ -36,7 +36,7 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
 #ifdef MAT_SPECIFIC_COMPILATION
     if (NOV != nov)
     {
-        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? READ README for details.");
+        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? Read README.md for details.");
     }
 #endif
     S* mat = this->m_Matrix->mat;

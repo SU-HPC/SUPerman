@@ -139,6 +139,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
     settings.threadC = omp_get_max_threads();
     settings.deviceID = 0;
     settings.gpuNum = 1;
+    settings.partition = 10;
 
     bool filenameFound = false;
     for (int i = 1; i < argc; ++i)
@@ -265,6 +266,17 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             catch (const std::exception& e)
             {
                 throw std::runtime_error("A double value should be provided to the scaling_threshold argument!");
+            }
+        }
+        else if (arg == "chunk_partitioning")
+        {
+            try
+            {
+                settings.partition = std::stoul(value);
+            }
+            catch (const std::exception& e)
+            {
+                throw std::runtime_error("An unsigned integer value should be provided to the chunk_partitioning argument!");
             }
         }
         else
