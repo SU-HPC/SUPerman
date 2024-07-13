@@ -121,15 +121,15 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                 sharedMemoryPerBlock
         ) )
 
-        printf("%s (%d): Number of streaming multiprocessors: %d\n", prop.name, gpuNo, noSM);
-        printf("%s (%d): Shared memory used per block: %d\n", prop.name, gpuNo, sharedMemoryPerBlock);
-        printf("%s (%d): %f%% of the entire shared memory dedicated per block is used\n", prop.name, gpuNo, (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
-        printf("%s (%d): Maximum number of registers that could be used per block: %d\n", prop.name, gpuNo, maxRegsPerBlock);
-        printf("%s (%d): Grid Dimension: %d\n", prop.name, gpuNo, gridDim);
-        printf("%s (%d): Block Dimension: %d\n", prop.name, gpuNo, blockDim);
-        printf("%s (%d): Total number of threads: %d\n", prop.name, gpuNo, totalThreadCount);
-        printf("%s (%d): Maximum number of blocks running concurrently on each SM: %d\n", prop.name, gpuNo, maxBlocks);
-        printf("%s (%d): Maximum number of blocks running concurrently throughout the GPU: %d\n", prop.name, gpuNo, maxBlocks * noSM);
+        printf("RANK: %d, %s (%d): Number of streaming multiprocessors: %d\n", machineID, prop.name, gpuNo, noSM);
+        printf("RANK: %d, %s (%d): Shared memory used per block: %d\n", machineID, prop.name, gpuNo, sharedMemoryPerBlock);
+        printf("RANK: %d, %s (%d): %f%% of the entire shared memory dedicated per block is used\n", machineID, prop.name, gpuNo, (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
+        printf("RANK: %d, %s (%d): Maximum number of registers that could be used per block: %d\n", machineID, prop.name, gpuNo, maxRegsPerBlock);
+        printf("RANK: %d, %s (%d): Grid Dimension: %d\n", machineID, prop.name, gpuNo, gridDim);
+        printf("RANK: %d, %s (%d): Block Dimension: %d\n", machineID, prop.name, gpuNo, blockDim);
+        printf("RANK: %d, %s (%d): Total number of threads: %d\n", machineID, prop.name, gpuNo, totalThreadCount);
+        printf("RANK: %d, %s (%d): Maximum number of blocks running concurrently on each SM: %d\n", machineID, prop.name, gpuNo, maxBlocks);
+        printf("RANK: %d, %s (%d): Maximum number of blocks running concurrently throughout the GPU: %d\n", machineID, prop.name, gpuNo, maxBlocks * noSM);
 
         int* d_cptrs;
         int* d_rows;

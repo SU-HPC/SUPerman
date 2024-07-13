@@ -44,10 +44,12 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::selec
         {
             return gpuSPMultiGPU<C, S>;
         }
+#ifdef MPI_AVAILABLE
         if (settings->mode == Mode::MultiGPUMPI)
         {
-            return gpuSPMultiGPU<C, S>;
+            return gpuSPMultiGPUMPI<C, S>;
         }
+#endif
     }
     else
     {
@@ -63,10 +65,12 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::selec
         {
             return gpuDPMultiGPU<C, S>;
         }
+#ifdef MPI_AVAILABLE
         if (settings->mode == Mode::MultiGPUMPI)
         {
-            return gpuDPMultiGPU<C, S>;
+            return gpuDPMultiGPUMPI<C, S>;
         }
+#endif
     }
     return nullptr;
 }

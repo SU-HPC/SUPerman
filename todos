@@ -3,3 +3,5 @@ dynamic subset for mpi kernels as well?
 cgray for mpi kernels
 decomposition for mpi kernels
 scaling requires fix
+
+valgrind memcheck - lead detection

@@ -25,7 +25,7 @@
 #include "dpMultiGPU.cuh"
 
 // MPI
-#ifdef MPI
+#ifdef MPI_AVAILABLE
 #include "spMultiGPUMPI.cuh"
 #include "dpMultiGPUMPI.cuh"
 #endif
@@ -108,7 +108,7 @@ extern Result gpuSPMultiGPU(Matrix<S>* matrix, Settings* settings)
     return result;
 }
 
-#ifdef MPI
+#ifdef MPI_AVAILABLE
 template <typename C, typename S>
 extern Result gpuSPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
 {
@@ -257,7 +257,7 @@ extern Result gpuDPMultiGPU(Matrix<S>* matrix, Settings* settings)
     return result;
 }
 
-#ifdef MPI
+#ifdef MPI_AVAILABLE
 template <typename C, typename S>
 extern Result gpuDPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
 {
@@ -309,14 +309,14 @@ extern Result gpuDPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
 // Calculation: Double | Storage: Float
 template extern Result gpuSPSingleGPU<double, float>(Matrix<float>* matrix, Settings* settings);
 template extern Result gpuSPMultiGPU<double, float>(Matrix<float>* matrix, Settings* settings);
-#ifdef MPI
+#ifdef MPI_AVAILABLE
 template extern Result gpuSPMultiGPUMPI<double, float>(Matrix<float>* matrix, Settings* settings);
 #endif
 
 // Calculation: Double | Storage: Double
 template extern Result gpuSPSingleGPU<double, double>(Matrix<double>* matrix, Settings* settings);
 template extern Result gpuSPMultiGPU<double, double>(Matrix<double>* matrix, Settings* settings);
-#ifdef MPI
+#ifdef MPI_AVAILABLE
 template extern Result gpuSPMultiGPUMPI<double, double>(Matrix<double>* matrix, Settings* settings);
 #endif
 // FOR COMPILATION -SPARSE-
@@ -326,14 +326,14 @@ template extern Result gpuSPMultiGPUMPI<double, double>(Matrix<double>* matrix, 
 // Calculation: Double | Storage: Float
 template extern Result gpuDPSingleGPU<double, float>(Matrix<float>* matrix, Settings* settings);
 template extern Result gpuDPMultiGPU<double, float>(Matrix<float>* matrix, Settings* settings);
-#ifdef MPI
+#ifdef MPI_AVAILABLE
 template extern Result gpuDPMultiGPUMPI<double, float>(Matrix<float>* matrix, Settings* settings);
 #endif
 
 // Calculation: Double | Storage: Double
 template extern Result gpuDPSingleGPU<double, double>(Matrix<double>* matrix, Settings* settings);
 template extern Result gpuDPMultiGPU<double, double>(Matrix<double>* matrix, Settings* settings);
-#ifdef MPI
+#ifdef MPI_AVAILABLE
 template extern Result gpuDPMultiGPUMPI<double, double>(Matrix<double>* matrix, Settings* settings);
 #endif
 // FOR COMPILATION -DENSE-

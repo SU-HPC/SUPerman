@@ -59,10 +59,10 @@ if [ "$MPI_FOUND" = true ] && [ "$CUDA_FOUND" = true ]; then
     CUDA_LIBS="-lcudart -lcuda"
 
     # g++ compiles mpi_wrapper
-    g++ -O3 -c -o mpi_wrapper.o mpi_wrapper.cpp $MPI_CXX_COMPILE_FLAGS -fPIC
+    g++ -DMPI_AVAILABLE -DGPU_AVAILABLE -O3 -c -o mpi_wrapper.o mpi_wrapper.cpp $MPI_CXX_COMPILE_FLAGS -fPIC
 
     # nvcc compiles cuda
-    nvcc -O3 -c -o GPUKernelWrappers.o ExactAlgorithms/GPU/GPUKernelWrappers.cu \
+    nvcc -DMPI_AVAILABLE -DGPU_AVAILABLE -O3 -c -o GPUKernelWrappers.o ExactAlgorithms/GPU/GPUKernelWrappers.cu \
         -I. \
         -IStructures \
         -IIO \
@@ -81,40 +81,14 @@ if [ "$MPI_FOUND" = true ] && [ "$CUDA_FOUND" = true ]; then
         -Xcompiler "-fopenmp $MPI_CXX_COMPILE_FLAGS -fPIC"
 
     # link objects
-    g++ -O3 -shared -o libWrappers.so mpi_wrapper.o GPUKernelWrappers.o $LIB_DIRS $LIBS $CUDA_LIBS -fopenmp
-
-elif [ "$MPI_FOUND" = true ] && [ "$CUDA_FOUND" != true ]; then
-    echo "Only MPI found."
-    echo "Include directories: $MPI_INCLUDE_DIRS"
-    echo "Compile flags: $MPI_CXX_COMPILE_FLAGS"
-    echo "Link flags: $MPI_CXX_LINK_FLAGS"
-    echo "Lib directories: $MPI_LIB_DIRS"
-    echo "Libs: $MPI_LIBS"
-
-    # linking mpi
-    LIB_DIRS=""
-    for dir in $MPI_LIB_DIRS; do
-        LIB_DIRS="$LIB_DIRS -L$dir"
-    done
-
-    #  linking mpi
-    LIBS=""
-    for lib in $MPI_LIBS; do
-        LIBS="$LIBS -l${lib}"
-    done
-
-    # g++ compiles mpi_wrapper
-    g++ -O3 -c -o mpi_wrapper.o mpi_wrapper.cpp $MPI_CXX_COMPILE_FLAGS -fPIC
-
-    # link objects
-    g++ -O3 -shared -o libWrappers.so mpi_wrapper.o $LIB_DIRS $LIBS -DMPI -fopenmp
+    g++ -DMPI_AVAILABLE -DGPU_AVAILABLE -O3 -shared -o libWrappers.so mpi_wrapper.o GPUKernelWrappers.o $LIB_DIRS $LIBS $CUDA_LIBS -fopenmp
 
 elif [ "$MPI_FOUND" != true ] && [ "$CUDA_FOUND" = true ]; then
     echo "Only CUDA found."
     echo "CUDA library directory: $CUDA_LIB_DIR"
 
     # nvcc compiles cuda
-    nvcc -O3 -c -o GPUKernelWrappers.o ExactAlgorithms/GPU/GPUKernelWrappers.cu \
+    nvcc -DGPU_AVAILABLE -O3 -c -o GPUKernelWrappers.o ExactAlgorithms/GPU/GPUKernelWrappers.cu \
         -I. \
         -IStructures \
         -IIO \
@@ -132,7 +106,7 @@ elif [ "$MPI_FOUND" != true ] && [ "$CUDA_FOUND" = true ]; then
         -Xcompiler "-fopenmp -fPIC"
 
     # link objects
-    g++ -O3 -shared -o libWrappers.so GPUKernelWrappers.o -L$CUDA_LIB_DIR -lcudart -lcuda -fopenmp
+    g++ -DGPU_AVAILABLE -O3 -shared -o libWrappers.so GPUKernelWrappers.o -L$CUDA_LIB_DIR -lcudart -lcuda -fopenmp
 
 else
     echo "Neither MPI nor CUDA found. Creating a shared library without them."
