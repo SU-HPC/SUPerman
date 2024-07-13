@@ -9,7 +9,7 @@
 #include <iostream>
 #include "omp.h"
 #include <algorithm>
-#include "Registers.inc"
+#include "Registers.cuh"
 
 #define X_SIZE 63
 #define SPECIFIC REGISTERS50

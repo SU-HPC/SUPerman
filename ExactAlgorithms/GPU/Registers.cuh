@@ -2,8 +2,8 @@
 // Created by delbek on 7/6/24.
 //
 
-#ifndef SUPERMAN_REGISTERS_INC
-#define SUPERMAN_REGISTERS_INC
+#ifndef SUPERMAN_REGISTERS_CUH
+#define SUPERMAN_REGISTERS_CUH
 
 
 #ifndef REGISTERS
@@ -2405,4 +2405,4 @@
 #endif
 
 
-#endif //SUPERMAN_REGISTERS_INC
+#endif //SUPERMAN_REGISTERS_CUH
