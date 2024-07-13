@@ -28,6 +28,12 @@ template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFun
 double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
 {
     int nov = this->m_Matrix->nov;
+#ifdef MAT_SPECIFIC_COMPILATION
+    if (NOV != nov)
+    {
+        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? READ README for details.");
+    }
+#endif
     S* mat = this->m_Matrix->mat;
     S* matTransposed = new S[nov * nov];
 

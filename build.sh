@@ -1,5 +1,11 @@
 #!/bin/bash
 
+### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
+SPECIFIC_VAR=REGISTERS35 #EXAMPLE
+NOV_VAR=35 #EXAMPLE
+MAT_SPECIFIC_COMPILATION=false
+### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
+
 find_mpi() {
     if command -v mpicxx >/dev/null 2>&1; then
         MPI_INCLUDE_DIRS=$(mpicxx -showme:incdirs | tr ' ' '\n')
@@ -58,11 +64,17 @@ if [ "$MPI_FOUND" = true ] && [ "$CUDA_FOUND" = true ]; then
     # cuda libs
     CUDA_LIBS="-lcudart -lcuda"
 
+    # compile flags
+    COMPILE_FLAGS="-DMPI_AVAILABLE -DGPU_AVAILABLE -DSPECIFIC=${SPECIFIC_VAR} -DNOV=${NOV_VAR} -O3"
+    if [ "$MAT_SPECIFIC_COMPILATION" = true ]; then
+        COMPILE_FLAGS="${COMPILE_FLAGS} -DMAT_SPECIFIC_COMPILATION"
+    fi
+
     # g++ compiles mpi_wrapper
-    g++ -DMPI_AVAILABLE -DGPU_AVAILABLE -O3 -c -o mpi_wrapper.o mpi_wrapper.cpp $MPI_CXX_COMPILE_FLAGS -fPIC
+    g++ ${COMPILE_FLAGS} -c -o mpi_wrapper.o mpi_wrapper.cpp $MPI_CXX_COMPILE_FLAGS -fPIC
 
     # nvcc compiles cuda
-    nvcc -DMPI_AVAILABLE -DGPU_AVAILABLE -O3 -c -o GPUKernelWrappers.o ExactAlgorithms/GPU/GPUKernelWrappers.cu \
+    nvcc ${COMPILE_FLAGS} -c -o GPUKernelWrappers.o ExactAlgorithms/GPU/GPUKernelWrappers.cu \
         -I. \
         -IStructures \
         -IIO \
@@ -81,14 +93,20 @@ if [ "$MPI_FOUND" = true ] && [ "$CUDA_FOUND" = true ]; then
         -Xcompiler "-fopenmp $MPI_CXX_COMPILE_FLAGS -fPIC"
 
     # link objects
-    g++ -DMPI_AVAILABLE -DGPU_AVAILABLE -O3 -shared -o libWrappers.so mpi_wrapper.o GPUKernelWrappers.o $LIB_DIRS $LIBS $CUDA_LIBS -fopenmp
+    g++ ${COMPILE_FLAGS} -shared -o libWrappers.so mpi_wrapper.o GPUKernelWrappers.o $LIB_DIRS $LIBS $CUDA_LIBS -fopenmp
 
 elif [ "$MPI_FOUND" != true ] && [ "$CUDA_FOUND" = true ]; then
     echo "Only CUDA found."
     echo "CUDA library directory: $CUDA_LIB_DIR"
 
+    # compile flags
+    COMPILE_FLAGS="-DGPU_AVAILABLE -DSPECIFIC=${SPECIFIC_VAR} -DNOV=${NOV_VAR} -O3"
+    if [ "$MAT_SPECIFIC_COMPILATION" = true ]; then
+        COMPILE_FLAGS="${COMPILE_FLAGS} -DMAT_SPECIFIC_COMPILATION"
+    fi
+
     # nvcc compiles cuda
-    nvcc -DGPU_AVAILABLE -O3 -c -o GPUKernelWrappers.o ExactAlgorithms/GPU/GPUKernelWrappers.cu \
+    nvcc ${COMPILE_FLAGS} -c -o GPUKernelWrappers.o ExactAlgorithms/GPU/GPUKernelWrappers.cu \
         -I. \
         -IStructures \
         -IIO \
@@ -106,11 +124,17 @@ elif [ "$MPI_FOUND" != true ] && [ "$CUDA_FOUND" = true ]; then
         -Xcompiler "-fopenmp -fPIC"
 
     # link objects
-    g++ -DGPU_AVAILABLE -O3 -shared -o libWrappers.so GPUKernelWrappers.o -L$CUDA_LIB_DIR -lcudart -lcuda -fopenmp
+    g++ ${COMPILE_FLAGS} -shared -o libWrappers.so GPUKernelWrappers.o -L$CUDA_LIB_DIR -lcudart -lcuda -fopenmp
 
 else
     echo "Neither MPI nor CUDA found. Creating a shared library without them."
 
+    # compile flags
+    COMPILE_FLAGS="-DSPECIFIC=${SPECIFIC_VAR} -DNOV=${NOV_VAR} -O3"
+    if [ "$MAT_SPECIFIC_COMPILATION" = true ]; then
+        COMPILE_FLAGS="${COMPILE_FLAGS} -DMAT_SPECIFIC_COMPILATION"
+    fi
+
     # Create an empty shared library
-    g++ -O3 -shared -o libEmptyWrappers.so -x c++ /dev/null -fPIC
+    g++ ${COMPILE_FLAGS} -shared -o libWrappers.so -x c++ /dev/null -fPIC
 fi

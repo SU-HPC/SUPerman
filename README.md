@@ -103,3 +103,78 @@ Alternatively, you can configure and run the provided bash script to execute the
     chmod +x run_SUPerman.sh
     ./run_SUPerman.sh
     ```
+
+## Matrix-Specific Compilation
+
+SUPerman enables users to compile the library optimized specifically for the matrices for which they aim to calculate the permanent. This method compiles a kernel at runtime, tailored to the matrix at hand, providing a significant performance improvement. It is particularly beneficial for matrices larger than 40x40, where it can reduce execution time by approximately 1.7x.
+
+### Steps for Matrix-Specific Compilation
+
+To utilize this compilation method, follow these two essential steps:
+
+1. **Modify the `build.sh` Script**
+
+   Locate the `build.sh` script in the source directory and find the section designated for matrix-specific compilation. You will see placeholder variables intended for customization:
+
+   ```bash
+   ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
+   SPECIFIC_VAR=REGISTERS35 # EXAMPLE
+   NOV_VAR=35 # EXAMPLE
+   MAT_SPECIFIC_COMPILATION=false
+   ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
+   ```
+
+   Replace the placeholder values based on your matrix dimensions. For example, if your matrix is 44x44, update the script as follows:
+
+   ```bash
+   ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
+   SPECIFIC_VAR=REGISTERS44
+   NOV_VAR=44
+   MAT_SPECIFIC_COMPILATION=true
+   ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
+   ```
+
+   This update changes `NOV_VAR` to 44 and `SPECIFIC_VAR` to `REGISTERS44`, while setting the `MAT_SPECIFIC_COMPILATION` flag to `true`.
+
+2. **Update `CMakeLists.txt`**
+
+   Similar to the `build.sh` script, you need to update the `CMakeLists.txt` file with matrix-specific settings:
+
+   ```cmake
+   ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
+   add_compile_definitions(SPECIFIC=REGISTERS35) # EXAMPLE
+   add_compile_definitions(NOV=35) #EXAMPLE
+   # add_definitions(-DMAT_SPECIFIC_COMPILATION)
+   ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
+   ```
+
+   Modify it according to your specific matrix size:
+
+   ```cmake
+   ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
+   add_compile_definitions(SPECIFIC=REGISTERS44)
+   add_compile_definitions(NOV=44)
+   add_definitions(-DMAT_SPECIFIC_COMPILATION)
+   ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
+   ```
+
+   Here, `NOV` is set to 44, `SPECIFIC` to `REGISTERS44`, and the `MAT_SPECIFIC_COMPILATION` macro is enabled.
+
+3. **Compile and Run the Library**
+
+   You can now compile and run the library using either the Direct Execution Method or the Bash Script Method, as detailed earlier in the tutorial.
+
+### Important Note on Matrix-Specific Compilation
+
+During execution, if you encounter the following error, please refer to the troubleshooting tips below:
+
+```error
+It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? READ README for details.
+```
+
+This error can arise from:
+
+1. Incorrect compile-time definitions that do not match the matrix size at runtime.
+2. Correct compile-time definitions initially, but the library's decomposition process reduced the matrix size during execution.
+
+If the definitions were correct, it's likely that decomposition successfully reduced the matrix's size. In this case, matrix-specific compilation might not be suitable for that particular matrix.
