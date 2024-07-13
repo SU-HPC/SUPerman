@@ -73,7 +73,7 @@ Alternatively, you can configure and run the provided bash script to execute the
 
 4. **Configure the Bash Script**
 
-   Edit the bash script to set the appropriate paths and parameters. Here is the sample script:
+   Edit the bash script to set the appropriate paths and parameters. Here is a sample script:
 
     ```bash
    #!/bin/bash
@@ -106,7 +106,7 @@ Alternatively, you can configure and run the provided bash script to execute the
 
 ## Matrix-Specific Compilation
 
-SUPerman enables users to compile the library optimized specifically for the matrices for which they aim to calculate the permanent. This method compiles a kernel at runtime, tailored to the matrix at hand, providing a significant performance improvement. It is particularly beneficial for matrices larger than 40x40, where it can reduce execution time by approximately 1.7x.
+SUPerman enables users to compile the library optimized specifically for the matrices for which they aim to calculate the permanent. This method compiles a kernel that is tailored to the matrix at hand providing a significant performance improvement. It is particularly beneficial for matrices larger than 40x40, where it can reduce execution time by approximately 1.6x.
 
 ### Steps for Matrix-Specific Compilation
 
@@ -177,4 +177,6 @@ This error can arise from:
 1. Incorrect compile-time definitions that do not match the matrix size at runtime.
 2. Correct compile-time definitions initially, but the library's decomposition process reduced the matrix size during execution.
 
-If the definitions were correct, it's likely that decomposition successfully reduced the matrix's size. In this case, matrix-specific compilation might not be suitable for that particular matrix.
+If the definitions were correct, it's likely that decomposition successfully reduced the matrix's size. In this case, we recommend you not to use matrix-specific compilation.
+
+# SU-HPC
