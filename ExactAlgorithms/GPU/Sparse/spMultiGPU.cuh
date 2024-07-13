@@ -149,7 +149,7 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
             if (finish) break;
 
             if (myEnd > end) myEnd = end;
-            long long left = CHUNK_SIZE;
+            long long left = (myEnd - myStart);
             double passed = 0;
 
             while (passed < 0.99 && totalThreadCount <= left)

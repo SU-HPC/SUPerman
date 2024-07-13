@@ -130,7 +130,7 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
     long long start = 1;
     long long end = (1LL << (nov - 1));
 
-    long long left = end;
+    long long left = (end - start);
     double passed = 0;
 
     while (passed < 0.99 && totalThreadCount <= left)

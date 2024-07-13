@@ -128,6 +128,10 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
         int nnz = getNNZ(matrix);
         matrix->sparsity = double(nnz) / double(matrix->nov * matrix->nov);
         Matrix<S>* newMatrix = new Matrix<S>(*matrix);
+        if (newMatrix->nov > 63)
+        {
+            throw std::runtime_error("Permanent is an #P-complete problem. The size of the matrix you want to calculate the permanent for exceeds the limit of what is computationally possible. Try approximation algorithms.");
+        }
         Permanent* newPermanent = new Permanent(m_KernelName, newMatrix, m_Settings);
         newPermanent->computePermanent();
         m_Permanents.push_back(newPermanent);
