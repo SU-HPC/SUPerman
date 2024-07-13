@@ -1,7 +1,7 @@
 todos:
 mat specific compilation
-cgray for mpi kernels
 dynamic subset for mpi kernels as well?
+subset partitioning is determined by the user
 scaling requires fix
 
 valgrind memcheck - lead detection
