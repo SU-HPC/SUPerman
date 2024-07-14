@@ -1,5 +1,4 @@
 todos:
-scaling requires fix
 perhaps combine build.sh with cmakelists?
 
 valgrind memcheck - leak detection
