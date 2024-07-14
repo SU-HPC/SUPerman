@@ -11,9 +11,9 @@ gpu_nums=(1 1)
 is_binary=("false" "true")
 is_undirected=("true" "false")
 requires_scaling=("false" "false")
-scaling_thresholds=(0 0)
+scaling_iteration_nos=(10000 10000)
 chunk_partitionings=(5 5)
 
 for i in "${!filenames[@]}"; do
-    ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" scaling="${requires_scaling[$i]}" scaling_threshold="${scaling_thresholds[$i]}" chunk_partitioning="${chunk_partitionings[$i]}"
+    ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" scaling="${requires_scaling[$i]}" scaling_iteration_no="${scaling_iteration_nos[$i]}" chunk_partitioning="${chunk_partitionings[$i]}"
 done

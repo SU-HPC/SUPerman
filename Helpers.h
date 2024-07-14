@@ -10,6 +10,19 @@
 
 
 template <class S>
+struct ScalingCompact
+{
+    ~ScalingCompact()
+    {
+        delete[] rowScale;
+        delete[] colScale;
+    }
+
+    S *rowScale;
+    S *colScale;
+};
+
+template <class S>
 inline int getRowNNZ(Matrix<S>* matrix, int vertex)
 {
     S* mat = matrix->mat;

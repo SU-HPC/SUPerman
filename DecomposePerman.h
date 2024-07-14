@@ -53,6 +53,7 @@ protected:
     Matrix<S>* m_Matrix;
     Settings m_Settings;
     std::vector<Permanent*> m_Permanents;
+    std::vector<ScalingCompact<S>*> m_ScalingValues;
 };
 
 
@@ -68,10 +69,23 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
     {
         std::cout << "The computation of the original permanent is partitioned into the computation of the " << m_Permanents.size() << " sub-permanent." << std::endl;
     }
-    for (auto& permanent: m_Permanents)
+    for (int p = 0; p < m_Permanents.size(); ++p)
     {
-        auto derived = dynamic_cast<Permanent*>(permanent);
-        overall += ((4 * (derived->m_Matrix->nov & 1) - 2) * derived->productSum);
+        auto derived = dynamic_cast<Permanent*>(m_Permanents[p]);
+        C result = ((4 * (derived->m_Matrix->nov & 1) - 2) * derived->productSum);
+        if (m_Settings.scaling)
+        {
+            auto scalingCompact = m_ScalingValues[p];
+            S* rowScale = scalingCompact->rowScale;
+            S* colScale = scalingCompact->colScale;
+            for (int i = 0; i < derived->m_Matrix->nov; ++i)
+            {
+                result /= rowScale[i];
+                result /= colScale[i];
+            }
+            delete scalingCompact;
+        }
+        overall += result;
         delete derived;
     }
 
@@ -137,6 +151,12 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
         if (newMatrix->nov > 63)
         {
             throw std::runtime_error("Permanent is an #P-complete problem. The size of the matrix you want to calculate the permanent for exceeds the limit of what is computationally possible. Try approximation algorithms.");
+        }
+        if (m_Settings.scaling)
+        {
+            ScalingCompact<S>* scalingCompact = new ScalingCompact<S>;
+            IO::scale(newMatrix, m_Settings, scalingCompact);
+            m_ScalingValues.push_back(scalingCompact);
         }
         Permanent* newPermanent = new Permanent(m_KernelName, newMatrix, m_Settings);
         newPermanent->computePermanent();

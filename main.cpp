@@ -36,30 +36,9 @@ int main(int argv, char* argc[])
     }
     Matrix<S>* matrix = IO::readMatrix<S>(filename, settings);
 
-    S* rowScale;
-    S* colScale;
-    if (settings.scaling)
-    {
-        rowScale = new S[matrix->nov];
-        colScale = new S[matrix->nov];
-        IO::scale(matrix, settings, rowScale, colScale);
-    }
-
     AlgorithmRecommender<C, S>::selectAlgorithm(matrix, &settings);
     AlgorithmRecommender<C, S>::Algorithm algorithm = AlgorithmRecommender<C, S>::selectMode(matrix, &settings);
     Result result = algorithm(matrix, &settings);
-
-    if (settings.scaling)
-    {
-        for (int i = 0; i < matrix->nov; ++i)
-        {
-            result.permanent /= rowScale[i];
-            result.permanent /= colScale[i];
-        }
-
-        delete[] rowScale;
-        delete[] colScale;
-    }
 
     if (machineID == 0)
     {

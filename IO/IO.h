@@ -34,7 +34,7 @@ public:
     static void order(Matrix<S>* matrix);
 
     template <class S>
-    static void scale(Matrix<S>* matrix, const Settings& settings, S* rowScale, S* colScale);
+    static void scale(Matrix<S>* matrix, const Settings& settings, ScalingCompact<S>* scalingCompact);
 
 private:
     template <class S>
@@ -52,70 +52,46 @@ private:
 
 
 template<class S>
-void IO::scale(Matrix<S> *matrix, const Settings& settings, S *rowScale, S *colScale)
+void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact<S>* scalingCompact)
 {
     int nov = matrix->nov;
     S* mat = matrix->mat;
-    S scalingThreshold = settings.scalingThreshold;
+    S scalingIterationNo = settings.scalingIterationNo;
 
-    for(int i = 0; i < nov; ++i)
+    S*& rowScale = scalingCompact->rowScale;
+    S*& colScale = scalingCompact->colScale;
+
+    rowScale = new S[nov];
+    colScale = new S[nov];
+
+    for (int i = 0; i < nov; ++i)
     {
         rowScale[i] = colScale[i] = 1;
     }
 
-    S colMax = getMax(matrix, colScale);
-    S rowMax = getMax(matrix, rowScale);
-
-    S maxError = 100;
-
-    while(maxError > 10)
+    for (int i = 0; i < scalingIterationNo; ++i)
     {
-        for (int j = 0; j < nov; ++j)
+        for (int iv = 0; iv < nov; ++iv)
         {
-            S sum = 0;
-            for (int i = 0; i < nov; ++i)
+            double sum = 0;
+            for (int jv = 0; jv < nov; ++jv)
             {
-                sum += (mat[i * nov + j] * colScale[j] * rowScale[i]);
+                sum += mat[iv * nov + jv] * rowScale[iv] * colScale[jv];
             }
             if (sum != 0)
-            {
-                colScale[j] = scalingThreshold / sum;
-            }
+                rowScale[iv] = double(nov) / sum;
         }
 
-        for (int i = 0; i < nov; ++i)
+        for (int jv = 0; jv < nov; ++jv)
         {
-            S sum = 0;
-            for (int j = 0; j < nov; ++j)
+            double sum = 0;
+            for (int iv = 0; iv < nov; ++iv)
             {
-                sum += (mat[i * nov + j] * colScale[j] * rowScale[i]);
+                sum += mat[iv * nov + jv] * rowScale[iv] * colScale[jv];
             }
             if (sum != 0)
-            {
-                rowScale[i] = scalingThreshold / sum;
-            }
+                colScale[jv] = double(nov) / sum;
         }
-
-        S colSum = 0;
-        S rowSum = 0;
-
-        for(int j = 0; j < nov; ++j)
-        {
-            for (int i = 0; i < nov; ++i)
-            {
-                colSum += (mat[i * nov + j] * colScale[j] * rowScale[i]);
-            }
-        }
-
-        for(int i = 0; i < nov; ++i)
-        {
-            for (int j = 0; j < nov; ++j)
-            {
-                rowSum += (mat[i * nov + j] * colScale[j] * rowScale[i]);
-            }
-        }
-
-        maxError = std::max(fabs(scalingThreshold - (colSum / S(nov))), fabs(scalingThreshold - (rowSum / S(nov))));
     }
 
     for (int i = 0; i < nov; ++i)
@@ -136,6 +112,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
     settings.binary = false;
     settings.undirected = false;
     settings.scaling = false;
+    settings.scalingIterationNo = 1000;
     settings.threadC = omp_get_max_threads();
     settings.deviceID = 0;
     settings.gpuNum = 1;
@@ -257,11 +234,11 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
         {
             settings.scaling = value == "true";
         }
-        else if (arg == "scaling_threshold")
+        else if (arg == "scaling_iteration_no")
         {
             try
             {
-                settings.scalingThreshold = std::stod(value);
+                settings.scalingIterationNo = std::stoul(value);
             }
             catch (const std::exception& e)
             {

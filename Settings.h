@@ -34,7 +34,7 @@ struct Settings
     bool binary;
     bool undirected;
     bool scaling;
-    double scalingThreshold;
+    unsigned scalingIterationNo;
 
     // CPU Specific
     int threadC;
