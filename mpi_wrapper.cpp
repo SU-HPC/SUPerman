@@ -26,9 +26,19 @@ extern "C" void mpiReduce(const void *sendbuf, void *recvbuf, int count, MPI_Dat
     MPI_Reduce(sendbuf, recvbuf, count, datatype, op, root, comm);
 }
 
-extern "C" void mpiAllgather(const void* sendbuf, int sendCount, MPI_Datatype sendType, void* recvbuf, int recvCount, MPI_Datatype recvType, MPI_Comm comm)
+extern "C" void mpiAllReduce(const void *sendbuf, void *recvbuf, int count, MPI_Datatype datatype, MPI_Op op, MPI_Comm comm)
+{
+    MPI_Allreduce(sendbuf, recvbuf, count, datatype, op, comm);
+}
+
+extern "C" void mpiAllGather(const void* sendbuf, int sendCount, MPI_Datatype sendType, void* recvbuf, int recvCount, MPI_Datatype recvType, MPI_Comm comm)
 {
     MPI_Allgather(sendbuf, sendCount, sendType, recvbuf, recvCount, recvType, comm);
+}
+
+extern "C" void mpiAllGatherV(const void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, const int *recvcounts, const int *displs, MPI_Datatype recvtype, MPI_Comm comm)
+{
+    MPI_Allgatherv(sendbuf, sendcount, sendtype, recvbuf, recvcounts, displs, recvtype, comm);
 }
 
 extern "C" MPI_Comm getMPI_COMM_WORLD()

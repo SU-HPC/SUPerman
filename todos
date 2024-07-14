@@ -1,5 +1,4 @@
 todos:
-dynamic subset for mpi kernels as well?
 scaling requires fix
 perhaps combine build.sh with cmakelists?
 

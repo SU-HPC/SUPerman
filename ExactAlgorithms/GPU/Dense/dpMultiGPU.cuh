@@ -61,6 +61,7 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
 
     int gpuNum = this->m_Settings.gpuNum;
     unsigned partition = this->m_Settings.partition;
+
     long long start = 1;
     long long end = (1LL << (nov - 1));
     long long CHUNK_SIZE = (end - start + (gpuNum * partition) - 1) / (gpuNum * partition);
@@ -207,8 +208,8 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
 
         delete[] h_products;
 
-    #pragma omp atomic
-        productSum += myProductSum;
+        #pragma omp atomic
+            productSum += myProductSum;
     }
 
     delete[] matTransposed;

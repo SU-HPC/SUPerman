@@ -129,8 +129,9 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     long long start = 1;
     long long end = (1LL << (nov - 1));
+    long long total = (end - start);
 
-    long long left = (end - start);
+    long long left = total;
     double passed = 0;
 
     while (passed < 0.99 && totalThreadCount <= left)
@@ -164,7 +165,7 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
         long long thisIteration = totalThreadCount * chunkSize;
         left -= thisIteration;
-        passed = 1 - (double)left / double(end);
+        passed = 1 - (double)left / double(total);
         start += thisIteration;
     }
 
