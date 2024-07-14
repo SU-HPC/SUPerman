@@ -139,7 +139,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
     settings.threadC = omp_get_max_threads();
     settings.deviceID = 0;
     settings.gpuNum = 1;
-    settings.partition = 10;
+    settings.partition = 5;
 
     bool filenameFound = false;
     for (int i = 1; i < argc; ++i)
