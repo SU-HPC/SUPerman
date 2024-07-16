@@ -2,7 +2,7 @@
 
 ## Step-by-Step Guide
 
-1. **Run the build script to compile the library using one of the commands below, depending on your Python installation:
+1. Run the build script to compile the library using one of the commands below, depending on your Python installation:
 
 ```bash 
   python3 build_superman.py  # Use this if you have Python 3 installed
@@ -12,9 +12,9 @@
   python build_superman.py  # Use this if you have a different Python version installed
 ```
 
-2. **Open the run_SUPerman.sh file, modify it as needed for your matrices, and save the changes.
+2. Open the run_SUPerman.sh file, modify it as needed for your matrices, and save the changes.
 
-3. **Execute the run_SUPerman.sh file from within the source directory:
+3. Execute the run_SUPerman.sh file from within the source directory:
 ```bash
   ./run_SUPerman.sh
 ```
