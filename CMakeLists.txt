@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.16.3)
 project(SUPerman)
 
 ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
-add_compile_definitions(SPECIFIC=REGISTERS35)
-add_compile_definitions(NOV=35)
-# add_definitions(-DMAT_SPECIFIC_COMPILATION)
+add_compile_definitions(SPECIFIC=REGISTERS40)
+add_compile_definitions(NOV=40)
+add_definitions(-DMAT_SPECIFIC_COMPILATION)
 ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
 
 # C++ standard

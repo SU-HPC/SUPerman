@@ -91,7 +91,7 @@ namespace DenseDefinitions
             productSign *= -1; // sign for the next subset
         }
 
-        p[threadID] = myResult;
+        p[threadID] += myResult;
     }
 
     template <class C, class S>
@@ -157,7 +157,7 @@ namespace DenseDefinitions
             productSign *= -1; // sign for the next subset
         }
 
-        p[threadID] = myResult;
+        p[threadID] += myResult;
     }
 
     template <class C, class S>
@@ -222,7 +222,7 @@ namespace DenseDefinitions
             productSign *= -1; // sign for the next subset
         }
 
-        p[threadID] = myResult;
+        p[threadID] += myResult;
     }
 
     template <class C, class S>
@@ -305,7 +305,7 @@ namespace DenseDefinitions
             productSign *= -1; // sign for the next subset
         }
 
-        p[threadID] = myResult;
+        p[threadID] += myResult;
     }
 
     template <class C, class S>
@@ -386,7 +386,7 @@ namespace DenseDefinitions
             productSign *= -1; // sign for the next subset
         }
 
-        p[threadID] = myResult;
+        p[threadID] += myResult;
     }
 
     template <class C, class S>
@@ -408,8 +408,6 @@ namespace DenseDefinitions
         extern __shared__ char sharedMemory[];
         C* sharedX = (C*)sharedMemory;
 
-        // note that the x vectors are stored in the shared memory
-        // in a structure of arrays pattern for a coalesced access
         for (int i = 0; i < nov; ++i)
         {
             sharedX[threadsPerBlock * i + localThreadID] = x[i];
@@ -459,7 +457,7 @@ namespace DenseDefinitions
             productSign *= -1; // sign for the next subset
         }
 
-        p[globalThreadID] = myResult;
+        p[globalThreadID] += myResult;
     }
 
     template <class C, class S>
@@ -495,8 +493,6 @@ namespace DenseDefinitions
 
         __syncthreads();
 
-        // note that the x vectors are stored in the shared memory
-        // in a structure of arrays pattern for a coalesced access
         for (int i = 0; i < nov; ++i)
         {
             sharedX[threadsPerBlock * i + localThreadID] = x[i];
@@ -546,7 +542,7 @@ namespace DenseDefinitions
             productSign *= -1; // sign for the next subset
         }
 
-        p[globalThreadID] = myResult;
+        p[globalThreadID] += myResult;
     }
 }
 

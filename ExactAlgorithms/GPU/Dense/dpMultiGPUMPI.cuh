@@ -166,19 +166,22 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         ) )
 
 #ifndef SILENT
-        static std::vector<bool> printed(gpuNum, false);
-        if (!printed[gpuNo])
+        #pragma omp critical
         {
-            printf("RANK: %d, %s (%d): Number of streaming multiprocessors: %d\n", machineID, prop.name, gpuNo, noSM);
-            printf("RANK: %d, %s (%d): Shared memory used per block: %d\n", machineID, prop.name, gpuNo, sharedMemoryPerBlock);
-            printf("RANK: %d, %s (%d): %f%% of the entire shared memory dedicated per block is used\n", machineID, prop.name, gpuNo, (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
-            printf("RANK: %d, %s (%d): Maximum number of registers that could be used per block: %d\n", machineID, prop.name, gpuNo, maxRegsPerBlock);
-            printf("RANK: %d, %s (%d): Grid Dimension: %d\n", machineID, prop.name, gpuNo, gridDim);
-            printf("RANK: %d, %s (%d): Block Dimension: %d\n", machineID, prop.name, gpuNo, blockDim);
-            printf("RANK: %d, %s (%d): Total number of threads: %d\n", machineID, prop.name, gpuNo, totalThreadCount);
-            printf("RANK: %d, %s (%d): Maximum number of blocks running concurrently on each SM: %d\n", machineID, prop.name, gpuNo, maxBlocks);
-            printf("RANK: %d, %s (%d): Maximum number of blocks running concurrently throughout the GPU: %d\n", machineID, prop.name, gpuNo, maxBlocks * noSM);
-            printed[gpuNo] = true;
+            static std::vector<bool> printed(gpuNum, false);
+            if (!printed[gpuNo])
+            {
+                printf("RANK: %d, %s (%d): Number of streaming multiprocessors: %d\n", machineID, prop.name, gpuNo, noSM);
+                printf("RANK: %d, %s (%d): Shared memory used per block: %d\n", machineID, prop.name, gpuNo, sharedMemoryPerBlock);
+                printf("RANK: %d, %s (%d): %f%% of the entire shared memory dedicated per block is used\n", machineID, prop.name, gpuNo, (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
+                printf("RANK: %d, %s (%d): Maximum number of registers that could be used per block: %d\n", machineID, prop.name, gpuNo, maxRegsPerBlock);
+                printf("RANK: %d, %s (%d): Grid Dimension: %d\n", machineID, prop.name, gpuNo, gridDim);
+                printf("RANK: %d, %s (%d): Block Dimension: %d\n", machineID, prop.name, gpuNo, blockDim);
+                printf("RANK: %d, %s (%d): Total number of threads: %d\n", machineID, prop.name, gpuNo, totalThreadCount);
+                printf("RANK: %d, %s (%d): Maximum number of blocks running concurrently on each SM: %d\n", machineID, prop.name, gpuNo, maxBlocks);
+                printf("RANK: %d, %s (%d): Maximum number of blocks running concurrently throughout the GPU: %d\n", machineID, prop.name, gpuNo, maxBlocks * noSM);
+                printed[gpuNo] = true;
+            }
         }
 #endif
 
@@ -188,6 +191,7 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 
         gpuErrchk( cudaMalloc(&d_x, nov * sizeof(C)) )
         gpuErrchk( cudaMalloc(&d_products, totalThreadCount * sizeof(C)) )
+        gpuErrchk( cudaMemset(d_products, 0, totalThreadCount * sizeof(C)) )
         gpuErrchk( cudaMalloc(&d_mat, (nov * nov) * sizeof(S)) )
 
         gpuErrchk( cudaMemcpy(d_x, x, nov * sizeof(C), cudaMemcpyHostToDevice) )
@@ -217,7 +221,7 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
             long long left = (myEnd - myStart);
             double passed = 0;
 
-            while (passed < 0.99 && totalThreadCount <= left)
+            while (passed < 0.99 && totalThreadCount < left)
             {
                 long long chunkSize = 1;
                 while ((chunkSize * totalThreadCount) < left)
@@ -234,14 +238,6 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                         myStart,
                         myEnd,
                         chunkSize);
-
-                gpuErrchk( cudaDeviceSynchronize() )
-                gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
-
-                for (int i = 0; i < totalThreadCount; ++i)
-                {
-                    myProductSum += h_products[i];
-                }
 
                 long long thisIteration = totalThreadCount * chunkSize;
                 left -= thisIteration;

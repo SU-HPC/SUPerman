@@ -120,7 +120,7 @@ namespace SparseDefinitions
             productSign *= -1; // sign for the next subset
         }
 
-        p[threadID] = myResult;
+        p[threadID] += myResult;
     }
 
     template <class C, class S>
@@ -272,7 +272,7 @@ namespace SparseDefinitions
             productSign *= -1; // sign for the next subset
         }
 
-        p[threadID] = myResult;
+        p[threadID] += myResult;
     }
 
     template <class C, class S>
@@ -297,8 +297,6 @@ namespace SparseDefinitions
         extern __shared__ char sharedMemory[];
         C* sharedX = (C*)sharedMemory;
 
-        // note that the x vectors are stored in the shared memory
-        // in a structure of arrays pattern for a coalesced access
         for (int i = 0; i < nov; ++i)
         {
             sharedX[threadsPerBlock * i + localThreadID] = x[i];
@@ -393,7 +391,7 @@ namespace SparseDefinitions
             productSign *= -1; // sign for the next subset
         }
 
-        p[globalThreadID] = myResult;
+        p[globalThreadID] += myResult;
     }
 
     template <class C, class S>
@@ -441,8 +439,6 @@ namespace SparseDefinitions
         size_t sharedCValsOffset = (sharedRowsOffset + nnz * sizeof(int) + (alignof(S) - 1)) & ~(alignof(S) - 1);
         S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
 
-        // note that the x vectors are stored in the shared memory
-        // in a structure of arrays pattern for a coalesced access
         if (localThreadID == 0)
         {
             for (int i = 0; i < nov; ++i)
@@ -555,7 +551,7 @@ namespace SparseDefinitions
             productSign *= -1; // sign for the next subset
         }
 
-        p[globalThreadID] = myResult;
+        p[globalThreadID] += myResult;
     }
 }
 
