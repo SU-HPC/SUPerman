@@ -15,8 +15,8 @@ def update_build_script(integer=None):
                 lines[i+2] = f"NOV_VAR={integer}\n"
                 lines[i+3] = "MAT_SPECIFIC_COMPILATION=true\n"
             else:
-                lines[i+1] = "SPECIFIC_VAR=REGISTERS35\n"
-                lines[i+2] = "NOV_VAR=35\n"
+                lines[i+1] = "SPECIFIC_VAR=REGISTERS40\n"
+                lines[i+2] = "NOV_VAR=40\n"
                 lines[i+3] = "MAT_SPECIFIC_COMPILATION=false\n"
             break
 
@@ -36,8 +36,8 @@ def update_cmake_file(integer=None):
                 lines[i+2] = f"add_compile_definitions(NOV={integer})\n"
                 lines[i+3] = "add_definitions(-DMAT_SPECIFIC_COMPILATION)\n"
             else:
-                lines[i+1] = "add_compile_definitions(SPECIFIC=REGISTERS35)\n"
-                lines[i+2] = "add_compile_definitions(NOV=35)\n"
+                lines[i+1] = "add_compile_definitions(SPECIFIC=REGISTERS40)\n"
+                lines[i+2] = "add_compile_definitions(NOV=40)\n"
                 lines[i+3] = "# add_definitions(-DMAT_SPECIFIC_COMPILATION)\n"
             break
 

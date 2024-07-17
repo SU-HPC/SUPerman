@@ -4,7 +4,7 @@ project(SUPerman)
 ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
 add_compile_definitions(SPECIFIC=REGISTERS40)
 add_compile_definitions(NOV=40)
-add_definitions(-DMAT_SPECIFIC_COMPILATION)
+# add_definitions(-DMAT_SPECIFIC_COMPILATION)
 ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
 
 # C++ standard
