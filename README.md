@@ -26,10 +26,10 @@ SUPerman allows users to compile the library optimized specifically for the matr
 To utilize this compilation method, pass an integer parameter indicating the size of the matrix to the build_superman.py Python program, like so:
 
 ```bash 
-  python3 build_superman.py 37  # Compiles the library optimized for a 37x37 matrix
+  python3 build_superman.py 40  # Compiles the library optimized for a 40x40 matrix
 ```
 
-In this example, the library will be compiled with optimizations based on the assumption that the permanent will be computed on a 37x37 matrix.
+In this example, the library will be compiled with optimizations based on the assumption that the permanent will be computed on a 40x40 matrix.
 
 ### Important Note on Matrix-Specific Compilation
 

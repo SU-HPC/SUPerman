@@ -501,7 +501,7 @@ void IO::sortOrder(Matrix<S>* matrix)
         {
             memcpy(&tempMat[j * nov], entryPtr->second, sizeof(S) * nov);
             ++j;
-            delete entryPtr->second;
+            delete[] entryPtr->second;
         }
     }
 
