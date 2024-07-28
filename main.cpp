@@ -6,7 +6,7 @@
 #include <iostream>
 #include "AlgorithmRecommender.h"
 #ifdef MPI_AVAILABLE
-#include "mpi.h"
+#include "mpi_wrapper.h"
 #endif
 
 #define S double
@@ -21,9 +21,9 @@ int main(int argv, char* argc[])
 #ifdef MPI_AVAILABLE
     int numberOfProcessors;
 
-    MPI_Init(nullptr, nullptr);
-    MPI_Comm_rank(MPI_COMM_WORLD, &machineID);
-    MPI_Comm_size(MPI_COMM_WORLD, &numberOfProcessors);
+    initMPI(nullptr, nullptr);
+    mpiCommRank(getMPI_COMM_WORLD(), &machineID);
+    mpiCommSize(getMPI_COMM_WORLD(), &numberOfProcessors);
     settings.machineID = machineID;
     settings.processorNum = numberOfProcessors;
 #endif
@@ -49,7 +49,7 @@ int main(int argv, char* argc[])
     delete matrix;
 
 #ifdef MPI_AVAILABLE
-    MPI_Finalize();
+    finalizeMPI();
 #endif
 
     return 0;

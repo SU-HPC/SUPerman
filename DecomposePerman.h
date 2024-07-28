@@ -18,9 +18,6 @@
 #include "IO.h"
 #include <vector>
 #include "Helpers.h"
-#ifdef MPI_AVAILABLE
-#include "mpi_wrapper.h"
-#endif
 
 
 template <class C, class S, class Permanent>

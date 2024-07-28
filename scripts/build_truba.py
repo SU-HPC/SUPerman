@@ -2,9 +2,10 @@ import os
 import subprocess
 import sys
 
+repo_path="/truba/home/delbek/SUPerman/"
 
 def update_build_script(integer=None):
-    build_sh_path = "scripts/build.sh"
+    build_sh_path = repo_path + "scripts/build.sh"
     with open(build_sh_path, 'r') as file:
         lines = file.readlines()
 
@@ -25,7 +26,7 @@ def update_build_script(integer=None):
 
 
 def update_cmake_file(integer=None):
-    cmake_path = "CMakeLists.txt"
+    cmake_path = repo_path + "CMakeLists.txt"
     with open(cmake_path, 'r') as file:
         lines = file.readlines()
 
@@ -65,24 +66,6 @@ def main():
     else:
         update_build_script()
         update_cmake_file()
-
-    commands = [
-        "chmod +x scripts/build.sh",
-        "scripts/build.sh",
-        "mkdir -p build",
-        "cd build",
-        "cmake ..",
-        "make",
-        "cd ..",
-        "chmod +x run_superman.sh"
-    ]
-
-    for command in commands:
-        if command.startswith("cd"):
-            dir_name = command.split(" ")[1]
-            os.chdir(dir_name)
-        else:
-            run_command(command)
 
 
 if __name__ == "__main__":

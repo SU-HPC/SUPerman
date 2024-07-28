@@ -11,6 +11,16 @@ extern "C" void initMPI(int *argc, char ***argv)
     MPI_Init(argc, argv);
 }
 
+extern "C" void mpiCommRank(MPI_Comm comm, int* rank)
+{
+    MPI_Comm_rank(comm, rank);
+}
+
+extern "C" void mpiCommSize(MPI_Comm comm, int* size)
+{
+    MPI_Comm_size(comm, size);
+}
+
 extern "C" void finalizeMPI()
 {
     MPI_Finalize();

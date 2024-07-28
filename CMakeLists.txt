@@ -141,8 +141,8 @@ endif()
 
 # Runtime recognition of the shared library
 set_target_properties(SUPerman PROPERTIES
-    BUILD_RPATH "${SHARED_LIBRARY_PATH}"
-    INSTALL_RPATH "${SHARED_LIBRARY_PATH}"
+        BUILD_RPATH "${SHARED_LIBRARY_PATH}"
+        INSTALL_RPATH "${SHARED_LIBRARY_PATH}"
 )
 
 target_compile_options(SUPerman PRIVATE -O3)
