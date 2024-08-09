@@ -1,15 +1,15 @@
 #!/bin/bash
 
-#SBATCH -J superman_8
+#SBATCH -J superman_16
+#SBATCH --account=proj13
 #SBATCH -N 2
 #SBATCH -n 2
-#SBATCH -c 10
-#SBATCH --partition=akya-cuda
-#SBATCH --constraint=akya-cuda
-#SBATCH --gres=gpu:4
+#SBATCH -c 128
+#SBATCH --partition=palamut-cuda
+#SBATCH --gres=gpu:8
 #SBATCH --time=1-0:00:00
-#SBATCH --output=/truba/home/delbek/SUPerman/res/superman8-%j.out
-#SBATCH --error=/truba/home/delbek/SUPerman/res/superman8-%j.err
+#SBATCH --output=/truba/home/delbek/SUPerman/res/superman16-%j.out
+#SBATCH --error=/truba/home/delbek/SUPerman/res/superman16-%j.err
 
 echo "SLURM NODELIST $SLURM_NODELIST"
 echo "NUMBER OF SLURM CORES $SLURM_NTASKS"
@@ -17,25 +17,19 @@ echo "NUMBER OF SLURM CORES $SLURM_NTASKS"
 module purge
 
 # CMAKE
-module load centos7.3/comp/cmake/3.18.0
+module load centos7.9/comp/cmake/3.24.0
 
 # GCC
-module load centos7.3/comp/gcc/7
+module load centos7.9/comp/gcc/7
 
 # CUDA
-module load centos7.3/lib/cuda/10.1
+module load centos7.9/lib/cuda/11.8
 
 # OpenMPI
-module load centos7.3/lib/openmpi/4.0.1-gcc-7.0.1
-module load centos7.3/lib/openmpi/4.0.1-intel-PS2018
+module load centos7.9/lib/openmpi/4.1.5-gcc-7
 
 # Python
-module load centos7.3/comp/python/3.5.5-intel
-module load centos7.3/comp/python/3.6.5-gcc
-
-# OMP
-module load centos7.3/comp/intel/PS2019-update1
-module load centos7.3/comp/intel/PS2018-update2
+module load centos7.9/lib/intelpython3/2024.0.0
 
 # repo path
 repo_path=/truba/home/delbek/SUPerman/
@@ -47,8 +41,8 @@ matrix_directory=/truba/home/delbek/test_matrices/
 build_directory=/truba/home/delbek/SUPerman/build/
 
 # output dirs
-mkdir -p ${repo_path}8_gpu_results/normal
-mkdir -p ${repo_path}8_gpu_results/mat_optimized
+mkdir -p ${repo_path}16_gpu_results/normal
+mkdir -p ${repo_path}16_gpu_results/mat_optimized
 
 filenames=(
 "deniz_dense_30.mtx"
@@ -69,16 +63,18 @@ filenames=(
 
 algorithms=("auto" "auto" "auto" "auto" "auto" "auto" "auto" "auto" "auto" "auto" "auto" "auto" "auto" "auto")
 modes=("multi_gpu_mpi" "multi_gpu_mpi" "multi_gpu_mpi" "multi_gpu_mpi" "multi_gpu_mpi" "multi_gpu_mpi" "multi_gpu_mpi" "multi_gpu_mpi" "multi_gpu_mpi" "multi_gpu_mpi" "multi_gpu_mpi" "multi_gpu_mpi" "multi_gpu_mpi" "multi_gpu_mpi")
-thread_counts=(10 10 10 10 10 10 10 10 10 10 10 10 10 10)
+thread_counts=(16 16 16 16 16 16 16 16 16 16 16 16 16 16)
 device_ids=(0 0 0 0 0 0 0 0 0 0 0 0 0 0)
-gpu_nums=(4 4 4 4 4 4 4 4 4 4 4 4 4 4)
+gpu_nums=(8 8 8 8 8 8 8 8 8 8 8 8 8 8)
 is_binary=("false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false")
 is_undirected=("false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false")
 requires_scaling=("false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false")
 scaling_iteration_nos=(100 100 100 100 100 100 100 100 100 100 100 100 100 100)
 chunk_partitionings=(5 5 5 5 5 5 5 5 5 5 5 5 5 5)
 
-export OMP_NUM_THREADS=${10}
+CPU_THREADS=16
+export OMP_NUM_THREADS=${CPU_THREADS}
+echo "Using ${CPU_THREADS} threads"
 
 extract_matrix_size() {
   local filename=$1
@@ -108,13 +104,13 @@ build_mat_specific() {
 # Run kernels in normal mode
 for i in "${!filenames[@]}"; do
   build
-  output_file="${repo_path}8_gpu_results/normal/${filenames[$i]%.*}+${algorithms[$i]}.txt"
+  output_file="${repo_path}16_gpu_results/normal/${filenames[$i]%.*}+${algorithms[$i]}.txt"
   mpirun -np 2 --map-by node:PE=2 ${build_directory}SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" scaling="${requires_scaling[$i]}" scaling_iteration_no="${scaling_iteration_nos[$i]}" chunk_partitioning="${chunk_partitionings[$i]}" >> "${output_file}"
 done
 
 # Run kernels in mat specific compilation
 for i in "${!filenames[@]}"; do
   build_mat_specific "${filenames[$i]}"
-  output_file="${repo_path}8_gpu_results/mat_optimized/${filenames[$i]%.*}+${algorithms[$i]}.txt"
+  output_file="${repo_path}16_gpu_results/mat_optimized/${filenames[$i]%.*}+${algorithms[$i]}.txt"
   mpirun -np 2 --map-by node:PE=2 ${build_directory}SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" scaling="${requires_scaling[$i]}" scaling_iteration_no="${scaling_iteration_nos[$i]}" chunk_partitioning="${chunk_partitionings[$i]}" >> "${output_file}"
 done

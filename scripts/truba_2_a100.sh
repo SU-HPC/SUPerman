@@ -1,11 +1,11 @@
 #!/bin/bash
 
 #SBATCH -J superman_2
+#SBATCH --account=proj13
 #SBATCH -N 1
 #SBATCH -n 1
-#SBATCH -c 10
-#SBATCH --partition=akya-cuda
-#SBATCH --constraint=akya-cuda
+#SBATCH -c 32
+#SBATCH --partition=palamut-cuda
 #SBATCH --gres=gpu:2
 #SBATCH --time=1-0:00:00
 #SBATCH --output=/truba/home/delbek/SUPerman/res/superman2-%j.out
@@ -17,25 +17,19 @@ echo "NUMBER OF SLURM CORES $SLURM_NTASKS"
 module purge
 
 # CMAKE
-module load centos7.3/comp/cmake/3.18.0
+module load centos7.9/comp/cmake/3.24.0
 
 # GCC
-module load centos7.3/comp/gcc/7
+module load centos7.9/comp/gcc/7
 
 # CUDA
-module load centos7.3/lib/cuda/10.1
+module load centos7.9/lib/cuda/11.8
 
 # OpenMPI
-module load centos7.3/lib/openmpi/4.0.1-gcc-7.0.1
-module load centos7.3/lib/openmpi/4.0.1-intel-PS2018
+module load centos7.9/lib/openmpi/4.1.5-gcc-7
 
 # Python
-module load centos7.3/comp/python/3.5.5-intel
-module load centos7.3/comp/python/3.6.5-gcc
-
-# OMP
-module load centos7.3/comp/intel/PS2019-update1
-module load centos7.3/comp/intel/PS2018-update2
+module load centos7.9/lib/intelpython3/2024.0.0
 
 # repo path
 repo_path=/truba/home/delbek/SUPerman/
@@ -69,7 +63,7 @@ filenames=(
 
 algorithms=("auto" "auto" "auto" "auto" "auto" "auto" "auto" "auto" "auto" "auto" "auto" "auto" "auto" "auto")
 modes=("multi_gpu" "multi_gpu" "multi_gpu" "multi_gpu" "multi_gpu" "multi_gpu" "multi_gpu" "multi_gpu" "multi_gpu" "multi_gpu" "multi_gpu" "multi_gpu" "multi_gpu" "multi_gpu")
-thread_counts=(10 10 10 10 10 10 10 10 10 10 10 10 10 10)
+thread_counts=(16 16 16 16 16 16 16 16 16 16 16 16 16 16)
 device_ids=(0 0 0 0 0 0 0 0 0 0 0 0 0 0)
 gpu_nums=(2 2 2 2 2 2 2 2 2 2 2 2 2 2)
 is_binary=("false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false" "false")
@@ -78,7 +72,9 @@ requires_scaling=("false" "false" "false" "false" "false" "false" "false" "false
 scaling_iteration_nos=(100 100 100 100 100 100 100 100 100 100 100 100 100 100)
 chunk_partitionings=(5 5 5 5 5 5 5 5 5 5 5 5 5 5)
 
-export OMP_NUM_THREADS=${10}
+CPU_THREADS=16
+export OMP_NUM_THREADS=${CPU_THREADS}
+echo "Using ${CPU_THREADS} threads"
 
 extract_matrix_size() {
   local filename=$1

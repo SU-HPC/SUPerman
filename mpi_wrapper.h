@@ -5,9 +5,9 @@
 #ifndef MPI_WRAPPER_H
 #define MPI_WRAPPER_H
 
-typedef int MPI_Comm;
-typedef int MPI_Datatype;
-typedef int MPI_Op;
+typedef struct ompi_communicator_t *MPI_Comm;
+typedef struct ompi_datatype_t *MPI_Datatype;
+typedef struct ompi_op_t *MPI_Op;
 
 extern "C"
 {
