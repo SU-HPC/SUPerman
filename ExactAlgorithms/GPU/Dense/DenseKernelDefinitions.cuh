@@ -11,7 +11,7 @@
 
 namespace DenseDefinitions
 {
-    // all matrices are assumed to have been their transpose taken before passed into the following kernels
+    // all matrices are assumed to be stored in the col-major order, meaning their transpose taken in the host code
 
     template <class C, class S>
     __global__ void xRegisterMSharedMatSpecificCompilation(S* mat,

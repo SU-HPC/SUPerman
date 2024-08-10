@@ -31,17 +31,20 @@ public:
     static Matrix<S>* denseToSparse(Matrix<S>* denseMatrix, int nnz);
 
     template <class S>
-    static void order(Matrix<S>* matrix);
+    static void skipOrder(Matrix<S>* matrix);
+
+    template <class S>
+    static void sortOrder(Matrix<S>* matrix);
+
+    template <class S>
+    static void UTOrder(Matrix<S>* matrix);
 
     template <class S>
     static void scale(Matrix<S>* matrix, const Settings& settings, ScalingCompact<S>* scalingCompact);
 
 private:
     template <class S>
-    static void skipOrder(Matrix<S>* matrix);
-
-    template <class S>
-    static void sortOrder(Matrix<S>* matrix);
+    static void applyRowPermutation(Matrix<S>* matrix, int* rowIPermutation);
 
     template <class S>
     static void trim(std::string &s);
@@ -242,7 +245,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             }
             catch (const std::exception& e)
             {
-                throw std::runtime_error("A double value should be provided to the scaling_threshold argument!");
+                throw std::runtime_error("An integer value should be provided to the scaling_iteration_no argument!");
             }
         }
         else if (arg == "chunk_partitioning")
@@ -364,19 +367,6 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     return matrix;
 }
 
-template <class S>
-void IO::order(Matrix<S> *matrix)
-{
-    if (matrix->sparsity < 10)
-    {
-        IO::skipOrder(matrix);
-    }
-    else if (matrix->sparsity < 50)
-    {
-        IO::sortOrder(matrix);
-    }
-}
-
 template<class S>
 void IO::skipOrder(Matrix<S>* matrix)
 {
@@ -475,7 +465,7 @@ void IO::sortOrder(Matrix<S>* matrix)
         memset(col, 0, sizeof(S) * nov);
         for(int i = 0; i < nov; i++)
         {
-            S& entry = mat[i * nov + j];
+            S entry = mat[i * nov + j];
             if (entry != 0)
             {
                 col[i] = entry;
@@ -493,20 +483,98 @@ void IO::sortOrder(Matrix<S>* matrix)
         buckets[arr[i].first].push_back(&arr[i]);
     }
 
-    S* tempMat = new S[nov * nov];
+    S* newMat = new S[nov * nov];
     int j = 0;
-    for (int i = nov; i >= 0; --i)
+    for (int i = 0; i <= nov; ++i)
     {
-        for (Entry*& entryPtr: buckets[i])
+        for (Entry* entryPtr: buckets[i])
         {
-            memcpy(&tempMat[j * nov], entryPtr->second, sizeof(S) * nov);
+            memcpy(&newMat[j * nov], entryPtr->second, sizeof(S) * nov);
             ++j;
             delete[] entryPtr->second;
         }
     }
 
-    memcpy(mat, tempMat, sizeof(S) * nov * nov);
-    delete[] tempMat;
+    matrix->mat = newMat;
+    delete[] mat;
+}
+
+template<class S>
+void IO::UTOrder(Matrix<S> *matrix)
+{
+    sortOrder(matrix);
+
+    int nov = matrix->nov;
+    S* mat = matrix->mat;
+
+    int* rowIPermutation = new int[nov];
+    for (int i = 0; i < nov; ++i)
+    {
+        rowIPermutation[i] = i;
+    }
+
+    bool* rowMarkers = new bool[nov];
+    memset(rowMarkers, false, sizeof(bool) * nov);
+
+    int free = 0;
+
+    for (int j = 0; j < nov; ++j)
+    {
+        for (int i = 0; i < nov; ++i)
+        {
+            if (mat[i * nov + j] == 0)
+            {
+                continue;
+            }
+
+            if (!rowMarkers[i])
+            {
+                int newPlace;
+                if (rowIPermutation[i] > free)
+                {
+                    newPlace = free++;
+                }
+                else
+                {
+                    ++free;
+                    rowMarkers[i] = true;
+                    continue;
+                }
+
+                for (int r = 0; r < nov; ++r)
+                {
+                    if (rowIPermutation[r] < rowIPermutation[i] && rowIPermutation[r] >= newPlace)
+                    {
+                        ++rowIPermutation[r];
+                    }
+                }
+
+                rowIPermutation[i] = newPlace;
+                rowMarkers[i] = true;
+            }
+        }
+    }
+
+    applyRowPermutation(matrix, rowIPermutation);
+
+    delete[] rowMarkers;
+    delete[] rowIPermutation;
+}
+
+template<class S>
+void IO::applyRowPermutation(Matrix<S> *matrix, int *rowIPermutation)
+{
+    int nov = matrix->nov;
+    S* mat = matrix->mat;
+    S* newMat = new S[nov * nov];
+
+    for (int i = 0; i < nov; ++i)
+    {
+        memcpy(&newMat[rowIPermutation[i]], &mat[i], sizeof(S) * nov);
+    }
+
+    matrix->mat = newMat;
+    delete[] mat;
 }
 
 template<class S>
@@ -541,7 +609,7 @@ Matrix<S> *IO::denseToSparse(Matrix<S>* denseMatrix, int nnz)
             if (mat[j * nov + i] != 0)
             {
                 rows[colNNZ] = j;
-                cvals[colNNZ] = mat[j*nov + i];
+                cvals[colNNZ] = mat[j * nov + i];
                 ++colNNZ;
             }
         }
