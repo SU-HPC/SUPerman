@@ -71,7 +71,7 @@ if [ "$MPI_FOUND" = true ] && [ "$CUDA_FOUND" = true ]; then
     fi
 
     # g++ compiles mpi_wrapper
-    g++ ${COMPILE_FLAGS} -c -o mpi_wrapper.o mpi_wrapper.cpp $MPI_CXX_COMPILE_FLAGS -fPIC
+    g++ ${COMPILE_FLAGS} -fopenmp -c -o mpi_wrapper.o mpi_wrapper.cpp $MPI_CXX_COMPILE_FLAGS -fPIC
 
     # nvcc compiles cuda
     nvcc ${COMPILE_FLAGS} -c -o GPUKernelWrappers.o ExactAlgorithms/GPU/GPUKernelWrappers.cu \
@@ -83,17 +83,15 @@ if [ "$MPI_FOUND" = true ] && [ "$CUDA_FOUND" = true ]; then
         -IExactAlgorithms/GPU \
         -IExactAlgorithms/GPU/Dense \
         -IExactAlgorithms/GPU/Sparse \
-        -IExactAlgorithms/MPI \
-        -IExactAlgorithms/MPI/Dense \
-        -IExactAlgorithms/MPI/Sparse \
         $INCLUDE_DIRS \
         -DMPI -DGPU \
         --ptxas-options=-v \
         -Xptxas -dlcm=ca \
+        --generate-line-info \
         -Xcompiler "-fopenmp $MPI_CXX_COMPILE_FLAGS -fPIC"
 
     # link objects
-    g++ ${COMPILE_FLAGS} -shared -o libWrappers.so mpi_wrapper.o GPUKernelWrappers.o $LIB_DIRS $LIBS $CUDA_LIBS -fopenmp
+    g++ ${COMPILE_FLAGS} -fopenmp -shared -o libWrappers.so mpi_wrapper.o GPUKernelWrappers.o $LIB_DIRS $LIBS $CUDA_LIBS
 
 elif [ "$MPI_FOUND" != true ] && [ "$CUDA_FOUND" = true ]; then
     echo "Only CUDA found."
@@ -115,16 +113,14 @@ elif [ "$MPI_FOUND" != true ] && [ "$CUDA_FOUND" = true ]; then
         -IExactAlgorithms/GPU \
         -IExactAlgorithms/GPU/Dense \
         -IExactAlgorithms/GPU/Sparse \
-        -IExactAlgorithms/MPI \
-        -IExactAlgorithms/MPI/Dense \
-        -IExactAlgorithms/MPI/Sparse \
         -DGPU \
         --ptxas-options=-v \
         -Xptxas -dlcm=ca \
+        --generate-line-info \
         -Xcompiler "-fopenmp -fPIC"
 
     # link objects
-    g++ ${COMPILE_FLAGS} -shared -o libWrappers.so GPUKernelWrappers.o -L$CUDA_LIB_DIR -lcudart -lcuda -fopenmp
+    g++ ${COMPILE_FLAGS} -fopenmp -shared -o libWrappers.so GPUKernelWrappers.o -L$CUDA_LIB_DIR -lcudart -lcuda
 
 else
     echo "Neither MPI nor CUDA found. Creating a shared library without them."
@@ -136,5 +132,5 @@ else
     fi
 
     # Create an empty shared library
-    g++ ${COMPILE_FLAGS} -shared -o libWrappers.so -x c++ /dev/null -fPIC
+    g++ ${COMPILE_FLAGS} -fopenmp -shared -o libWrappers.so -x c++ /dev/null -fPIC
 fi
