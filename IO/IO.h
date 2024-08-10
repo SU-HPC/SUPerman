@@ -31,9 +31,6 @@ public:
     static Matrix<S>* denseToSparse(Matrix<S>* denseMatrix, int nnz);
 
     template <class S>
-    static void order(Matrix<S>* matrix);
-
-    template <class S>
     static void skipOrder(Matrix<S>* matrix);
 
     template <class S>
@@ -368,19 +365,6 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     matrix->sparsity = sparsity;
 
     return matrix;
-}
-
-template <class S>
-void IO::order(Matrix<S> *matrix)
-{
-    if (matrix->sparsity < 10)
-    {
-        IO::skipOrder(matrix);
-    }
-    else if (matrix->sparsity < 50)
-    {
-        IO::UTOrder(matrix);
-    }
 }
 
 template<class S>
