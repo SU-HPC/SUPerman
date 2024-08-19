@@ -148,7 +148,7 @@ endif()
 #        INSTALL_RPATH "${SHARED_LIBRARY_PATH}"
 #)
 
-#target_compile_options(SUPerman PRIVATE -O3)
+target_compile_options(SUPerman PRIVATE -O3)
 target_compile_options(SUPerman PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
         --generate-line-info
         >)
