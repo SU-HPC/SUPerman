@@ -8,7 +8,7 @@ add_compile_definitions(NOV=40)
 ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
 
 # C++ standard
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_BUILD_TYPE Debug)
 
 # OpenMP
@@ -23,10 +23,12 @@ endif()
 include(CheckLanguage)
 check_language(CUDA)
 if(CMAKE_CUDA_COMPILER)
+    set(CMAKE_CUDA_ARCHITECTURES 70 75 80)
     enable_language(CUDA)
     add_definitions(-DGPU_AVAILABLE)
     #set(CMAKE_CUDA_FLAGS_DEBUG "${CMAKE_CUDA_FLAGS_DEBUG} -G -lineinfo")
     set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler ${OpenMP_CXX_FLAGS}")
+    find_package(CUDAToolkit REQUIRED)
 endif()
 
 # MPI
@@ -121,19 +123,21 @@ endif()
 
 # Create executable
 add_executable(SUPerman
-        main.cu
+        main.cpp
         ${FILES}
 )
 
 # Shared Library
-#set(SHARED_LIBRARY_PATH "${CMAKE_SOURCE_DIR}")
-#set(SHARED_LIBRARY_NAME "libWrappers.so")
+set(SHARED_LIBRARY_PATH "${CMAKE_SOURCE_DIR}")
+set(SHARED_LIBRARY_NAME "libWrappers.so")
 
 # Link the shared library
 target_link_libraries(SUPerman
         OpenMP::OpenMP_CXX
         cuda
-#        ${SHARED_LIBRARY_PATH}/${SHARED_LIBRARY_NAME}
+        CUDA::cudart
+        ${CUDA_LIBRARIES}
+        ${SHARED_LIBRARY_PATH}/${SHARED_LIBRARY_NAME}
 )
 
 if(MPI_FOUND)
@@ -143,12 +147,14 @@ if(MPI_FOUND)
 endif()
 
 # Runtime recognition of the shared library
-#set_target_properties(SUPerman PROPERTIES
-#        BUILD_RPATH "${SHARED_LIBRARY_PATH}"
-#        INSTALL_RPATH "${SHARED_LIBRARY_PATH}"
-#)
+set_target_properties(SUPerman PROPERTIES
+        BUILD_RPATH "${SHARED_LIBRARY_PATH}"
+        INSTALL_RPATH "${SHARED_LIBRARY_PATH}"
+)
 
 target_compile_options(SUPerman PRIVATE -O3)
 target_compile_options(SUPerman PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
         --generate-line-info
         >)
+
+set_target_properties(SUPerman PROPERTIES CUDA_SEPARABLE_COMPILATION ON)

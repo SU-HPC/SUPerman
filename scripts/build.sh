@@ -62,7 +62,7 @@ if [ "$MPI_FOUND" = true ] && [ "$CUDA_FOUND" = true ]; then
     done
 
     # cuda libs
-    CUDA_LIBS="-lcuda"
+    CUDA_LIBS="-lcudart -lcuda"
 
     # compile flags
     COMPILE_FLAGS="-DMPI_AVAILABLE -DGPU_AVAILABLE -DSPECIFIC=${SPECIFIC_VAR} -DNOV=${NOV_VAR} -O3"
@@ -122,7 +122,7 @@ elif [ "$MPI_FOUND" != true ] && [ "$CUDA_FOUND" = true ]; then
         -Xcompiler "-fopenmp -fPIC"
 
     # link objects
-    g++ ${COMPILE_FLAGS} -fopenmp -shared -o libWrappers.so GPUKernelWrappers.o -L$CUDA_LIB_DIR -lcuda
+    g++ ${COMPILE_FLAGS} -fopenmp -shared -o libWrappers.so GPUKernelWrappers.o -L$CUDA_LIB_DIR -lcudart -lcuda
 
 else
     echo "Neither MPI nor CUDA found. Creating a shared library without them."

@@ -7,7 +7,7 @@ build_directory="build"
 matrix_directory="/common_data/matrices/"
 # The directory under which your matrix files are located.
 
-filenames=("all1_45.mtx")
+filenames=("all1_40.mtx")
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based. Otherwise, it assumes them to be 0-based.
 
@@ -15,7 +15,7 @@ algorithms=("auto")
 # The algorithm used to compute the permanent of your matrix.
 # "auto" lets the library select the fastest algorithm available.
 
-modes=("single_gpu")
+modes=("cpu")
 # The mode in which the matrix permanent is computed.
 # Available modes are:
 # - cpu: Uses only the CPU (very slow; avoid if your matrix size exceeds 40x40).
