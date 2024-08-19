@@ -174,7 +174,7 @@ extern Result gpuDPSingleGPU(Matrix<S>* matrix, Settings* settings)
             result = permanent->computePermanentRecursively();
             delete permanent;
         #else
-            auto permanent = new DecomposePerman<C, S, kernelGenSingleGPU<C, S, &globalKernel, dpNoShared<C, S> > >(Algorithm::XREGISTERMSHARED, matrix, *settings);
+            auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xRegisterMShared, dpMShared<C, S> > >(Algorithm::XREGISTERMSHARED, matrix, *settings);
             result = permanent->computePermanentRecursively();
             delete permanent;
         #endif

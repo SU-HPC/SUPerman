@@ -22,7 +22,7 @@ public:
     virtual double permanentFunction() final;
 
 public:
-    C productSum;
+    __float128 productSum;
 };
 
 

@@ -7,7 +7,7 @@ build_directory="build"
 matrix_directory="/common_data/matrices/"
 # The directory under which your matrix files are located.
 
-filenames=("deniz_generate.mtx")
+filenames=("all1_45.mtx")
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based. Otherwise, it assumes them to be 0-based.
 
@@ -41,7 +41,7 @@ is_binary=("false")
 is_undirected=("false")
 # If true, the library assumes that the matrix is undirected, meaning for every edge u -> v, there is also an edge v -> u.
 
-requires_scaling=("true")
+requires_scaling=("false")
 # If true, the matrix will be scaled. For more details on this process, refer to our article.
 scaling_iteration_nos=(100)
 # Number of iterations required for scaling
