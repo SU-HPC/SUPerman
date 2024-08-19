@@ -9,7 +9,6 @@
 #include <cmath>
 
 
-template <class S>
 struct ScalingCompact
 {
     ~ScalingCompact()
@@ -18,8 +17,8 @@ struct ScalingCompact
         delete[] colScale;
     }
 
-    S *rowScale;
-    S *colScale;
+    __float128 *rowScale;
+    __float128 *colScale;
 };
 
 template <class S>

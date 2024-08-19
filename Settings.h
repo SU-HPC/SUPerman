@@ -35,6 +35,7 @@ struct Settings
     bool undirected;
     bool scaling;
     unsigned scalingIterationNo;
+    unsigned scaleInto;
 
     // CPU Specific
     int threadC;

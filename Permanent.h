@@ -46,9 +46,10 @@ public:
 template <class C, class S>
 Result Permanent<C, S>::computePermanent()
 {
+    IO::UTOrder(m_Matrix);
+
     if (m_Settings.algorithm != XREGISTERMSHARED && m_Settings.algorithm != XREGISTERMGLOBAL && m_Matrix->sparsity < 50)
     {
-        IO::sortOrder(m_Matrix);
         m_Matrix = IO::denseToSparse(m_Matrix, getNNZ(m_Matrix));
     }
 

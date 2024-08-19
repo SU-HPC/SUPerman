@@ -50,7 +50,7 @@ protected:
     Matrix<S>* m_Matrix;
     Settings m_Settings;
     std::vector<Permanent*> m_Permanents;
-    std::vector<ScalingCompact<S>*> m_ScalingValues;
+    std::vector<ScalingCompact*> m_ScalingValues;
 };
 
 
@@ -67,7 +67,7 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
         }
     }
 
-    C overall = 0;
+    __float128 overall = 0;
     if (m_Settings.machineID == 0)
     {
         std::cout << "The computation of the original permanent is partitioned into the computation of the " << m_Permanents.size() << " sub-permanent." << std::endl;
@@ -75,12 +75,12 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
     for (int p = 0; p < m_Permanents.size(); ++p)
     {
         auto derived = dynamic_cast<Permanent*>(m_Permanents[p]);
-        C result = ((4 * (derived->m_Matrix->nov & 1) - 2) * derived->productSum);
+        __float128 result = ((4 * (derived->m_Matrix->nov & 1) - 2) * derived->productSum);
         if (m_Settings.scaling)
         {
             auto scalingCompact = m_ScalingValues[p];
-            S* rowScale = scalingCompact->rowScale;
-            S* colScale = scalingCompact->colScale;
+            __float128* rowScale = scalingCompact->rowScale;
+            __float128* colScale = scalingCompact->colScale;
             for (int i = 0; i < derived->m_Matrix->nov; ++i)
             {
                 result /= rowScale[i];
@@ -157,7 +157,7 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
         }
         if (m_Settings.scaling)
         {
-            ScalingCompact<S>* scalingCompact = new ScalingCompact<S>;
+            ScalingCompact* scalingCompact = new ScalingCompact;
             IO::scale(newMatrix, m_Settings, scalingCompact);
             m_ScalingValues.push_back(scalingCompact);
         }

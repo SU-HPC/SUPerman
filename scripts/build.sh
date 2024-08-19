@@ -62,7 +62,7 @@ if [ "$MPI_FOUND" = true ] && [ "$CUDA_FOUND" = true ]; then
     done
 
     # cuda libs
-    CUDA_LIBS="-lcudart -lcuda"
+    CUDA_LIBS="-lcuda"
 
     # compile flags
     COMPILE_FLAGS="-DMPI_AVAILABLE -DGPU_AVAILABLE -DSPECIFIC=${SPECIFIC_VAR} -DNOV=${NOV_VAR} -O3"
@@ -83,6 +83,7 @@ if [ "$MPI_FOUND" = true ] && [ "$CUDA_FOUND" = true ]; then
         -IExactAlgorithms/GPU \
         -IExactAlgorithms/GPU/Dense \
         -IExactAlgorithms/GPU/Sparse \
+        -IExactAlgorithms/GPU/CodeGeneration \
         $INCLUDE_DIRS \
         -DMPI -DGPU \
         --ptxas-options=-v \
@@ -113,6 +114,7 @@ elif [ "$MPI_FOUND" != true ] && [ "$CUDA_FOUND" = true ]; then
         -IExactAlgorithms/GPU \
         -IExactAlgorithms/GPU/Dense \
         -IExactAlgorithms/GPU/Sparse \
+        -IExactAlgorithms/GPU/CodeGeneration \
         -DGPU \
         --ptxas-options=-v \
         -Xptxas -dlcm=ca \
@@ -120,7 +122,7 @@ elif [ "$MPI_FOUND" != true ] && [ "$CUDA_FOUND" = true ]; then
         -Xcompiler "-fopenmp -fPIC"
 
     # link objects
-    g++ ${COMPILE_FLAGS} -fopenmp -shared -o libWrappers.so GPUKernelWrappers.o -L$CUDA_LIB_DIR -lcudart -lcuda
+    g++ ${COMPILE_FLAGS} -fopenmp -shared -o libWrappers.so GPUKernelWrappers.o -L$CUDA_LIB_DIR -lcuda
 
 else
     echo "Neither MPI nor CUDA found. Creating a shared library without them."
