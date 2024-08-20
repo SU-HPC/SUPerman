@@ -31,8 +31,10 @@ struct Settings
     // General
     Algorithm algorithm;
     Mode mode;
+
     bool binary;
     bool undirected;
+
     bool scaling;
     unsigned scalingIterationNo;
     unsigned scaleInto;

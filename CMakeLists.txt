@@ -14,7 +14,6 @@ set(CMAKE_CXX_STANDARD 20)
 # OpenMP
 find_package(OpenMP REQUIRED)
 if(OpenMP_FOUND)
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler ${OpenMP_CXX_FLAGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
@@ -23,11 +22,11 @@ endif()
 include(CheckLanguage)
 check_language(CUDA)
 if(CMAKE_CUDA_COMPILER)
-    set(CMAKE_CUDA_ARCHITECTURES 70 75 80)
+    set(CMAKE_CUDA_ARCHITECTURES 60 70 75 80)
     enable_language(CUDA)
     add_definitions(-DGPU_AVAILABLE)
     #set(CMAKE_CUDA_FLAGS_DEBUG "${CMAKE_CUDA_FLAGS_DEBUG} -G -lineinfo")
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler ${OpenMP_CXX_FLAGS}")
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler")
     find_package(CUDAToolkit REQUIRED)
 endif()
 
@@ -128,8 +127,8 @@ add_executable(SUPerman
 )
 
 # Shared Library
-set(SHARED_LIBRARY_PATH "${CMAKE_SOURCE_DIR}")
-set(SHARED_LIBRARY_NAME "libWrappers.so")
+#set(SHARED_LIBRARY_PATH "${CMAKE_SOURCE_DIR}")
+#set(SHARED_LIBRARY_NAME "libWrappers.so")
 
 # Link the shared library
 target_link_libraries(SUPerman
@@ -137,7 +136,7 @@ target_link_libraries(SUPerman
         cuda
         CUDA::cudart
         ${CUDA_LIBRARIES}
-        ${SHARED_LIBRARY_PATH}/${SHARED_LIBRARY_NAME}
+        #${SHARED_LIBRARY_PATH}/${SHARED_LIBRARY_NAME}
 )
 
 if(MPI_FOUND)
@@ -147,14 +146,12 @@ if(MPI_FOUND)
 endif()
 
 # Runtime recognition of the shared library
-set_target_properties(SUPerman PROPERTIES
-        BUILD_RPATH "${SHARED_LIBRARY_PATH}"
-        INSTALL_RPATH "${SHARED_LIBRARY_PATH}"
-)
+#set_target_properties(SUPerman PROPERTIES
+#        BUILD_RPATH "${SHARED_LIBRARY_PATH}"
+#        INSTALL_RPATH "${SHARED_LIBRARY_PATH}"
+#)
 
 target_compile_options(SUPerman PRIVATE -O3)
 target_compile_options(SUPerman PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
         --generate-line-info
         >)
-
-set_target_properties(SUPerman PROPERTIES CUDA_SEPARABLE_COMPILATION ON)

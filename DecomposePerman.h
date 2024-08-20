@@ -59,13 +59,7 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
 {
     double start = omp_get_wtime();
 
-    #pragma omp parallel
-    {
-        #pragma omp single
-        {
-            startRecursion(m_Matrix);
-        }
-    }
+    startRecursion(m_Matrix);
 
     __float128 overall = 0;
     if (m_Settings.machineID == 0)
@@ -162,10 +156,7 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
             m_ScalingValues.push_back(scalingCompact);
         }
         Permanent* newPermanent = new Permanent(m_KernelName, newMatrix, m_Settings);
-        #pragma omp task
-        {
-            newPermanent->computePermanent();
-        }
+        newPermanent->computePermanent();
         m_Permanents.push_back(newPermanent);
     }
 }
