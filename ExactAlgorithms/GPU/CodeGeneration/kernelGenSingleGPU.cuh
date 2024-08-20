@@ -1,20 +1,23 @@
 //
-// Created by deniz on 5/25/24.
+// Created by delbek on 7/30/24.
 //
 
-#ifndef SUPERMAN_SPSINGLEGPU_CUH
-#define SUPERMAN_SPSINGLEGPU_CUH
+#ifndef SUPERMAN_KERNELGENSINGLEGPU_CUH
+#define SUPERMAN_KERNELGENSINGLEGPU_CUH
+
 
 #include "Permanent.h"
-#include "SparseKernelDefinitions.cuh"
-#include "SparseMatrix.h"
+#include "Matrix.h"
+#include "deniz_kernel.cuh"
+#include "KernelGenerator.cuh"
+#include <fstream>
 
 
-template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
-class spSingleGPU: public Permanent<C, S>
+template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
+class kernelGenSingleGPU: public Permanent<C, S>
 {
 public:
-    spSingleGPU(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
+    kernelGenSingleGPU(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
     :   Permanent<C, S>(kernelName, matrix, settings) {}
 
     virtual double permanentFunction() final;
@@ -24,55 +27,56 @@ public:
 };
 
 
-template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
-double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
+template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
+double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
 {
-    SparseMatrix<S>* ccs = dynamic_cast<SparseMatrix<S>*>(this->m_Matrix);
-
     cudaDeviceProp prop;
     cudaGetDeviceProperties(&prop, this->m_Settings.deviceID);
 
     gpuErrchk( cudaSetDevice(this->m_Settings.deviceID) )
 
-    int nov = ccs->nov;
-    int nnz = ccs->nnz;
-    int* cptrs = ccs->cptrs;
-    int* rows = ccs->rows;
-    S* cvals = ccs->cvals;
-    int* rptrs = ccs->rptrs;
-    int* cols = ccs->cols;
-    S* rvals = ccs->rvals;
-    S* mat = ccs->mat;
+    int nov = this->m_Matrix->nov;
+    S* mat = this->m_Matrix->mat;
+    S* matTransposed = new S[nov * nov];
 
     C x[nov];
     __float128 product = 1;
     for (int i = 0; i < nov; ++i)
     {
         C rowSum = 0;
-        for (int ptr = rptrs[i]; ptr < rptrs[i + 1]; ++ptr)
+        for (int j = 0; j < nov; ++j)
         {
-            rowSum += rvals[ptr];
+            rowSum += mat[i * nov + j];
         }
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
     }
     productSum = product;
 
+    for (int i = 0; i < nov; ++i)
+    {
+        for (int j = 0; j < nov; ++j)
+        {
+            matTransposed[j * nov + i] = mat[i * nov + j];
+        }
+    }
+
+    int k = 0;
+
+    std::ofstream file("deniz_kernel.cuh");
+    KernelGenerator<C, S> kernelGenerator(matTransposed, nov, x, this->m_Settings.deviceID);
+    std::string kernel = kernelGenerator.generateUTOrderedKernelCode(k);
+    file << kernel;
+
     int gridDim;
     int blockDim;
-    V = nov;
-    E = nnz;
-    gpuErrchk( cudaOccupancyMaxPotentialBlockSizeVariableSMem(
+    gpuErrchk( cudaOccupancyMaxPotentialBlockSize(
             &gridDim,
             &blockDim,
-            Algo,
-            Shared,
-            0) )
+            Algo
+            ) )
 
     int noSM = prop.multiProcessorCount;
-    int sharedMemoryPerBlock = Shared(blockDim);
-    int maxSharedMemoryPerBlock= prop.sharedMemPerBlock;
-    int maxSharedMemoryPerSM = prop.sharedMemPerMultiprocessor;
     int maxRegsPerBlock = prop.regsPerBlock;
     int maxRegsPerSM = prop.regsPerMultiprocessor;
     int totalThreadCount = gridDim * blockDim;
@@ -82,23 +86,17 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
             &maxBlocks,
             Algo,
             blockDim,
-            sharedMemoryPerBlock
+            0
     ) )
 
 #ifndef SILENT
-    #pragma omp critical
+#pragma omp critical
     {
         static bool printed = false;
         if (!printed)
         {
             printf("Permanent is being computed on device id: %d, %s\n", this->m_Settings.deviceID, prop.name);
-            printf("Matrix Size: %d bytes\n", (nov + 1) * sizeof(int) + nnz * (sizeof(int) + sizeof(S)));
-            printf("X Vector Size: %d bytes\n", nov * sizeof(C));
             printf("Number of streaming multiprocessors: %d\n", noSM);
-            printf("Shared memory used per block: %d bytes\n", sharedMemoryPerBlock);
-            printf("Shared memory used per SM: %d bytes\n", sharedMemoryPerBlock * maxBlocks);
-            printf("%f%% of the entire shared memory dedicated per block is used\n", (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
-            printf("%f%% of the entire shared memory dedicated per SM is used\n", ((double(sharedMemoryPerBlock) * maxBlocks) / double(maxSharedMemoryPerSM)) * 100);
             printf("Maximum number of registers that could be used per block: %d\n", maxRegsPerBlock);
             printf("Maximum number of registers that could be used per SM: %d\n", maxRegsPerSM);
             printf("Grid Dimension: %d\n", gridDim);
@@ -111,25 +109,14 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
     }
 #endif
 
-    C* d_x;
     C* d_products;
-    int* d_cptrs;
-    int* d_rows;
-    S* d_cvals;
+    C* d_x;
 
-    gpuErrchk( cudaMalloc(&d_x, nov * sizeof(C)) )
+    size_t xSize = (nov - k);
+    gpuErrchk( cudaMalloc(&d_x, totalThreadCount * sizeof(C) * xSize) )
+
     gpuErrchk( cudaMalloc(&d_products, totalThreadCount * sizeof(C)) )
     gpuErrchk( cudaMemset(d_products, 0, totalThreadCount * sizeof(C)) )
-    gpuErrchk( cudaMalloc(&d_cptrs, (nov + 1) * sizeof(int)) )
-    gpuErrchk( cudaMalloc(&d_rows, nnz * sizeof(int)) )
-    gpuErrchk( cudaMalloc(&d_cvals, nnz * sizeof(S)) )
-
-    gpuErrchk( cudaMemcpy(d_x, x, nov * sizeof(C), cudaMemcpyHostToDevice) )
-    gpuErrchk( cudaMemcpy(d_cptrs, cptrs, (nov + 1) * sizeof(int), cudaMemcpyHostToDevice) )
-    gpuErrchk( cudaMemcpy(d_rows, rows, nnz * sizeof(int), cudaMemcpyHostToDevice) )
-    gpuErrchk( cudaMemcpy(d_cvals, cvals, nnz * sizeof(S), cudaMemcpyHostToDevice) )
-
-    C* h_products = new C[totalThreadCount];
 
     long long start = 1;
     long long end = (1LL << (nov - 1));
@@ -147,14 +134,11 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
         }
         chunkSize /= 2;
 
-        Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
-                d_cptrs,
-                d_rows,
-                d_cvals,
+        Algo<<<gridDim, blockDim>>>(
+                nullptr,
                 d_x,
                 d_products,
                 nov,
-                nnz,
                 start,
                 end,
                 chunkSize);
@@ -165,19 +149,18 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
         start += thisIteration;
     }
 
-    Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
-            d_cptrs,
-            d_rows,
-            d_cvals,
+    Algo<<<gridDim, blockDim>>>(
+            nullptr,
             d_x,
             d_products,
             nov,
-            nnz,
             start,
             end,
             -1);
 
     gpuErrchk( cudaDeviceSynchronize() )
+
+    C* h_products = new C[totalThreadCount];
     gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
 
     for (int i = 0; i < totalThreadCount; ++i)
@@ -185,16 +168,14 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
         productSum += h_products[i];
     }
 
-    gpuErrchk( cudaFree(d_x) )
     gpuErrchk( cudaFree(d_products) )
-    gpuErrchk( cudaFree(d_cptrs) )
-    gpuErrchk( cudaFree(d_rows) )
-    gpuErrchk( cudaFree(d_cvals) )
+    gpuErrchk( cudaFree(d_x) )
 
     delete[] h_products;
+    delete[] matTransposed;
 
     return 0;
 }
 
 
-#endif //SUPERMAN_SPSINGLEGPU_CUH
+#endif //SUPERMAN_KERNELGENSINGLEGPU_CUH

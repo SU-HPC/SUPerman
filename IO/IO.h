@@ -40,11 +40,17 @@ public:
     static void UTOrder(Matrix<S>* matrix);
 
     template <class S>
-    static void scale(Matrix<S>* matrix, const Settings& settings, ScalingCompact<S>* scalingCompact);
+    static void scale(Matrix<S>* matrix, const Settings& settings, ScalingCompact* scalingCompact);
+
+    template <class S>
+    static void writeMatrixToFile(Matrix<S>* matrix, std::string filename);
 
 private:
     template <class S>
     static void applyRowPermutation(Matrix<S>* matrix, int* rowIPermutation);
+
+    template <class S>
+    static void applyColPermutation(Matrix<S>* matrix, int* colIPermutation);
 
     template <class S>
     static void trim(std::string &s);
@@ -55,17 +61,18 @@ private:
 
 
 template<class S>
-void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact<S>* scalingCompact)
+void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact* scalingCompact)
 {
     int nov = matrix->nov;
     S* mat = matrix->mat;
-    S scalingIterationNo = settings.scalingIterationNo;
+    unsigned scalingIterationNo = settings.scalingIterationNo;
+    unsigned scaleInto = settings.scaleInto;
 
-    S*& rowScale = scalingCompact->rowScale;
-    S*& colScale = scalingCompact->colScale;
+    __float128*& rowScale = scalingCompact->rowScale;
+    __float128*& colScale = scalingCompact->colScale;
 
-    rowScale = new S[nov];
-    colScale = new S[nov];
+    rowScale = new __float128[nov];
+    colScale = new __float128[nov];
 
     for (int i = 0; i < nov; ++i)
     {
@@ -82,7 +89,7 @@ void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact<S>* s
                 sum += mat[iv * nov + jv] * rowScale[iv] * colScale[jv];
             }
             if (sum != 0)
-                rowScale[iv] = double(nov) / sum;
+                rowScale[iv] = __float128(scaleInto) / sum;
         }
 
         for (int jv = 0; jv < nov; ++jv)
@@ -93,7 +100,7 @@ void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact<S>* s
                 sum += mat[iv * nov + jv] * rowScale[iv] * colScale[jv];
             }
             if (sum != 0)
-                colScale[jv] = double(nov) / sum;
+                colScale[jv] = __float128(scaleInto) / sum;
         }
     }
 
@@ -116,6 +123,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
     settings.undirected = false;
     settings.scaling = false;
     settings.scalingIterationNo = 1000;
+    settings.scaleInto = 1;
     settings.threadC = omp_get_max_threads();
     settings.deviceID = 0;
     settings.gpuNum = 1;
@@ -246,6 +254,17 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             catch (const std::exception& e)
             {
                 throw std::runtime_error("An integer value should be provided to the scaling_iteration_no argument!");
+            }
+        }
+        else if (arg == "scale_into")
+        {
+            try
+            {
+                settings.scaleInto = std::stoul(value);
+            }
+            catch (const std::exception& e)
+            {
+                throw std::runtime_error("An integer value should be provided to the scale_into argument!");
             }
         }
         else if (arg == "chunk_partitioning")
@@ -502,27 +521,52 @@ void IO::sortOrder(Matrix<S>* matrix)
 template<class S>
 void IO::UTOrder(Matrix<S> *matrix)
 {
-    sortOrder(matrix);
-
     int nov = matrix->nov;
     S* mat = matrix->mat;
 
     int* rowIPermutation = new int[nov];
+    int* colIPermutation = new int[nov];
     for (int i = 0; i < nov; ++i)
     {
         rowIPermutation[i] = i;
+        colIPermutation[i] = i;
+    }
+
+    unsigned* indegrees = new unsigned[nov];
+    for (int j = 0; j < nov; ++j)
+    {
+        unsigned indegree = 0;
+        for (int i = 0; i < nov; ++i)
+        {
+            if (mat[i * nov + j] != 0)
+            {
+                ++indegree;
+            }
+        }
+        indegrees[j] = indegree;
     }
 
     bool* rowMarkers = new bool[nov];
     memset(rowMarkers, false, sizeof(bool) * nov);
 
     int free = 0;
-
-    for (int j = 0; j < nov; ++j)
+    for (int iter = 0; iter < nov; ++iter)
     {
+        unsigned mindegree = UINT32_MAX;
+        int col;
+        for (int j = 0; j < nov; ++j)
+        {
+            if (indegrees[j] < mindegree)
+            {
+                mindegree = indegrees[j];
+                col = j;
+            }
+        }
+        colIPermutation[col] = iter;
+
         for (int i = 0; i < nov; ++i)
         {
-            if (mat[i * nov + j] == 0)
+            if (mat[i * nov + col] == 0)
             {
                 continue;
             }
@@ -551,14 +595,27 @@ void IO::UTOrder(Matrix<S> *matrix)
 
                 rowIPermutation[i] = newPlace;
                 rowMarkers[i] = true;
+
+                for (int j = 0; j < nov; ++j)
+                {
+                    if (mat[i * nov + j] != 0)
+                    {
+                        --indegrees[j];
+                    }
+                }
             }
         }
+
+        indegrees[col] = UINT32_MAX;
     }
 
     applyRowPermutation(matrix, rowIPermutation);
+    applyColPermutation(matrix, colIPermutation);
 
+    delete[] indegrees;
     delete[] rowMarkers;
     delete[] rowIPermutation;
+    delete[] colIPermutation;
 }
 
 template<class S>
@@ -570,7 +627,29 @@ void IO::applyRowPermutation(Matrix<S> *matrix, int *rowIPermutation)
 
     for (int i = 0; i < nov; ++i)
     {
-        memcpy(&newMat[rowIPermutation[i]], &mat[i], sizeof(S) * nov);
+        for (int j = 0; j < nov; ++j)
+        {
+            newMat[rowIPermutation[i] * nov + j] = mat[i * nov + j];
+        }
+    }
+
+    matrix->mat = newMat;
+    delete[] mat;
+}
+
+template<class S>
+void IO::applyColPermutation(Matrix<S>* matrix, int* colIPermutation)
+{
+    int nov = matrix->nov;
+    S* mat = matrix->mat;
+    S* newMat = new S[nov * nov];
+
+    for (int j = 0; j < nov; ++j)
+    {
+        for (int i = 0; i < nov; ++i)
+        {
+            newMat[i * nov + colIPermutation[j]] = mat[i * nov + j];
+        }
     }
 
     matrix->mat = newMat;
@@ -647,6 +726,32 @@ std::vector<std::string> IO::split(const std::string& s, char delimiter)
     }
 
     return tokens;
+}
+
+template <class S>
+void IO::writeMatrixToFile(Matrix<S>* matrix, std::string filename)
+{
+    int nov = matrix->nov;
+    S* mat = matrix->mat;
+    int nnz = getNNZ(matrix);
+
+    std::ofstream file(filename);
+
+    file << nov << ' ' << nov << ' ' << nnz << std::endl;
+    for (int i = 0; i < nov; ++i)
+    {
+        for (int j = 0; j < nov; ++j)
+        {
+            if (mat[i * nov + j] == 0)
+            {
+                continue;
+            }
+
+            file << i + 1 << ' ' << j + 1 << ' ' << mat[i * nov + j] << std::endl;
+        }
+    }
+
+    file.close();
 }
 
 

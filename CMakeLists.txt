@@ -14,7 +14,6 @@ set(CMAKE_CXX_STANDARD 17)
 # OpenMP
 find_package(OpenMP REQUIRED)
 if(OpenMP_FOUND)
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler ${OpenMP_CXX_FLAGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
@@ -23,10 +22,11 @@ endif()
 include(CheckLanguage)
 check_language(CUDA)
 if(CMAKE_CUDA_COMPILER)
+    set(CMAKE_CUDA_ARCHITECTURES 60 70 75 80)
     enable_language(CUDA)
     add_definitions(-DGPU_AVAILABLE)
     #set(CMAKE_CUDA_FLAGS_DEBUG "${CMAKE_CUDA_FLAGS_DEBUG} -G -lineinfo")
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler ${OpenMP_CXX_FLAGS}")
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler")
     find_package(CUDAToolkit REQUIRED)
 endif()
 
@@ -45,6 +45,8 @@ endif()
 include_directories(.)
 include_directories(Structures)
 include_directories(IO)
+include_directories(CommonFiles)
+include_directories(MPIWrappers)
 include_directories(ExactAlgorithms)
 include_directories(ExactAlgorithms/CPU)
 include_directories(ExactAlgorithms/CPU/Dense)
@@ -52,18 +54,19 @@ include_directories(ExactAlgorithms/CPU/Sparse)
 include_directories(ExactAlgorithms/GPU)
 include_directories(ExactAlgorithms/GPU/Dense)
 include_directories(ExactAlgorithms/GPU/Sparse)
+include_directories(ExactAlgorithms/GPU/CodeGeneration)
 
 # Files
 set(COMMON_HEADER_FILES
-        Settings.h
-        Result.h
-        Helpers.h
-        Permanent.h
-        DecomposePerman.h
+        CommonFiles/Settings.h
+        CommonFiles/Result.h
+        CommonFiles/Helpers.h
+        CommonFiles/Permanent.h
+        CommonFiles/DecomposePerman.h
         Structures/Matrix.h
         Structures/SparseMatrix.h
         IO/IO.h
-        AlgorithmRecommender.h
+        CommonFiles/AlgorithmRecommender.h
         ExactAlgorithms/AllExactAlgorithms.h
 )
 
@@ -85,6 +88,10 @@ set(GPU_HEADER_FILES
         ExactAlgorithms/GPU/Dense/dpMultiGPU.cuh
         ExactAlgorithms/GPU/Dense/dpMultiGPUMPI.cuh
         ExactAlgorithms/GPU/Registers.cuh
+        ExactAlgorithms/GPU/CodeGeneration/KernelGenerator.cuh
+        ExactAlgorithms/GPU/CodeGeneration/NaiveKernelCodeGen.cuh
+        ExactAlgorithms/GPU/CodeGeneration/UTOrderedKernelCodeGen.cuh
+        ExactAlgorithms/GPU/CodeGeneration/deniz_kernel.cuh
 )
 
 set(GPU_WRAPPER_FILES
@@ -94,8 +101,8 @@ set(GPU_WRAPPER_FILES
 
 # MPI Files
 set(MPI_WRAPPER_FILES
-        mpi_wrapper.h
-        mpi_wrapper.cpp
+        MPIWrappers/mpi_wrapper.h
+        MPIWrappers/mpi_wrapper.cpp
 )
 
 # All Files
@@ -121,16 +128,12 @@ add_executable(SUPerman
         ${FILES}
 )
 
-# Shared Library
-set(SHARED_LIBRARY_PATH "${CMAKE_SOURCE_DIR}")
-set(SHARED_LIBRARY_NAME "libWrappers.so")
-
 # Link the shared library
 target_link_libraries(SUPerman
         OpenMP::OpenMP_CXX
         cuda
+        CUDA::cudart
         ${CUDA_LIBRARIES}
-        ${SHARED_LIBRARY_PATH}/${SHARED_LIBRARY_NAME}
 )
 
 if(MPI_FOUND)
@@ -139,10 +142,7 @@ if(MPI_FOUND)
     )
 endif()
 
-# Runtime recognition of the shared library
-set_target_properties(SUPerman PROPERTIES
-        BUILD_RPATH "${SHARED_LIBRARY_PATH}"
-        INSTALL_RPATH "${SHARED_LIBRARY_PATH}"
-)
-
 target_compile_options(SUPerman PRIVATE -O3)
+target_compile_options(SUPerman PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+        --generate-line-info
+        >)

@@ -24,6 +24,10 @@
 #include "dpSingleGPU.cuh"
 #include "dpMultiGPU.cuh"
 
+// Kernel Generation
+#include "deniz_kernel.cuh"
+#include "kernelGenSingleGPU.cuh"
+
 // MPI
 #ifdef MPI_AVAILABLE
 #include "spMultiGPUMPI.cuh"

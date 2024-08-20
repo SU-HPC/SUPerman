@@ -42,7 +42,7 @@ int main(int argv, char* argc[])
 
     if (machineID == 0)
     {
-        std::cout << "Permanent: " << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl;
+        std::cout << "Permanent: " << double(result.permanent) << " - Computed in: " << result.time << " seconds." << std::endl;
         std::cout << std::endl;
     }
 
