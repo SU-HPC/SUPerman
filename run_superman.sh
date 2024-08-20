@@ -15,7 +15,7 @@ algorithms=("auto")
 # The algorithm used to compute the permanent of your matrix.
 # "auto" lets the library select the fastest algorithm available.
 
-modes=("cpu")
+modes=("single_gpu")
 # The mode in which the matrix permanent is computed.
 # Available modes are:
 # - cpu: Uses only the CPU (very slow; avoid if your matrix size exceeds 40x40).
@@ -41,11 +41,11 @@ is_binary=("false")
 is_undirected=("false")
 # If true, the library assumes that the matrix is undirected, meaning for every edge u -> v, there is also an edge v -> u.
 
-requires_scaling=("false")
+requires_scaling=("true")
 # If true, the matrix will be scaled. For more details on this process, refer to our article.
 scaling_iteration_nos=(100)
 # Number of iterations required for scaling
-scale_into=(1)
+scale_into=(2)
 
 chunk_partitionings=(5)
 # Specifies how many partitions the chunk will be divided into for each GPU.

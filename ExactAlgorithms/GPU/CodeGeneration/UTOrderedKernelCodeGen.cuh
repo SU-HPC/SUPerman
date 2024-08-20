@@ -46,6 +46,10 @@ std::string KernelGenerator<C, S>::generateUTOrderedKernelCode(int& k)
 template<class C, class S>
 void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
 {
+    const double REG_ACCESS_CONSTANT = 1;
+    const double SHARED_ACCESS_CONSTANT = 16;
+    const double GLOBAL_ACCESS_CONSTANT = 32;
+
     double iterationCovered = 0;
     double totalPoint = 0;
 
@@ -55,7 +59,7 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
     {
         int rowSpan = 0;
 
-        for (int i = 0; i < m_Nov; ++i)
+        for (int i = (m_Nov - 1); i >= 0 ; ++i)
         {
             if (m_Mat[j * m_Nov + i] == 0)
             {
@@ -63,6 +67,7 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
             }
 
             rowSpan = i;
+            break;
         }
 
         double currentIteration = iterationCovered + percent;
@@ -73,21 +78,10 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
 
         unsigned numberOfThreads = determineNumberOfThreads(currentRegisters);
 
-        double regAccess = (currentRegisters * currentIteration) / 100;
-        double globalAccess = (((m_Nov - currentRegisters) * (100 - currentIteration)) / 100) * 16;
+        double regAccess = ((currentRegisters * currentIteration) / 100) * REG_ACCESS_CONSTANT;
+        double globalAccess = (((m_Nov - currentRegisters) * (100 - currentIteration)) / 100) * GLOBAL_ACCESS_CONSTANT;
 
         double currentPoint = numberOfThreads / (regAccess + globalAccess);
-        if (j < 7)
-        {
-            iterationCovered = currentIteration;
-            k = currentRegisters;
-            c = j;
-        }
-        else
-        {
-            break;
-        }
-        /*
         if (currentPoint > totalPoint)
         {
             iterationCovered = currentIteration;
@@ -99,7 +93,6 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
         {
             break;
         }
-        */
     }
 
     std::cout << "Registers needed: " << k << std::endl;
