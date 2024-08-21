@@ -4,6 +4,7 @@
 
 #include "IO.h"
 #include <iostream>
+#include <iomanip>
 #include "AlgorithmRecommender.h"
 #ifdef MPI_AVAILABLE
 #include "mpi_wrapper.h"
@@ -42,7 +43,7 @@ int main(int argv, char* argc[])
 
     if (machineID == 0)
     {
-        std::cout << "Permanent: " << double(result.permanent) << " - Computed in: " << result.time << " seconds." << std::endl;
+        std::cout << "Permanent: " << std::setprecision (settings.printingPrecision) << double(result.permanent) << " - Computed in: " << result.time << " seconds." << std::endl;
         std::cout << std::endl;
     }
 

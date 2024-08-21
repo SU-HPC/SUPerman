@@ -39,6 +39,8 @@ struct Settings
     unsigned scalingIterationNo;
     unsigned scaleInto;
 
+    unsigned printingPrecision;
+
     // CPU Specific
     int threadC;
 

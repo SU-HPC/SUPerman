@@ -218,7 +218,9 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
             if (finish) break;
 
             if (myEnd > nodeEnd) myEnd = nodeEnd;
-            long long left = (myEnd - myStart);
+
+            long long total = (myEnd - myStart);
+            long long left = total;
             double passed = 0;
 
             while (passed < 0.99 && totalThreadCount < left)
@@ -241,7 +243,7 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 
                 long long thisIteration = totalThreadCount * chunkSize;
                 left -= thisIteration;
-                passed = 1 - (double)left / double(CHUNK_SIZE);
+                passed = 1 - (double)left / double(total);
                 myStart += thisIteration;
             }
 

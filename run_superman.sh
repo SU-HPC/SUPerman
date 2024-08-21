@@ -23,7 +23,7 @@ modes=("single_gpu")
 # - multi_gpu: Uses multiple GPUs (number specified by gpu_num) for computation.
 # - multi_gpu_mpi: Uses multiple nodes, each with possibly multiple GPUs.
 
-thread_counts=(44)
+thread_counts=(88)
 # The number of CPU threads the library will use when computing the permanent on the CPU.
 # Only relevant if the mode is "cpu".
 
@@ -41,20 +41,16 @@ is_binary=("false")
 is_undirected=("false")
 # If true, the library assumes that the matrix is undirected, meaning for every edge u -> v, there is also an edge v -> u.
 
-requires_scaling=("true")
+requires_scaling=("false")
 # If true, the matrix will be scaled. For more details on this process, refer to our article.
 scaling_iteration_nos=(100)
 # Number of iterations required for scaling
 scale_into=(2)
 
-chunk_partitionings=(5)
-# Specifies how many partitions the chunk will be divided into for each GPU.
-# During runtime, these partitions are dynamically distributed across GPUs.
-# A value of 5 is well-tested and generally effective.
-# If your GPUs have uneven compute capabilities, consider increasing this number.
-# Small partition numbers work well for evenly distributed compute powers, while large numbers are better for uneven distribution.
-# Only relevant if the mode is "multi_gpu" or "multi_gpu_mpi".
+chunk_partitionings=(1)
+
+printing_precision=(30)
 
 for i in "${!filenames[@]}"; do
-    ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" scaling="${requires_scaling[$i]}" scaling_iteration_no="${scaling_iteration_nos[$i]}" scale_into="${scale_into[$i]}" chunk_partitioning="${chunk_partitionings[$i]}"
+    ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" scaling="${requires_scaling[$i]}" scaling_iteration_no="${scaling_iteration_nos[$i]}" scale_into="${scale_into[$i]}" printing_precision="${printing_precision[$i]}" chunk_partitioning="${chunk_partitionings[$i]}"
 done
