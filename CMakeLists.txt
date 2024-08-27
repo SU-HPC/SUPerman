@@ -2,14 +2,14 @@ cmake_minimum_required(VERSION 3.16.3)
 project(SUPerman)
 
 ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
-add_compile_definitions(SPECIFIC=REGISTERS40)
-add_compile_definitions(NOV=40)
-# add_definitions(-DMAT_SPECIFIC_COMPILATION)
+add_compile_definitions(SPECIFIC=REGISTERS45)
+add_compile_definitions(NOV=45)
+add_definitions(-DMAT_SPECIFIC_COMPILATION)
 ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
 
 # C++ standard
 set(CMAKE_CXX_STANDARD 17)
-#set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Debug)
 
 # OpenMP
 find_package(OpenMP REQUIRED)
@@ -40,7 +40,7 @@ if(MPI_FOUND)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${MPI_CXX_LINK_FLAGS}")
 endif()
 
-#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 
 # Directories
 include_directories(.)
@@ -67,7 +67,7 @@ set(COMMON_HEADER_FILES
         Structures/Matrix.h
         Structures/SparseMatrix.h
         IO/IO.h
-        CommonFiles/AlgorithmRecommender.h
+        CommonFiles/AlgorithmSelector.h
         ExactAlgorithms/AllExactAlgorithms.h
 )
 
@@ -89,6 +89,7 @@ set(GPU_HEADER_FILES
         ExactAlgorithms/GPU/Dense/dpMultiGPU.cuh
         ExactAlgorithms/GPU/Dense/dpMultiGPUMPI.cuh
         ExactAlgorithms/GPU/Registers.cuh
+        ExactAlgorithms/GPU/PrecisionHelpers.cuh
         ExactAlgorithms/GPU/CodeGeneration/KernelGenerator.cuh
         ExactAlgorithms/GPU/CodeGeneration/NaiveKernelCodeGen.cuh
         ExactAlgorithms/GPU/CodeGeneration/UTOrderedKernelCodeGen.cuh

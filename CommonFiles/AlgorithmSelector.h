@@ -2,8 +2,8 @@
 // Created by deniz on 4/15/24.
 //
 
-#ifndef SUPERMAN_ALGORITHMRECOMMENDER_H
-#define SUPERMAN_ALGORITHMRECOMMENDER_H
+#ifndef SUPERMAN_ALGORITHMSELECTOR_H
+#define SUPERMAN_ALGORITHMSELECTOR_H
 
 #include "AllExactAlgorithms.h"
 #include "Matrix.h"
@@ -13,20 +13,28 @@
 
 
 template <class C, class S>
-class AlgorithmRecommender
+class AlgorithmSelector
 {
 public:
     typedef Result (*Algorithm)(Matrix<S>* matrix, Settings* settings);
 
 public:
-    static AlgorithmRecommender<C, S>::Algorithm selectMode(Matrix<S>* matrix, Settings* settings);
-    static void selectAlgorithm(Matrix<S>* matrix, Settings* settings);
+    static AlgorithmSelector<C, S>::Algorithm selectAlgorithm(Matrix<S>* matrix, Settings* settings);
 };
 
 
 template<class C, class S>
-typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::selectMode(Matrix<S> *matrix, Settings *settings)
+typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgorithm(Matrix<S> *matrix, Settings *settings)
 {
+
+#ifdef GPU_AVAILABLE
+    if (settings->algorithm == AlgorithmEnds && settings->mode != Mode::CPU)
+    {
+        settings->algorithm = XREGISTERMSHARED;
+        std::cout << "SELECTED ALGORITHM IS: XREGISTERMSHARED" << std::endl;
+    }
+#endif
+
     if (settings->algorithm != XREGISTERMSHARED && settings->algorithm != XREGISTERMGLOBAL && matrix->sparsity < 50)
     {
         if (settings->mode == Mode::CPU)
@@ -76,17 +84,5 @@ typename AlgorithmRecommender<C, S>::Algorithm AlgorithmRecommender<C, S>::selec
     throw std::runtime_error("The mode you want to calculate the permanent in is unavailable for launch. Terminating...");
 }
 
-template<class C, class S>
-void AlgorithmRecommender<C, S>::selectAlgorithm(Matrix<S> *matrix, Settings *settings)
-{
-#ifdef GPU_AVAILABLE
-    if (settings->algorithm == AlgorithmEnds && settings->mode != Mode::CPU)
-    {
-        settings->algorithm = XREGISTERMSHARED;
-        std::cout << "SELECTED ALGORITHM IS: XREGISTERMSHARED" << std::endl;
-    }
-#endif
-}
 
-
-#endif //SUPERMAN_ALGORITHMRECOMMENDER_H
+#endif //SUPERMAN_ALGORITHMSELECTOR_H

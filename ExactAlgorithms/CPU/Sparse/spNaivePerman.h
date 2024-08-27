@@ -61,7 +61,7 @@ double spNaivePerman<C, S>::permanentFunction()
 #pragma omp parallel num_threads(threads)
     {
         int threadID = omp_get_thread_num();
-        C myResult = 0;
+        __float128 myResult = 0;
 
         C myX[nov];
         memcpy(myX, x, sizeof(C) * nov);

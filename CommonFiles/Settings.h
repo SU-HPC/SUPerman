@@ -8,9 +8,7 @@
 
 enum Algorithm
 {
-    XLOCALMSHARED,
     XREGISTERMSHARED,
-    XLOCALMGLOBAL,
     XREGISTERMGLOBAL,
     XSHAREDMGLOBAL,
     XSHAREDMSHARED,
@@ -24,6 +22,16 @@ enum Mode
     MultiGPU,
     MultiGPUMPI,
     ModeEnds
+};
+
+enum Precision
+{
+    DD,
+    DQ1,
+    DQ2,
+    QQ,
+    KAHAN,
+    PrecisionEnds
 };
 
 struct Settings
@@ -40,6 +48,8 @@ struct Settings
     unsigned scaleInto;
 
     unsigned printingPrecision;
+
+    Precision calculationPrecision;
 
     // CPU Specific
     int threadC;

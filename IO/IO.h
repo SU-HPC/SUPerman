@@ -129,6 +129,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
     settings.deviceID = 0;
     settings.gpuNum = 1;
     settings.partition = 1;
+    settings.calculationPrecision = DD;
 
     bool filenameFound = false;
     for (int i = 1; i < argc; ++i)
@@ -148,17 +149,9 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             {
                 settings.algorithm = AlgorithmEnds;
             }
-            else if (value == "xlocal_mshared")
-            {
-                settings.algorithm = XLOCALMSHARED;
-            }
             else if (value == "xregister_mshared")
             {
                 settings.algorithm = XREGISTERMSHARED;
-            }
-            else if (value == "xlocal_mglobal")
-            {
-                settings.algorithm = XLOCALMGLOBAL;
             }
             else if (value == "xregister_mglobal")
             {
@@ -288,6 +281,29 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             catch (const std::exception& e)
             {
                 throw std::runtime_error("An unsigned integer value should be provided to the chunk_partitioning argument!");
+            }
+        }
+        else if (arg == "calculation_precision")
+        {
+            if (value == "dd")
+            {
+                settings.calculationPrecision = DD;
+            }
+            else if (value == "dq1")
+            {
+                settings.calculationPrecision = DQ1;
+            }
+            else if (value == "dq2")
+            {
+                settings.calculationPrecision = DQ2;
+            }
+            else if (value == "qq")
+            {
+                settings.calculationPrecision = QQ;
+            }
+            else if (value == "kahan")
+            {
+                settings.calculationPrecision = KAHAN;
             }
         }
         else

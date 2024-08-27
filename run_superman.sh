@@ -47,10 +47,11 @@ scaling_iteration_nos=(100)
 # Number of iterations required for scaling
 scale_into=(2)
 
+printing_precision=(30)
+calculation_precision=("dd")
+
 chunk_partitionings=(1)
 
-printing_precision=(30)
-
 for i in "${!filenames[@]}"; do
-    ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" scaling="${requires_scaling[$i]}" scaling_iteration_no="${scaling_iteration_nos[$i]}" scale_into="${scale_into[$i]}" printing_precision="${printing_precision[$i]}" chunk_partitioning="${chunk_partitionings[$i]}"
+    ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" scaling="${requires_scaling[$i]}" scaling_iteration_no="${scaling_iteration_nos[$i]}" scale_into="${scale_into[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}" chunk_partitioning="${chunk_partitionings[$i]}"
 done
