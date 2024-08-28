@@ -49,6 +49,11 @@ scale_into=(2)
 
 printing_precision=(30)
 calculation_precision=("dd")
+# Precision for the data structures where the products and sums are stored, available settings are:
+# "dd" -> product: double, sum: double
+# "dq1" -> product: double, sum: quad
+# "dq2" -> product: double, sum: quad
+# "qq" -> product: quad, sum: quad
 
 chunk_partitionings=(1)
 

@@ -82,10 +82,8 @@ namespace SparseDefinitions
 
             for (int j = cptrs[columnChanged]; j < cptrs[columnChanged + 1]; ++j)
             {
-                int rowNeighbour = rows[j];
-                int index = threadsPerBlock * rowNeighbour + localThreadID;
+                int index = threadsPerBlock * rows[j] + localThreadID;
                 C xValue = sharedX[index];
-                C temp = added * cvals[j];
 
                 // excluding
                 if (xValue == 0)
@@ -93,7 +91,7 @@ namespace SparseDefinitions
                     --zeroNumber;
                 }
 
-                xValue += temp;
+                xValue += added * cvals[j];
 
                 // including
                 if (xValue == 0)
@@ -234,10 +232,8 @@ namespace SparseDefinitions
 
             for (int j = sharedCPtrs[columnChanged]; j < sharedCPtrs[columnChanged + 1]; ++j)
             {
-                int rowNeighbour = sharedRows[j];
-                int index = threadsPerBlock * rowNeighbour + localThreadID;
+                int index = threadsPerBlock * sharedRows[j] + localThreadID;
                 C xValue = sharedX[index];
-                C temp = added * sharedCVals[j];
 
                 // excluding
                 if (xValue == 0)
@@ -245,7 +241,7 @@ namespace SparseDefinitions
                     --zeroNumber;
                 }
 
-                xValue += temp;
+                xValue += added * sharedCVals[j];
 
                 // including
                 if (xValue == 0)

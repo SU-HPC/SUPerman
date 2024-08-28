@@ -35,12 +35,20 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
     }
 #endif
 
-    if (settings->algorithm != XREGISTERMSHARED && settings->algorithm != XREGISTERMGLOBAL && matrix->sparsity < 50)
+    if (settings->mode == Mode::CPU)
     {
-        if (settings->mode == Mode::CPU)
+        if (matrix->sparsity < 50)
         {
             return cpuSPNaivePerman<C, S>;
         }
+        else
+        {
+            return cpuDPNaivePerman<C, S>;
+        }
+    }
+
+    if (settings->algorithm != XREGISTERMSHARED && settings->algorithm != XREGISTERMGLOBAL && matrix->sparsity < 50)
+    {
 #ifdef GPU_AVAILABLE
         if (settings->mode == Mode::SingleGPU)
         {
@@ -60,10 +68,6 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
     }
     else
     {
-        if (settings->mode == Mode::CPU)
-        {
-            return cpuDPNaivePerman<C, S>;
-        }
 #ifdef GPU_AVAILABLE
         if (settings->mode == Mode::SingleGPU)
         {

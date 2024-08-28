@@ -291,19 +291,28 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             }
             else if (value == "dq1")
             {
+                std::cout << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
                 settings.calculationPrecision = DQ1;
             }
             else if (value == "dq2")
             {
+                std::cout << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
                 settings.calculationPrecision = DQ2;
             }
             else if (value == "qq")
             {
+                std::cout << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
                 settings.calculationPrecision = QQ;
             }
             else if (value == "kahan")
             {
+                std::cout << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
                 settings.calculationPrecision = KAHAN;
+            }
+            else
+            {
+                std::cout << "UNKNOWN CALCULATION PRECISION: " << value << " - selecting dd by default instead." << std::endl;
+                settings.calculationPrecision = DD;
             }
         }
         else
