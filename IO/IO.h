@@ -165,6 +165,14 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             {
                 settings.algorithm = XSHAREDMSHARED;
             }
+            else if (value == "xglobal_mglobal")
+            {
+                settings.algorithm = XGLOBALMGLOBAL;
+            }
+            else if (value == "xglobal_mshared")
+            {
+                settings.algorithm = XGLOBALMSHARED;
+            }
             else
             {
                 std::cout << "UNKNOWN ALGORITHM: " << value << " - selecting automatically instead." << std::endl;
