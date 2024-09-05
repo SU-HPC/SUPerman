@@ -45,5 +45,3 @@ This error can arise from:
 2. Correct compile-time definitions initially, but the library's decomposition process reduced the matrix size during execution.
 
 If the definitions were correct, it's likely that decomposition successfully reduced the matrix's size. In this case, we recommend you not to use matrix-specific compilation.
-
-# SU-HPC

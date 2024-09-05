@@ -4,7 +4,8 @@
 
 #include "IO.h"
 #include <iostream>
-#include "AlgorithmRecommender.h"
+#include <iomanip>
+#include "AlgorithmSelector.h"
 #ifdef MPI_AVAILABLE
 #include "mpi_wrapper.h"
 #endif
@@ -36,13 +37,12 @@ int main(int argv, char* argc[])
     }
     Matrix<S>* matrix = IO::readMatrix<S>(filename, settings);
 
-    AlgorithmRecommender<C, S>::selectAlgorithm(matrix, &settings);
-    AlgorithmRecommender<C, S>::Algorithm algorithm = AlgorithmRecommender<C, S>::selectMode(matrix, &settings);
+    AlgorithmSelector<C, S>::Algorithm algorithm = AlgorithmSelector<C, S>::selectAlgorithm(matrix, &settings);
     Result result = algorithm(matrix, &settings);
 
     if (machineID == 0)
     {
-        std::cout << "Permanent: " << double(result.permanent) << " - Computed in: " << result.time << " seconds." << std::endl;
+        std::cout << "Permanent: " << std::setprecision (settings.printingPrecision) << double(result.permanent) << " - Computed in: " << result.time << " seconds." << std::endl;
         std::cout << std::endl;
     }
 

@@ -11,34 +11,34 @@
 namespace SparseDefinitions
 {
     template <class C, class S>
-    __global__ void xLocalMGlobal(int* cptrs,
-                                  int* rows,
-                                  S* cvals,
-                                  C* x,
-                                  C* p,
-                                  int nov,
-                                  int nnz,
-                                  long long start,
-                                  long long end,
-                                  long long chunkSize)
+    __global__ void xGlobalMGlobal(int* cptrs,
+                                   int* rows,
+                                   S* cvals,
+                                   C* x,
+                                   C* p,
+                                   int nov,
+                                   int nnz,
+                                   long long start,
+                                   long long end,
+                                   long long chunkSize)
     {
-        int threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        int globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
         int totalThreadCount = gridDim.x * blockDim.x;
 
         C myResult = 0;
 
-        volatile C myX[X_SIZE];
         for (int i = 0; i < nov; ++i)
         {
-            myX[i] = x[i];
+            x[nov + (i * totalThreadCount) + globalThreadID] = x[i];
         }
+        x += nov;
 
         if (chunkSize == -1)
         {
             chunkSize = (end - start) / totalThreadCount + 1;
         }
-        long long myStart = start + (threadID * chunkSize);
-        long long myEnd = min(start + ((threadID + 1) * chunkSize), end);
+        long long myStart = start + (globalThreadID * chunkSize);
+        long long myEnd = min(start + ((globalThreadID + 1) * chunkSize), end);
 
         long long gray = (myStart - 1) ^ ((myStart - 1) >> 1); // gray code for the previous subset
         // getting the x vector from the previous subset
@@ -48,23 +48,19 @@ namespace SparseDefinitions
             {
                 for (int i = cptrs[j]; i < cptrs[j + 1]; ++i)
                 {
-                    myX[rows[i]] += cvals[i];
+                    x[totalThreadCount * rows[i] + globalThreadID] += cvals[i];
                 }
             }
         }
 
-        C product = 1;
         int zeroNumber = 0;
         // product from the previous subset
         for (int i = 0; i < nov; ++i)
         {
-            if (myX[i] == 0)
+            int index = totalThreadCount * i + globalThreadID;
+            if (x[index] == 0)
             {
                 ++zeroNumber;
-            }
-            else
-            {
-                product *= myX[i];
             }
         }
 
@@ -82,79 +78,62 @@ namespace SparseDefinitions
 
             for (int j = cptrs[columnChanged]; j < cptrs[columnChanged + 1]; ++j)
             {
-                int rowNeighbour = rows[j];
-                C xValue = myX[rowNeighbour];
-                S value = cvals[j];
-                C temp = added * value;
+                int index = totalThreadCount * rows[j] + globalThreadID;
+                C xValue = x[index];
 
                 // excluding
                 if (xValue == 0)
                 {
                     --zeroNumber;
                 }
-                else
-                {
-                    product /= xValue;
-                }
 
-                xValue += temp;
+                xValue += added * cvals[j];
 
                 // including
                 if (xValue == 0)
                 {
                     ++zeroNumber;
                 }
-                else
-                {
-                    product *= xValue;
-                }
 
-                myX[rowNeighbour] = xValue;
+                x[index] = xValue;
             }
 
             if(zeroNumber == 0)
             {
+                C product = 1;
+                for (int r = 0; r < nov; ++r)
+                {
+                    int index = totalThreadCount * r + globalThreadID;
+                    product *= x[index];
+                }
                 myResult += productSign * product;
             }
 
             productSign *= -1; // sign for the next subset
         }
 
-        p[threadID] += myResult;
+        p[globalThreadID] += myResult;
     }
 
     template <class C, class S>
-    __global__ void xLocalMShared(int* cptrs,
-                                  int* rows,
-                                  S* cvals,
-                                  C* x,
-                                  C* p,
-                                  int nov,
-                                  int nnz,
-                                  long long start,
-                                  long long end,
-                                  long long chunkSize)
+    __global__ void xGlobalMShared(int* cptrs,
+                                   int* rows,
+                                   S* cvals,
+                                   C* x,
+                                   C* p,
+                                   int nov,
+                                   int nnz,
+                                   long long start,
+                                   long long end,
+                                   long long chunkSize)
     {
-        int threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        int globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
         int totalThreadCount = gridDim.x * blockDim.x;
 
         C myResult = 0;
 
-        volatile C myX[X_SIZE];
-
-        /*
         extern __shared__ char sharedMemory[];
-        int* sharedCPtrs = (int*)sharedMemory; // size: (nov + 1) * sizeof(int)
-
-        size_t sharedRowsOffset = (nov + 1) * sizeof(int);
-        int* sharedRows = (int*)&sharedMemory[sharedRowsOffset]; // size: nnz * sizeof(int)
-
-        size_t sharedCValsOffset = sharedRowsOffset + nnz * sizeof(int);
-        S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
-        */
-
-        extern __shared__ char sharedMemory[];
-        int* sharedCPtrs = (int*)sharedMemory; // size: (nov + 1) * sizeof(int)
+        int* sharedCPtrs = (int*)sharedMemory; // size: nov + 1 * sizeof(int)
 
         size_t sharedRowsOffset = ((nov + 1) * sizeof(int) + (sizeof(int) - 1)) & ~(sizeof(int) - 1);
         int* sharedRows = (int*)&sharedMemory[sharedRowsOffset]; // size: nnz * sizeof(int)
@@ -182,15 +161,16 @@ namespace SparseDefinitions
 
         for (int i = 0; i < nov; ++i)
         {
-            myX[i] = x[i];
+            x[nov + (i * totalThreadCount) + globalThreadID] = x[i];
         }
+        x += nov;
 
         if (chunkSize == -1)
         {
             chunkSize = (end - start) / totalThreadCount + 1;
         }
-        long long myStart = start + (threadID * chunkSize);
-        long long myEnd = min(start + ((threadID + 1) * chunkSize), end);
+        long long myStart = start + (globalThreadID * chunkSize);
+        long long myEnd = min(start + ((globalThreadID + 1) * chunkSize), end);
 
         long long gray = (myStart - 1) ^ ((myStart - 1) >> 1); // gray code for the previous subset
         // getting the x vector from the previous subset
@@ -198,25 +178,21 @@ namespace SparseDefinitions
         {
             if ((gray >> j) & 1LL) // was jth column included?
             {
-                for (int ptr = sharedCPtrs[j]; ptr < sharedCPtrs[j + 1]; ++ptr)
+                for (int i = sharedCPtrs[j]; i < sharedCPtrs[j + 1]; ++i)
                 {
-                    myX[sharedRows[ptr]] += sharedCVals[ptr];
+                    x[totalThreadCount * sharedRows[i] + globalThreadID] += sharedCVals[i];
                 }
             }
         }
 
-        C product = 1;
         int zeroNumber = 0;
         // product from the previous subset
         for (int i = 0; i < nov; ++i)
         {
-            if (myX[i] == 0)
+            int index = totalThreadCount * i + globalThreadID;
+            if (x[index] == 0)
             {
                 ++zeroNumber;
-            }
-            else
-            {
-                product *= myX[i];
             }
         }
 
@@ -232,47 +208,43 @@ namespace SparseDefinitions
             // is column removed or added
             C added = ((1LL << columnChanged) & gray) ? 1 : -1;
 
-            for (int ptr = sharedCPtrs[columnChanged]; ptr < sharedCPtrs[columnChanged + 1]; ++ptr)
+            for (int j = sharedCPtrs[columnChanged]; j < sharedCPtrs[columnChanged + 1]; ++j)
             {
-                int rowNeighbour = sharedRows[ptr];
-                C xValue = myX[rowNeighbour];
-                S value = sharedCVals[ptr];
-                C temp = added * value;
+                int index = totalThreadCount * sharedRows[j] + globalThreadID;
+                C xValue = x[index];
 
                 // excluding
                 if (xValue == 0)
                 {
                     --zeroNumber;
                 }
-                else
-                {
-                    product /= xValue;
-                }
 
-                xValue += temp;
+                xValue += added * sharedCVals[j];
 
                 // including
                 if (xValue == 0)
                 {
                     ++zeroNumber;
                 }
-                else
-                {
-                    product *= xValue;
-                }
 
-                myX[rowNeighbour] = xValue;
+                x[index] = xValue;
             }
 
             if(zeroNumber == 0)
             {
+                C product = 1;
+                for (int r = 0; r < nov; ++r)
+                {
+                    int index = totalThreadCount * r + globalThreadID;
+                    product *= x[index];
+                }
                 myResult += productSign * product;
             }
 
             productSign *= -1; // sign for the next subset
         }
 
-        p[threadID] += myResult;
+        p[globalThreadID] += myResult;
     }
 
     template <class C, class S>
@@ -322,7 +294,6 @@ namespace SparseDefinitions
             }
         }
 
-        C product = 1;
         int zeroNumber = 0;
         // product from the previous subset
         for (int i = 0; i < nov; ++i)
@@ -331,10 +302,6 @@ namespace SparseDefinitions
             if (sharedX[index] == 0)
             {
                 ++zeroNumber;
-            }
-            else
-            {
-                product *= sharedX[index];
             }
         }
 
@@ -352,32 +319,21 @@ namespace SparseDefinitions
 
             for (int j = cptrs[columnChanged]; j < cptrs[columnChanged + 1]; ++j)
             {
-                int rowNeighbour = rows[j];
-                int index = threadsPerBlock * rowNeighbour + localThreadID;
+                int index = threadsPerBlock * rows[j] + localThreadID;
                 C xValue = sharedX[index];
-                S value = cvals[j];
-                C temp = added * value;
 
                 // excluding
                 if (xValue == 0)
                 {
                     --zeroNumber;
                 }
-                else
-                {
-                    product /= xValue;
-                }
 
-                xValue += temp;
+                xValue += added * cvals[j];
 
                 // including
                 if (xValue == 0)
                 {
                     ++zeroNumber;
-                }
-                else
-                {
-                    product *= xValue;
                 }
 
                 sharedX[index] = xValue;
@@ -385,6 +341,12 @@ namespace SparseDefinitions
 
             if(zeroNumber == 0)
             {
+                C product = 1;
+                for (int r = 0; r < nov; ++r)
+                {
+                    int index = threadsPerBlock * r + localThreadID;
+                    product *= sharedX[index];
+                }
                 myResult += productSign * product;
             }
 
@@ -412,20 +374,6 @@ namespace SparseDefinitions
         int threadsPerBlock = blockDim.x;
 
         C myResult = 0;
-
-        /*
-        extern __shared__ char sharedMemory[];
-        C* sharedX = (C*)sharedMemory; // size: nov * threadsPerBlock * sizeof(C)
-
-        size_t sharedCPtrsOffset = threadsPerBlock * nov * sizeof(C);
-        int* sharedCPtrs = (int*)&sharedMemory[sharedCPtrsOffset]; // size: nov + 1 * sizeof(int)
-
-        size_t sharedRowsOffset = sharedCPtrsOffset + (nov + 1) * sizeof(int);
-        int* sharedRows = (int*)&sharedMemory[sharedRowsOffset]; // size: nnz * sizeof(int)
-
-        size_t sharedCValsOffset = sharedRowsOffset + nnz * sizeof(int);
-        S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
-        */
 
         extern __shared__ char sharedMemory[];
         C* sharedX = (C*)sharedMemory; // size: nov * threadsPerBlock * sizeof(C)
@@ -482,7 +430,6 @@ namespace SparseDefinitions
             }
         }
 
-        C product = 1;
         int zeroNumber = 0;
         // product from the previous subset
         for (int i = 0; i < nov; ++i)
@@ -491,10 +438,6 @@ namespace SparseDefinitions
             if (sharedX[index] == 0)
             {
                 ++zeroNumber;
-            }
-            else
-            {
-                product *= sharedX[index];
             }
         }
 
@@ -512,32 +455,21 @@ namespace SparseDefinitions
 
             for (int j = sharedCPtrs[columnChanged]; j < sharedCPtrs[columnChanged + 1]; ++j)
             {
-                int rowNeighbour = sharedRows[j];
-                int index = threadsPerBlock * rowNeighbour + localThreadID;
+                int index = threadsPerBlock * sharedRows[j] + localThreadID;
                 C xValue = sharedX[index];
-                S value = sharedCVals[j];
-                C temp = added * value;
 
                 // excluding
                 if (xValue == 0)
                 {
                     --zeroNumber;
                 }
-                else
-                {
-                    product /= xValue;
-                }
 
-                xValue += temp;
+                xValue += added * sharedCVals[j];
 
                 // including
                 if (xValue == 0)
                 {
                     ++zeroNumber;
-                }
-                else
-                {
-                    product *= xValue;
                 }
 
                 sharedX[index] = xValue;
@@ -545,6 +477,12 @@ namespace SparseDefinitions
 
             if(zeroNumber == 0)
             {
+                C product = 1;
+                for (int r = 0; r < nov; ++r)
+                {
+                    int index = threadsPerBlock * r + localThreadID;
+                    product *= sharedX[index];
+                }
                 myResult += productSign * product;
             }
 

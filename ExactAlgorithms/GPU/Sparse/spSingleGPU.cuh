@@ -117,14 +117,29 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
     int* d_rows;
     S* d_cvals;
 
-    gpuErrchk( cudaMalloc(&d_x, nov * sizeof(C)) )
+
+    if (this->m_KernelName == XGLOBALMSHARED || this->m_KernelName == XGLOBALMGLOBAL)
+    {
+        gpuErrchk( cudaMalloc(&d_x, (totalThreadCount + 1) * nov * sizeof(C)) )
+    }
+    else
+    {
+        gpuErrchk( cudaMalloc(&d_x, nov * sizeof(C)) )
+    }
     gpuErrchk( cudaMalloc(&d_products, totalThreadCount * sizeof(C)) )
     gpuErrchk( cudaMemset(d_products, 0, totalThreadCount * sizeof(C)) )
     gpuErrchk( cudaMalloc(&d_cptrs, (nov + 1) * sizeof(int)) )
     gpuErrchk( cudaMalloc(&d_rows, nnz * sizeof(int)) )
     gpuErrchk( cudaMalloc(&d_cvals, nnz * sizeof(S)) )
 
-    gpuErrchk( cudaMemcpy(d_x, x, nov * sizeof(C), cudaMemcpyHostToDevice) )
+    if (this->m_KernelName == XGLOBALMSHARED || this->m_KernelName == XGLOBALMGLOBAL)
+    {
+        gpuErrchk( cudaMemcpy( d_x, x, nov * sizeof(C), cudaMemcpyHostToDevice) )
+    }
+    else
+    {
+        gpuErrchk( cudaMemcpy(d_x, x, nov * sizeof(C), cudaMemcpyHostToDevice) )
+    }
     gpuErrchk( cudaMemcpy(d_cptrs, cptrs, (nov + 1) * sizeof(int), cudaMemcpyHostToDevice) )
     gpuErrchk( cudaMemcpy(d_rows, rows, nnz * sizeof(int), cudaMemcpyHostToDevice) )
     gpuErrchk( cudaMemcpy(d_cvals, cvals, nnz * sizeof(S), cudaMemcpyHostToDevice) )

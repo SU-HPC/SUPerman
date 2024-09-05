@@ -83,7 +83,7 @@ void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact* scal
     {
         for (int iv = 0; iv < nov; ++iv)
         {
-            double sum = 0;
+            __float128 sum = 0;
             for (int jv = 0; jv < nov; ++jv)
             {
                 sum += mat[iv * nov + jv] * rowScale[iv] * colScale[jv];
@@ -94,7 +94,7 @@ void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact* scal
 
         for (int jv = 0; jv < nov; ++jv)
         {
-            double sum = 0;
+            __float128 sum = 0;
             for (int iv = 0; iv < nov; ++iv)
             {
                 sum += mat[iv * nov + jv] * rowScale[iv] * colScale[jv];
@@ -122,12 +122,14 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
     settings.binary = false;
     settings.undirected = false;
     settings.scaling = false;
-    settings.scalingIterationNo = 1000;
-    settings.scaleInto = 1;
+    settings.scalingIterationNo = 100;
+    settings.scaleInto = 2;
+    settings.printingPrecision = 30;
     settings.threadC = omp_get_max_threads();
     settings.deviceID = 0;
     settings.gpuNum = 1;
-    settings.partition = 5;
+    settings.partition = 1;
+    settings.calculationPrecision = DD;
 
     bool filenameFound = false;
     for (int i = 1; i < argc; ++i)
@@ -147,17 +149,9 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             {
                 settings.algorithm = AlgorithmEnds;
             }
-            else if (value == "xlocal_mshared")
-            {
-                settings.algorithm = XLOCALMSHARED;
-            }
             else if (value == "xregister_mshared")
             {
                 settings.algorithm = XREGISTERMSHARED;
-            }
-            else if (value == "xlocal_mglobal")
-            {
-                settings.algorithm = XLOCALMGLOBAL;
             }
             else if (value == "xregister_mglobal")
             {
@@ -170,6 +164,14 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             else if (value == "xshared_mshared")
             {
                 settings.algorithm = XSHAREDMSHARED;
+            }
+            else if (value == "xglobal_mglobal")
+            {
+                settings.algorithm = XGLOBALMGLOBAL;
+            }
+            else if (value == "xglobal_mshared")
+            {
+                settings.algorithm = XGLOBALMSHARED;
             }
             else
             {
@@ -267,6 +269,17 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
                 throw std::runtime_error("An integer value should be provided to the scale_into argument!");
             }
         }
+        else if (arg == "printing_precision")
+        {
+            try
+            {
+                settings.printingPrecision = std::stoul(value);
+            }
+            catch (const std::exception& e)
+            {
+                throw std::runtime_error("An integer value should be provided to the printing_precision argument!");
+            }
+        }
         else if (arg == "chunk_partitioning")
         {
             try
@@ -276,6 +289,38 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             catch (const std::exception& e)
             {
                 throw std::runtime_error("An unsigned integer value should be provided to the chunk_partitioning argument!");
+            }
+        }
+        else if (arg == "calculation_precision")
+        {
+            if (value == "dd")
+            {
+                settings.calculationPrecision = DD;
+            }
+            else if (value == "dq1")
+            {
+                std::cout << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
+                settings.calculationPrecision = DQ1;
+            }
+            else if (value == "dq2")
+            {
+                std::cout << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
+                settings.calculationPrecision = DQ2;
+            }
+            else if (value == "qq")
+            {
+                std::cout << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
+                settings.calculationPrecision = QQ;
+            }
+            else if (value == "kahan")
+            {
+                std::cout << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
+                settings.calculationPrecision = KAHAN;
+            }
+            else
+            {
+                std::cout << "UNKNOWN CALCULATION PRECISION: " << value << " - selecting dd by default instead." << std::endl;
+                settings.calculationPrecision = DD;
             }
         }
         else

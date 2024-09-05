@@ -61,7 +61,7 @@ double spNaivePerman<C, S>::permanentFunction()
 #pragma omp parallel num_threads(threads)
     {
         int threadID = omp_get_thread_num();
-        C myResult = 0;
+        __float128 myResult = 0;
 
         C myX[nov];
         memcpy(myX, x, sizeof(C) * nov);
@@ -83,7 +83,6 @@ double spNaivePerman<C, S>::permanentFunction()
             }
         }
 
-        C myProduct = 1;
         int zeroNumber = 0;
         // product from the previous subset
         for (int i = 0; i < nov; ++i)
@@ -91,10 +90,6 @@ double spNaivePerman<C, S>::permanentFunction()
             if (myX[i] == 0)
             {
                 ++zeroNumber;
-            }
-            else
-            {
-                myProduct *= myX[i];
             }
         }
 
@@ -113,29 +108,19 @@ double spNaivePerman<C, S>::permanentFunction()
             {
                 int rowNeigbour = rows[j];
                 C xValue = myX[rowNeigbour];
-                S value = cvals[j];
-                C temp = added * value;
 
                 // excluding
                 if (xValue == 0)
                 {
                     --zeroNumber;
                 }
-                else
-                {
-                    myProduct /= xValue;
-                }
 
-                xValue += temp;
+                xValue += added * cvals[j];
 
                 // including
                 if (xValue == 0)
                 {
                     ++zeroNumber;
-                }
-                else
-                {
-                    myProduct *= xValue;
                 }
 
                 myX[rowNeigbour] = xValue;
@@ -143,6 +128,11 @@ double spNaivePerman<C, S>::permanentFunction()
 
             if (zeroNumber == 0)
             {
+                C myProduct = 1;
+                for (int r = 0; r < nov; ++r)
+                {
+                    myProduct *= myX[r];
+                }
                 myResult += productSign * myProduct;
             }
 

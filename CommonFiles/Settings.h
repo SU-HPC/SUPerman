@@ -8,10 +8,10 @@
 
 enum Algorithm
 {
-    XLOCALMSHARED,
     XREGISTERMSHARED,
-    XLOCALMGLOBAL,
     XREGISTERMGLOBAL,
+    XGLOBALMGLOBAL,
+    XGLOBALMSHARED,
     XSHAREDMGLOBAL,
     XSHAREDMSHARED,
     AlgorithmEnds
@@ -26,6 +26,16 @@ enum Mode
     ModeEnds
 };
 
+enum Precision
+{
+    DD,
+    DQ1,
+    DQ2,
+    QQ,
+    KAHAN,
+    PrecisionEnds
+};
+
 struct Settings
 {
     // General
@@ -38,6 +48,10 @@ struct Settings
     bool scaling;
     unsigned scalingIterationNo;
     unsigned scaleInto;
+
+    unsigned printingPrecision;
+
+    Precision calculationPrecision;
 
     // CPU Specific
     int threadC;
