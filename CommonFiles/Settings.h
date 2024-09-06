@@ -14,6 +14,7 @@ enum Algorithm
     XGLOBALMSHARED,
     XSHAREDMGLOBAL,
     XSHAREDMSHARED,
+    CODEGENERATION,
     AlgorithmEnds
 };
 

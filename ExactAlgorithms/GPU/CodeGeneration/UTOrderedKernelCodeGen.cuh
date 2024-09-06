@@ -46,6 +46,10 @@ std::string KernelGenerator<C, S>::generateUTOrderedKernelCode(int& k)
 template<class C, class S>
 void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
 {
+    k = m_Nov;
+    c = m_Nov - 1;
+    return;
+
     const double REG_ACCESS_CONSTANT = 1;
     const double SHARED_ACCESS_CONSTANT = 16;
     const double GLOBAL_ACCESS_CONSTANT = 32;
@@ -59,7 +63,7 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
     {
         int rowSpan = 0;
 
-        for (int i = (m_Nov - 1); i >= 0 ; ++i)
+        for (int i = (m_Nov - 1); i >= 0 ; --i)
         {
             if (m_Mat[j * m_Nov + i] == 0)
             {

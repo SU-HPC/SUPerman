@@ -66,6 +66,12 @@ extern Result gpuSPSingleGPU(Matrix<S>* matrix, Settings* settings)
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
+    else if (selectedAlgorithm == Algorithm::CODEGENERATION)
+    {
+        auto permanent = new DecomposePerman<C, S, kernelGenSingleGPU<C, S, &globalKernel, spNoShared<C, S> > >(Algorithm::CODEGENERATION, matrix, *settings);
+        result = permanent->computePermanentRecursively();
+        delete permanent;
+    }
     else
     {
         throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.");

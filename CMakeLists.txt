@@ -146,5 +146,6 @@ endif()
 
 target_compile_options(SUPerman PRIVATE -O3)
 target_compile_options(SUPerman PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+        -O3
         --generate-line-info
         >)

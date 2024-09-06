@@ -173,6 +173,10 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             {
                 settings.algorithm = XGLOBALMSHARED;
             }
+            else if (value == "code_generation")
+            {
+                settings.algorithm = CODEGENERATION;
+            }
             else
             {
                 std::cout << "UNKNOWN ALGORITHM: " << value << " - selecting automatically instead." << std::endl;

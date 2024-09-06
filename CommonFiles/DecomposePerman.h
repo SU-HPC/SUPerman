@@ -96,7 +96,7 @@ template <class C, class S, class Permanent>
 void DecomposePerman<C, S, Permanent>::startRecursion(Matrix<S>* matrix)
 {
     bool isCompressed = true;
-    while(isCompressed && matrix->nov > 1)
+    while (isCompressed && matrix->nov > 1)
     {
         isCompressed = compress1NNZ(matrix);
 
@@ -119,7 +119,7 @@ template <class C, class S, class Permanent>
 void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
 {
     int minDeg = getMinDegree(matrix);
-    if(minDeg < 5 && matrix->nov > 30)
+    if (minDeg < 5 && matrix->nov > 30)
     {
         if (minDeg == 1)
         {
