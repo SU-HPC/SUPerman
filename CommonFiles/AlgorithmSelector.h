@@ -10,6 +10,7 @@
 #include "SparseMatrix.h"
 #include "Settings.h"
 #include "Result.h"
+#include <fstream>
 
 
 template <class C, class S>
@@ -30,10 +31,29 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
 #ifdef GPU_AVAILABLE
     if (settings->algorithm == AlgorithmEnds && settings->mode != Mode::CPU)
     {
-        settings->algorithm = XREGISTERMSHARED;
-        std::cout << "SELECTED ALGORITHM IS: XREGISTERMSHARED" << std::endl;
+        if (matrix->nov > 45)
+        {
+            settings->algorithm = REGEFFICIENTCODEGENERATION;
+            std::cout << "SELECTED ALGORITHM IS: register_efficient_code_generation" << std::endl;
+        }
+        else
+        {
+            settings->algorithm = XREGISTERMSHARED;
+            std::cout << "SELECTED ALGORITHM IS: xregister_mshared" << std::endl;
+        }
     }
 #endif
+
+    std::ofstream file("build/Cache.txt");
+    if (settings->algorithm == NAIVECODEGENERATION || settings->algorithm == REGEFFICIENTCODEGENERATION)
+    {
+        file << 1;
+    }
+    else
+    {
+        file << -1;
+    }
+    file.close();
 
     if (settings->mode == Mode::CPU)
     {

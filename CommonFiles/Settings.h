@@ -44,15 +44,17 @@ struct Settings
     Algorithm algorithm;
     Mode mode;
 
+    // Matrix Related
     bool binary;
     bool undirected;
 
+    // Scaling Related
     bool scaling;
     unsigned scalingIterationNo;
     unsigned scaleInto;
 
+    // Precision Related
     unsigned printingPrecision;
-
     Precision calculationPrecision;
 
     // CPU Specific

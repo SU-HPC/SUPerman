@@ -84,5 +84,62 @@ KernelGenerator<C, S>::KernelGenerator(S* mat, int nov, C* x, unsigned deviceID)
 #include "NaiveKernelCodeGen.cuh"
 #include "UTOrderedKernelCodeGen.cuh"
 
+template <class C, class S>
+void generateKernels(int& k, S* mat, C* x, int nov, int deviceID, Algorithm algorithm)
+{
+    int codeGenerated = -1;
+    std::ifstream cacheReader("build/CodeGenCache.txt");
+    if (cacheReader.is_open())
+    {
+        cacheReader >> codeGenerated;
+        if (codeGenerated == 1)
+        {
+            cacheReader >> k;
+        }
+        cacheReader.close();
+    }
+
+    if (codeGenerated == 1)
+    {
+        std::ofstream cacheWriter("build/CodeGenCache.txt");
+        cacheWriter << -1 << std::endl;
+        cacheWriter.close();
+    }
+    else
+    {
+        std::ofstream cacheWriter("build/CodeGenCache.txt");
+        cacheWriter << 1 << std::endl;
+
+        S* matTransposed = new S[nov * nov];
+        for (int i = 0; i < nov; ++i)
+        {
+            for (int j = 0; j < nov; ++j)
+            {
+                matTransposed[j * nov + i] = mat[i * nov + j];
+            }
+        }
+
+        std::ofstream kernelFile("ExactAlgorithms/GPU/CodeGeneration/generatedKernels.cuh");
+        KernelGenerator<C, S> kernelGenerator(matTransposed, nov, x, deviceID);
+        std::string kernel;
+        if (algorithm == NAIVECODEGENERATION)
+        {
+            kernel = kernelGenerator.generateNaiveKernelCode();
+        }
+        else if (algorithm == REGEFFICIENTCODEGENERATION)
+        {
+            kernel = kernelGenerator.generateUTOrderedKernelCode(k);
+        }
+        kernelFile << kernel;
+
+        delete[] matTransposed;
+
+        cacheWriter << k << std::endl;
+        cacheWriter.close();
+
+        exit(0);
+    }
+}
+
 
 #endif //SUPERMAN_KERNELGENERATOR_CUH

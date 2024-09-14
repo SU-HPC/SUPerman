@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.16.3)
 project(SUPerman)
 
 ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
-add_compile_definitions(SPECIFIC=REGISTERS40)
-add_compile_definitions(NOV=40)
-# add_definitions(-DMAT_SPECIFIC_COMPILATION)
+add_compile_definitions(SPECIFIC=REGISTERS45)
+add_compile_definitions(NOV=45)
+add_definitions(-DMAT_SPECIFIC_COMPILATION)
 ### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
 
 # C++ standard
@@ -90,7 +90,7 @@ set(GPU_HEADER_FILES
         ExactAlgorithms/GPU/Dense/dpMultiGPUMPI.cuh
         ExactAlgorithms/GPU/Registers.cuh
         ExactAlgorithms/GPU/PrecisionHelpers.cuh
-        ExactAlgorithms/GPU/CodeGeneration/kernelGenSingleGPU.cuh
+        ExactAlgorithms/GPU/CodeGeneration/KernelGenSingleGPU.cuh
         ExactAlgorithms/GPU/CodeGeneration/KernelGenerator.cuh
         ExactAlgorithms/GPU/CodeGeneration/NaiveKernelCodeGen.cuh
         ExactAlgorithms/GPU/CodeGeneration/UTOrderedKernelCodeGen.cuh

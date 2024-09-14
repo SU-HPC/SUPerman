@@ -14,10 +14,10 @@
 
 
 template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
-class kernelGenSingleGPU: public Permanent<C, S>
+class KernelGenSingleGPU: public Permanent<C, S>
 {
 public:
-    kernelGenSingleGPU(Matrix<S>* matrix, Settings settings)
+    KernelGenSingleGPU(Matrix<S>* matrix, Settings settings)
     :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
@@ -28,7 +28,7 @@ public:
 
 
 template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
-double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
+double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
 {
     cudaDeviceProp prop;
     cudaGetDeviceProperties(&prop, this->m_Settings.deviceID);
@@ -37,7 +37,6 @@ double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     int nov = this->m_Matrix->nov;
     S* mat = this->m_Matrix->mat;
-    S* matTransposed = new S[nov * nov];
 
     C x[nov];
     __float128 product = 1;
@@ -53,28 +52,8 @@ double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
     }
     productSum = product;
 
-    for (int i = 0; i < nov; ++i)
-    {
-        for (int j = 0; j < nov; ++j)
-        {
-            matTransposed[j * nov + i] = mat[i * nov + j];
-        }
-    }
-
     int k = 0;
-
-    std::ofstream file("generatedKernels.cuh");
-    KernelGenerator<C, S> kernelGenerator(matTransposed, nov, x, this->m_Settings.deviceID);
-    std::string kernel;
-    if (this->m_Settings.algorithm == NAIVECODEGENERATION)
-    {
-        kernel = kernelGenerator.generateNaiveKernelCode();
-    }
-    else if (this->m_Settings.algorithm == REGEFFICIENTCODEGENERATION)
-    {
-        kernel = kernelGenerator.generateUTOrderedKernelCode(k);
-    }
-    file << kernel;
+    generateKernels(k, mat, x, nov, this->m_Settings.deviceID, this->m_Settings.algorithm);
 
     int gridDim;
     int blockDim;
@@ -181,7 +160,6 @@ double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk( cudaFree(d_x) )
 
     delete[] h_products;
-    delete[] matTransposed;
 
     return 0;
 }
