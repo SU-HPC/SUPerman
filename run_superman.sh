@@ -63,3 +63,8 @@ calculation_precision=("dd")
 for i in "${!filenames[@]}"; do
     ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
 done
+
+#### IF YOU WANT TO USE MPI THEN COMMENT OUT THE FOLLOWING LOOP INSTEAD OF THE ABOVE ONE
+#for i in "${!filenames[@]}"; do
+#    mpirun --mca btl ^openib -np 2 ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
+#done
