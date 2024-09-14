@@ -27,7 +27,7 @@ if(CMAKE_CUDA_COMPILER)
     enable_language(CUDA)
     add_definitions(-DGPU_AVAILABLE)
     #set(CMAKE_CUDA_FLAGS_DEBUG "${CMAKE_CUDA_FLAGS_DEBUG} -G -lineinfo")
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler ${OpenMP_CXX_FLAGS}")
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --ptxas-options=-v -Xcompiler ${OpenMP_CXX_FLAGS}")
     find_package(CUDAToolkit REQUIRED)
 endif()
 
@@ -90,10 +90,11 @@ set(GPU_HEADER_FILES
         ExactAlgorithms/GPU/Dense/dpMultiGPUMPI.cuh
         ExactAlgorithms/GPU/Registers.cuh
         ExactAlgorithms/GPU/PrecisionHelpers.cuh
+        ExactAlgorithms/GPU/CodeGeneration/kernelGenSingleGPU.cuh
         ExactAlgorithms/GPU/CodeGeneration/KernelGenerator.cuh
         ExactAlgorithms/GPU/CodeGeneration/NaiveKernelCodeGen.cuh
         ExactAlgorithms/GPU/CodeGeneration/UTOrderedKernelCodeGen.cuh
-        ExactAlgorithms/GPU/CodeGeneration/deniz_kernel.cuh
+        ExactAlgorithms/GPU/CodeGeneration/generatedKernels.cuh
 )
 
 set(GPU_WRAPPER_FILES

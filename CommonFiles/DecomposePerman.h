@@ -24,9 +24,8 @@ template <class C, class S, class Permanent>
 class DecomposePerman
 {
 public:
-    DecomposePerman(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
+    DecomposePerman(Matrix<S>* matrix, Settings settings)
     :
-        m_KernelName(kernelName),
         m_Matrix(matrix),
         m_Settings(settings) {}
 
@@ -46,7 +45,6 @@ private:
     void recurse(Matrix<S>* matrix);
 
 protected:
-    Algorithm m_KernelName;
     Matrix<S>* m_Matrix;
     Settings m_Settings;
     std::vector<Permanent*> m_Permanents;
@@ -131,6 +129,10 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
             compress2NNZ(matrix);
             recurse(matrix);
         }
+        else if (this->m_Settings.algorithm == NAIVECODEGENERATION || this->m_Settings.algorithm == REGEFFICIENTCODEGENERATION)
+        {
+            goto CODEGEN;
+        }
         else if (minDeg == 3 || minDeg == 4)
         {
             auto matrix2 = new Matrix<S>;
@@ -142,6 +144,7 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
     }
     else
     {
+        CODEGEN:
         int nnz = getNNZ(matrix);
         matrix->sparsity = double(nnz) / double(matrix->nov * matrix->nov);
         Matrix<S>* newMatrix = new Matrix<S>(*matrix);
@@ -155,7 +158,7 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
             IO::scale(newMatrix, m_Settings, scalingCompact);
             m_ScalingValues.push_back(scalingCompact);
         }
-        Permanent* newPermanent = new Permanent(m_KernelName, newMatrix, m_Settings);
+        Permanent* newPermanent = new Permanent(newMatrix, m_Settings);
         newPermanent->computePermanent();
         m_Permanents.push_back(newPermanent);
     }

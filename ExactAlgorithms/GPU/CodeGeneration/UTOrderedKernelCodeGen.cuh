@@ -46,10 +46,6 @@ std::string KernelGenerator<C, S>::generateUTOrderedKernelCode(int& k)
 template<class C, class S>
 void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
 {
-    k = m_Nov;
-    c = m_Nov - 1;
-    return;
-
     const double REG_ACCESS_CONSTANT = 1;
     const double SHARED_ACCESS_CONSTANT = 16;
     const double GLOBAL_ACCESS_CONSTANT = 32;
@@ -63,7 +59,7 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
     {
         int rowSpan = 0;
 
-        for (int i = (m_Nov - 1); i >= 0 ; --i)
+        for (int i = (m_Nov - 1); i >= 0; --i)
         {
             if (m_Mat[j * m_Nov + i] == 0)
             {
@@ -86,7 +82,7 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
         double globalAccess = (((m_Nov - currentRegisters) * (100 - currentIteration)) / 100) * GLOBAL_ACCESS_CONSTANT;
 
         double currentPoint = numberOfThreads / (regAccess + globalAccess);
-        if (currentPoint > totalPoint)
+        if ((currentPoint > totalPoint) || (currentRegisters == k))
         {
             iterationCovered = currentIteration;
             totalPoint = currentPoint;
@@ -99,8 +95,8 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
         }
     }
 
-    std::cout << "Registers needed: " << k << std::endl;
-    std::cout << "Last column to be fully included in the register area: " << c << std::endl;
+    std::cout << "Registers needed: " << k * (sizeof(C) / 4) << std::endl;
+    std::cout << "Last column to be included in the register area: " << c << std::endl;
     std::cout << "Total iteration space in which only register access is required: " << iterationCovered << std::endl;
 }
 

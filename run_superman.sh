@@ -14,6 +14,7 @@ filenames=("all1_40.mtx")
 algorithms=("auto")
 # The algorithm used to compute the permanent of your matrix.
 # "auto" lets the library select the fastest algorithm available.
+# DEFAULT: "auto"
 
 modes=("single_gpu")
 # The mode in which the matrix permanent is computed.
@@ -22,41 +23,43 @@ modes=("single_gpu")
 # - single_gpu: Utilizes a single GPU (specified by device_id) during computation.
 # - multi_gpu: Uses multiple GPUs (number specified by gpu_num) for computation.
 # - multi_gpu_mpi: Uses multiple nodes, each with possibly multiple GPUs.
+# DEFAULT: "cpu"
 
 thread_counts=(88)
 # The number of CPU threads the library will use when computing the permanent on the CPU.
 # Only relevant if the mode is "cpu".
+# DEFAULT: maximum number of hardware threads allowed on the architecture
 
 device_ids=(0)
 # The device ID of the GPU used for computation.
 # Only relevant if the mode is "single_gpu".
+# DEFAULT: 0
 
 gpu_nums=(1)
 # The number of GPUs used for computation.
 # Only relevant if the mode is "multi_gpu" or "multi_gpu_mpi".
+# DEFAULT: 1
 
 is_binary=("false")
 # If true, the library assumes that the matrix edges are unweighted.
+# DEFAULT: "false"
 
 is_undirected=("false")
 # If true, the library assumes that the matrix is undirected, meaning for every edge u -> v, there is also an edge v -> u.
-
-requires_scaling=("false")
-# If true, the matrix will be scaled. For more details on this process, refer to our article.
-scaling_iteration_nos=(100)
-# Number of iterations required for scaling
-scale_into=(2)
+# DEFAULT: "false"
 
 printing_precision=(30)
+# Precision in which to print the permanent result
+# DEFAULT: 30
+
 calculation_precision=("dd")
 # Precision for the data structures where the products and sums are stored, available settings are:
 # "dd" -> product: double, sum: double
 # "dq1" -> product: double, sum: quad
 # "dq2" -> product: double, sum: quad
 # "qq" -> product: quad, sum: quad
-
-chunk_partitionings=(1)
+# DEFAULT: "dd"
 
 for i in "${!filenames[@]}"; do
-    ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" scaling="${requires_scaling[$i]}" scaling_iteration_no="${scaling_iteration_nos[$i]}" scale_into="${scale_into[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}" chunk_partitioning="${chunk_partitionings[$i]}"
+    ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
 done

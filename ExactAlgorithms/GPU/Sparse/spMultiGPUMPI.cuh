@@ -16,8 +16,8 @@ template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFu
 class spMultiGPUMPI: public Permanent<C, S>
 {
 public:
-    spMultiGPUMPI(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
-    :   Permanent<C, S>(kernelName, matrix, settings) {}
+    spMultiGPUMPI(Matrix<S>* matrix, Settings settings)
+    :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
 
@@ -202,30 +202,28 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         C* h_products = new C[totalThreadCount];
         C myProductSum = 0;
 
-        bool finish = false;
+        omp_lock_t lock;
+        omp_init_lock(&lock);
         while (true)
         {
             long long myStart;
             long long myEnd;
-            #pragma omp critical
+            omp_set_lock(&lock);
+            if (currentChunkStart >= nodeEnd)
             {
-                if (currentChunkStart >= nodeEnd)
-                {
-                    finish = true;
-                }
-                myStart = currentChunkStart;
-                currentChunkStart += CHUNK_SIZE;
-                myEnd = currentChunkStart;
+                omp_unset_lock(&lock);
+                break;
             }
-            if (finish) break;
+            myStart = currentChunkStart;
+            currentChunkStart += CHUNK_SIZE;
+            myEnd = currentChunkStart;
+            omp_unset_lock(&lock);
 
             if (myEnd > nodeEnd) myEnd = nodeEnd;
 
-            long long total = (myEnd - myStart);
-            long long left = total;
-            double passed = 0;
+            long long left = (myEnd - myStart);
 
-            while (passed < 0.99 && totalThreadCount < left)
+            while (totalThreadCount < left)
             {
                 long long chunkSize = 1;
                 while ((chunkSize * totalThreadCount) < left)
@@ -233,6 +231,11 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                     chunkSize *= 2;
                 }
                 chunkSize /= 2;
+
+                if (chunkSize == 1)
+                {
+                    break;
+                }
 
                 Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
                         d_cptrs,
@@ -248,7 +251,6 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 
                 long long thisIteration = totalThreadCount * chunkSize;
                 left -= thisIteration;
-                passed = 1 - (double)left / double(total);
                 myStart += thisIteration;
             }
 
@@ -272,6 +274,7 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                 myProductSum += h_products[i];
             }
         }
+        omp_destroy_lock(&lock);
 
         gpuErrchk( cudaFree(d_x) )
         gpuErrchk( cudaFree(d_products) )

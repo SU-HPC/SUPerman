@@ -14,8 +14,8 @@ template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFun
 class dpSingleGPU: public Permanent<C, S>
 {
 public:
-    dpSingleGPU(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
-    :   Permanent<C, S>(kernelName, matrix, settings) {}
+    dpSingleGPU(Matrix<S>* matrix, Settings settings)
+    :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
 
@@ -132,12 +132,9 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     long long start = 1;
     long long end = (1LL << (nov - 1));
-    long long total = (end - start);
+    long long left = (end - start);
 
-    long long left = total;
-    double passed = 0;
-
-    while (passed < 0.99 && totalThreadCount < left)
+    while (totalThreadCount < left)
     {
         long long chunkSize = 1;
         while ((chunkSize * totalThreadCount) < left)
@@ -145,6 +142,11 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
             chunkSize *= 2;
         }
         chunkSize /= 2;
+
+        if (chunkSize == 1)
+        {
+            break;
+        }
 
         Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
                 d_mat,
@@ -157,7 +159,6 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
         long long thisIteration = totalThreadCount * chunkSize;
         left -= thisIteration;
-        passed = 1 - (double)left / double(total);
         start += thisIteration;
     }
 

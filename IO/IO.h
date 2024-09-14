@@ -173,9 +173,13 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             {
                 settings.algorithm = XGLOBALMSHARED;
             }
-            else if (value == "code_generation")
+            else if (value == "naive_code_generation")
             {
-                settings.algorithm = CODEGENERATION;
+                settings.algorithm = NAIVECODEGENERATION;
+            }
+            else if (value == "register_efficient_code_generation")
+            {
+                settings.algorithm = REGEFFICIENTCODEGENERATION;
             }
             else
             {

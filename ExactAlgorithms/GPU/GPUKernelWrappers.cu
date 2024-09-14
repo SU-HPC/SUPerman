@@ -25,7 +25,7 @@
 #include "dpMultiGPU.cuh"
 
 // Kernel Generation
-#include "deniz_kernel.cuh"
+#include "generatedKernels.cuh"
 #include "kernelGenSingleGPU.cuh"
 
 // MPI
@@ -44,31 +44,31 @@ extern Result gpuSPSingleGPU(Matrix<S>* matrix, Settings* settings)
     Algorithm selectedAlgorithm = settings->algorithm;
     if (selectedAlgorithm == Algorithm::XSHAREDMGLOBAL)
     {
-        auto permanent = new DecomposePerman<C, S, spSingleGPU<C, S, &SparseDefinitions::xSharedMGlobal, spXShared<C, S> > >(Algorithm::XSHAREDMGLOBAL, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, spSingleGPU<C, S, &SparseDefinitions::xSharedMGlobal, spXShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
     else if (selectedAlgorithm == Algorithm::XSHAREDMSHARED)
     {
-        auto permanent = new DecomposePerman<C, S, spSingleGPU<C, S, &SparseDefinitions::xSharedMShared, spXSharedMShared<C, S> > >(Algorithm::XSHAREDMSHARED, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, spSingleGPU<C, S, &SparseDefinitions::xSharedMShared, spXSharedMShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
     else if (selectedAlgorithm == Algorithm::XGLOBALMGLOBAL)
     {
-        auto permanent = new DecomposePerman<C, S, spSingleGPU<C, S, &SparseDefinitions::xGlobalMGlobal, spNoShared<C, S> > >(Algorithm::XGLOBALMGLOBAL, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, spSingleGPU<C, S, &SparseDefinitions::xGlobalMGlobal, spNoShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
     else if (selectedAlgorithm == Algorithm::XGLOBALMSHARED)
     {
-        auto permanent = new DecomposePerman<C, S, spSingleGPU<C, S, &SparseDefinitions::xGlobalMShared, spMShared<C, S> > >(Algorithm::XGLOBALMSHARED, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, spSingleGPU<C, S, &SparseDefinitions::xGlobalMShared, spMShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
-    else if (selectedAlgorithm == Algorithm::CODEGENERATION)
+    else if ((selectedAlgorithm == Algorithm::NAIVECODEGENERATION) || selectedAlgorithm == Algorithm::REGEFFICIENTCODEGENERATION)
     {
-        auto permanent = new DecomposePerman<C, S, kernelGenSingleGPU<C, S, &globalKernel, spNoShared<C, S> > >(Algorithm::CODEGENERATION, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, kernelGenSingleGPU<C, S, &globalKernel, spNoShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
@@ -88,25 +88,13 @@ extern Result gpuSPMultiGPU(Matrix<S>* matrix, Settings* settings)
     Algorithm selectedAlgorithm = settings->algorithm;
     if (selectedAlgorithm == Algorithm::XSHAREDMGLOBAL)
     {
-        auto permanent = new DecomposePerman<C, S, spMultiGPU<C, S, &SparseDefinitions::xSharedMGlobal, spXShared<C, S> > >(Algorithm::XSHAREDMGLOBAL, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, spMultiGPU<C, S, &SparseDefinitions::xSharedMGlobal, spXShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
     else if (selectedAlgorithm == Algorithm::XSHAREDMSHARED)
     {
-        auto permanent = new DecomposePerman<C, S, spMultiGPU<C, S, &SparseDefinitions::xSharedMShared, spXSharedMShared<C, S> > >(Algorithm::XSHAREDMSHARED, matrix, *settings);
-        result = permanent->computePermanentRecursively();
-        delete permanent;
-    }
-    else if (selectedAlgorithm == Algorithm::XGLOBALMGLOBAL)
-    {
-        auto permanent = new DecomposePerman<C, S, spMultiGPU<C, S, &SparseDefinitions::xGlobalMGlobal, spNoShared<C, S> > >(Algorithm::XGLOBALMGLOBAL, matrix, *settings);
-        result = permanent->computePermanentRecursively();
-        delete permanent;
-    }
-    else if (selectedAlgorithm == Algorithm::XGLOBALMSHARED)
-    {
-        auto permanent = new DecomposePerman<C, S, spMultiGPU<C, S, &SparseDefinitions::xGlobalMShared, spMShared<C, S> > >(Algorithm::XGLOBALMSHARED, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, spMultiGPU<C, S, &SparseDefinitions::xSharedMShared, spXSharedMShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
@@ -127,25 +115,13 @@ extern Result gpuSPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
     Algorithm selectedAlgorithm = settings->algorithm;
     if (selectedAlgorithm == Algorithm::XSHAREDMGLOBAL)
     {
-        auto permanent = new DecomposePerman<C, S, spMultiGPUMPI<C, S, &SparseDefinitions::xSharedMGlobal, spXShared<C, S> > >(Algorithm::XSHAREDMGLOBAL, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, spMultiGPUMPI<C, S, &SparseDefinitions::xSharedMGlobal, spXShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
     else if (selectedAlgorithm == Algorithm::XSHAREDMSHARED)
     {
-        auto permanent = new DecomposePerman<C, S, spMultiGPUMPI<C, S, &SparseDefinitions::xSharedMShared, spXSharedMShared<C, S> > >(Algorithm::XSHAREDMSHARED, matrix, *settings);
-        result = permanent->computePermanentRecursively();
-        delete permanent;
-    }
-    else if (selectedAlgorithm == Algorithm::XGLOBALMGLOBAL)
-    {
-        auto permanent = new DecomposePerman<C, S, spMultiGPUMPI<C, S, &SparseDefinitions::xGlobalMGlobal, spNoShared<C, S> > >(Algorithm::XGLOBALMGLOBAL, matrix, *settings);
-        result = permanent->computePermanentRecursively();
-        delete permanent;
-    }
-    else if (selectedAlgorithm == Algorithm::XGLOBALMSHARED)
-    {
-        auto permanent = new DecomposePerman<C, S, spMultiGPUMPI<C, S, &SparseDefinitions::xGlobalMShared, spMShared<C, S> > >(Algorithm::XGLOBALMSHARED, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, spMultiGPUMPI<C, S, &SparseDefinitions::xSharedMShared, spXSharedMShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
@@ -201,26 +177,26 @@ extern Result gpuDPSingleGPU(Matrix<S>* matrix, Settings* settings)
                 delete permanent;
             }
         #else
-            auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xRegisterMShared, dpMShared<C, S> > >(Algorithm::XREGISTERMSHARED, matrix, *settings);
+            auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xRegisterMShared, dpMShared<C, S> > >(matrix, *settings);
             result = permanent->computePermanentRecursively();
             delete permanent;
         #endif
     }
     else if (selectedAlgorithm == Algorithm::XREGISTERMGLOBAL)
     {
-        auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xRegisterMGlobal, dpNoShared<C, S> > >(Algorithm::XREGISTERMGLOBAL, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xRegisterMGlobal, dpNoShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
     else if (selectedAlgorithm == Algorithm::XSHAREDMGLOBAL)
     {
-        auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xSharedMGlobal, dpXShared<C, S> > >(Algorithm::XSHAREDMGLOBAL, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xSharedMGlobal, dpXShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
     else if (selectedAlgorithm == Algorithm::XSHAREDMSHARED)
     {
-        auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xSharedMShared, dpXSharedMShared<C, S> > >(Algorithm::XSHAREDMSHARED, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xSharedMShared, dpXSharedMShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
@@ -245,26 +221,26 @@ extern Result gpuDPMultiGPU(Matrix<S>* matrix, Settings* settings)
             result = permanent->computePermanentRecursively();
             delete permanent;
         #else
-            auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xRegisterMShared, dpMShared<C, S> > >(Algorithm::XREGISTERMSHARED, matrix, *settings);
+            auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xRegisterMShared, dpMShared<C, S> > >(matrix, *settings);
             result = permanent->computePermanentRecursively();
             delete permanent;
         #endif
     }
     else if (selectedAlgorithm == Algorithm::XREGISTERMGLOBAL)
     {
-        auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xRegisterMGlobal, dpNoShared<C, S> > >(Algorithm::XREGISTERMGLOBAL, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xRegisterMGlobal, dpNoShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
     else if (selectedAlgorithm == Algorithm::XSHAREDMGLOBAL)
     {
-        auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xSharedMGlobal, dpXShared<C, S> > >(Algorithm::XSHAREDMGLOBAL, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xSharedMGlobal, dpXShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
     else if (selectedAlgorithm == Algorithm::XSHAREDMSHARED)
     {
-        auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xSharedMShared, dpXSharedMShared<C, S> > >(Algorithm::XSHAREDMSHARED, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xSharedMShared, dpXSharedMShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
@@ -286,30 +262,30 @@ extern Result gpuDPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
     if (selectedAlgorithm == Algorithm::XREGISTERMSHARED)
     {
         #ifdef MAT_SPECIFIC_COMPILATION
-            auto permanent = new DecomposePerman<C, S, dpMultiGPUMPI<C, S, &DenseDefinitions::xRegisterMSharedMatSpecificCompilation, dpMShared<C, S> > >(Algorithm::XREGISTERMSHARED, matrix, *settings);
+            auto permanent = new DecomposePerman<C, S, dpMultiGPUMPI<C, S, &DenseDefinitions::xRegisterMSharedMatSpecificCompilation, dpMShared<C, S> > >(matrix, *settings);
                 result = permanent->computePermanentRecursively();
                 delete permanent;
         #else
-            auto permanent = new DecomposePerman<C, S, dpMultiGPUMPI<C, S, &DenseDefinitions::xRegisterMShared, dpMShared<C, S> > >(Algorithm::XREGISTERMSHARED, matrix, *settings);
+            auto permanent = new DecomposePerman<C, S, dpMultiGPUMPI<C, S, &DenseDefinitions::xRegisterMShared, dpMShared<C, S> > >(matrix, *settings);
             result = permanent->computePermanentRecursively();
             delete permanent;
         #endif
     }
     else if (selectedAlgorithm == Algorithm::XREGISTERMGLOBAL)
     {
-        auto permanent = new DecomposePerman<C, S, dpMultiGPUMPI<C, S, &DenseDefinitions::xRegisterMGlobal, dpNoShared<C, S> > >(Algorithm::XREGISTERMGLOBAL, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, dpMultiGPUMPI<C, S, &DenseDefinitions::xRegisterMGlobal, dpNoShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
     else if (selectedAlgorithm == Algorithm::XSHAREDMGLOBAL)
     {
-        auto permanent = new DecomposePerman<C, S, dpMultiGPUMPI<C, S, &DenseDefinitions::xSharedMGlobal, dpXShared<C, S> > >(Algorithm::XSHAREDMGLOBAL, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, dpMultiGPUMPI<C, S, &DenseDefinitions::xSharedMGlobal, dpXShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
     else if (selectedAlgorithm == Algorithm::XSHAREDMSHARED)
     {
-        auto permanent = new DecomposePerman<C, S, dpMultiGPUMPI<C, S, &DenseDefinitions::xSharedMShared, dpXSharedMShared<C, S> > >(Algorithm::XSHAREDMSHARED, matrix, *settings);
+        auto permanent = new DecomposePerman<C, S, dpMultiGPUMPI<C, S, &DenseDefinitions::xSharedMShared, dpXSharedMShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }

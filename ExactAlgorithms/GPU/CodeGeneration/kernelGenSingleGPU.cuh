@@ -8,7 +8,7 @@
 
 #include "Permanent.h"
 #include "Matrix.h"
-#include "deniz_kernel.cuh"
+#include "generatedKernels.cuh"
 #include "KernelGenerator.cuh"
 #include <fstream>
 
@@ -17,8 +17,8 @@ template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFun
 class kernelGenSingleGPU: public Permanent<C, S>
 {
 public:
-    kernelGenSingleGPU(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
-    :   Permanent<C, S>(kernelName, matrix, settings) {}
+    kernelGenSingleGPU(Matrix<S>* matrix, Settings settings)
+    :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
 
@@ -63,9 +63,17 @@ double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     int k = 0;
 
-    std::ofstream file("deniz_kernel.cuh");
+    std::ofstream file("generatedKernels.cuh");
     KernelGenerator<C, S> kernelGenerator(matTransposed, nov, x, this->m_Settings.deviceID);
-    std::string kernel = kernelGenerator.generateUTOrderedKernelCode(k);
+    std::string kernel;
+    if (this->m_Settings.algorithm == NAIVECODEGENERATION)
+    {
+        kernel = kernelGenerator.generateNaiveKernelCode();
+    }
+    else if (this->m_Settings.algorithm == REGEFFICIENTCODEGENERATION)
+    {
+        kernel = kernelGenerator.generateUTOrderedKernelCode(k);
+    }
     file << kernel;
 
     int gridDim;
@@ -120,19 +128,21 @@ double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     long long start = 1;
     long long end = (1LL << (nov - 1));
-    long long total = (end - start);
+    long long left = (end - start);
 
-    long long left = total;
-    double passed = 0;
-
-    while (passed < 0.99 && totalThreadCount < left)
+    while (totalThreadCount < left)
     {
         long long chunkSize = 1;
-        while ((chunkSize * totalThreadCount) < left)
+        while ((chunkSize * totalThreadCount) <= left)
         {
             chunkSize *= 2;
         }
         chunkSize /= 2;
+
+        if (chunkSize == 1)
+        {
+            break;
+        }
 
         Algo<<<gridDim, blockDim>>>(
                 nullptr,
@@ -145,7 +155,6 @@ double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
         long long thisIteration = totalThreadCount * chunkSize;
         left -= thisIteration;
-        passed = 1 - (double)left / double(total);
         start += thisIteration;
     }
 

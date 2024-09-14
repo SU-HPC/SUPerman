@@ -14,8 +14,8 @@ template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFu
 class spSingleGPU: public Permanent<C, S>
 {
 public:
-    spSingleGPU(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
-    :   Permanent<C, S>(kernelName, matrix, settings) {}
+    spSingleGPU(Matrix<S>* matrix, Settings settings)
+    :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
 
@@ -118,7 +118,7 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
     S* d_cvals;
 
 
-    if (this->m_KernelName == XGLOBALMSHARED || this->m_KernelName == XGLOBALMGLOBAL)
+    if (this->m_Settings.algorithm == XGLOBALMSHARED || this->m_Settings.algorithm == XGLOBALMGLOBAL)
     {
         gpuErrchk( cudaMalloc(&d_x, (totalThreadCount + 1) * nov * sizeof(C)) )
     }
@@ -132,7 +132,7 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk( cudaMalloc(&d_rows, nnz * sizeof(int)) )
     gpuErrchk( cudaMalloc(&d_cvals, nnz * sizeof(S)) )
 
-    if (this->m_KernelName == XGLOBALMSHARED || this->m_KernelName == XGLOBALMGLOBAL)
+    if (this->m_Settings.algorithm == XGLOBALMSHARED || this->m_Settings.algorithm == XGLOBALMGLOBAL)
     {
         gpuErrchk( cudaMemcpy( d_x, x, nov * sizeof(C), cudaMemcpyHostToDevice) )
     }
@@ -148,12 +148,9 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     long long start = 1;
     long long end = (1LL << (nov - 1));
-    long long total = (end - start);
+    long long left = (end - start);
 
-    long long left = total;
-    double passed = 0;
-
-    while (passed < 0.99 && totalThreadCount < left)
+    while (totalThreadCount < left)
     {
         long long chunkSize = 1;
         while ((chunkSize * totalThreadCount) < left)
@@ -161,6 +158,11 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
             chunkSize *= 2;
         }
         chunkSize /= 2;
+
+        if (chunkSize == 1)
+        {
+            break;
+        }
 
         Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
                 d_cptrs,
@@ -176,7 +178,6 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
         long long thisIteration = totalThreadCount * chunkSize;
         left -= thisIteration;
-        passed = 1 - (double)left / double(total);
         start += thisIteration;
     }
 
