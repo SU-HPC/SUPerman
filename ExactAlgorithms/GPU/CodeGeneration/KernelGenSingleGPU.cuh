@@ -8,17 +8,17 @@
 
 #include "Permanent.h"
 #include "Matrix.h"
-#include "deniz_kernel.cuh"
+#include "generatedKernels.cuh"
 #include "KernelGenerator.cuh"
 #include <fstream>
 
 
 template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
-class kernelGenSingleGPU: public Permanent<C, S>
+class KernelGenSingleGPU: public Permanent<C, S>
 {
 public:
-    kernelGenSingleGPU(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
-    :   Permanent<C, S>(kernelName, matrix, settings) {}
+    KernelGenSingleGPU(Matrix<S>* matrix, Settings settings)
+    :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
 
@@ -28,7 +28,7 @@ public:
 
 
 template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
-double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
+double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
 {
     cudaDeviceProp prop;
     cudaGetDeviceProperties(&prop, this->m_Settings.deviceID);
@@ -37,7 +37,6 @@ double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     int nov = this->m_Matrix->nov;
     S* mat = this->m_Matrix->mat;
-    S* matTransposed = new S[nov * nov];
 
     C x[nov];
     __float128 product = 1;
@@ -53,20 +52,8 @@ double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
     }
     productSum = product;
 
-    for (int i = 0; i < nov; ++i)
-    {
-        for (int j = 0; j < nov; ++j)
-        {
-            matTransposed[j * nov + i] = mat[i * nov + j];
-        }
-    }
-
     int k = 0;
-
-    std::ofstream file("deniz_kernel.cuh");
-    KernelGenerator<C, S> kernelGenerator(matTransposed, nov, x, this->m_Settings.deviceID);
-    std::string kernel = kernelGenerator.generateUTOrderedKernelCode(k);
-    file << kernel;
+    generateKernels(k, mat, x, nov, this->m_Settings);
 
     int gridDim;
     int blockDim;
@@ -77,9 +64,9 @@ double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
             ) )
 
     int noSM = prop.multiProcessorCount;
-    int maxRegsPerBlock = prop.regsPerBlock;
-    int maxRegsPerSM = prop.regsPerMultiprocessor;
+    int totalRegs = prop.regsPerMultiprocessor * noSM;
     int totalThreadCount = gridDim * blockDim;
+    int regsUsed = ((k * (sizeof(C) / 4)) + 20) * totalThreadCount;
 
     int maxBlocks;
     gpuErrchk( cudaOccupancyMaxActiveBlocksPerMultiprocessor(
@@ -97,8 +84,9 @@ double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
         {
             printf("Permanent is being computed on device id: %d, %s\n", this->m_Settings.deviceID, prop.name);
             printf("Number of streaming multiprocessors: %d\n", noSM);
-            printf("Maximum number of registers that could be used per block: %d\n", maxRegsPerBlock);
-            printf("Maximum number of registers that could be used per SM: %d\n", maxRegsPerSM);
+            printf("Total number of registers available across the GPU: %d\n", totalRegs);
+            printf("Total number of registers used across the GPU: %d\n", regsUsed);
+            printf("%f%% of the entire register file is in use\n", (double(regsUsed) / double(totalRegs)) * 100);
             printf("Grid Dimension: %d\n", gridDim);
             printf("Block Dimension: %d\n", blockDim);
             printf("Total number of threads: %d\n", totalThreadCount);
@@ -120,19 +108,21 @@ double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     long long start = 1;
     long long end = (1LL << (nov - 1));
-    long long total = (end - start);
+    long long left = (end - start);
 
-    long long left = total;
-    double passed = 0;
-
-    while (passed < 0.99 && totalThreadCount < left)
+    while (totalThreadCount < left)
     {
         long long chunkSize = 1;
-        while ((chunkSize * totalThreadCount) < left)
+        while ((chunkSize * totalThreadCount) <= left)
         {
             chunkSize *= 2;
         }
         chunkSize /= 2;
+
+        if (chunkSize == 1)
+        {
+            break;
+        }
 
         Algo<<<gridDim, blockDim>>>(
                 nullptr,
@@ -145,7 +135,6 @@ double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
         long long thisIteration = totalThreadCount * chunkSize;
         left -= thisIteration;
-        passed = 1 - (double)left / double(total);
         start += thisIteration;
     }
 
@@ -172,7 +161,6 @@ double kernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk( cudaFree(d_x) )
 
     delete[] h_products;
-    delete[] matTransposed;
 
     return 0;
 }

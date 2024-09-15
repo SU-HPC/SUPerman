@@ -17,9 +17,8 @@ template <class C, class S>
 class Permanent
 {
 public:
-    Permanent(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
+    Permanent(Matrix<S>* matrix, Settings settings)
     :
-        m_KernelName(kernelName),
         m_Matrix(matrix),
         m_Settings(settings) {}
 
@@ -37,7 +36,6 @@ public:
     virtual double permanentFunction() = 0;
 
 public:
-    Algorithm m_KernelName;
     Matrix<S>* m_Matrix;
     Settings m_Settings;
 };
@@ -46,7 +44,15 @@ public:
 template <class C, class S>
 Result Permanent<C, S>::computePermanent()
 {
-    if (m_Settings.algorithm != XREGISTERMSHARED && m_Settings.algorithm != XREGISTERMGLOBAL && m_Matrix->sparsity < 50)
+    if (m_Settings.algorithm == NAIVECODEGENERATION)
+    {
+
+    }
+    else if (m_Settings.algorithm == REGEFFICIENTCODEGENERATION)
+    {
+        IO::UTOrder(m_Matrix);
+    }
+    else if (m_Settings.algorithm != XREGISTERMSHARED && m_Settings.algorithm != XREGISTERMGLOBAL && m_Matrix->sparsity < 50)
     {
         IO::sortOrder(m_Matrix);
         m_Matrix = IO::denseToSparse(m_Matrix, getNNZ(m_Matrix));

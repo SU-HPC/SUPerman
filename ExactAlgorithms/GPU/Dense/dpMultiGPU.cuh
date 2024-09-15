@@ -14,8 +14,8 @@ template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFun
 class dpMultiGPU: public Permanent<C, S>
 {
 public:
-    dpMultiGPU(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
-    :   Permanent<C, S>(kernelName, matrix, settings) {}
+    dpMultiGPU(Matrix<S>* matrix, Settings settings)
+    :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
 
@@ -31,7 +31,7 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
 #ifdef MAT_SPECIFIC_COMPILATION
     if (NOV != nov)
     {
-        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? Read README.md for details.");
+        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? Read README.md for details.\n");
     }
 #endif
     S* mat = this->m_Matrix->mat;
@@ -89,7 +89,8 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
         int noSM = prop.multiProcessorCount;
         int sharedMemoryPerBlock = Shared(blockDim);
         int maxSharedMemoryPerBlock= prop.sharedMemPerBlock;
-        int maxRegsPerBlock = prop.regsPerBlock;
+        int maxSharedMemoryPerSM = prop.sharedMemPerMultiprocessor;
+        int maxRegsPerSM = prop.regsPerMultiprocessor;
         int totalThreadCount = gridDim * blockDim;
 
         int maxBlocks;
@@ -107,9 +108,11 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
             if (!printed[gpuNo])
             {
                 printf("%s (%d): Number of streaming multiprocessors: %d\n", prop.name, gpuNo, noSM);
-                printf("%s (%d): Shared memory used per block: %d\n", prop.name, gpuNo, sharedMemoryPerBlock);
+                printf("%s (%d): Shared memory used per block: %d bytes\n", prop.name, gpuNo, sharedMemoryPerBlock);
+                printf("%s (%d): Shared memory used per SM: %d bytes\n", prop.name, gpuNo, sharedMemoryPerBlock * maxBlocks);
                 printf("%s (%d): %f%% of the entire shared memory dedicated per block is used\n", prop.name, gpuNo, (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
-                printf("%s (%d): Maximum number of registers that could be used per block: %d\n", prop.name, gpuNo, maxRegsPerBlock);
+                printf("%s (%d): %f%% of the entire shared memory dedicated per SM is used\n", prop.name, gpuNo, ((double(sharedMemoryPerBlock) * maxBlocks) / double(maxSharedMemoryPerSM)) * 100);
+                printf("%s (%d): Maximum number of registers that could be used per SM: %d\n", prop.name, gpuNo, maxRegsPerSM);
                 printf("%s (%d): Grid Dimension: %d\n", prop.name, gpuNo, gridDim);
                 printf("%s (%d): Block Dimension: %d\n", prop.name, gpuNo, blockDim);
                 printf("%s (%d): Total number of threads: %d\n", prop.name, gpuNo, totalThreadCount);
@@ -135,30 +138,28 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
         C* h_products = new C[totalThreadCount];
         C myProductSum = 0;
 
-        bool finish = false;
+        omp_lock_t lock;
+        omp_init_lock(&lock);
         while (true)
         {
             long long myStart;
             long long myEnd;
-            #pragma omp critical
+            omp_set_lock(&lock);
+            if (currentChunkStart >= end)
             {
-                if (currentChunkStart >= end)
-                {
-                    finish = true;
-                }
-                myStart = currentChunkStart;
-                currentChunkStart += CHUNK_SIZE;
-                myEnd = currentChunkStart;
+                omp_unset_lock(&lock);
+                break;
             }
-            if (finish) break;
+            myStart = currentChunkStart;
+            currentChunkStart += CHUNK_SIZE;
+            myEnd = currentChunkStart;
+            omp_unset_lock(&lock);
 
             if (myEnd > end) myEnd = end;
 
-            long long total = (myEnd - myStart);
-            long long left = total;
-            double passed = 0;
+            long long left = (myEnd - myStart);
 
-            while (passed < 0.99 && totalThreadCount < left)
+            while (totalThreadCount < left)
             {
                 long long chunkSize = 1;
                 while ((chunkSize * totalThreadCount) < left)
@@ -166,6 +167,11 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
                     chunkSize *= 2;
                 }
                 chunkSize /= 2;
+
+                if (chunkSize == 1)
+                {
+                    break;
+                }
 
                 Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
                         d_mat,
@@ -178,7 +184,6 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
 
                 long long thisIteration = totalThreadCount * chunkSize;
                 left -= thisIteration;
-                passed = 1 - (double)left / double(total);
                 myStart += thisIteration;
             }
 
@@ -199,6 +204,7 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
                 myProductSum += h_products[i];
             }
         }
+        omp_destroy_lock(&lock);
 
         gpuErrchk( cudaFree(d_x) )
         gpuErrchk( cudaFree(d_products) )

@@ -16,8 +16,8 @@ template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFun
 class dpMultiGPUMPI: public Permanent<C, S>
 {
 public:
-    dpMultiGPUMPI(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
-    :   Permanent<C, S>(kernelName, matrix, settings) {}
+    dpMultiGPUMPI(Matrix<S>* matrix, Settings settings)
+    :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
 
@@ -33,7 +33,7 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 #ifdef MAT_SPECIFIC_COMPILATION
     if (NOV != nov)
     {
-        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? Read README.md for details.");
+        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? Read README.md for details.\n");
     }
 #endif
     S* mat = this->m_Matrix->mat;
@@ -60,7 +60,7 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         }
     }
 
-    int machineID = this->m_Settings.machineID; // rank
+    int rank = this->m_Settings.rank;
     int numberOfProcessors = this->m_Settings.processorNum;
     int gpuNum = this->m_Settings.gpuNum;
     unsigned partition = this->m_Settings.partition;
@@ -105,7 +105,7 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
     for (int i = 0; i < numberOfProcessors; ++i)
     {
         long long nodeRange = (totalRange * recvcounts[i]) / totalComputeDevices;
-        if (i == machineID)
+        if (i == rank)
         {
             nodeStart = start + cumulativeStart;
             nodeEnd = nodeStart + nodeRange;
@@ -114,7 +114,7 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         cumulativeStart += nodeRange;
     }
 
-    if (machineID == numberOfProcessors - 1)
+    if (rank == numberOfProcessors - 1)
     {
         nodeEnd = end;
     }
@@ -154,7 +154,8 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         int noSM = prop.multiProcessorCount;
         int sharedMemoryPerBlock = Shared(blockDim);
         int maxSharedMemoryPerBlock= prop.sharedMemPerBlock;
-        int maxRegsPerBlock = prop.regsPerBlock;
+        int maxSharedMemoryPerSM = prop.sharedMemPerMultiprocessor;
+        int maxRegsPerSM = prop.regsPerMultiprocessor;
         int totalThreadCount = gridDim * blockDim;
 
         int maxBlocks;
@@ -171,15 +172,17 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
             static std::vector<bool> printed(gpuNum, false);
             if (!printed[gpuNo])
             {
-                printf("RANK: %d, %s (%d): Number of streaming multiprocessors: %d\n", machineID, prop.name, gpuNo, noSM);
-                printf("RANK: %d, %s (%d): Shared memory used per block: %d\n", machineID, prop.name, gpuNo, sharedMemoryPerBlock);
-                printf("RANK: %d, %s (%d): %f%% of the entire shared memory dedicated per block is used\n", machineID, prop.name, gpuNo, (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
-                printf("RANK: %d, %s (%d): Maximum number of registers that could be used per block: %d\n", machineID, prop.name, gpuNo, maxRegsPerBlock);
-                printf("RANK: %d, %s (%d): Grid Dimension: %d\n", machineID, prop.name, gpuNo, gridDim);
-                printf("RANK: %d, %s (%d): Block Dimension: %d\n", machineID, prop.name, gpuNo, blockDim);
-                printf("RANK: %d, %s (%d): Total number of threads: %d\n", machineID, prop.name, gpuNo, totalThreadCount);
-                printf("RANK: %d, %s (%d): Maximum number of blocks running concurrently on each SM: %d\n", machineID, prop.name, gpuNo, maxBlocks);
-                printf("RANK: %d, %s (%d): Maximum number of blocks running concurrently throughout the GPU: %d\n", machineID, prop.name, gpuNo, maxBlocks * noSM);
+                printf("RANK: %d, %s (%d): Number of streaming multiprocessors: %d\n", rank, prop.name, gpuNo, noSM);
+                printf("RANK: %d, %s (%d): Shared memory used per block: %d bytes\n", rank, prop.name, gpuNo, sharedMemoryPerBlock);
+                printf("RANK: %d, %s (%d): Shared memory used per SM: %d bytes\n", rank, prop.name, gpuNo, sharedMemoryPerBlock * maxBlocks);
+                printf("RANK: %d, %s (%d): %f%% of the entire shared memory dedicated per block is used\n", rank, prop.name, gpuNo, (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
+                printf("RANK: %d, %s (%d): %f%% of the entire shared memory dedicated per SM is used\n", rank, prop.name, gpuNo, ((double(sharedMemoryPerBlock) * maxBlocks) / double(maxSharedMemoryPerSM)) * 100);
+                printf("RANK: %d, %s (%d): Maximum number of registers that could be used per SM: %d\n", rank, prop.name, gpuNo, maxRegsPerSM);
+                printf("RANK: %d, %s (%d): Grid Dimension: %d\n", rank, prop.name, gpuNo, gridDim);
+                printf("RANK: %d, %s (%d): Block Dimension: %d\n", rank, prop.name, gpuNo, blockDim);
+                printf("RANK: %d, %s (%d): Total number of threads: %d\n", rank, prop.name, gpuNo, totalThreadCount);
+                printf("RANK: %d, %s (%d): Maximum number of blocks running concurrently on each SM: %d\n", rank, prop.name, gpuNo, maxBlocks);
+                printf("RANK: %d, %s (%d): Maximum number of blocks running concurrently throughout the GPU: %d\n", rank, prop.name, gpuNo, maxBlocks * noSM);
                 printed[gpuNo] = true;
             }
         }
@@ -200,30 +203,28 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         C* h_products = new C[totalThreadCount];
         C myProductSum = 0;
 
-        bool finish = false;
+        omp_lock_t lock;
+        omp_init_lock(&lock);
         while (true)
         {
             long long myStart;
             long long myEnd;
-            #pragma omp critical
+            omp_set_lock(&lock);
+            if (currentChunkStart >= nodeEnd)
             {
-                if (currentChunkStart >= nodeEnd)
-                {
-                    finish = true;
-                }
-                myStart = currentChunkStart;
-                currentChunkStart += CHUNK_SIZE;
-                myEnd = currentChunkStart;
+                omp_unset_lock(&lock);
+                break;
             }
-            if (finish) break;
+            myStart = currentChunkStart;
+            currentChunkStart += CHUNK_SIZE;
+            myEnd = currentChunkStart;
+            omp_unset_lock(&lock);
 
             if (myEnd > nodeEnd) myEnd = nodeEnd;
 
-            long long total = (myEnd - myStart);
-            long long left = total;
-            double passed = 0;
+            long long left = (myEnd - myStart);
 
-            while (passed < 0.99 && totalThreadCount < left)
+            while (totalThreadCount < left)
             {
                 long long chunkSize = 1;
                 while ((chunkSize * totalThreadCount) < left)
@@ -231,6 +232,11 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                     chunkSize *= 2;
                 }
                 chunkSize /= 2;
+
+                if (chunkSize == 1)
+                {
+                    break;
+                }
 
                 Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
                         d_mat,
@@ -243,7 +249,6 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 
                 long long thisIteration = totalThreadCount * chunkSize;
                 left -= thisIteration;
-                passed = 1 - (double)left / double(total);
                 myStart += thisIteration;
             }
 
@@ -264,6 +269,7 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                 myProductSum += h_products[i];
             }
         }
+        omp_destroy_lock(&lock);
 
         gpuErrchk( cudaFree(d_x) )
         gpuErrchk( cudaFree(d_products) )

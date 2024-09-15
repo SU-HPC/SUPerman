@@ -46,7 +46,7 @@ def main():
         "mkdir -p build",
         "cd build",
         "cmake ..",
-        "make",
+        "make -j 16",
         "cd ..",
         "chmod +x run_superman.sh"
     ]

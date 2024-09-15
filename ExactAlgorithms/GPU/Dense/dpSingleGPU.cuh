@@ -14,8 +14,8 @@ template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFun
 class dpSingleGPU: public Permanent<C, S>
 {
 public:
-    dpSingleGPU(Algorithm kernelName, Matrix<S>* matrix, Settings settings)
-    :   Permanent<C, S>(kernelName, matrix, settings) {}
+    dpSingleGPU(Matrix<S>* matrix, Settings settings)
+    :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
 
@@ -36,7 +36,7 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
 #ifdef MAT_SPECIFIC_COMPILATION
     if (NOV != nov)
     {
-        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? Read README.md for details.");
+        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? Read README.md for details.\n");
     }
 #endif
     S* mat = this->m_Matrix->mat;
@@ -78,7 +78,6 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
     int sharedMemoryPerBlock = Shared(blockDim);
     int maxSharedMemoryPerBlock= prop.sharedMemPerBlock;
     int maxSharedMemoryPerSM = prop.sharedMemPerMultiprocessor;
-    int maxRegsPerBlock = prop.regsPerBlock;
     int maxRegsPerSM = prop.regsPerMultiprocessor;
     int totalThreadCount = gridDim * blockDim;
 
@@ -104,7 +103,6 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
             printf("Shared memory used per SM: %d bytes\n", sharedMemoryPerBlock * maxBlocks);
             printf("%f%% of the entire shared memory dedicated per block is used\n", (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
             printf("%f%% of the entire shared memory dedicated per SM is used\n", ((double(sharedMemoryPerBlock) * maxBlocks) / double(maxSharedMemoryPerSM)) * 100);
-            printf("Maximum number of registers that could be used per block: %d\n", maxRegsPerBlock);
             printf("Maximum number of registers that could be used per SM: %d\n", maxRegsPerSM);
             printf("Grid Dimension: %d\n", gridDim);
             printf("Block Dimension: %d\n", blockDim);
@@ -132,12 +130,9 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     long long start = 1;
     long long end = (1LL << (nov - 1));
-    long long total = (end - start);
+    long long left = (end - start);
 
-    long long left = total;
-    double passed = 0;
-
-    while (passed < 0.99 && totalThreadCount < left)
+    while (totalThreadCount < left)
     {
         long long chunkSize = 1;
         while ((chunkSize * totalThreadCount) < left)
@@ -145,6 +140,11 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
             chunkSize *= 2;
         }
         chunkSize /= 2;
+
+        if (chunkSize == 1)
+        {
+            break;
+        }
 
         Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
                 d_mat,
@@ -157,7 +157,6 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
         long long thisIteration = totalThreadCount * chunkSize;
         left -= thisIteration;
-        passed = 1 - (double)left / double(total);
         start += thisIteration;
     }
 

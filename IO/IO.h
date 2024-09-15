@@ -137,6 +137,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
         std::vector<std::string> argumentSplitted = split<S>(argv[i], '=');
         std::string arg = argumentSplitted[0];
         std::string value = argumentSplitted[1];
+        std::stringstream stream;
 
         if (arg == "filename")
         {
@@ -173,9 +174,18 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             {
                 settings.algorithm = XGLOBALMSHARED;
             }
+            else if (value == "naive_code_generation")
+            {
+                settings.algorithm = NAIVECODEGENERATION;
+            }
+            else if (value == "register_efficient_code_generation")
+            {
+                settings.algorithm = REGEFFICIENTCODEGENERATION;
+            }
             else
             {
-                std::cout << "UNKNOWN ALGORITHM: " << value << " - selecting automatically instead." << std::endl;
+                stream << "UNKNOWN ALGORITHM: " << value << " - selecting automatically instead." << std::endl;
+                print(stream, settings.rank);
             }
         }
         else if (arg == "mode")
@@ -198,7 +208,8 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             }
             else
             {
-                std::cout << "UNKNOWN MODE: " << value << " - selecting CPU by default instead." << std::endl;
+                stream << "UNKNOWN MODE: " << value << " - selecting CPU by default instead." << std::endl;
+                print(stream, settings.rank);
                 settings.mode = CPU;
             }
         }
@@ -210,7 +221,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             }
             catch (const std::exception& e)
             {
-                throw std::runtime_error("An integer value should be provided to the thread_count argument!");
+                throw std::runtime_error("An integer value should be provided to the thread_count argument!\n");
             }
         }
         else if (arg == "device_id")
@@ -221,7 +232,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             }
             catch (const std::exception& e)
             {
-                throw std::runtime_error("An integer value should be provided to the device_id argument!");
+                throw std::runtime_error("An integer value should be provided to the device_id argument!\n");
             }
         }
         else if (arg == "gpu_num")
@@ -232,7 +243,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             }
             catch (const std::exception& e)
             {
-                throw std::runtime_error("An integer value should be provided to the gpu_num argument!");
+                throw std::runtime_error("An integer value should be provided to the gpu_num argument!\n");
             }
         }
         else if (arg == "binary")
@@ -255,7 +266,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             }
             catch (const std::exception& e)
             {
-                throw std::runtime_error("An integer value should be provided to the scaling_iteration_no argument!");
+                throw std::runtime_error("An integer value should be provided to the scaling_iteration_no argument!\n");
             }
         }
         else if (arg == "scale_into")
@@ -266,7 +277,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             }
             catch (const std::exception& e)
             {
-                throw std::runtime_error("An integer value should be provided to the scale_into argument!");
+                throw std::runtime_error("An integer value should be provided to the scale_into argument!\n");
             }
         }
         else if (arg == "printing_precision")
@@ -277,7 +288,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             }
             catch (const std::exception& e)
             {
-                throw std::runtime_error("An integer value should be provided to the printing_precision argument!");
+                throw std::runtime_error("An integer value should be provided to the printing_precision argument!\n");
             }
         }
         else if (arg == "chunk_partitioning")
@@ -288,7 +299,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             }
             catch (const std::exception& e)
             {
-                throw std::runtime_error("An unsigned integer value should be provided to the chunk_partitioning argument!");
+                throw std::runtime_error("An unsigned integer value should be provided to the chunk_partitioning argument!\n");
             }
         }
         else if (arg == "calculation_precision")
@@ -299,39 +310,45 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             }
             else if (value == "dq1")
             {
-                std::cout << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
+                stream << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
+                print(stream, settings.rank);
                 settings.calculationPrecision = DQ1;
             }
             else if (value == "dq2")
             {
-                std::cout << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
+                stream << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
+                print(stream, settings.rank);
                 settings.calculationPrecision = DQ2;
             }
             else if (value == "qq")
             {
-                std::cout << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
+                stream << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
+                print(stream, settings.rank);
                 settings.calculationPrecision = QQ;
             }
             else if (value == "kahan")
             {
-                std::cout << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
+                stream << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
+                print(stream, settings.rank);
                 settings.calculationPrecision = KAHAN;
             }
             else
             {
-                std::cout << "UNKNOWN CALCULATION PRECISION: " << value << " - selecting dd by default instead." << std::endl;
+                stream << "UNKNOWN CALCULATION PRECISION: " << value << " - selecting dd by default instead." << std::endl;
+                print(stream, settings.rank);
                 settings.calculationPrecision = DD;
             }
         }
         else
         {
-            std::cout << "UNKNOWN ARGUMENT: " << arg << " - skipping it." << std::endl;
+            stream << "UNKNOWN ARGUMENT: " << arg << " - skipping it." << std::endl;
+            print(stream, settings.rank);
         }
     }
 
     if (!filenameFound)
     {
-        throw std::runtime_error("You are required to provide the absolute path of the matrix file that you want to calculate the matrix permanent for to the executable of this program!");
+        throw std::runtime_error("You are required to provide the absolute path of the matrix file that you want to calculate the matrix permanent for to the executable of this program!\n");
     }
 }
 
@@ -341,7 +358,7 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     std::ifstream file(filename);
     if (!file.is_open())
     {
-        throw std::runtime_error("File could not be opened.");
+        throw std::runtime_error("File could not be opened.\n");
     }
 
     bool isMTX = false;
@@ -422,9 +439,11 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     int size = noRow * noCol;
     double sparsity = (double(nnz) / double(size)) * 100;
 
-    std::cout << "Number of rows/columns of matrix is: " << noRow << std::endl;
-    std::cout << "Total number of nonzeros is: " << nnz << std::endl;
-    std::cout << "Sparsity of the matrix is determined to be: " << sparsity << std::endl;
+    std::stringstream stream;
+    stream << "Number of rows/columns of matrix is: " << noRow << std::endl;
+    stream << "Total number of nonzeros is: " << nnz << std::endl;
+    stream << "Sparsity of the matrix is determined to be: " << sparsity << std::endl;
+    print(stream, settings.rank);
 
     matrix->sparsity = sparsity;
 
