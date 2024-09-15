@@ -4,7 +4,7 @@
 
 1. Open the run_superman.sh file, modify it as needed for your matrices, and save the changes.
 
-2. Make the bash script executable by running the following command:
+2. Make the run_superman.sh executable by running the following command:
 
 ```bash 
   chmod +x run_superman.sh
