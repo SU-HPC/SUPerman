@@ -31,29 +31,30 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
 #ifdef GPU_AVAILABLE
     if (settings->algorithm == AlgorithmEnds && settings->mode != Mode::CPU)
     {
-        if (matrix->nov > 45)
+        std::stringstream stream;
+        if ((matrix->nov >= 45) || (matrix->nov >= 42 && matrix->sparsity < 50))
         {
             settings->algorithm = REGEFFICIENTCODEGENERATION;
-            std::cout << "SELECTED ALGORITHM IS: register_efficient_code_generation" << std::endl;
+            stream << "SELECTED ALGORITHM IS: register_efficient_code_generation" << std::endl;
+            print(stream, settings->rank);
         }
         else
         {
             settings->algorithm = XREGISTERMSHARED;
-            std::cout << "SELECTED ALGORITHM IS: xregister_mshared" << std::endl;
+            stream << "SELECTED ALGORITHM IS: xregister_mshared" << std::endl;
+            print(stream, settings->rank);
         }
     }
 #endif
 
-    std::ofstream file("build/Cache.txt");
     if (settings->algorithm == NAIVECODEGENERATION || settings->algorithm == REGEFFICIENTCODEGENERATION)
     {
-        file << 1;
+        updateCache(1, settings->rank);
     }
     else
     {
-        file << -1;
+        updateCache(-1, settings->rank);
     }
-    file.close();
 
     if (settings->mode == Mode::CPU)
     {
@@ -105,7 +106,7 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
         }
 #endif
     }
-    throw std::runtime_error("The mode you want to calculate the permanent in is unavailable for launch. Terminating...");
+    throw std::runtime_error("The mode you want to calculate the permanent in is unavailable for launch. Terminating...\n");
 }
 
 

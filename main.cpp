@@ -18,33 +18,31 @@ int main(int argv, char* argc[])
 {
     Settings settings;
 
-    int machineID = 0;
+    int rank = 0;
 #ifdef MPI_AVAILABLE
     int numberOfProcessors;
 
     initMPI(nullptr, nullptr);
-    mpiCommRank(getMPI_COMM_WORLD(), &machineID);
+    mpiCommRank(getMPI_COMM_WORLD(), &rank);
     mpiCommSize(getMPI_COMM_WORLD(), &numberOfProcessors);
-    settings.machineID = machineID;
+    settings.rank = rank;
     settings.processorNum = numberOfProcessors;
 #endif
 
     std::string filename;
     IO::readSettings<S>(filename, settings, argv, argc);
-    if (machineID == 0)
-    {
-        std::cout << "MATRIX NAME: " << filename << std::endl;
-    }
+
+    std::stringstream stream;
+    stream << "MATRIX NAME: " << filename << std::endl;
+    print(stream, rank);
     Matrix<S>* matrix = IO::readMatrix<S>(filename, settings);
 
     AlgorithmSelector<C, S>::Algorithm algorithm = AlgorithmSelector<C, S>::selectAlgorithm(matrix, &settings);
     Result result = algorithm(matrix, &settings);
 
-    if (machineID == 0)
-    {
-        std::cout << "Permanent: " << std::setprecision (settings.printingPrecision) << double(result.permanent) << " - Computed in: " << result.time << " seconds." << std::endl;
-        std::cout << std::endl;
-    }
+    stream.clear();
+    stream << "Permanent: " << std::setprecision (settings.printingPrecision) << double(result.permanent) << " - Computed in: " << result.time << " seconds." << std::endl << std::endl;
+    print(stream, rank);
 
     delete matrix;
 

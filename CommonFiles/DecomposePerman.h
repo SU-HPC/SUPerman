@@ -60,9 +60,11 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
     startRecursion(m_Matrix);
 
     __float128 overall = 0;
-    if (m_Settings.machineID == 0)
+    if (m_Permanents.size() > 1)
     {
-        std::cout << "The computation of the original permanent is partitioned into the computation of the " << m_Permanents.size() << " sub-permanent." << std::endl;
+        std::stringstream stream;
+        stream << "The computation of the original permanent is partitioned into the computation of the " << m_Permanents.size() << " sub-permanent." << std::endl;
+        print(stream, this->m_Settings.rank);
     }
     for (int p = 0; p < m_Permanents.size(); ++p)
     {
@@ -105,7 +107,10 @@ void DecomposePerman<C, S, Permanent>::startRecursion(Matrix<S>* matrix)
 
         if (isCompressed && isRankDeficient(matrix))
         {
-            std::cout << "Matrix is rank deficient." << std::endl;
+            std::stringstream stream;
+            stream << "Matrix is rank deficient." << std::endl;
+            print(stream, this->m_Settings.rank);
+            updateCache(-1, this->m_Settings.rank);
             return;
         }
     }
@@ -150,7 +155,7 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
         Matrix<S>* newMatrix = new Matrix<S>(*matrix);
         if (newMatrix->nov > 63)
         {
-            throw std::runtime_error("Permanent is an #P-complete problem. The size of the matrix you want to calculate the permanent for exceeds the limit of what is computationally possible. Try approximation algorithms.");
+            throw std::runtime_error("Permanent is an #P-complete problem. The size of the matrix you want to calculate the permanent for exceeds the limit of what is computationally possible. Try approximation algorithms.\n");
         }
         if (m_Settings.scaling)
         {

@@ -73,7 +73,6 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
     int sharedMemoryPerBlock = Shared(blockDim);
     int maxSharedMemoryPerBlock= prop.sharedMemPerBlock;
     int maxSharedMemoryPerSM = prop.sharedMemPerMultiprocessor;
-    int maxRegsPerBlock = prop.regsPerBlock;
     int maxRegsPerSM = prop.regsPerMultiprocessor;
     int totalThreadCount = gridDim * blockDim;
 
@@ -99,7 +98,6 @@ double spSingleGPU<C, S, Algo, Shared>::permanentFunction()
             printf("Shared memory used per SM: %d bytes\n", sharedMemoryPerBlock * maxBlocks);
             printf("%f%% of the entire shared memory dedicated per block is used\n", (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
             printf("%f%% of the entire shared memory dedicated per SM is used\n", ((double(sharedMemoryPerBlock) * maxBlocks) / double(maxSharedMemoryPerSM)) * 100);
-            printf("Maximum number of registers that could be used per block: %d\n", maxRegsPerBlock);
             printf("Maximum number of registers that could be used per SM: %d\n", maxRegsPerSM);
             printf("Grid Dimension: %d\n", gridDim);
             printf("Block Dimension: %d\n", blockDim);

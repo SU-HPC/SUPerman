@@ -74,7 +74,7 @@ extern Result gpuSPSingleGPU(Matrix<S>* matrix, Settings* settings)
     }
     else
     {
-        throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.");
+        throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.\n");
     }
 
     return result;
@@ -100,7 +100,7 @@ extern Result gpuSPMultiGPU(Matrix<S>* matrix, Settings* settings)
     }
     else
     {
-        throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.");
+        throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.\n");
     }
 
     return result;
@@ -127,7 +127,7 @@ extern Result gpuSPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
     }
     else
     {
-        throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.");
+        throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.\n");
     }
 
     return result;
@@ -202,7 +202,7 @@ extern Result gpuDPSingleGPU(Matrix<S>* matrix, Settings* settings)
     }
     else
     {
-        throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.");
+        throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.\n");
     }
 
     return result;
@@ -246,7 +246,7 @@ extern Result gpuDPMultiGPU(Matrix<S>* matrix, Settings* settings)
     }
     else
     {
-        throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.");
+        throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.\n");
     }
 
     return result;
@@ -291,7 +291,7 @@ extern Result gpuDPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
     }
     else
     {
-        throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.");
+        throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.\n");
     }
 
     return result;

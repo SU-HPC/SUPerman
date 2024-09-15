@@ -95,16 +95,18 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
         }
     }
 
-    std::cout << "Registers needed: " << k * (sizeof(C) / 4) << std::endl;
-    std::cout << "Last column to be included in the register area: " << c << std::endl;
-    std::cout << "Total iteration space in which only register access is required: " << iterationCovered << std::endl;
+    std::stringstream stream;
+    stream << "Number of registers needed to store the X vector in: " << k * (sizeof(C) / 4) << std::endl;
+    stream << "Last column to be included in the register area: " << c << std::endl;
+    stream << "Total iteration space in which only register access is required: " << iterationCovered << std::endl;
+    print(stream, m_Settings.rank);
 }
 
 template<class C, class S>
 unsigned KernelGenerator<C, S>::determineNumberOfThreads(int k)
 {
     cudaDeviceProp prop;
-    cudaGetDeviceProperties(&prop, m_DeviceID);
+    cudaGetDeviceProperties(&prop, m_Settings.deviceID);
 
     const unsigned& SM_NO = prop.multiProcessorCount;
     const unsigned& REG_NO = prop.regsPerMultiprocessor;

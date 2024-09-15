@@ -53,7 +53,7 @@ double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
     productSum = product;
 
     int k = 0;
-    generateKernels(k, mat, x, nov, this->m_Settings.deviceID, this->m_Settings.algorithm);
+    generateKernels(k, mat, x, nov, this->m_Settings);
 
     int gridDim;
     int blockDim;
@@ -64,9 +64,9 @@ double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
             ) )
 
     int noSM = prop.multiProcessorCount;
-    int maxRegsPerBlock = prop.regsPerBlock;
-    int maxRegsPerSM = prop.regsPerMultiprocessor;
+    int totalRegs = prop.regsPerMultiprocessor * noSM;
     int totalThreadCount = gridDim * blockDim;
+    int regsUsed = ((k * (sizeof(C) / 4)) + 20) * totalThreadCount;
 
     int maxBlocks;
     gpuErrchk( cudaOccupancyMaxActiveBlocksPerMultiprocessor(
@@ -84,8 +84,9 @@ double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
         {
             printf("Permanent is being computed on device id: %d, %s\n", this->m_Settings.deviceID, prop.name);
             printf("Number of streaming multiprocessors: %d\n", noSM);
-            printf("Maximum number of registers that could be used per block: %d\n", maxRegsPerBlock);
-            printf("Maximum number of registers that could be used per SM: %d\n", maxRegsPerSM);
+            printf("Total number of registers available across the GPU: %d\n", totalRegs);
+            printf("Total number of registers used across the GPU: %d\n", regsUsed);
+            printf("%f%% of the entire register file is in use\n", (double(regsUsed) / double(totalRegs)) * 100);
             printf("Grid Dimension: %d\n", gridDim);
             printf("Block Dimension: %d\n", blockDim);
             printf("Total number of threads: %d\n", totalThreadCount);

@@ -31,7 +31,7 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
 #ifdef MAT_SPECIFIC_COMPILATION
     if (NOV != nov)
     {
-        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? Read README.md for details.");
+        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? Read README.md for details.\n");
     }
 #endif
     S* mat = this->m_Matrix->mat;
@@ -89,7 +89,8 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
         int noSM = prop.multiProcessorCount;
         int sharedMemoryPerBlock = Shared(blockDim);
         int maxSharedMemoryPerBlock= prop.sharedMemPerBlock;
-        int maxRegsPerBlock = prop.regsPerBlock;
+        int maxSharedMemoryPerSM = prop.sharedMemPerMultiprocessor;
+        int maxRegsPerSM = prop.regsPerMultiprocessor;
         int totalThreadCount = gridDim * blockDim;
 
         int maxBlocks;
@@ -107,9 +108,11 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
             if (!printed[gpuNo])
             {
                 printf("%s (%d): Number of streaming multiprocessors: %d\n", prop.name, gpuNo, noSM);
-                printf("%s (%d): Shared memory used per block: %d\n", prop.name, gpuNo, sharedMemoryPerBlock);
+                printf("%s (%d): Shared memory used per block: %d bytes\n", prop.name, gpuNo, sharedMemoryPerBlock);
+                printf("%s (%d): Shared memory used per SM: %d bytes\n", prop.name, gpuNo, sharedMemoryPerBlock * maxBlocks);
                 printf("%s (%d): %f%% of the entire shared memory dedicated per block is used\n", prop.name, gpuNo, (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
-                printf("%s (%d): Maximum number of registers that could be used per block: %d\n", prop.name, gpuNo, maxRegsPerBlock);
+                printf("%s (%d): %f%% of the entire shared memory dedicated per SM is used\n", prop.name, gpuNo, ((double(sharedMemoryPerBlock) * maxBlocks) / double(maxSharedMemoryPerSM)) * 100);
+                printf("%s (%d): Maximum number of registers that could be used per SM: %d\n", prop.name, gpuNo, maxRegsPerSM);
                 printf("%s (%d): Grid Dimension: %d\n", prop.name, gpuNo, gridDim);
                 printf("%s (%d): Block Dimension: %d\n", prop.name, gpuNo, blockDim);
                 printf("%s (%d): Total number of threads: %d\n", prop.name, gpuNo, totalThreadCount);

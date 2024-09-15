@@ -66,7 +66,7 @@ struct Settings
     unsigned partition;
 
     // MPI Specific
-    int machineID;
+    int rank;
     int processorNum;
 };
 

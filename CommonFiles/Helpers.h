@@ -6,7 +6,6 @@
 #define SUPERMAN_HELPERS_H
 
 #include "Matrix.h"
-#include <cmath>
 
 
 struct ScalingCompact
@@ -97,58 +96,22 @@ inline bool isRankDeficient(Matrix<S>* matrix)
     return false;
 }
 
-template<class S>
-inline S getMax(Matrix<S>* matrix, S* xv)
+inline void updateCache(int value, int rank)
 {
-    int nov = matrix->nov;
-    S* mat = matrix->mat;
-
-    S xMax = 0;
-    for (int i = 0; i < nov; ++i)
+    if (rank == 0)
     {
-        for (int j = 0; j < nov; ++j)
-        {
-            S val = xv[i] * mat[i * nov + j];
-            if (xMax < val)
-            {
-                xMax = val;
-            }
-        }
+        std::ofstream file("build/Cache.txt");
+        file << value;
+        file.close();
     }
-    return xMax;
 }
 
-template <class C>
-C computeFactorial(int n)
+inline void print(const std::stringstream& str, int rank)
 {
-    if (n == 0 || n == 1)
+    if (rank == 0)
     {
-        return 1;
+        std::cout << str.str();
     }
-
-    C fac = 1;
-    for (int i = 2; i <=n; ++i)
-    {
-        fac *= i;
-    }
-
-    return fac;
-}
-
-template <class C, class S>
-C generatePermanentKnownMatrix(Matrix<S>** matrix, int nov, int entry)
-{
-    *matrix = new Matrix<S>(nov);
-
-    (*matrix)->sparsity = 100;
-
-    S* mat = (*matrix)->mat;
-    for (int i = 0; i < nov * nov; ++i)
-    {
-        mat[i] = entry;
-    }
-
-    return computeFactorial<C>(nov) * std::pow(entry, nov);
 }
 
 

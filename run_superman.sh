@@ -2,6 +2,7 @@
 
 # DO NOT MODIFY
 build_directory="build"
+cache_file="build/Cache.txt"
 ###############
 
 matrix_directory="/common_data/matrices/"
@@ -60,11 +61,42 @@ calculation_precision=("dd")
 # "qq" -> product: quad, sum: quad
 # DEFAULT: "dd"
 
+kernel_compilation_check()
+{
+    local file=$1
+    if [[ -f "$file" ]]; then
+        local content=$(cat "$file")
+        if [[ "$content" -eq 1 ]]; then
+            return 0
+        else
+            return 1
+        fi
+    else
+        echo "File does not exist."
+        return 1
+    fi
+}
+
 for i in "${!filenames[@]}"; do
+    echo "SUPERMAN IS BEING COMPILED ..."
+    python3 build_superman.py > /dev/null 2>&1
     ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
+    if kernel_compilation_check "$cache_file"; then
+      echo "KERNELS ARE BEING COMPILED"
+      python3 build_superman.py > /dev/null 2>&1
+      ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
+    fi
 done
 
 #### IF YOU WANT TO USE MPI THEN COMMENT OUT THE FOLLOWING LOOP INSTEAD OF THE ABOVE ONE
+#processor_count=2
 #for i in "${!filenames[@]}"; do
-#    mpirun --mca btl ^openib -np 2 ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
+#    echo "SUPERMAN IS BEING COMPILED ..."
+#    python3 build_superman.py > /dev/null 2>&1
+#    mpirun --mca btl ^openib -np ${processor_count} ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
+#    if kernel_compilation_check "$cache_file"; then
+#      echo "KERNELS ARE BEING COMPILED"
+#      python3 build_superman.py > /dev/null 2>&1
+#      mpirun --mca btl ^openib -np ${processor_count} ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
+#    fi
 #done
