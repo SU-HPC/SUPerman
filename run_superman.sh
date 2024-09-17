@@ -2,17 +2,18 @@
 
 # DO NOT MODIFY
 build_directory="build"
-cache_file="build/Cache.txt"
+cache="build/Cache.txt"
+code_gen_cache="build/CodeGenCache.txt"
 ###############
 
 matrix_directory="/common_data/matrices/"
 # The directory under which your matrix files are located.
 
-filenames=("all1_45.mtx")
+filenames=("sparse_20.mtx")
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based. Otherwise, it assumes them to be 0-based.
 
-algorithms=("auto")
+algorithms=("register_efficient_code_generation")
 # The algorithm used to compute the permanent of your matrix.
 # "auto" lets the library select the fastest algorithm available.
 # DEFAULT: "auto"
@@ -77,24 +78,37 @@ kernel_compilation_check()
     fi
 }
 
+clear_caches()
+{
+    if [ -f "$cache" ]; then
+        rm -f "$cache"
+      fi
+
+    if [ -f "$code_gen_cache" ]; then
+        rm -f "$code_gen_cache"
+    fi
+}
+
 for i in "${!filenames[@]}"; do
+    clear_caches
     echo "SUPERMAN IS BEING COMPILED ..."
     python3 build_superman.py > /dev/null 2>&1
     ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
-    if kernel_compilation_check "$cache_file"; then
+    if kernel_compilation_check "$cache"; then
       echo "KERNELS ARE BEING COMPILED ..."
       python3 build_superman.py > /dev/null 2>&1
       ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
     fi
 done
 
-#### IF YOU WANT TO USE MPI THEN COMMENT OUT THE FOLLOWING LOOP INSTEAD OF THE ABOVE ONE
+### IF YOU WANT TO USE MPI THEN COMMENT OUT THE FOLLOWING LOOP INSTEAD OF THE ABOVE ONE
 #processor_count=2
 #for i in "${!filenames[@]}"; do
+#    clear_caches
 #    echo "SUPERMAN IS BEING COMPILED ..."
 #    python3 build_superman.py > /dev/null 2>&1
 #    mpirun --mca btl ^openib -np ${processor_count} ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
-#    if kernel_compilation_check "$cache_file"; then
+#    if kernel_compilation_check "$cache"; then
 #      echo "KERNELS ARE BEING COMPILED ..."
 #      python3 build_superman.py > /dev/null 2>&1
 #      mpirun --mca btl ^openib -np ${processor_count} ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
