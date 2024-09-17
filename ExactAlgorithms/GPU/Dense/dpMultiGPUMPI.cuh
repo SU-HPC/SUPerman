@@ -129,6 +129,9 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 
     C gpuReducedProductSum = 0;
 
+    omp_lock_t lock;
+    omp_init_lock(&lock);
+
 #pragma omp parallel num_threads(gpuNum)
     {
         int gpuNo = omp_get_thread_num();
@@ -203,8 +206,6 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         C* h_products = new C[totalThreadCount];
         C myProductSum = 0;
 
-        omp_lock_t lock;
-        omp_init_lock(&lock);
         while (true)
         {
             long long myStart;
@@ -269,7 +270,6 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                 myProductSum += h_products[i];
             }
         }
-        omp_destroy_lock(&lock);
 
         gpuErrchk( cudaFree(d_x) )
         gpuErrchk( cudaFree(d_products) )
@@ -279,7 +279,8 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 
         #pragma omp atomic
             gpuReducedProductSum += myProductSum;
-    };
+    }
+    omp_destroy_lock(&lock);
 
     delete[] matTransposed;
 

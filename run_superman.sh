@@ -32,8 +32,8 @@ thread_counts=(88)
 # DEFAULT: maximum number of hardware threads allowed on the architecture
 
 device_ids=(0)
-# The device ID of the GPU used for computation.
-# Only relevant if the mode is "single_gpu".
+# Either the device ID of the GPU used for the computation if the mode is "single_gpu"
+# or the device ID for which the GPU kernels are generated if the mode is "multi_gpu" or "multi_gpu_mpi".
 # DEFAULT: 0
 
 gpu_nums=(1)
@@ -82,7 +82,7 @@ for i in "${!filenames[@]}"; do
     python3 build_superman.py > /dev/null 2>&1
     ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
     if kernel_compilation_check "$cache_file"; then
-      echo "KERNELS ARE BEING COMPILED"
+      echo "KERNELS ARE BEING COMPILED ..."
       python3 build_superman.py > /dev/null 2>&1
       ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
     fi
@@ -95,7 +95,7 @@ done
 #    python3 build_superman.py > /dev/null 2>&1
 #    mpirun --mca btl ^openib -np ${processor_count} ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
 #    if kernel_compilation_check "$cache_file"; then
-#      echo "KERNELS ARE BEING COMPILED"
+#      echo "KERNELS ARE BEING COMPILED ..."
 #      python3 build_superman.py > /dev/null 2>&1
 #      mpirun --mca btl ^openib -np ${processor_count} ${build_directory}/SUPerman filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}" calculation_precision="${calculation_precision[$i]}"
 #    fi

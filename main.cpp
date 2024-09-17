@@ -40,7 +40,7 @@ int main(int argv, char* argc[])
     AlgorithmSelector<C, S>::Algorithm algorithm = AlgorithmSelector<C, S>::selectAlgorithm(matrix, &settings);
     Result result = algorithm(matrix, &settings);
 
-    stream.clear();
+    stream = std::stringstream();
     stream << "Permanent: " << std::setprecision (settings.printingPrecision) << double(result.permanent) << " - Computed in: " << result.time << " seconds." << std::endl << std::endl;
     print(stream, rank);
 

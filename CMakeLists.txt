@@ -91,6 +91,7 @@ set(GPU_HEADER_FILES
         ExactAlgorithms/GPU/Registers.cuh
         ExactAlgorithms/GPU/PrecisionHelpers.cuh
         ExactAlgorithms/GPU/CodeGeneration/KernelGenSingleGPU.cuh
+        ExactAlgorithms/GPU/CodeGeneration/KernelGenMultiGPU.cuh
         ExactAlgorithms/GPU/CodeGeneration/KernelGenerator.cuh
         ExactAlgorithms/GPU/CodeGeneration/NaiveKernelCodeGen.cuh
         ExactAlgorithms/GPU/CodeGeneration/UTOrderedKernelCodeGen.cuh
