@@ -27,6 +27,7 @@
 // Kernel Generation
 #include "generatedKernels.cuh"
 #include "KernelGenSingleGPU.cuh"
+#include "KernelGenMultiGPU.cuh"
 
 // MPI
 #ifdef MPI_AVAILABLE
@@ -95,6 +96,12 @@ extern Result gpuSPMultiGPU(Matrix<S>* matrix, Settings* settings)
     else if (selectedAlgorithm == Algorithm::XSHAREDMSHARED)
     {
         auto permanent = new DecomposePerman<C, S, spMultiGPU<C, S, &SparseDefinitions::xSharedMShared, spXSharedMShared<C, S> > >(matrix, *settings);
+        result = permanent->computePermanentRecursively();
+        delete permanent;
+    }
+    else if ((selectedAlgorithm == Algorithm::NAIVECODEGENERATION) || selectedAlgorithm == Algorithm::REGEFFICIENTCODEGENERATION)
+    {
+        auto permanent = new DecomposePerman<C, S, KernelGenMultiGPU<C, S, &globalKernel, spNoShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }

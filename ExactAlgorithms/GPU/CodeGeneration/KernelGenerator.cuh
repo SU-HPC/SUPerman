@@ -8,6 +8,9 @@
 #include <string>
 #include "omp.h"
 #include "cuda_runtime.h"
+#ifdef MPI_AVAILABLE
+#include "mpi_wrapper.h"
+#endif
 
 
 template <class C, class S>
