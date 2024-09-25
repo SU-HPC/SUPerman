@@ -12,6 +12,7 @@
 #SBATCH --error=/truba/home/delbek/1sp/SUPerman/res/superman1-%j.err
 #SBATCH --export=ALL
 
+sync
 source /etc/profile
 module purge
 
@@ -42,6 +43,7 @@ matrix_directory="/truba/home/delbek/SparsePermanExperiments/"
 mkdir -p "${repo_directory}1_gpu_results/reg_efficient"
 
 filenames=(
+    sparse_matrix_40_0.100000.mtx
     sparse_matrix_40_0.150000.mtx
     sparse_matrix_40_0.200000.mtx
     sparse_matrix_40_0.250000.mtx
@@ -50,6 +52,8 @@ filenames=(
     sparse_matrix_40_0.400000.mtx
     sparse_matrix_40_0.450000.mtx
     sparse_matrix_40_0.500000.mtx
+
+    sparse_matrix_45_0.100000.mtx
     sparse_matrix_45_0.150000.mtx
     sparse_matrix_45_0.200000.mtx
     sparse_matrix_45_0.250000.mtx
@@ -58,6 +62,8 @@ filenames=(
     sparse_matrix_45_0.400000.mtx
     sparse_matrix_45_0.450000.mtx
     sparse_matrix_45_0.500000.mtx
+
+    sparse_matrix_48_0.100000.mtx
     sparse_matrix_48_0.150000.mtx
     sparse_matrix_48_0.200000.mtx
     sparse_matrix_48_0.250000.mtx
@@ -66,6 +72,8 @@ filenames=(
     sparse_matrix_48_0.400000.mtx
     sparse_matrix_48_0.450000.mtx
     sparse_matrix_48_0.500000.mtx
+
+    sparse_matrix_50_0.100000.mtx
     sparse_matrix_50_0.150000.mtx
     sparse_matrix_50_0.200000.mtx
     sparse_matrix_50_0.250000.mtx
@@ -104,12 +112,17 @@ build()
 
 for i in "${!filenames[@]}"; do
     rm -rf "${build_directory}"
+    sync
     echo "SUPERMAN IS BEING COMPILED ..."
     build > /dev/null 2>&1
-    "${build_directory}SUPerman" repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="register_efficient_code_generation" mode="single_gpu" thread_count="${SLURM_CPUS_PER_TASK}"
+    sync
+    "${build_directory}SUPerman" repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="register_efficient_code_generation" mode="single_gpu" thread_count="${SLURM_CPUS_PER_TASK}" >> "${repo_directory}1_gpu_results/reg_efficient/${filenames[$i]}"
+    sync
     if kernel_compilation_check "$cache"; then
       echo "KERNELS ARE BEING COMPILED ..."
       build > /dev/null 2>&1
-      "${build_directory}SUPerman" repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="register_efficient_code_generation" mode="single_gpu" thread_count="${SLURM_CPUS_PER_TASK}"
+      sync
+      "${build_directory}SUPerman" repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="register_efficient_code_generation" mode="single_gpu" thread_count="${SLURM_CPUS_PER_TASK}" >> "${repo_directory}1_gpu_results/reg_efficient/${filenames[$i]}"
+      sync
     fi
 done

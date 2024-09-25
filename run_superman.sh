@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sync
+
 repo_directory="/home/delbek/SUPerman/"
 # The directory belonging to the repository.
 
@@ -11,7 +13,7 @@ cache="${build_directory}Cache.txt"
 matrix_directory="/home/delbek/SparsePermanExperiments/"
 # The directory under which your matrix files are located.
 
-filenames=("sparse_matrix_40_0.100000.mtx")
+filenames=("sparse_matrix_40_0.200000.mtx")
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based. Otherwise, it assumes them to be 0-based.
 
@@ -81,12 +83,17 @@ build()
 
 for i in "${!filenames[@]}"; do
     rm -rf "${build_directory}"
+    sync
     echo "SUPERMAN IS BEING COMPILED ..."
     build > /dev/null 2>&1
+    sync
     "${build_directory}SUPerman" repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}"
+    sync
     if kernel_compilation_check "$cache"; then
       echo "KERNELS ARE BEING COMPILED ..."
       build > /dev/null 2>&1
+      sync
       "${build_directory}SUPerman" repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}"
+      sync
     fi
 done
