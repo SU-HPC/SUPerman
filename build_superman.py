@@ -24,13 +24,6 @@ def update_cmake_file(integer=None):
         file.writelines(lines)
 
 
-def run_command(command):
-    try:
-        subprocess.run(command, shell=True, check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Command '{command}' failed with error: {e}")
-
-
 def main():
     if len(sys.argv) > 1:
         try:
@@ -41,21 +34,6 @@ def main():
             update_cmake_file()
     else:
         update_cmake_file()
-
-    commands = [
-        "mkdir -p build",
-        "cd build",
-        "cmake ..",
-        "make -j 4",
-        "cd ..",
-    ]
-
-    for command in commands:
-        if command.startswith("cd"):
-            dir_name = command.split(" ")[1]
-            os.chdir(dir_name)
-        else:
-            run_command(command)
 
 
 if __name__ == "__main__":

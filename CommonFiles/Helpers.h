@@ -6,7 +6,10 @@
 #define SUPERMAN_HELPERS_H
 
 #include "Matrix.h"
+#include <string>
 
+
+static std::string REPO_DIR;
 
 struct ScalingCompact
 {
@@ -100,7 +103,8 @@ inline void updateCache(int value, int rank)
 {
     if (rank == 0)
     {
-        std::ofstream file("build/Cache.txt");
+        std::string filename = REPO_DIR + "build/Cache.txt";
+        std::ofstream file(filename);
         file << value;
         file.close();
     }

@@ -132,6 +132,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
     settings.calculationPrecision = DD;
 
     bool filenameFound = false;
+    bool repoDirFound = false;
     for (int i = 1; i < argc; ++i)
     {
         std::vector<std::string> argumentSplitted = split<S>(argv[i], '=');
@@ -143,6 +144,11 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
         {
             filename = value;
             filenameFound = true;
+        }
+        else if (arg=="repo_dir")
+        {
+            REPO_DIR = value;
+            repoDirFound = true;
         }
         else if (arg == "algorithm")
         {
@@ -349,6 +355,10 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
     if (!filenameFound)
     {
         throw std::runtime_error("You are required to provide the absolute path of the matrix file that you want to calculate the matrix permanent for to the executable of this program!\n");
+    }
+    if (!repoDirFound)
+    {
+        throw std::runtime_error("You are required to provide the absolute path of the repository directory to the executable of this program!\n");
     }
 }
 

@@ -97,7 +97,7 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
 
     std::stringstream stream;
     stream << "Number of registers needed to store the X vector in: " << k * (sizeof(C) / 4) << std::endl;
-    stream << "Last column to be included in the register area: " << c << std::endl;
+    stream << "Last column id to be included in the register area: " << c << std::endl;
     stream << "Total iteration space in which only register access is required: " << iterationCovered << std::endl;
     print(stream, m_Settings.rank);
 }
