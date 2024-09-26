@@ -23,7 +23,7 @@ endif()
 include(CheckLanguage)
 check_language(CUDA)
 if(CMAKE_CUDA_COMPILER)
-    set(CMAKE_CUDA_ARCHITECTURES 70) #52 60 70 75 80
+    set(CMAKE_CUDA_ARCHITECTURES 52 60 70 75 80)
     enable_language(CUDA)
     add_definitions(-DGPU_AVAILABLE)
     #set(CMAKE_CUDA_FLAGS_DEBUG "${CMAKE_CUDA_FLAGS_DEBUG} -G -lineinfo")

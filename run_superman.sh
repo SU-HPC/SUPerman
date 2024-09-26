@@ -6,19 +6,19 @@ repo_directory="/home/delbek/SUPerman/"
 build_directory="${repo_directory}build/"
 # The directory into which the build files will be dumped.
 
-matrix_directory="/home/delbek/SparsePermanExperiments/"
+matrix_directory="/common_data/matrices/"
 # The directory under which your matrix files are located.
 
-filenames=("sparse_matrix_40_0.100000.mtx")
+filenames=("dwt_59.mtx" "will57.mtx")
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based. Otherwise, it assumes them to be 0-based.
 
-algorithms=("auto")
+algorithms=("auto" "auto")
 # The algorithm used to compute the permanent of your matrix.
 # "auto" lets the library select the fastest algorithm available.
 # DEFAULT: "auto"
 
-modes=("single_gpu")
+modes=("single_gpu" "single_gpu")
 # The mode in which the matrix permanent is computed.
 # Available modes are:
 # - cpu: Uses only the CPU (very slow; avoid if your matrix size exceeds 40x40).
@@ -27,30 +27,30 @@ modes=("single_gpu")
 # - multi_gpu_mpi: Uses multiple nodes, each with possibly multiple GPUs.
 # DEFAULT: "cpu"
 
-thread_counts=(32)
+thread_counts=(32 32)
 # The number of CPU threads the library will use when computing the permanent on the CPU.
 # Only relevant if the mode is "cpu".
 # DEFAULT: maximum number of hardware threads allowed on the architecture
 
-device_ids=(0)
+device_ids=(0 0)
 # Either the device ID of the GPU used for the computation if the mode is "single_gpu"
 # or the device ID for which the GPU kernels are generated if the mode is "multi_gpu" or "multi_gpu_mpi".
 # DEFAULT: 0
 
-gpu_nums=(1)
+gpu_nums=(1 1)
 # The number of GPUs used for computation.
 # Only relevant if the mode is "multi_gpu" or "multi_gpu_mpi".
 # DEFAULT: 1
 
-is_binary=("false")
+is_binary=("true" "true")
 # If true, the library assumes that the matrix edges are unweighted.
 # DEFAULT: "false"
 
-is_undirected=("false")
+is_undirected=("true" "true")
 # If true, the library assumes that the matrix is undirected, meaning for every edge u -> v, there is also an edge v -> u.
 # DEFAULT: "false"
 
-printing_precision=(30)
+printing_precision=(30 30)
 # Precision in which to print the permanent result
 # DEFAULT: 30
 

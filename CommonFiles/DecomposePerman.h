@@ -95,8 +95,8 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
 template <class C, class S, class Permanent>
 void DecomposePerman<C, S, Permanent>::startRecursion(Matrix<S>* matrix)
 {
-    bool isCompressed = false;
-    while (false && matrix->nov > 1 && (this->m_Settings.algorithm != NAIVECODEGENERATION && this->m_Settings.algorithm != REGEFFICIENTCODEGENERATION))
+    bool isCompressed = true;
+    while (isCompressed && matrix->nov > 1 && (this->m_Settings.algorithm != NAIVECODEGENERATION && this->m_Settings.algorithm != REGEFFICIENTCODEGENERATION))
     {
         isCompressed = compress1NNZ(matrix);
 
@@ -121,7 +121,7 @@ template <class C, class S, class Permanent>
 void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
 {
     int minDeg = getMinDegree(matrix);
-    if (false && minDeg < 5 && matrix->nov > 30 && (this->m_Settings.algorithm != NAIVECODEGENERATION && this->m_Settings.algorithm != REGEFFICIENTCODEGENERATION))
+    if (minDeg < 5 && matrix->nov > 30 && (this->m_Settings.algorithm != NAIVECODEGENERATION && this->m_Settings.algorithm != REGEFFICIENTCODEGENERATION))
     {
         if (minDeg == 1)
         {

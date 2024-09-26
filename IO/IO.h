@@ -146,6 +146,10 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             try
             {
                 settings.PID = std::stoi(value);
+                if (settings.PID != 1 && settings.PID != 2)
+                {
+                    throw std::runtime_error("The pid argument must be either 1 or 2. If you are reading this, you are probably doing something you should not be doing. Use ./run_superman.sh located directly under the source directory instead!\n");
+                }
                 pidFound = true;
             }
             catch (const std::exception& e)
@@ -367,7 +371,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
 
     if (!pidFound)
     {
-        throw std::runtime_error("You are required to provide the pid of the program to the executable. If you are reading this, you are probably doing something you should not be doing. Use ./run_superman.sh located directly under the source directory instead!");
+        throw std::runtime_error("You are required to provide the pid of the program to the executable. If you are reading this, you are probably doing something you should not be doing. Use ./run_superman.sh located directly under the source directory instead!\n");
     }
     if (!repoDirFound)
     {
