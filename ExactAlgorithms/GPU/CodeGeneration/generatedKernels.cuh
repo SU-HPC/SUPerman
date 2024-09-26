@@ -10,27 +10,13 @@ __device__ __inline__ void prodReduce(
 									const C& reg1,
 									const C& reg2,
 									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11)
+									const C& reg4)
 {
 	product *= reg0;
 	product *= reg1;
 	product *= reg2;
 	product *= reg3;
 	product *= reg4;
-	product *= reg5;
-	product *= reg6;
-	product *= reg7;
-	product *= reg8;
-	product *= reg9;
-	product *= reg10;
-	product *= reg11;
 	product *= globalProduct;
 }
 
@@ -39,19 +25,16 @@ __device__ __inline__ void c0included(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11)
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4)
 {
-	reg0 += 61.231400;
+	reg0 += 3669.000000;
+	reg1 += 5407.000000;
+	reg2 += 659.000000;
+	reg3 += 9927.000000;
+	reg4 += 3495.000000;
 
 	prodReduce<C>(
 					product,
@@ -60,183 +43,23 @@ __device__ __inline__ void c0included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
 __device__ __inline__ void c15included(
 									C& product,
 									C& globalProduct,
-									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg0 += 91.570800;
-
-	globalProduct = 1;
-	x[totalThreadCount * 0 + globalThreadID] += 72.530000;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	x[totalThreadCount * 1 + globalThreadID] += 23.088000;
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	x[totalThreadCount * 5 + globalThreadID] += 67.513500;
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	x[totalThreadCount * 7 + globalThreadID] += 15.349400;
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c34included(
-									C& product,
-									C& globalProduct,
-									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg0 += 96.236700;
-	reg5 += 86.880000;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	x[totalThreadCount * 14 + globalThreadID] += 76.197700;
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	x[totalThreadCount * 21 + globalThreadID] += 6.800200;
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	x[totalThreadCount * 22 + globalThreadID] += 19.750500;
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c28included(
-									C& product,
-									C& globalProduct,
 									const C& reg0,
 									const C& reg1,
 									const C& reg2,
 									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
+									C& reg4,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg8 += 11.474600;
+	reg4 += 6466.000000;
 
 	globalProduct = 1;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
@@ -245,30 +68,46 @@ __device__ __inline__ void c28included(
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] += 8751.000000;
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] += 6131.000000;
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] += 9481.000000;
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	x[totalThreadCount * 17 + globalThreadID] += 50.767500;
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	x[totalThreadCount * 19 + globalThreadID] += 53.944600;
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] += 8075.000000;
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] += 5205.000000;
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] += 5191.000000;
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -277,70 +116,102 @@ __device__ __inline__ void c28included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
-__device__ __inline__ void c18included(
+__device__ __inline__ void c2included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4)
+{
+	reg0 += 29.000000;
+	reg1 += 6335.000000;
+	reg2 += 6892.000000;
+	reg3 += 2631.000000;
+	reg4 += 9443.000000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c44included(
 									C& product,
 									C& globalProduct,
 									const C& reg0,
 									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									C& reg11,
+									C& reg2,
+									C& reg3,
+									C& reg4,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg11 += 32.699800;
+	reg2 += 7998.000000;
+	reg3 += 127.000000;
+	reg4 += 1418.000000;
 
 	globalProduct = 1;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	x[totalThreadCount * 4 + globalThreadID] += 33.632700;
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	x[totalThreadCount * 6 + globalThreadID] += 17.949600;
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] += 8856.000000;
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	x[totalThreadCount * 9 + globalThreadID] += 92.122100;
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] += 3321.000000;
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] += 3503.000000;
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] += 1027.000000;
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] += 9370.000000;
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] += 7566.000000;
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	x[totalThreadCount * 31 + globalThreadID] += 4495.000000;
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	x[totalThreadCount * 35 + globalThreadID] += 3924.000000;
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	x[totalThreadCount * 38 + globalThreadID] += 9469.000000;
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -349,14 +220,7 @@ __device__ __inline__ void c18included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
@@ -364,61 +228,16 @@ __device__ __inline__ void c4included(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									C& reg4,
-									C& reg5,
-									const C& reg6,
-									C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11)
-{
-	reg0 += 86.158500;
-	reg4 += 80.972700;
-	reg5 += 10.832900;
-	reg7 += 9.702310;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c8included(
-									C& product,
-									const C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
+									C& reg1,
+									C& reg2,
 									C& reg3,
-									const C& reg4,
-									const C& reg5,
-									C& reg6,
-									const C& reg7,
-									C& reg8,
-									const C& reg9,
-									const C& reg10,
-									C& reg11)
+									C& reg4)
 {
-	reg3 += 5.717230;
-	reg6 += 79.849500;
-	reg8 += 71.239900;
-	reg11 += 7.088450;
+	reg0 += 4513.000000;
+	reg1 += 8628.000000;
+	reg2 += 96.000000;
+	reg3 += 9551.000000;
+	reg4 += 4856.000000;
 
 	prodReduce<C>(
 					product,
@@ -427,37 +246,24 @@ __device__ __inline__ void c8included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
-__device__ __inline__ void c7included(
+__device__ __inline__ void c1included(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									const C& reg11)
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4)
 {
-	reg0 += 13.915300;
-	reg8 += 18.872000;
-	reg9 += 96.688400;
-	reg10 += 53.240700;
+	reg0 += 1801.000000;
+	reg1 += 8313.000000;
+	reg2 += 7967.000000;
+	reg3 += 2718.000000;
+	reg4 += 260.000000;
 
 	prodReduce<C>(
 					product,
@@ -466,14 +272,7 @@ __device__ __inline__ void c7included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
@@ -485,35 +284,34 @@ __device__ __inline__ void c9included(
 									const C& reg2,
 									const C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg11 += 84.466500;
 
 	globalProduct = 1;
-	x[totalThreadCount * 0 + globalThreadID] += 41.562900;
+	x[totalThreadCount * 0 + globalThreadID] += 7111.000000;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] += 1154.000000;
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] += 3623.000000;
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] += 4149.000000;
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] += 3554.000000;
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] += 8342.000000;
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] += 827.000000;
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	x[totalThreadCount * 14 + globalThreadID] += 9693.000000;
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
@@ -528,6 +326,18 @@ __device__ __inline__ void c9included(
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -536,18 +346,561 @@ __device__ __inline__ void c9included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c42included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									C& reg3,
+									C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg3 += 7259.000000;
+	reg4 += 2345.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] += 3485.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] += 6555.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] += 7294.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] += 6657.000000;
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] += 5789.000000;
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	x[totalThreadCount * 31 + globalThreadID] += 5055.000000;
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] += 9950.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] += 4861.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c22included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 += 8530.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] += 878.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] += 946.000000;
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] += 3513.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	x[totalThreadCount * 7 + globalThreadID] += 2308.000000;
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] += 4758.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] += 6286.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] += 658.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] += 2271.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] += 4833.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] += 947.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] += 7086.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] += 1302.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	x[totalThreadCount * 31 + globalThreadID] += 5804.000000;
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	x[totalThreadCount * 32 + globalThreadID] += 448.000000;
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] += 3381.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] += 2772.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c26included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg2 += 4057.000000;
+
+	globalProduct = 1;
+	x[totalThreadCount * 0 + globalThreadID] += 6306.000000;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] += 4526.000000;
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] += 492.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] += 8445.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] += 4506.000000;
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] += 96.000000;
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] += 6234.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] += 8626.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] += 2346.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] += 5.000000;
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] += 361.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] += 5913.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] += 9944.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] += 2912.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] += 6442.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] += 417.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c38included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg2 += 9403.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] += 8514.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	x[totalThreadCount * 7 + globalThreadID] += 6872.000000;
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] += 5861.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] += 1424.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] += 3307.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] += 2974.000000;
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] += 2475.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] += 5056.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c43included(
+									C& product,
+									C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg0 += 4887.000000;
+	reg1 += 9507.000000;
+	reg2 += 2715.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] += 4173.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] += 212.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] += 5805.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] += 418.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] += 9422.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] += 8623.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] += 1527.000000;
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] += 5412.000000;
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] += 2074.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	x[totalThreadCount * 30 + globalThreadID] += 5128.000000;
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	x[totalThreadCount * 33 + globalThreadID] += 7219.000000;
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
 }
 
 template <class C>
 __device__ __inline__ void c27included(
+									C& product,
+									C& globalProduct,
+									C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg0 += 3354.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] += 9859.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] += 867.000000;
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] += 4406.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] += 1589.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] += 7616.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	x[totalThreadCount * 21 + globalThreadID] += 9385.000000;
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] += 579.000000;
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	x[totalThreadCount * 32 + globalThreadID] += 8732.000000;
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] += 8473.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] += 9325.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] += 9538.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c37included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 += 845.000000;
+
+	globalProduct = 1;
+	x[totalThreadCount * 0 + globalThreadID] += 2347.000000;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] += 6130.000000;
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] += 3969.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] += 7192.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] += 1721.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] += 7603.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] += 721.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] += 8929.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c8included(
 									C& product,
 									C& globalProduct,
 									const C& reg0,
@@ -555,13 +908,253 @@ __device__ __inline__ void c27included(
 									const C& reg2,
 									const C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] += 4702.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] += 1206.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] += 4435.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	x[totalThreadCount * 7 + globalThreadID] += 5289.000000;
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] += 9192.000000;
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] += 6676.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] += 6619.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c11included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] += 8368.000000;
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] += 2275.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] += 4046.000000;
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] += 1929.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] += 4337.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] += 3183.000000;
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] += 7669.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] += 3633.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c5included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4)
+{
+	reg0 += 2110.000000;
+	reg1 += 7699.000000;
+	reg2 += 641.000000;
+	reg3 += 3069.000000;
+	reg4 += 2481.000000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c12included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 += 7651.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] += 6733.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] += 2719.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] += 7428.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] += 5329.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] += 9164.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] += 4556.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	x[totalThreadCount * 21 + globalThreadID] += 4071.000000;
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c20included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
@@ -573,34 +1166,52 @@ __device__ __inline__ void c27included(
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	x[totalThreadCount * 5 + globalThreadID] += 66.954900;
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] += 9204.000000;
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] += 396.000000;
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] += 65.910400;
+	x[totalThreadCount * 10 + globalThreadID] += 762.000000;
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] += 3445.000000;
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	x[totalThreadCount * 16 + globalThreadID] += 48.261900;
+	x[totalThreadCount * 16 + globalThreadID] += 8784.000000;
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	x[totalThreadCount * 17 + globalThreadID] += 42.981300;
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	x[totalThreadCount * 18 + globalThreadID] += 24.445300;
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] += 8473.000000;
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] += 9735.000000;
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	x[totalThreadCount * 31 + globalThreadID] += 8167.000000;
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	x[totalThreadCount * 32 + globalThreadID] += 6780.000000;
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	x[totalThreadCount * 33 + globalThreadID] += 3501.000000;
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] += 2289.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -609,58 +1220,11 @@ __device__ __inline__ void c27included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
-__device__ __inline__ void c3included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									const C& reg1,
-									C& reg2,
-									const C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11)
-{
-	reg0 += 34.309800;
-	reg2 += 56.902200;
-	reg4 += 97.983900;
-	reg5 += 13.062200;
-	reg6 += 12.253500;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c33included(
+__device__ __inline__ void c30included(
 									C& product,
 									C& globalProduct,
 									const C& reg0,
@@ -668,53 +1232,64 @@ __device__ __inline__ void c33included(
 									const C& reg2,
 									C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg3 += 15.705900;
-	reg8 += 16.999400;
+	reg3 += 4286.000000;
 
 	globalProduct = 1;
-	x[totalThreadCount * 0 + globalThreadID] += 7.550220;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] += 131.000000;
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] += 4485.000000;
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	x[totalThreadCount * 6 + globalThreadID] += 14.092600;
+	x[totalThreadCount * 6 + globalThreadID] += 9213.000000;
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	x[totalThreadCount * 7 + globalThreadID] += 84.235700;
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] += 4080.000000;
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	x[totalThreadCount * 14 + globalThreadID] += 3766.000000;
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] += 2835.000000;
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	x[totalThreadCount * 21 + globalThreadID] += 31.455700;
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] += 1379.000000;
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] += 5545.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] += 7756.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	x[totalThreadCount * 35 + globalThreadID] += 1564.000000;
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	x[totalThreadCount * 38 + globalThreadID] += 5314.000000;
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -723,51 +1298,38 @@ __device__ __inline__ void c33included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
-__device__ __inline__ void c16included(
+__device__ __inline__ void c13included(
 									C& product,
 									C& globalProduct,
 									const C& reg0,
 									const C& reg1,
-									const C& reg2,
+									C& reg2,
 									const C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg7 += 91.944500;
+	reg2 += 7935.000000;
 
 	globalProduct = 1;
+	x[totalThreadCount * 0 + globalThreadID] += 4982.000000;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	x[totalThreadCount * 4 + globalThreadID] += 23.572000;
+	x[totalThreadCount * 4 + globalThreadID] += 9389.000000;
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	x[totalThreadCount * 5 + globalThreadID] += 4.720370;
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	x[totalThreadCount * 8 + globalThreadID] += 93.709400;
+	x[totalThreadCount * 8 + globalThreadID] += 9992.000000;
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] += 5509.000000;
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
@@ -777,16 +1339,32 @@ __device__ __inline__ void c16included(
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] += 8952.000000;
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] += 1776.000000;
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] += 7851.000000;
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] += 4324.000000;
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -795,87 +1373,7 @@ __device__ __inline__ void c16included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c21included(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	x[totalThreadCount * 3 + globalThreadID] += 99.700300;
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	x[totalThreadCount * 4 + globalThreadID] += 64.546800;
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	x[totalThreadCount * 6 + globalThreadID] += 74.186700;
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	x[totalThreadCount * 11 + globalThreadID] += 31.055100;
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	x[totalThreadCount * 12 + globalThreadID] += 74.033500;
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
@@ -885,56 +1383,150 @@ __device__ __inline__ void c29included(
 									const C& reg0,
 									const C& reg1,
 									const C& reg2,
-									const C& reg3,
+									C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									C& reg8,
-									C& reg9,
-									const C& reg10,
-									const C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg8 += 89.127200;
-	reg9 += 8.892810;
+	reg3 += 5482.000000;
 
 	globalProduct = 1;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] += 8993.000000;
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] += 9755.000000;
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] += 6189.000000;
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	x[totalThreadCount * 7 + globalThreadID] += 33.781400;
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] += 29.825700;
+	x[totalThreadCount * 10 + globalThreadID] += 440.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] += 76.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] += 7486.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] += 1148.000000;
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] += 2564.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	x[totalThreadCount * 21 + globalThreadID] += 7397.000000;
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] += 93.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] += 1204.000000;
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] += 9257.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] += 9986.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	x[totalThreadCount * 30 + globalThreadID] += 6072.000000;
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] += 5811.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] += 6409.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c32included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 += 6174.000000;
+	reg3 += 6414.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] += 7037.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] += 9462.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] += 334.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] += 2061.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	x[totalThreadCount * 13 + globalThreadID] += 85.472600;
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	x[totalThreadCount * 19 + globalThreadID] += 44.763100;
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	x[totalThreadCount * 20 + globalThreadID] += 87.793200;
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	x[totalThreadCount * 21 + globalThreadID] += 9117.000000;
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] += 7446.000000;
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] += 42.000000;
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] += 3159.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	x[totalThreadCount * 33 + globalThreadID] += 6387.000000;
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] += 5368.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	x[totalThreadCount * 38 + globalThreadID] += 7546.000000;
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -943,74 +1535,73 @@ __device__ __inline__ void c29included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
-__device__ __inline__ void c6included(
+__device__ __inline__ void c10included(
 									C& product,
-									const C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									C& reg8,
-									C& reg9,
-									const C& reg10,
-									const C& reg11)
-{
-	reg3 += 94.417400;
-	reg8 += 65.442300;
-	reg9 += 78.302900;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c5included(
-									C& product,
-									const C& globalProduct,
+									C& globalProduct,
 									C& reg0,
 									const C& reg1,
 									const C& reg2,
 									const C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									C& reg7,
-									C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11)
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
 {
-	reg0 += 71.405600;
-	reg7 += 41.526400;
-	reg8 += 6.483150;
+	reg0 += 1440.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] += 2493.000000;
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] += 6387.000000;
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] += 4626.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] += 8023.000000;
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] += 1187.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] += 780.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] += 2376.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] += 3059.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -1019,53 +1610,69 @@ __device__ __inline__ void c5included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
-__device__ __inline__ void c36included(
+__device__ __inline__ void c3included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4)
+{
+	reg0 += 4712.000000;
+	reg1 += 3007.000000;
+	reg2 += 9353.000000;
+	reg3 += 2313.000000;
+	reg4 += 1662.000000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c33included(
 									C& product,
 									C& globalProduct,
 									const C& reg0,
 									const C& reg1,
-									const C& reg2,
+									C& reg2,
 									const C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									C& reg10,
-									const C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg10 += 22.123600;
+	reg2 += 6034.000000;
 
 	globalProduct = 1;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	x[totalThreadCount * 2 + globalThreadID] += 74.636900;
+	x[totalThreadCount * 2 + globalThreadID] += 7495.000000;
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] += 7690.000000;
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] += 1149.000000;
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	x[totalThreadCount * 7 + globalThreadID] += 336.000000;
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] += 9465.000000;
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
@@ -1077,11 +1684,26 @@ __device__ __inline__ void c36included(
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	x[totalThreadCount * 24 + globalThreadID] += 54.996500;
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	x[totalThreadCount * 30 + globalThreadID] += 7622.000000;
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	x[totalThreadCount * 35 + globalThreadID] += 9021.000000;
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	x[totalThreadCount * 38 + globalThreadID] += 8403.000000;
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] += 5365.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -1090,52 +1712,41 @@ __device__ __inline__ void c36included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
-__device__ __inline__ void c31included(
+__device__ __inline__ void c35included(
 									C& product,
 									C& globalProduct,
 									const C& reg0,
-									const C& reg1,
+									C& reg1,
 									const C& reg2,
-									const C& reg3,
+									C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg7 += 92.318800;
-	reg11 += 43.625200;
+	reg1 += 512.000000;
+	reg3 += 847.000000;
 
 	globalProduct = 1;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] += 8852.000000;
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] += 5941.000000;
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] += 2709.000000;
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] += 49.946900;
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] += 5612.000000;
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
@@ -1143,19 +1754,35 @@ __device__ __inline__ void c31included(
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	x[totalThreadCount * 18 + globalThreadID] += 6.449240;
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	x[totalThreadCount * 19 + globalThreadID] += 68.956600;
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] += 2092.000000;
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	x[totalThreadCount * 21 + globalThreadID] += 3.115310;
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] += 6210.000000;
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] += 7249.000000;
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] += 4471.000000;
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] += 117.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] += 7016.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] += 7163.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -1164,14 +1791,7 @@ __device__ __inline__ void c31included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
@@ -1183,50 +1803,62 @@ __device__ __inline__ void c14included(
 									const C& reg2,
 									const C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									C& reg9,
-									const C& reg10,
-									const C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg9 += 83.623000;
 
 	globalProduct = 1;
+	x[totalThreadCount * 0 + globalThreadID] += 5700.000000;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] += 48.000000;
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] += 1991.000000;
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	x[totalThreadCount * 5 + globalThreadID] += 51.427100;
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	x[totalThreadCount * 6 + globalThreadID] += 87.860700;
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] += 1816.000000;
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] += 6737.000000;
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] += 7538.000000;
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] += 4909.000000;
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] += 2799.000000;
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] += 5820.000000;
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] += 1442.000000;
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -1235,60 +1867,122 @@ __device__ __inline__ void c14included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
 __device__ __inline__ void c17included(
 									C& product,
 									C& globalProduct,
-									C& reg0,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg3 += 3829.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] += 2040.000000;
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	x[totalThreadCount * 14 + globalThreadID] += 2055.000000;
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] += 6510.000000;
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] += 4969.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] += 8019.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] += 7746.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c40included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
 									C& reg1,
 									const C& reg2,
 									const C& reg3,
 									C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg0 += 77.284500;
-	reg1 += 29.776100;
-	reg4 += 0.979244;
+	reg1 += 8179.000000;
+	reg4 += 2860.000000;
 
 	globalProduct = 1;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] += 3088.000000;
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] += 6450.000000;
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] += 471.000000;
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	x[totalThreadCount * 7 + globalThreadID] += 86.141600;
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	x[totalThreadCount * 8 + globalThreadID] += 90.402300;
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] += 579.000000;
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] += 6614.000000;
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] += 4554.000000;
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
@@ -1298,8 +1992,24 @@ __device__ __inline__ void c17included(
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] += 5279.000000;
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] += 1763.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	x[totalThreadCount * 35 + globalThreadID] += 8311.000000;
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] += 7329.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -1308,179 +2018,23 @@ __device__ __inline__ void c17included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c11included(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg1 += 18.468100;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	x[totalThreadCount * 1 + globalThreadID] += 42.148100;
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	x[totalThreadCount * 2 + globalThreadID] += 79.296200;
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c12included(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg2 += 34.763900;
-	reg8 += 25.062100;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	x[totalThreadCount * 1 + globalThreadID] += 84.946300;
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	x[totalThreadCount * 3 + globalThreadID] += 20.606200;
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
 __device__ __inline__ void c23included(
 									C& product,
 									C& globalProduct,
-									const C& reg0,
+									C& reg0,
 									const C& reg1,
 									const C& reg2,
 									const C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
+	reg0 += 8474.000000;
 
 	globalProduct = 1;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
@@ -1492,13 +2046,90 @@ __device__ __inline__ void c23included(
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] += 9762.000000;
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] += 91.780000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] += 9157.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] += 2582.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] += 7753.000000;
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] += 1652.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	x[totalThreadCount * 32 + globalThreadID] += 9012.000000;
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] += 1503.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c7included(
+									C& product,
+									C& globalProduct,
+									C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg0 += 707.000000;
+
+	globalProduct = 1;
+	x[totalThreadCount * 0 + globalThreadID] += 9960.000000;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] += 4492.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] += 4660.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] += 7363.000000;
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] += 8609.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	x[totalThreadCount * 14 + globalThreadID] += 12.520400;
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
@@ -1513,6 +2144,18 @@ __device__ __inline__ void c23included(
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -1521,18 +2164,92 @@ __device__ __inline__ void c23included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
-__device__ __inline__ void c32included(
+__device__ __inline__ void c39included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg4 += 4657.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] += 7408.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] += 4662.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] += 6989.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] += 8540.000000;
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] += 6649.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] += 5507.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	x[totalThreadCount * 21 + globalThreadID] += 3700.000000;
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] += 6375.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] += 4828.000000;
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] += 3195.000000;
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] += 3369.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	x[totalThreadCount * 33 + globalThreadID] += 8121.000000;
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] += 7732.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] += 5625.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c21included(
 									C& product,
 									C& globalProduct,
 									const C& reg0,
@@ -1540,54 +2257,66 @@ __device__ __inline__ void c32included(
 									const C& reg2,
 									const C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg8 += 58.069000;
 
 	globalProduct = 1;
-	x[totalThreadCount * 0 + globalThreadID] += 92.852700;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] += 5738.000000;
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] += 7536.000000;
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	x[totalThreadCount * 11 + globalThreadID] += 16.615500;
+	x[totalThreadCount * 11 + globalThreadID] += 4826.000000;
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	x[totalThreadCount * 14 + globalThreadID] += 5277.000000;
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	x[totalThreadCount * 15 + globalThreadID] += 71.605400;
+	x[totalThreadCount * 15 + globalThreadID] += 4132.000000;
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	x[totalThreadCount * 17 + globalThreadID] += 75.146800;
+	x[totalThreadCount * 17 + globalThreadID] += 3007.000000;
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	x[totalThreadCount * 20 + globalThreadID] += 9.801950;
+	x[totalThreadCount * 20 + globalThreadID] += 801.000000;
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	x[totalThreadCount * 21 + globalThreadID] += 65.375600;
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] += 3202.000000;
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] += 868.000000;
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] += 1413.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] += 5955.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	x[totalThreadCount * 32 + globalThreadID] += 4150.000000;
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] += 9126.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	x[totalThreadCount * 35 + globalThreadID] += 7591.000000;
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -1596,84 +2325,7 @@ __device__ __inline__ void c32included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c10included(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg11 += 15.934000;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	x[totalThreadCount * 1 + globalThreadID] += 83.360000;
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
@@ -1685,13 +2337,6 @@ __device__ __inline__ void c19included(
 									const C& reg2,
 									const C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
@@ -1700,80 +2345,11 @@ __device__ __inline__ void c19included(
 	globalProduct = 1;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] += 4443.000000;
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	x[totalThreadCount * 5 + globalThreadID] += 37.257100;
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	x[totalThreadCount * 8 + globalThreadID] += 65.412300;
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] += 70.096800;
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c30included(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] += 3146.000000;
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
@@ -1783,22 +2359,41 @@ __device__ __inline__ void c30included(
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	x[totalThreadCount * 14 + globalThreadID] += 3435.000000;
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] += 3259.000000;
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	x[totalThreadCount * 18 + globalThreadID] += 55.415500;
+	x[totalThreadCount * 18 + globalThreadID] += 196.000000;
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] += 6929.000000;
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	x[totalThreadCount * 20 + globalThreadID] += 71.195900;
+	x[totalThreadCount * 20 + globalThreadID] += 3398.000000;
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] += 6679.000000;
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] += 370.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	x[totalThreadCount * 31 + globalThreadID] += 2420.000000;
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	x[totalThreadCount * 32 + globalThreadID] += 938.000000;
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -1807,18 +2402,11 @@ __device__ __inline__ void c30included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
-__device__ __inline__ void c35included(
+__device__ __inline__ void c18included(
 									C& product,
 									C& globalProduct,
 									C& reg0,
@@ -1826,25 +2414,19 @@ __device__ __inline__ void c35included(
 									const C& reg2,
 									const C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg0 += 64.436300;
-	reg7 += 91.187300;
+	reg0 += 69.000000;
 
 	globalProduct = 1;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] += 6146.000000;
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] += 9348.000000;
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
@@ -1853,9 +2435,8 @@ __device__ __inline__ void c35included(
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	x[totalThreadCount * 12 + globalThreadID] += 87.925300;
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	x[totalThreadCount * 13 + globalThreadID] += 87.159300;
+	x[totalThreadCount * 13 + globalThreadID] += 9966.000000;
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
@@ -1864,15 +2445,30 @@ __device__ __inline__ void c35included(
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	x[totalThreadCount * 21 + globalThreadID] += 4026.000000;
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	x[totalThreadCount * 22 + globalThreadID] += 16.238200;
+	x[totalThreadCount * 22 + globalThreadID] += 1249.000000;
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	x[totalThreadCount * 23 + globalThreadID] += 36.829800;
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] += 3847.000000;
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] += 7016.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	x[totalThreadCount * 30 + globalThreadID] += 2669.000000;
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -1881,589 +2477,73 @@ __device__ __inline__ void c35included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
-__device__ __inline__ void c25included(
+__device__ __inline__ void c31included(
 									C& product,
 									C& globalProduct,
 									const C& reg0,
 									const C& reg1,
-									C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg2 += 43.490600;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	x[totalThreadCount * 3 + globalThreadID] += 22.498900;
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	x[totalThreadCount * 13 + globalThreadID] += 67.195400;
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	x[totalThreadCount * 15 + globalThreadID] += 85.153200;
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	x[totalThreadCount * 16 + globalThreadID] += 51.651600;
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c26included(
-									C& product,
-									C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg0 += 41.130000;
-	reg1 += 30.273100;
-	reg2 += 29.925800;
-	reg11 += 55.242100;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	x[totalThreadCount * 6 + globalThreadID] += 85.455800;
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] += 71.617500;
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	x[totalThreadCount * 16 + globalThreadID] += 79.614800;
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	x[totalThreadCount * 17 + globalThreadID] += 72.523500;
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c22included(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg4 += 39.358900;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	x[totalThreadCount * 7 + globalThreadID] += 93.534300;
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	x[totalThreadCount * 11 + globalThreadID] += 3.982470;
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	x[totalThreadCount * 13 + globalThreadID] += 74.681500;
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c13included(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	x[totalThreadCount * 3 + globalThreadID] += 96.759400;
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	x[totalThreadCount * 4 + globalThreadID] += 68.298900;
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c1included(
-									C& product,
-									const C& globalProduct,
-									const C& reg0,
-									C& reg1,
-									C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11)
-{
-	reg1 += 40.249200;
-	reg2 += 40.430700;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c2included(
-									C& product,
-									const C& globalProduct,
-									const C& reg0,
-									C& reg1,
-									const C& reg2,
-									C& reg3,
-									C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11)
-{
-	reg1 += 84.440100;
-	reg3 += 8.021350;
-	reg4 += 24.332000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c38included(
-									C& product,
-									C& globalProduct,
-									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg0 += 4.338620;
-	reg10 += 95.622500;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	x[totalThreadCount * 9 + globalThreadID] += 25.395900;
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	x[totalThreadCount * 20 + globalThreadID] += 6.186790;
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	x[totalThreadCount * 23 + globalThreadID] += 52.463000;
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	x[totalThreadCount * 26 + globalThreadID] += 74.719800;
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c20included(
-									C& product,
-									C& globalProduct,
-									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg0 += 26.419100;
-	reg6 += 17.222700;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	x[totalThreadCount * 8 + globalThreadID] += 89.552900;
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	x[totalThreadCount * 9 + globalThreadID] += 64.335100;
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] += 66.589700;
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	x[totalThreadCount * 11 + globalThreadID] += 74.158700;
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c37included(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									C& reg1,
 									const C& reg2,
 									C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg1 += 48.670600;
-	reg3 += 74.624400;
-	reg7 += 79.157300;
-	reg11 += 29.023700;
+	reg3 += 4537.000000;
 
 	globalProduct = 1;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] += 2559.000000;
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] += 177.000000;
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] += 9189.000000;
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] += 60.769200;
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] += 1583.000000;
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] += 9519.000000;
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	x[totalThreadCount * 21 + globalThreadID] += 50.639000;
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] += 8810.000000;
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	x[totalThreadCount * 23 + globalThreadID] += 47.284700;
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	x[totalThreadCount * 24 + globalThreadID] += 55.031300;
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	x[totalThreadCount * 25 + globalThreadID] += 6.241150;
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] += 6055.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	x[totalThreadCount * 38 + globalThreadID] += 330.000000;
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -2472,14 +2552,188 @@ __device__ __inline__ void c37included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c6included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4)
+{
+	reg0 += 7195.000000;
+	reg1 += 3090.000000;
+	reg2 += 7889.000000;
+	reg3 += 7854.000000;
+	reg4 += 9369.000000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c34included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 += 2857.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] += 4949.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] += 1005.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] += 8681.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] += 6548.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	x[totalThreadCount * 21 + globalThreadID] += 6770.000000;
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] += 7161.000000;
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] += 7360.000000;
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] += 9755.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] += 4635.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] += 3193.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c41included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 += 7682.000000;
+	reg2 += 8726.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] += 210.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] += 3193.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	x[totalThreadCount * 7 + globalThreadID] += 3860.000000;
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] += 3790.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] += 8589.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] += 7290.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] += 7945.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] += 6251.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	x[totalThreadCount * 30 + globalThreadID] += 7946.000000;
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] += 1187.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
 }
 
 template <class C>
@@ -2491,50 +2745,67 @@ __device__ __inline__ void c24included(
 									const C& reg2,
 									const C& reg3,
 									C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg4 += 18.818400;
+	reg4 += 1924.000000;
 
 	globalProduct = 1;
+	x[totalThreadCount * 0 + globalThreadID] += 9216.000000;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] += 9970.000000;
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] += 186.000000;
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] += 4260.000000;
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] += 1114.000000;
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] += 4096.000000;
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	x[totalThreadCount * 12 + globalThreadID] += 89.885500;
+	x[totalThreadCount * 12 + globalThreadID] += 129.000000;
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	x[totalThreadCount * 15 + globalThreadID] += 42.743500;
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] += 399.000000;
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] += 8263.000000;
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] += 4225.000000;
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	x[totalThreadCount * 30 + globalThreadID] += 4211.000000;
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	x[totalThreadCount * 35 + globalThreadID] += 8777.000000;
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] += 7055.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] += 658.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -2543,38 +2814,24 @@ __device__ __inline__ void c24included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
-__device__ __inline__ void c39included(
+__device__ __inline__ void c16included(
 									C& product,
 									C& globalProduct,
-									C& reg0,
-									const C& reg1,
+									const C& reg0,
+									C& reg1,
 									const C& reg2,
 									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									C& reg10,
-									const C& reg11,
+									C& reg4,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg0 += 34.651000;
-	reg10 += 92.678000;
+	reg1 += 2203.000000;
+	reg4 += 782.000000;
 
 	globalProduct = 1;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
@@ -2586,12 +2843,243 @@ __device__ __inline__ void c39included(
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	x[totalThreadCount * 9 + globalThreadID] += 6.562270;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] += 2934.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] += 2661.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] += 8155.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] += 591.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] += 3847.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] += 2958.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] += 494.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c28included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg3 += 9576.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] += 4543.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] += 3662.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] += 6332.000000;
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] += 4435.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] += 5366.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] += 2900.000000;
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] += 3983.000000;
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] += 6162.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] += 2878.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	x[totalThreadCount * 33 + globalThreadID] += 6387.000000;
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] += 6323.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c25included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 += 6709.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] += 4872.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] += 3193.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] += 6250.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] += 1568.000000;
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] += 2211.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] += 3522.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] += 4956.000000;
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] += 772.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] += 4369.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] += 987.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] += 9848.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] += 4446.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c36included(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 += 5290.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] += 2158.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] += 9019.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	x[totalThreadCount * 13 + globalThreadID] += 91.069700;
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
@@ -2604,10 +3092,28 @@ __device__ __inline__ void c39included(
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] += 2500.000000;
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	x[totalThreadCount * 27 + globalThreadID] += 33.242300;
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] += 2296.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	x[totalThreadCount * 32 + globalThreadID] += 6386.000000;
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] += 4289.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] += 1211.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	x[totalThreadCount * 38 + globalThreadID] += 6196.000000;
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] += 512.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -2616,73 +3122,24 @@ __device__ __inline__ void c39included(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
-__device__ __inline__ void c1excluded(
-									C& product,
-									const C& globalProduct,
-									const C& reg0,
-									C& reg1,
-									C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11)
-{
-	reg1 -= 40.249200;
-	reg2 -= 40.430700;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c5excluded(
+__device__ __inline__ void c0excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									C& reg7,
-									C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11)
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4)
 {
-	reg0 -= 71.405600;
-	reg7 -= 41.526400;
-	reg8 -= 6.483150;
+	reg0 -= 3669.000000;
+	reg1 -= 5407.000000;
+	reg2 -= 659.000000;
+	reg3 -= 9927.000000;
+	reg4 -= 3495.000000;
 
 	prodReduce<C>(
 					product,
@@ -2691,75 +3148,24 @@ __device__ __inline__ void c5excluded(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
 __device__ __inline__ void c6excluded(
 									C& product,
 									const C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									C& reg8,
-									C& reg9,
-									const C& reg10,
-									const C& reg11)
-{
-	reg3 -= 94.417400;
-	reg8 -= 65.442300;
-	reg9 -= 78.302900;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c7excluded(
-									C& product,
-									const C& globalProduct,
 									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									const C& reg11)
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4)
 {
-	reg0 -= 13.915300;
-	reg8 -= 18.872000;
-	reg9 -= 96.688400;
-	reg10 -= 53.240700;
+	reg0 -= 7195.000000;
+	reg1 -= 3090.000000;
+	reg2 -= 7889.000000;
+	reg3 -= 7854.000000;
+	reg4 -= 9369.000000;
 
 	prodReduce<C>(
 					product,
@@ -2768,14 +3174,7 @@ __device__ __inline__ void c7excluded(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
@@ -2783,23 +3182,16 @@ __device__ __inline__ void c3excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
-									const C& reg1,
+									C& reg1,
 									C& reg2,
-									const C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11)
+									C& reg3,
+									C& reg4)
 {
-	reg0 -= 34.309800;
-	reg2 -= 56.902200;
-	reg4 -= 97.983900;
-	reg5 -= 13.062200;
-	reg6 -= 12.253500;
+	reg0 -= 4712.000000;
+	reg1 -= 3007.000000;
+	reg2 -= 9353.000000;
+	reg3 -= 2313.000000;
+	reg4 -= 1662.000000;
 
 	prodReduce<C>(
 					product,
@@ -2808,37 +3200,227 @@ __device__ __inline__ void c3excluded(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
-__device__ __inline__ void c8excluded(
+__device__ __inline__ void c4excluded(
 									C& product,
 									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4)
+{
+	reg0 -= 4513.000000;
+	reg1 -= 8628.000000;
+	reg2 -= 96.000000;
+	reg3 -= 9551.000000;
+	reg4 -= 4856.000000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c44excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg2 -= 7998.000000;
+	reg3 -= 127.000000;
+	reg4 -= 1418.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] -= 8856.000000;
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] -= 3321.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] -= 3503.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] -= 1027.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] -= 9370.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] -= 7566.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	x[totalThreadCount * 31 + globalThreadID] -= 4495.000000;
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	x[totalThreadCount * 35 + globalThreadID] -= 3924.000000;
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	x[totalThreadCount * 38 + globalThreadID] -= 9469.000000;
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c2excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4)
+{
+	reg0 -= 29.000000;
+	reg1 -= 6335.000000;
+	reg2 -= 6892.000000;
+	reg3 -= 2631.000000;
+	reg4 -= 9443.000000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c1excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4)
+{
+	reg0 -= 1801.000000;
+	reg1 -= 8313.000000;
+	reg2 -= 7967.000000;
+	reg3 -= 2718.000000;
+	reg4 -= 260.000000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c17excluded(
+									C& product,
+									C& globalProduct,
 									const C& reg0,
 									const C& reg1,
 									const C& reg2,
 									C& reg3,
 									const C& reg4,
-									const C& reg5,
-									C& reg6,
-									const C& reg7,
-									C& reg8,
-									const C& reg9,
-									const C& reg10,
-									C& reg11)
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
 {
-	reg3 -= 5.717230;
-	reg6 -= 79.849500;
-	reg8 -= 71.239900;
-	reg11 -= 7.088450;
+	reg3 -= 3829.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] -= 2040.000000;
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	x[totalThreadCount * 14 + globalThreadID] -= 2055.000000;
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] -= 6510.000000;
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] -= 4969.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] -= 8019.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] -= 7746.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -2847,14 +3429,7 @@ __device__ __inline__ void c8excluded(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
@@ -2866,35 +3441,34 @@ __device__ __inline__ void c9excluded(
 									const C& reg2,
 									const C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg11 -= 84.466500;
 
 	globalProduct = 1;
-	x[totalThreadCount * 0 + globalThreadID] -= 41.562900;
+	x[totalThreadCount * 0 + globalThreadID] -= 7111.000000;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] -= 1154.000000;
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] -= 3623.000000;
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] -= 4149.000000;
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] -= 3554.000000;
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] -= 8342.000000;
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] -= 827.000000;
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	x[totalThreadCount * 14 + globalThreadID] -= 9693.000000;
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
@@ -2909,6 +3483,18 @@ __device__ __inline__ void c9excluded(
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -2917,643 +3503,49 @@ __device__ __inline__ void c9excluded(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c2excluded(
-									C& product,
-									const C& globalProduct,
-									const C& reg0,
-									C& reg1,
-									const C& reg2,
-									C& reg3,
-									C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11)
-{
-	reg1 -= 84.440100;
-	reg3 -= 8.021350;
-	reg4 -= 24.332000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c13excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	x[totalThreadCount * 3 + globalThreadID] -= 96.759400;
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	x[totalThreadCount * 4 + globalThreadID] -= 68.298900;
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c32excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg8 -= 58.069000;
-
-	globalProduct = 1;
-	x[totalThreadCount * 0 + globalThreadID] -= 92.852700;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	x[totalThreadCount * 11 + globalThreadID] -= 16.615500;
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	x[totalThreadCount * 15 + globalThreadID] -= 71.605400;
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	x[totalThreadCount * 17 + globalThreadID] -= 75.146800;
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	x[totalThreadCount * 20 + globalThreadID] -= 9.801950;
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	x[totalThreadCount * 21 + globalThreadID] -= 65.375600;
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c4excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									C& reg4,
-									C& reg5,
-									const C& reg6,
-									C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11)
-{
-	reg0 -= 86.158500;
-	reg4 -= 80.972700;
-	reg5 -= 10.832900;
-	reg7 -= 9.702310;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
 __device__ __inline__ void c10excluded(
 									C& product,
 									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg11 -= 15.934000;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	x[totalThreadCount * 1 + globalThreadID] -= 83.360000;
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c29excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									C& reg8,
-									C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg8 -= 89.127200;
-	reg9 -= 8.892810;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	x[totalThreadCount * 7 + globalThreadID] -= 33.781400;
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] -= 29.825700;
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	x[totalThreadCount * 13 + globalThreadID] -= 85.472600;
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	x[totalThreadCount * 19 + globalThreadID] -= 44.763100;
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	x[totalThreadCount * 20 + globalThreadID] -= 87.793200;
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c31excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg7 -= 92.318800;
-	reg11 -= 43.625200;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] -= 49.946900;
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	x[totalThreadCount * 18 + globalThreadID] -= 6.449240;
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	x[totalThreadCount * 19 + globalThreadID] -= 68.956600;
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	x[totalThreadCount * 21 + globalThreadID] -= 3.115310;
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c24excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg4 -= 18.818400;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	x[totalThreadCount * 12 + globalThreadID] -= 89.885500;
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	x[totalThreadCount * 15 + globalThreadID] -= 42.743500;
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c38excluded(
-									C& product,
-									C& globalProduct,
 									C& reg0,
 									const C& reg1,
 									const C& reg2,
 									const C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									C& reg10,
-									const C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg0 -= 4.338620;
-	reg10 -= 95.622500;
+	reg0 -= 1440.000000;
 
 	globalProduct = 1;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] -= 2493.000000;
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] -= 6387.000000;
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	x[totalThreadCount * 9 + globalThreadID] -= 25.395900;
+	x[totalThreadCount * 9 + globalThreadID] -= 4626.000000;
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] -= 8023.000000;
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] -= 1187.000000;
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] -= 780.000000;
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] -= 2376.000000;
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	x[totalThreadCount * 20 + globalThreadID] -= 6.186790;
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	x[totalThreadCount * 23 + globalThreadID] -= 52.463000;
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	x[totalThreadCount * 26 + globalThreadID] -= 74.719800;
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c19excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	x[totalThreadCount * 5 + globalThreadID] -= 37.257100;
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	x[totalThreadCount * 8 + globalThreadID] -= 65.412300;
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] -= 70.096800;
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] -= 3059.000000;
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
@@ -3566,6 +3558,18 @@ __device__ __inline__ void c19excluded(
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -3574,1429 +3578,7 @@ __device__ __inline__ void c19excluded(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c22excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg4 -= 39.358900;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	x[totalThreadCount * 7 + globalThreadID] -= 93.534300;
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	x[totalThreadCount * 11 + globalThreadID] -= 3.982470;
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	x[totalThreadCount * 13 + globalThreadID] -= 74.681500;
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c11excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg1 -= 18.468100;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	x[totalThreadCount * 1 + globalThreadID] -= 42.148100;
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	x[totalThreadCount * 2 + globalThreadID] -= 79.296200;
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c34excluded(
-									C& product,
-									C& globalProduct,
-									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg0 -= 96.236700;
-	reg5 -= 86.880000;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	x[totalThreadCount * 14 + globalThreadID] -= 76.197700;
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	x[totalThreadCount * 21 + globalThreadID] -= 6.800200;
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	x[totalThreadCount * 22 + globalThreadID] -= 19.750500;
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c15excluded(
-									C& product,
-									C& globalProduct,
-									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg0 -= 91.570800;
-
-	globalProduct = 1;
-	x[totalThreadCount * 0 + globalThreadID] -= 72.530000;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	x[totalThreadCount * 1 + globalThreadID] -= 23.088000;
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	x[totalThreadCount * 5 + globalThreadID] -= 67.513500;
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	x[totalThreadCount * 7 + globalThreadID] -= 15.349400;
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c0excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11)
-{
-	reg0 -= 61.231400;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c14excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg9 -= 83.623000;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	x[totalThreadCount * 5 + globalThreadID] -= 51.427100;
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	x[totalThreadCount * 6 + globalThreadID] -= 87.860700;
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c12excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg2 -= 34.763900;
-	reg8 -= 25.062100;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	x[totalThreadCount * 1 + globalThreadID] -= 84.946300;
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	x[totalThreadCount * 3 + globalThreadID] -= 20.606200;
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c27excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	x[totalThreadCount * 5 + globalThreadID] -= 66.954900;
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] -= 65.910400;
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	x[totalThreadCount * 16 + globalThreadID] -= 48.261900;
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	x[totalThreadCount * 17 + globalThreadID] -= 42.981300;
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	x[totalThreadCount * 18 + globalThreadID] -= 24.445300;
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c36excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg10 -= 22.123600;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	x[totalThreadCount * 2 + globalThreadID] -= 74.636900;
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	x[totalThreadCount * 24 + globalThreadID] -= 54.996500;
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c25excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg2 -= 43.490600;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	x[totalThreadCount * 3 + globalThreadID] -= 22.498900;
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	x[totalThreadCount * 13 + globalThreadID] -= 67.195400;
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	x[totalThreadCount * 15 + globalThreadID] -= 85.153200;
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	x[totalThreadCount * 16 + globalThreadID] -= 51.651600;
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c26excluded(
-									C& product,
-									C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg0 -= 41.130000;
-	reg1 -= 30.273100;
-	reg2 -= 29.925800;
-	reg11 -= 55.242100;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	x[totalThreadCount * 6 + globalThreadID] -= 85.455800;
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] -= 71.617500;
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	x[totalThreadCount * 16 + globalThreadID] -= 79.614800;
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	x[totalThreadCount * 17 + globalThreadID] -= 72.523500;
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c16excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg7 -= 91.944500;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	x[totalThreadCount * 4 + globalThreadID] -= 23.572000;
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	x[totalThreadCount * 5 + globalThreadID] -= 4.720370;
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	x[totalThreadCount * 8 + globalThreadID] -= 93.709400;
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c39excluded(
-									C& product,
-									C& globalProduct,
-									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg0 -= 34.651000;
-	reg10 -= 92.678000;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	x[totalThreadCount * 9 + globalThreadID] -= 6.562270;
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	x[totalThreadCount * 13 + globalThreadID] -= 91.069700;
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	x[totalThreadCount * 27 + globalThreadID] -= 33.242300;
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c28excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg8 -= 11.474600;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	x[totalThreadCount * 17 + globalThreadID] -= 50.767500;
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	x[totalThreadCount * 19 + globalThreadID] -= 53.944600;
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c37excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									C& reg1,
-									const C& reg2,
-									C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg1 -= 48.670600;
-	reg3 -= 74.624400;
-	reg7 -= 79.157300;
-	reg11 -= 29.023700;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] -= 60.769200;
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	x[totalThreadCount * 21 + globalThreadID] -= 50.639000;
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	x[totalThreadCount * 23 + globalThreadID] -= 47.284700;
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	x[totalThreadCount * 24 + globalThreadID] -= 55.031300;
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	x[totalThreadCount * 25 + globalThreadID] -= 6.241150;
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c35excluded(
-									C& product,
-									C& globalProduct,
-									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg0 -= 64.436300;
-	reg7 -= 91.187300;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	x[totalThreadCount * 12 + globalThreadID] -= 87.925300;
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	x[totalThreadCount * 13 + globalThreadID] -= 87.159300;
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	x[totalThreadCount * 22 + globalThreadID] -= 16.238200;
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	x[totalThreadCount * 23 + globalThreadID] -= 36.829800;
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c30excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	x[totalThreadCount * 18 + globalThreadID] -= 55.415500;
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	x[totalThreadCount * 20 + globalThreadID] -= 71.195900;
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c17excluded(
-									C& product,
-									C& globalProduct,
-									C& reg0,
-									C& reg1,
-									const C& reg2,
-									const C& reg3,
-									C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg0 -= 77.284500;
-	reg1 -= 29.776100;
-	reg4 -= 0.979244;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	x[totalThreadCount * 7 + globalThreadID] -= 86.141600;
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	x[totalThreadCount * 8 + globalThreadID] -= 90.402300;
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c23excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] -= 91.780000;
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	x[totalThreadCount * 14 + globalThreadID] -= 12.520400;
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c20excluded(
-									C& product,
-									C& globalProduct,
-									C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg0 -= 26.419100;
-	reg6 -= 17.222700;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	x[totalThreadCount * 8 + globalThreadID] -= 89.552900;
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	x[totalThreadCount * 9 + globalThreadID] -= 64.335100;
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	x[totalThreadCount * 10 + globalThreadID] -= 66.589700;
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	x[totalThreadCount * 11 + globalThreadID] -= 74.158700;
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
@@ -5008,13 +3590,6 @@ __device__ __inline__ void c21excluded(
 									const C& reg2,
 									const C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
@@ -5023,37 +3598,58 @@ __device__ __inline__ void c21excluded(
 	globalProduct = 1;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] -= 5738.000000;
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	x[totalThreadCount * 3 + globalThreadID] -= 99.700300;
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	x[totalThreadCount * 4 + globalThreadID] -= 64.546800;
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	x[totalThreadCount * 6 + globalThreadID] -= 74.186700;
+	x[totalThreadCount * 6 + globalThreadID] -= 7536.000000;
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	x[totalThreadCount * 11 + globalThreadID] -= 31.055100;
+	x[totalThreadCount * 11 + globalThreadID] -= 4826.000000;
 	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	x[totalThreadCount * 12 + globalThreadID] -= 74.033500;
 	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	x[totalThreadCount * 14 + globalThreadID] -= 5277.000000;
 	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] -= 4132.000000;
 	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] -= 3007.000000;
 	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] -= 801.000000;
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] -= 3202.000000;
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] -= 868.000000;
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] -= 1413.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] -= 5955.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	x[totalThreadCount * 32 + globalThreadID] -= 4150.000000;
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] -= 9126.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	x[totalThreadCount * 35 + globalThreadID] -= 7591.000000;
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -5062,86 +3658,7 @@ __device__ __inline__ void c21excluded(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
-}
-
-template <class C>
-__device__ __inline__ void c18excluded(
-									C& product,
-									C& globalProduct,
-									const C& reg0,
-									const C& reg1,
-									const C& reg2,
-									const C& reg3,
-									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									const C& reg8,
-									const C& reg9,
-									const C& reg10,
-									C& reg11,
-									const volatile unsigned& totalThreadCount,
-									const volatile unsigned& globalThreadID,
-									C* x)
-{
-	reg11 -= 32.699800;
-
-	globalProduct = 1;
-	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
-	x[totalThreadCount * 4 + globalThreadID] -= 33.632700;
-	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	x[totalThreadCount * 6 + globalThreadID] -= 17.949600;
-	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
-	x[totalThreadCount * 9 + globalThreadID] -= 92.122100;
-	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
-	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
 }
 
 template <class C>
@@ -5150,34 +3667,176 @@ __device__ __inline__ void c33excluded(
 									C& globalProduct,
 									const C& reg0,
 									const C& reg1,
-									const C& reg2,
-									C& reg3,
+									C& reg2,
+									const C& reg3,
 									const C& reg4,
-									const C& reg5,
-									const C& reg6,
-									const C& reg7,
-									C& reg8,
-									const C& reg9,
-									const C& reg10,
-									const C& reg11,
 									const volatile unsigned& totalThreadCount,
 									const volatile unsigned& globalThreadID,
 									C* x)
 {
-	reg3 -= 15.705900;
-	reg8 -= 16.999400;
+	reg2 -= 6034.000000;
 
 	globalProduct = 1;
-	x[totalThreadCount * 0 + globalThreadID] -= 7.550220;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] -= 7495.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] -= 7690.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] -= 1149.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	x[totalThreadCount * 7 + globalThreadID] -= 336.000000;
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] -= 9465.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	x[totalThreadCount * 30 + globalThreadID] -= 7622.000000;
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	x[totalThreadCount * 35 + globalThreadID] -= 9021.000000;
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	x[totalThreadCount * 38 + globalThreadID] -= 8403.000000;
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] -= 5365.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c16excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									const C& reg3,
+									C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 -= 2203.000000;
+	reg4 -= 782.000000;
+
+	globalProduct = 1;
 	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
-	x[totalThreadCount * 6 + globalThreadID] -= 14.092600;
 	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
-	x[totalThreadCount * 7 + globalThreadID] -= 84.235700;
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] -= 2934.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] -= 2661.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] -= 8155.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] -= 591.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] -= 3847.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] -= 2958.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] -= 494.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c36excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 -= 5290.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] -= 2158.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] -= 9019.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
@@ -5192,14 +3851,32 @@ __device__ __inline__ void c33excluded(
 	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
-	x[totalThreadCount * 21 + globalThreadID] -= 31.455700;
 	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] -= 2500.000000;
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] -= 2296.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	x[totalThreadCount * 32 + globalThreadID] -= 6386.000000;
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] -= 4289.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] -= 1211.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	x[totalThreadCount * 38 + globalThreadID] -= 6196.000000;
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] -= 512.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
 	prodReduce<C>(
 					product,
@@ -5208,14 +3885,2349 @@ __device__ __inline__ void c33excluded(
 					reg1,
 					reg2,
 					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11);
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c18excluded(
+									C& product,
+									C& globalProduct,
+									C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg0 -= 69.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] -= 6146.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] -= 9348.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] -= 9966.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	x[totalThreadCount * 21 + globalThreadID] -= 4026.000000;
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] -= 1249.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] -= 3847.000000;
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] -= 7016.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	x[totalThreadCount * 30 + globalThreadID] -= 2669.000000;
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c29excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg3 -= 5482.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] -= 8993.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] -= 9755.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] -= 6189.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] -= 440.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] -= 76.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] -= 7486.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] -= 1148.000000;
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] -= 2564.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	x[totalThreadCount * 21 + globalThreadID] -= 7397.000000;
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] -= 93.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] -= 1204.000000;
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] -= 9257.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] -= 9986.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	x[totalThreadCount * 30 + globalThreadID] -= 6072.000000;
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] -= 5811.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] -= 6409.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c32excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 -= 6174.000000;
+	reg3 -= 6414.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] -= 7037.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] -= 9462.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] -= 334.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] -= 2061.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	x[totalThreadCount * 21 + globalThreadID] -= 9117.000000;
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] -= 7446.000000;
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] -= 42.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] -= 3159.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	x[totalThreadCount * 33 + globalThreadID] -= 6387.000000;
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] -= 5368.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	x[totalThreadCount * 38 + globalThreadID] -= 7546.000000;
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c31excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg3 -= 4537.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] -= 2559.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] -= 177.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] -= 9189.000000;
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] -= 1583.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] -= 9519.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] -= 8810.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] -= 6055.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	x[totalThreadCount * 38 + globalThreadID] -= 330.000000;
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c25excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 -= 6709.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] -= 4872.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] -= 3193.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] -= 6250.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] -= 1568.000000;
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] -= 2211.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] -= 3522.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] -= 4956.000000;
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] -= 772.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] -= 4369.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] -= 987.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] -= 9848.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] -= 4446.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c27excluded(
+									C& product,
+									C& globalProduct,
+									C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg0 -= 3354.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] -= 9859.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] -= 867.000000;
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] -= 4406.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] -= 1589.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] -= 7616.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	x[totalThreadCount * 21 + globalThreadID] -= 9385.000000;
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] -= 579.000000;
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	x[totalThreadCount * 32 + globalThreadID] -= 8732.000000;
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] -= 8473.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] -= 9325.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] -= 9538.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c37excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 -= 845.000000;
+
+	globalProduct = 1;
+	x[totalThreadCount * 0 + globalThreadID] -= 2347.000000;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] -= 6130.000000;
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] -= 3969.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] -= 7192.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] -= 1721.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] -= 7603.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] -= 721.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] -= 8929.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c35excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 -= 512.000000;
+	reg3 -= 847.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] -= 8852.000000;
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] -= 5941.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] -= 2709.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] -= 5612.000000;
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] -= 2092.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] -= 6210.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] -= 7249.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] -= 4471.000000;
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] -= 117.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] -= 7016.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] -= 7163.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c41excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 -= 7682.000000;
+	reg2 -= 8726.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] -= 210.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] -= 3193.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	x[totalThreadCount * 7 + globalThreadID] -= 3860.000000;
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] -= 3790.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] -= 8589.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] -= 7290.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] -= 7945.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] -= 6251.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	x[totalThreadCount * 30 + globalThreadID] -= 7946.000000;
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] -= 1187.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c11excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] -= 8368.000000;
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] -= 2275.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] -= 4046.000000;
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] -= 1929.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] -= 4337.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] -= 3183.000000;
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] -= 7669.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] -= 3633.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c38excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg2 -= 9403.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] -= 8514.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	x[totalThreadCount * 7 + globalThreadID] -= 6872.000000;
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] -= 5861.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] -= 1424.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] -= 3307.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] -= 2974.000000;
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] -= 2475.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] -= 5056.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c28excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg3 -= 9576.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] -= 4543.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] -= 3662.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] -= 6332.000000;
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] -= 4435.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] -= 5366.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] -= 2900.000000;
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] -= 3983.000000;
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] -= 6162.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] -= 2878.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	x[totalThreadCount * 33 + globalThreadID] -= 6387.000000;
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] -= 6323.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c7excluded(
+									C& product,
+									C& globalProduct,
+									C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg0 -= 707.000000;
+
+	globalProduct = 1;
+	x[totalThreadCount * 0 + globalThreadID] -= 9960.000000;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] -= 4492.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] -= 4660.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] -= 7363.000000;
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] -= 8609.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c30excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg3 -= 4286.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] -= 131.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] -= 4485.000000;
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] -= 9213.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] -= 4080.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	x[totalThreadCount * 14 + globalThreadID] -= 3766.000000;
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] -= 2835.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] -= 1379.000000;
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] -= 5545.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] -= 7756.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	x[totalThreadCount * 35 + globalThreadID] -= 1564.000000;
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	x[totalThreadCount * 38 + globalThreadID] -= 5314.000000;
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c39excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg4 -= 4657.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] -= 7408.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] -= 4662.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] -= 6989.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] -= 8540.000000;
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] -= 6649.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] -= 5507.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	x[totalThreadCount * 21 + globalThreadID] -= 3700.000000;
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] -= 6375.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] -= 4828.000000;
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] -= 3195.000000;
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] -= 3369.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	x[totalThreadCount * 33 + globalThreadID] -= 8121.000000;
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] -= 7732.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] -= 5625.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c22excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 -= 8530.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] -= 878.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] -= 946.000000;
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] -= 3513.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	x[totalThreadCount * 7 + globalThreadID] -= 2308.000000;
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] -= 4758.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] -= 6286.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] -= 658.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] -= 2271.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] -= 4833.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] -= 947.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] -= 7086.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] -= 1302.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	x[totalThreadCount * 31 + globalThreadID] -= 5804.000000;
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	x[totalThreadCount * 32 + globalThreadID] -= 448.000000;
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] -= 3381.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] -= 2772.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c15excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg4 -= 6466.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] -= 8751.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] -= 6131.000000;
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] -= 9481.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] -= 8075.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] -= 5205.000000;
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] -= 5191.000000;
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c23excluded(
+									C& product,
+									C& globalProduct,
+									C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg0 -= 8474.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] -= 9762.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] -= 9157.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] -= 2582.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] -= 7753.000000;
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] -= 1652.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	x[totalThreadCount * 32 + globalThreadID] -= 9012.000000;
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] -= 1503.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c14excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+
+	globalProduct = 1;
+	x[totalThreadCount * 0 + globalThreadID] -= 5700.000000;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] -= 48.000000;
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] -= 1991.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] -= 1816.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] -= 6737.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] -= 7538.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] -= 4909.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] -= 2799.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] -= 5820.000000;
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] -= 1442.000000;
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c20excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] -= 9204.000000;
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] -= 396.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] -= 762.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] -= 3445.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] -= 8784.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] -= 8473.000000;
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] -= 9735.000000;
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	x[totalThreadCount * 31 + globalThreadID] -= 8167.000000;
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	x[totalThreadCount * 32 + globalThreadID] -= 6780.000000;
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	x[totalThreadCount * 33 + globalThreadID] -= 3501.000000;
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] -= 2289.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c5excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4)
+{
+	reg0 -= 2110.000000;
+	reg1 -= 7699.000000;
+	reg2 -= 641.000000;
+	reg3 -= 3069.000000;
+	reg4 -= 2481.000000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c19excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] -= 4443.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] -= 3146.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	x[totalThreadCount * 14 + globalThreadID] -= 3435.000000;
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	x[totalThreadCount * 15 + globalThreadID] -= 3259.000000;
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] -= 196.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] -= 6929.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] -= 3398.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] -= 6679.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] -= 370.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	x[totalThreadCount * 31 + globalThreadID] -= 2420.000000;
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	x[totalThreadCount * 32 + globalThreadID] -= 938.000000;
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c42excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									C& reg3,
+									C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg3 -= 7259.000000;
+	reg4 -= 2345.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] -= 3485.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] -= 6555.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] -= 7294.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] -= 6657.000000;
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] -= 5789.000000;
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	x[totalThreadCount * 31 + globalThreadID] -= 5055.000000;
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] -= 9950.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] -= 4861.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c13excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg2 -= 7935.000000;
+
+	globalProduct = 1;
+	x[totalThreadCount * 0 + globalThreadID] -= 4982.000000;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] -= 9389.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] -= 9992.000000;
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] -= 5509.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] -= 8952.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] -= 1776.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] -= 7851.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] -= 4324.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c34excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 -= 2857.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] -= 4949.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] -= 1005.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] -= 8681.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] -= 6548.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	x[totalThreadCount * 21 + globalThreadID] -= 6770.000000;
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	x[totalThreadCount * 25 + globalThreadID] -= 7161.000000;
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] -= 7360.000000;
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] -= 9755.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] -= 4635.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	x[totalThreadCount * 39 + globalThreadID] -= 3193.000000;
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c43excluded(
+									C& product,
+									C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg0 -= 4887.000000;
+	reg1 -= 9507.000000;
+	reg2 -= 2715.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] -= 4173.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] -= 212.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] -= 5805.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] -= 418.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] -= 9422.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] -= 8623.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	x[totalThreadCount * 24 + globalThreadID] -= 1527.000000;
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] -= 5412.000000;
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] -= 2074.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	x[totalThreadCount * 30 + globalThreadID] -= 5128.000000;
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	x[totalThreadCount * 33 + globalThreadID] -= 7219.000000;
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c26excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg2 -= 4057.000000;
+
+	globalProduct = 1;
+	x[totalThreadCount * 0 + globalThreadID] -= 6306.000000;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	x[totalThreadCount * 3 + globalThreadID] -= 4526.000000;
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] -= 492.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] -= 8445.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] -= 4506.000000;
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] -= 96.000000;
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] -= 6234.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	x[totalThreadCount * 19 + globalThreadID] -= 8626.000000;
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] -= 2346.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] -= 5.000000;
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	x[totalThreadCount * 27 + globalThreadID] -= 361.000000;
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] -= 5913.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	x[totalThreadCount * 29 + globalThreadID] -= 9944.000000;
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	x[totalThreadCount * 34 + globalThreadID] -= 2912.000000;
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] -= 6442.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] -= 417.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c12excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 -= 7651.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] -= 6733.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] -= 2719.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] -= 7428.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	x[totalThreadCount * 16 + globalThreadID] -= 5329.000000;
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] -= 9164.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	x[totalThreadCount * 20 + globalThreadID] -= 4556.000000;
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	x[totalThreadCount * 21 + globalThreadID] -= 4071.000000;
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c40excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									C& reg1,
+									const C& reg2,
+									const C& reg3,
+									C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg1 -= 8179.000000;
+	reg4 -= 2860.000000;
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] -= 3088.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	x[totalThreadCount * 4 + globalThreadID] -= 6450.000000;
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] -= 471.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	x[totalThreadCount * 11 + globalThreadID] -= 579.000000;
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	x[totalThreadCount * 13 + globalThreadID] -= 6614.000000;
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	x[totalThreadCount * 17 + globalThreadID] -= 4554.000000;
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	x[totalThreadCount * 26 + globalThreadID] -= 5279.000000;
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	x[totalThreadCount * 28 + globalThreadID] -= 1763.000000;
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	x[totalThreadCount * 35 + globalThreadID] -= 8311.000000;
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] -= 7329.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c8excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									const C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+
+	globalProduct = 1;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] -= 4702.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	x[totalThreadCount * 5 + globalThreadID] -= 1206.000000;
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] -= 4435.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	x[totalThreadCount * 7 + globalThreadID] -= 5289.000000;
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] -= 9192.000000;
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	x[totalThreadCount * 9 + globalThreadID] -= 6676.000000;
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] -= 6619.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
+}
+
+template <class C>
+__device__ __inline__ void c24excluded(
+									C& product,
+									C& globalProduct,
+									const C& reg0,
+									const C& reg1,
+									const C& reg2,
+									const C& reg3,
+									C& reg4,
+									const volatile unsigned& totalThreadCount,
+									const volatile unsigned& globalThreadID,
+									C* x)
+{
+	reg4 -= 1924.000000;
+
+	globalProduct = 1;
+	x[totalThreadCount * 0 + globalThreadID] -= 9216.000000;
+	globalProduct *= x[totalThreadCount * 0 + globalThreadID];
+	x[totalThreadCount * 1 + globalThreadID] -= 9970.000000;
+	globalProduct *= x[totalThreadCount * 1 + globalThreadID];
+	x[totalThreadCount * 2 + globalThreadID] -= 186.000000;
+	globalProduct *= x[totalThreadCount * 2 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 3 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 4 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 5 + globalThreadID];
+	x[totalThreadCount * 6 + globalThreadID] -= 4260.000000;
+	globalProduct *= x[totalThreadCount * 6 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 7 + globalThreadID];
+	x[totalThreadCount * 8 + globalThreadID] -= 1114.000000;
+	globalProduct *= x[totalThreadCount * 8 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 9 + globalThreadID];
+	x[totalThreadCount * 10 + globalThreadID] -= 4096.000000;
+	globalProduct *= x[totalThreadCount * 10 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 11 + globalThreadID];
+	x[totalThreadCount * 12 + globalThreadID] -= 129.000000;
+	globalProduct *= x[totalThreadCount * 12 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 13 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 14 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 15 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 16 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 17 + globalThreadID];
+	x[totalThreadCount * 18 + globalThreadID] -= 399.000000;
+	globalProduct *= x[totalThreadCount * 18 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 19 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 20 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 21 + globalThreadID];
+	x[totalThreadCount * 22 + globalThreadID] -= 8263.000000;
+	globalProduct *= x[totalThreadCount * 22 + globalThreadID];
+	x[totalThreadCount * 23 + globalThreadID] -= 4225.000000;
+	globalProduct *= x[totalThreadCount * 23 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 24 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	x[totalThreadCount * 30 + globalThreadID] -= 4211.000000;
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	x[totalThreadCount * 35 + globalThreadID] -= 8777.000000;
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	x[totalThreadCount * 36 + globalThreadID] -= 7055.000000;
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	x[totalThreadCount * 37 + globalThreadID] -= 658.000000;
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4);
 }
 
 template <class C, class S>
@@ -5232,47 +6244,52 @@ __global__ void globalKernel(S* mat,
 
     C myResult = 0;
 
-	C reg0 = -316.892810;
-	C reg1 = -125.938600;
-	C reg2 = -102.756600;
-	C reg3 = -99.243140;
-	C reg4 = -131.222572;
-	C reg5 = -55.387550;
-	C reg6 = -54.662850;
-	C reg7 = -202.918305;
-	C reg8 = -181.384825;
-	C reg9 = -133.753555;
-	C reg10 = -39.154400;
-	C reg11 = -134.039875;
+	C reg0 = -21480.000000;
+	C reg1 = -54309.000000;
+	C reg2 = -32184.500000;
+	C reg3 = -40083.000000;
+	C reg4 = -24591.000000;
 
-	x[totalThreadCount * 0 + globalThreadID] = -107.247910;
-	x[totalThreadCount * 1 + globalThreadID] = -116.771200;
-	x[totalThreadCount * 2 + globalThreadID] = -76.966550;
-	x[totalThreadCount * 3 + globalThreadID] = -119.782400;
-	x[totalThreadCount * 4 + globalThreadID] = -95.025200;
-	x[totalThreadCount * 5 + globalThreadID] = -113.936485;
-	x[totalThreadCount * 6 + globalThreadID] = -139.772700;
-	x[totalThreadCount * 7 + globalThreadID] = -156.521200;
-	x[totalThreadCount * 8 + globalThreadID] = -169.538450;
-	x[totalThreadCount * 9 + globalThreadID] = -87.645415;
-	x[totalThreadCount * 10 + globalThreadID] = -253.268100;
-	x[totalThreadCount * 11 + globalThreadID] = -62.905885;
-	x[totalThreadCount * 12 + globalThreadID] = -125.922150;
-	x[totalThreadCount * 13 + globalThreadID] = -111.719550;
-	x[totalThreadCount * 14 + globalThreadID] = -44.359050;
-	x[totalThreadCount * 15 + globalThreadID] = -99.751050;
-	x[totalThreadCount * 16 + globalThreadID] = -89.764150;
-	x[totalThreadCount * 17 + globalThreadID] = -120.709550;
-	x[totalThreadCount * 18 + globalThreadID] = -43.155020;
-	x[totalThreadCount * 19 + globalThreadID] = -83.832150;
-	x[totalThreadCount * 20 + globalThreadID] = -87.488920;
-	x[totalThreadCount * 21 + globalThreadID] = -78.692905;
-	x[totalThreadCount * 22 + globalThreadID] = -17.994350;
-	x[totalThreadCount * 23 + globalThreadID] = -68.288750;
-	x[totalThreadCount * 24 + globalThreadID] = -55.013900;
-	x[totalThreadCount * 25 + globalThreadID] = -3.120575;
-	x[totalThreadCount * 26 + globalThreadID] = -37.359900;
-	x[totalThreadCount * 27 + globalThreadID] = 16.621150;
+	x[totalThreadCount * 0 + globalThreadID] = -22811.000000;
+	x[totalThreadCount * 1 + globalThreadID] = -28528.500000;
+	x[totalThreadCount * 2 + globalThreadID] = -22280.000000;
+	x[totalThreadCount * 3 + globalThreadID] = -19117.500000;
+	x[totalThreadCount * 4 + globalThreadID] = -39628.000000;
+	x[totalThreadCount * 5 + globalThreadID] = -22525.000000;
+	x[totalThreadCount * 6 + globalThreadID] = -33350.000000;
+	x[totalThreadCount * 7 + globalThreadID] = -9332.500000;
+	x[totalThreadCount * 8 + globalThreadID] = -26230.000000;
+	x[totalThreadCount * 9 + globalThreadID] = -29046.000000;
+	x[totalThreadCount * 10 + globalThreadID] = -12347.000000;
+	x[totalThreadCount * 11 + globalThreadID] = -23258.000000;
+	x[totalThreadCount * 12 + globalThreadID] = -19049.000000;
+	x[totalThreadCount * 13 + globalThreadID] = -37657.000000;
+	x[totalThreadCount * 14 + globalThreadID] = -12113.000000;
+	x[totalThreadCount * 15 + globalThreadID] = -22238.500000;
+	x[totalThreadCount * 16 + globalThreadID] = -28650.000000;
+	x[totalThreadCount * 17 + globalThreadID] = -15055.500000;
+	x[totalThreadCount * 18 + globalThreadID] = -24329.500000;
+	x[totalThreadCount * 19 + globalThreadID] = -26095.000000;
+	x[totalThreadCount * 20 + globalThreadID] = -16136.000000;
+	x[totalThreadCount * 21 + globalThreadID] = -22233.000000;
+	x[totalThreadCount * 22 + globalThreadID] = -37320.000000;
+	x[totalThreadCount * 23 + globalThreadID] = -15377.000000;
+	x[totalThreadCount * 24 + globalThreadID] = -20022.500000;
+	x[totalThreadCount * 25 + globalThreadID] = -13225.500000;
+	x[totalThreadCount * 26 + globalThreadID] = -26082.000000;
+	x[totalThreadCount * 27 + globalThreadID] = -13347.000000;
+	x[totalThreadCount * 28 + globalThreadID] = -19268.500000;
+	x[totalThreadCount * 29 + globalThreadID] = -23955.500000;
+	x[totalThreadCount * 30 + globalThreadID] = -16824.000000;
+	x[totalThreadCount * 31 + globalThreadID] = -8475.500000;
+	x[totalThreadCount * 32 + globalThreadID] = -18223.000000;
+	x[totalThreadCount * 33 + globalThreadID] = -15807.500000;
+	x[totalThreadCount * 34 + globalThreadID] = -25933.000000;
+	x[totalThreadCount * 35 + globalThreadID] = -15670.000000;
+	x[totalThreadCount * 36 + globalThreadID] = -37776.000000;
+	x[totalThreadCount * 37 + globalThreadID] = -20400.000000;
+	x[totalThreadCount * 38 + globalThreadID] = -9160.000000;
+	x[totalThreadCount * 39 + globalThreadID] = -17364.000000;
 
     if (chunkSize == -1)
     {
@@ -5284,284 +6301,573 @@ __global__ void globalKernel(S* mat,
     long long gray = (myStart - 1) ^ ((myStart - 1) >> 1);
 	if ((gray >> 0) & 1LL)
 	{
-		reg0 += 61.231400;
+		reg0 += 3669.000000;
+		reg1 += 5407.000000;
+		reg2 += 659.000000;
+		reg3 += 9927.000000;
+		reg4 += 3495.000000;
 	}
 	if ((gray >> 1) & 1LL)
 	{
-		reg1 += 40.249200;
-		reg2 += 40.430700;
+		reg0 += 1801.000000;
+		reg1 += 8313.000000;
+		reg2 += 7967.000000;
+		reg3 += 2718.000000;
+		reg4 += 260.000000;
 	}
 	if ((gray >> 2) & 1LL)
 	{
-		reg1 += 84.440100;
-		reg3 += 8.021350;
-		reg4 += 24.332000;
+		reg0 += 29.000000;
+		reg1 += 6335.000000;
+		reg2 += 6892.000000;
+		reg3 += 2631.000000;
+		reg4 += 9443.000000;
 	}
 	if ((gray >> 3) & 1LL)
 	{
-		reg0 += 34.309800;
-		reg2 += 56.902200;
-		reg4 += 97.983900;
-		reg5 += 13.062200;
-		reg6 += 12.253500;
+		reg0 += 4712.000000;
+		reg1 += 3007.000000;
+		reg2 += 9353.000000;
+		reg3 += 2313.000000;
+		reg4 += 1662.000000;
 	}
 	if ((gray >> 4) & 1LL)
 	{
-		reg0 += 86.158500;
-		reg4 += 80.972700;
-		reg5 += 10.832900;
-		reg7 += 9.702310;
+		reg0 += 4513.000000;
+		reg1 += 8628.000000;
+		reg2 += 96.000000;
+		reg3 += 9551.000000;
+		reg4 += 4856.000000;
 	}
 	if ((gray >> 5) & 1LL)
 	{
-		reg0 += 71.405600;
-		reg7 += 41.526400;
-		reg8 += 6.483150;
+		reg0 += 2110.000000;
+		reg1 += 7699.000000;
+		reg2 += 641.000000;
+		reg3 += 3069.000000;
+		reg4 += 2481.000000;
 	}
 	if ((gray >> 6) & 1LL)
 	{
-		reg3 += 94.417400;
-		reg8 += 65.442300;
-		reg9 += 78.302900;
+		reg0 += 7195.000000;
+		reg1 += 3090.000000;
+		reg2 += 7889.000000;
+		reg3 += 7854.000000;
+		reg4 += 9369.000000;
 	}
 	if ((gray >> 7) & 1LL)
 	{
-		reg0 += 13.915300;
-		reg8 += 18.872000;
-		reg9 += 96.688400;
-		reg10 += 53.240700;
+		reg0 += 707.000000;
+		x[totalThreadCount * 0 + globalThreadID] += 9960.000000;
+		x[totalThreadCount * 1 + globalThreadID] += 4492.000000;
+		x[totalThreadCount * 2 + globalThreadID] += 4660.000000;
+		x[totalThreadCount * 3 + globalThreadID] += 7363.000000;
+		x[totalThreadCount * 4 + globalThreadID] += 8609.000000;
 	}
 	if ((gray >> 8) & 1LL)
 	{
-		reg3 += 5.717230;
-		reg6 += 79.849500;
-		reg8 += 71.239900;
-		reg11 += 7.088450;
+		x[totalThreadCount * 1 + globalThreadID] += 4702.000000;
+		x[totalThreadCount * 5 + globalThreadID] += 1206.000000;
+		x[totalThreadCount * 6 + globalThreadID] += 4435.000000;
+		x[totalThreadCount * 7 + globalThreadID] += 5289.000000;
+		x[totalThreadCount * 8 + globalThreadID] += 9192.000000;
+		x[totalThreadCount * 9 + globalThreadID] += 6676.000000;
+		x[totalThreadCount * 10 + globalThreadID] += 6619.000000;
 	}
 	if ((gray >> 9) & 1LL)
 	{
-		reg11 += 84.466500;
-		x[totalThreadCount * 0 + globalThreadID] += 41.562900;
+		x[totalThreadCount * 0 + globalThreadID] += 7111.000000;
+		x[totalThreadCount * 3 + globalThreadID] += 1154.000000;
+		x[totalThreadCount * 9 + globalThreadID] += 3623.000000;
+		x[totalThreadCount * 10 + globalThreadID] += 4149.000000;
+		x[totalThreadCount * 11 + globalThreadID] += 3554.000000;
+		x[totalThreadCount * 12 + globalThreadID] += 8342.000000;
+		x[totalThreadCount * 13 + globalThreadID] += 827.000000;
+		x[totalThreadCount * 14 + globalThreadID] += 9693.000000;
 	}
 	if ((gray >> 10) & 1LL)
 	{
-		reg11 += 15.934000;
-		x[totalThreadCount * 1 + globalThreadID] += 83.360000;
+		reg0 += 1440.000000;
+		x[totalThreadCount * 3 + globalThreadID] += 2493.000000;
+		x[totalThreadCount * 8 + globalThreadID] += 6387.000000;
+		x[totalThreadCount * 9 + globalThreadID] += 4626.000000;
+		x[totalThreadCount * 11 + globalThreadID] += 8023.000000;
+		x[totalThreadCount * 12 + globalThreadID] += 1187.000000;
+		x[totalThreadCount * 13 + globalThreadID] += 780.000000;
+		x[totalThreadCount * 15 + globalThreadID] += 2376.000000;
+		x[totalThreadCount * 16 + globalThreadID] += 3059.000000;
 	}
 	if ((gray >> 11) & 1LL)
 	{
-		reg1 += 18.468100;
-		x[totalThreadCount * 1 + globalThreadID] += 42.148100;
-		x[totalThreadCount * 2 + globalThreadID] += 79.296200;
+		x[totalThreadCount * 3 + globalThreadID] += 8368.000000;
+		x[totalThreadCount * 10 + globalThreadID] += 2275.000000;
+		x[totalThreadCount * 11 + globalThreadID] += 4046.000000;
+		x[totalThreadCount * 15 + globalThreadID] += 1929.000000;
+		x[totalThreadCount * 16 + globalThreadID] += 4337.000000;
+		x[totalThreadCount * 17 + globalThreadID] += 3183.000000;
+		x[totalThreadCount * 18 + globalThreadID] += 7669.000000;
+		x[totalThreadCount * 19 + globalThreadID] += 3633.000000;
 	}
 	if ((gray >> 12) & 1LL)
 	{
-		reg2 += 34.763900;
-		reg8 += 25.062100;
-		x[totalThreadCount * 1 + globalThreadID] += 84.946300;
-		x[totalThreadCount * 3 + globalThreadID] += 20.606200;
+		reg1 += 7651.000000;
+		x[totalThreadCount * 2 + globalThreadID] += 6733.000000;
+		x[totalThreadCount * 10 + globalThreadID] += 2719.000000;
+		x[totalThreadCount * 13 + globalThreadID] += 7428.000000;
+		x[totalThreadCount * 16 + globalThreadID] += 5329.000000;
+		x[totalThreadCount * 18 + globalThreadID] += 9164.000000;
+		x[totalThreadCount * 20 + globalThreadID] += 4556.000000;
+		x[totalThreadCount * 21 + globalThreadID] += 4071.000000;
 	}
 	if ((gray >> 13) & 1LL)
 	{
-		x[totalThreadCount * 3 + globalThreadID] += 96.759400;
-		x[totalThreadCount * 4 + globalThreadID] += 68.298900;
+		reg2 += 7935.000000;
+		x[totalThreadCount * 0 + globalThreadID] += 4982.000000;
+		x[totalThreadCount * 4 + globalThreadID] += 9389.000000;
+		x[totalThreadCount * 8 + globalThreadID] += 9992.000000;
+		x[totalThreadCount * 9 + globalThreadID] += 5509.000000;
+		x[totalThreadCount * 18 + globalThreadID] += 8952.000000;
+		x[totalThreadCount * 20 + globalThreadID] += 1776.000000;
+		x[totalThreadCount * 22 + globalThreadID] += 7851.000000;
+		x[totalThreadCount * 23 + globalThreadID] += 4324.000000;
 	}
 	if ((gray >> 14) & 1LL)
 	{
-		reg9 += 83.623000;
-		x[totalThreadCount * 5 + globalThreadID] += 51.427100;
-		x[totalThreadCount * 6 + globalThreadID] += 87.860700;
+		x[totalThreadCount * 0 + globalThreadID] += 5700.000000;
+		x[totalThreadCount * 3 + globalThreadID] += 48.000000;
+		x[totalThreadCount * 4 + globalThreadID] += 1991.000000;
+		x[totalThreadCount * 12 + globalThreadID] += 1816.000000;
+		x[totalThreadCount * 13 + globalThreadID] += 6737.000000;
+		x[totalThreadCount * 19 + globalThreadID] += 7538.000000;
+		x[totalThreadCount * 20 + globalThreadID] += 4909.000000;
+		x[totalThreadCount * 22 + globalThreadID] += 2799.000000;
+		x[totalThreadCount * 24 + globalThreadID] += 5820.000000;
+		x[totalThreadCount * 25 + globalThreadID] += 1442.000000;
 	}
 	if ((gray >> 15) & 1LL)
 	{
-		reg0 += 91.570800;
-		x[totalThreadCount * 0 + globalThreadID] += 72.530000;
-		x[totalThreadCount * 1 + globalThreadID] += 23.088000;
-		x[totalThreadCount * 5 + globalThreadID] += 67.513500;
-		x[totalThreadCount * 7 + globalThreadID] += 15.349400;
+		reg4 += 6466.000000;
+		x[totalThreadCount * 6 + globalThreadID] += 8751.000000;
+		x[totalThreadCount * 11 + globalThreadID] += 6131.000000;
+		x[totalThreadCount * 15 + globalThreadID] += 9481.000000;
+		x[totalThreadCount * 22 + globalThreadID] += 8075.000000;
+		x[totalThreadCount * 24 + globalThreadID] += 5205.000000;
+		x[totalThreadCount * 26 + globalThreadID] += 5191.000000;
 	}
 	if ((gray >> 16) & 1LL)
 	{
-		reg7 += 91.944500;
-		x[totalThreadCount * 4 + globalThreadID] += 23.572000;
-		x[totalThreadCount * 5 + globalThreadID] += 4.720370;
-		x[totalThreadCount * 8 + globalThreadID] += 93.709400;
+		reg1 += 2203.000000;
+		reg4 += 782.000000;
+		x[totalThreadCount * 12 + globalThreadID] += 2934.000000;
+		x[totalThreadCount * 15 + globalThreadID] += 2661.000000;
+		x[totalThreadCount * 16 + globalThreadID] += 8155.000000;
+		x[totalThreadCount * 19 + globalThreadID] += 591.000000;
+		x[totalThreadCount * 20 + globalThreadID] += 3847.000000;
+		x[totalThreadCount * 22 + globalThreadID] += 2958.000000;
+		x[totalThreadCount * 27 + globalThreadID] += 494.000000;
 	}
 	if ((gray >> 17) & 1LL)
 	{
-		reg0 += 77.284500;
-		reg1 += 29.776100;
-		reg4 += 0.979244;
-		x[totalThreadCount * 7 + globalThreadID] += 86.141600;
-		x[totalThreadCount * 8 + globalThreadID] += 90.402300;
+		reg3 += 3829.000000;
+		x[totalThreadCount * 11 + globalThreadID] += 2040.000000;
+		x[totalThreadCount * 14 + globalThreadID] += 2055.000000;
+		x[totalThreadCount * 17 + globalThreadID] += 6510.000000;
+		x[totalThreadCount * 27 + globalThreadID] += 4969.000000;
+		x[totalThreadCount * 28 + globalThreadID] += 8019.000000;
+		x[totalThreadCount * 29 + globalThreadID] += 7746.000000;
 	}
 	if ((gray >> 18) & 1LL)
 	{
-		reg11 += 32.699800;
-		x[totalThreadCount * 4 + globalThreadID] += 33.632700;
-		x[totalThreadCount * 6 + globalThreadID] += 17.949600;
-		x[totalThreadCount * 9 + globalThreadID] += 92.122100;
+		reg0 += 69.000000;
+		x[totalThreadCount * 1 + globalThreadID] += 6146.000000;
+		x[totalThreadCount * 4 + globalThreadID] += 9348.000000;
+		x[totalThreadCount * 13 + globalThreadID] += 9966.000000;
+		x[totalThreadCount * 21 + globalThreadID] += 4026.000000;
+		x[totalThreadCount * 22 + globalThreadID] += 1249.000000;
+		x[totalThreadCount * 24 + globalThreadID] += 3847.000000;
+		x[totalThreadCount * 28 + globalThreadID] += 7016.000000;
+		x[totalThreadCount * 30 + globalThreadID] += 2669.000000;
 	}
 	if ((gray >> 19) & 1LL)
 	{
-		x[totalThreadCount * 5 + globalThreadID] += 37.257100;
-		x[totalThreadCount * 8 + globalThreadID] += 65.412300;
-		x[totalThreadCount * 10 + globalThreadID] += 70.096800;
+		x[totalThreadCount * 2 + globalThreadID] += 4443.000000;
+		x[totalThreadCount * 5 + globalThreadID] += 3146.000000;
+		x[totalThreadCount * 14 + globalThreadID] += 3435.000000;
+		x[totalThreadCount * 15 + globalThreadID] += 3259.000000;
+		x[totalThreadCount * 18 + globalThreadID] += 196.000000;
+		x[totalThreadCount * 19 + globalThreadID] += 6929.000000;
+		x[totalThreadCount * 20 + globalThreadID] += 3398.000000;
+		x[totalThreadCount * 23 + globalThreadID] += 6679.000000;
+		x[totalThreadCount * 29 + globalThreadID] += 370.000000;
+		x[totalThreadCount * 31 + globalThreadID] += 2420.000000;
+		x[totalThreadCount * 32 + globalThreadID] += 938.000000;
 	}
 	if ((gray >> 20) & 1LL)
 	{
-		reg0 += 26.419100;
-		reg6 += 17.222700;
-		x[totalThreadCount * 8 + globalThreadID] += 89.552900;
-		x[totalThreadCount * 9 + globalThreadID] += 64.335100;
-		x[totalThreadCount * 10 + globalThreadID] += 66.589700;
-		x[totalThreadCount * 11 + globalThreadID] += 74.158700;
+		x[totalThreadCount * 8 + globalThreadID] += 9204.000000;
+		x[totalThreadCount * 9 + globalThreadID] += 396.000000;
+		x[totalThreadCount * 10 + globalThreadID] += 762.000000;
+		x[totalThreadCount * 13 + globalThreadID] += 3445.000000;
+		x[totalThreadCount * 16 + globalThreadID] += 8784.000000;
+		x[totalThreadCount * 24 + globalThreadID] += 8473.000000;
+		x[totalThreadCount * 26 + globalThreadID] += 9735.000000;
+		x[totalThreadCount * 31 + globalThreadID] += 8167.000000;
+		x[totalThreadCount * 32 + globalThreadID] += 6780.000000;
+		x[totalThreadCount * 33 + globalThreadID] += 3501.000000;
+		x[totalThreadCount * 34 + globalThreadID] += 2289.000000;
 	}
 	if ((gray >> 21) & 1LL)
 	{
-		x[totalThreadCount * 3 + globalThreadID] += 99.700300;
-		x[totalThreadCount * 4 + globalThreadID] += 64.546800;
-		x[totalThreadCount * 6 + globalThreadID] += 74.186700;
-		x[totalThreadCount * 11 + globalThreadID] += 31.055100;
-		x[totalThreadCount * 12 + globalThreadID] += 74.033500;
+		x[totalThreadCount * 2 + globalThreadID] += 5738.000000;
+		x[totalThreadCount * 6 + globalThreadID] += 7536.000000;
+		x[totalThreadCount * 11 + globalThreadID] += 4826.000000;
+		x[totalThreadCount * 14 + globalThreadID] += 5277.000000;
+		x[totalThreadCount * 15 + globalThreadID] += 4132.000000;
+		x[totalThreadCount * 17 + globalThreadID] += 3007.000000;
+		x[totalThreadCount * 20 + globalThreadID] += 801.000000;
+		x[totalThreadCount * 25 + globalThreadID] += 3202.000000;
+		x[totalThreadCount * 27 + globalThreadID] += 868.000000;
+		x[totalThreadCount * 28 + globalThreadID] += 1413.000000;
+		x[totalThreadCount * 29 + globalThreadID] += 5955.000000;
+		x[totalThreadCount * 32 + globalThreadID] += 4150.000000;
+		x[totalThreadCount * 34 + globalThreadID] += 9126.000000;
+		x[totalThreadCount * 35 + globalThreadID] += 7591.000000;
 	}
 	if ((gray >> 22) & 1LL)
 	{
-		reg4 += 39.358900;
-		x[totalThreadCount * 7 + globalThreadID] += 93.534300;
-		x[totalThreadCount * 11 + globalThreadID] += 3.982470;
-		x[totalThreadCount * 13 + globalThreadID] += 74.681500;
+		reg1 += 8530.000000;
+		x[totalThreadCount * 1 + globalThreadID] += 878.000000;
+		x[totalThreadCount * 3 + globalThreadID] += 946.000000;
+		x[totalThreadCount * 6 + globalThreadID] += 3513.000000;
+		x[totalThreadCount * 7 + globalThreadID] += 2308.000000;
+		x[totalThreadCount * 12 + globalThreadID] += 4758.000000;
+		x[totalThreadCount * 16 + globalThreadID] += 6286.000000;
+		x[totalThreadCount * 18 + globalThreadID] += 658.000000;
+		x[totalThreadCount * 19 + globalThreadID] += 2271.000000;
+		x[totalThreadCount * 20 + globalThreadID] += 4833.000000;
+		x[totalThreadCount * 22 + globalThreadID] += 947.000000;
+		x[totalThreadCount * 27 + globalThreadID] += 7086.000000;
+		x[totalThreadCount * 28 + globalThreadID] += 1302.000000;
+		x[totalThreadCount * 31 + globalThreadID] += 5804.000000;
+		x[totalThreadCount * 32 + globalThreadID] += 448.000000;
+		x[totalThreadCount * 34 + globalThreadID] += 3381.000000;
+		x[totalThreadCount * 36 + globalThreadID] += 2772.000000;
 	}
 	if ((gray >> 23) & 1LL)
 	{
-		x[totalThreadCount * 10 + globalThreadID] += 91.780000;
-		x[totalThreadCount * 14 + globalThreadID] += 12.520400;
+		reg0 += 8474.000000;
+		x[totalThreadCount * 9 + globalThreadID] += 9762.000000;
+		x[totalThreadCount * 13 + globalThreadID] += 9157.000000;
+		x[totalThreadCount * 23 + globalThreadID] += 2582.000000;
+		x[totalThreadCount * 26 + globalThreadID] += 7753.000000;
+		x[totalThreadCount * 27 + globalThreadID] += 1652.000000;
+		x[totalThreadCount * 32 + globalThreadID] += 9012.000000;
+		x[totalThreadCount * 36 + globalThreadID] += 1503.000000;
 	}
 	if ((gray >> 24) & 1LL)
 	{
-		reg4 += 18.818400;
-		x[totalThreadCount * 12 + globalThreadID] += 89.885500;
-		x[totalThreadCount * 15 + globalThreadID] += 42.743500;
+		reg4 += 1924.000000;
+		x[totalThreadCount * 0 + globalThreadID] += 9216.000000;
+		x[totalThreadCount * 1 + globalThreadID] += 9970.000000;
+		x[totalThreadCount * 2 + globalThreadID] += 186.000000;
+		x[totalThreadCount * 6 + globalThreadID] += 4260.000000;
+		x[totalThreadCount * 8 + globalThreadID] += 1114.000000;
+		x[totalThreadCount * 10 + globalThreadID] += 4096.000000;
+		x[totalThreadCount * 12 + globalThreadID] += 129.000000;
+		x[totalThreadCount * 18 + globalThreadID] += 399.000000;
+		x[totalThreadCount * 22 + globalThreadID] += 8263.000000;
+		x[totalThreadCount * 23 + globalThreadID] += 4225.000000;
+		x[totalThreadCount * 30 + globalThreadID] += 4211.000000;
+		x[totalThreadCount * 35 + globalThreadID] += 8777.000000;
+		x[totalThreadCount * 36 + globalThreadID] += 7055.000000;
+		x[totalThreadCount * 37 + globalThreadID] += 658.000000;
 	}
 	if ((gray >> 25) & 1LL)
 	{
-		reg2 += 43.490600;
-		x[totalThreadCount * 3 + globalThreadID] += 22.498900;
-		x[totalThreadCount * 13 + globalThreadID] += 67.195400;
-		x[totalThreadCount * 15 + globalThreadID] += 85.153200;
-		x[totalThreadCount * 16 + globalThreadID] += 51.651600;
+		reg1 += 6709.000000;
+		x[totalThreadCount * 1 + globalThreadID] += 4872.000000;
+		x[totalThreadCount * 2 + globalThreadID] += 3193.000000;
+		x[totalThreadCount * 6 + globalThreadID] += 6250.000000;
+		x[totalThreadCount * 8 + globalThreadID] += 1568.000000;
+		x[totalThreadCount * 10 + globalThreadID] += 2211.000000;
+		x[totalThreadCount * 15 + globalThreadID] += 3522.000000;
+		x[totalThreadCount * 17 + globalThreadID] += 4956.000000;
+		x[totalThreadCount * 18 + globalThreadID] += 772.000000;
+		x[totalThreadCount * 19 + globalThreadID] += 4369.000000;
+		x[totalThreadCount * 34 + globalThreadID] += 987.000000;
+		x[totalThreadCount * 36 + globalThreadID] += 9848.000000;
+		x[totalThreadCount * 37 + globalThreadID] += 4446.000000;
 	}
 	if ((gray >> 26) & 1LL)
 	{
-		reg0 += 41.130000;
-		reg1 += 30.273100;
-		reg2 += 29.925800;
-		reg11 += 55.242100;
-		x[totalThreadCount * 6 + globalThreadID] += 85.455800;
-		x[totalThreadCount * 10 + globalThreadID] += 71.617500;
-		x[totalThreadCount * 16 + globalThreadID] += 79.614800;
-		x[totalThreadCount * 17 + globalThreadID] += 72.523500;
+		reg2 += 4057.000000;
+		x[totalThreadCount * 0 + globalThreadID] += 6306.000000;
+		x[totalThreadCount * 3 + globalThreadID] += 4526.000000;
+		x[totalThreadCount * 5 + globalThreadID] += 492.000000;
+		x[totalThreadCount * 9 + globalThreadID] += 8445.000000;
+		x[totalThreadCount * 11 + globalThreadID] += 4506.000000;
+		x[totalThreadCount * 17 + globalThreadID] += 96.000000;
+		x[totalThreadCount * 18 + globalThreadID] += 6234.000000;
+		x[totalThreadCount * 19 + globalThreadID] += 8626.000000;
+		x[totalThreadCount * 23 + globalThreadID] += 2346.000000;
+		x[totalThreadCount * 26 + globalThreadID] += 5.000000;
+		x[totalThreadCount * 27 + globalThreadID] += 361.000000;
+		x[totalThreadCount * 28 + globalThreadID] += 5913.000000;
+		x[totalThreadCount * 29 + globalThreadID] += 9944.000000;
+		x[totalThreadCount * 34 + globalThreadID] += 2912.000000;
+		x[totalThreadCount * 36 + globalThreadID] += 6442.000000;
+		x[totalThreadCount * 37 + globalThreadID] += 417.000000;
 	}
 	if ((gray >> 27) & 1LL)
 	{
-		x[totalThreadCount * 5 + globalThreadID] += 66.954900;
-		x[totalThreadCount * 10 + globalThreadID] += 65.910400;
-		x[totalThreadCount * 16 + globalThreadID] += 48.261900;
-		x[totalThreadCount * 17 + globalThreadID] += 42.981300;
-		x[totalThreadCount * 18 + globalThreadID] += 24.445300;
+		reg0 += 3354.000000;
+		x[totalThreadCount * 4 + globalThreadID] += 9859.000000;
+		x[totalThreadCount * 11 + globalThreadID] += 867.000000;
+		x[totalThreadCount * 12 + globalThreadID] += 4406.000000;
+		x[totalThreadCount * 16 + globalThreadID] += 1589.000000;
+		x[totalThreadCount * 18 + globalThreadID] += 7616.000000;
+		x[totalThreadCount * 21 + globalThreadID] += 9385.000000;
+		x[totalThreadCount * 25 + globalThreadID] += 579.000000;
+		x[totalThreadCount * 32 + globalThreadID] += 8732.000000;
+		x[totalThreadCount * 34 + globalThreadID] += 8473.000000;
+		x[totalThreadCount * 36 + globalThreadID] += 9325.000000;
+		x[totalThreadCount * 37 + globalThreadID] += 9538.000000;
 	}
 	if ((gray >> 28) & 1LL)
 	{
-		reg8 += 11.474600;
-		x[totalThreadCount * 17 + globalThreadID] += 50.767500;
-		x[totalThreadCount * 19 + globalThreadID] += 53.944600;
+		reg3 += 9576.000000;
+		x[totalThreadCount * 2 + globalThreadID] += 4543.000000;
+		x[totalThreadCount * 6 + globalThreadID] += 3662.000000;
+		x[totalThreadCount * 11 + globalThreadID] += 6332.000000;
+		x[totalThreadCount * 18 + globalThreadID] += 4435.000000;
+		x[totalThreadCount * 20 + globalThreadID] += 5366.000000;
+		x[totalThreadCount * 24 + globalThreadID] += 2900.000000;
+		x[totalThreadCount * 26 + globalThreadID] += 3983.000000;
+		x[totalThreadCount * 27 + globalThreadID] += 6162.000000;
+		x[totalThreadCount * 29 + globalThreadID] += 2878.000000;
+		x[totalThreadCount * 33 + globalThreadID] += 6387.000000;
+		x[totalThreadCount * 37 + globalThreadID] += 6323.000000;
 	}
 	if ((gray >> 29) & 1LL)
 	{
-		reg8 += 89.127200;
-		reg9 += 8.892810;
-		x[totalThreadCount * 7 + globalThreadID] += 33.781400;
-		x[totalThreadCount * 10 + globalThreadID] += 29.825700;
-		x[totalThreadCount * 13 + globalThreadID] += 85.472600;
-		x[totalThreadCount * 19 + globalThreadID] += 44.763100;
-		x[totalThreadCount * 20 + globalThreadID] += 87.793200;
+		reg3 += 5482.000000;
+		x[totalThreadCount * 1 + globalThreadID] += 8993.000000;
+		x[totalThreadCount * 5 + globalThreadID] += 9755.000000;
+		x[totalThreadCount * 6 + globalThreadID] += 6189.000000;
+		x[totalThreadCount * 10 + globalThreadID] += 440.000000;
+		x[totalThreadCount * 12 + globalThreadID] += 76.000000;
+		x[totalThreadCount * 13 + globalThreadID] += 7486.000000;
+		x[totalThreadCount * 17 + globalThreadID] += 1148.000000;
+		x[totalThreadCount * 18 + globalThreadID] += 2564.000000;
+		x[totalThreadCount * 21 + globalThreadID] += 7397.000000;
+		x[totalThreadCount * 23 + globalThreadID] += 93.000000;
+		x[totalThreadCount * 25 + globalThreadID] += 1204.000000;
+		x[totalThreadCount * 27 + globalThreadID] += 9257.000000;
+		x[totalThreadCount * 29 + globalThreadID] += 9986.000000;
+		x[totalThreadCount * 30 + globalThreadID] += 6072.000000;
+		x[totalThreadCount * 36 + globalThreadID] += 5811.000000;
+		x[totalThreadCount * 37 + globalThreadID] += 6409.000000;
 	}
 	if ((gray >> 30) & 1LL)
 	{
-		x[totalThreadCount * 18 + globalThreadID] += 55.415500;
-		x[totalThreadCount * 20 + globalThreadID] += 71.195900;
+		reg3 += 4286.000000;
+		x[totalThreadCount * 2 + globalThreadID] += 131.000000;
+		x[totalThreadCount * 3 + globalThreadID] += 4485.000000;
+		x[totalThreadCount * 6 + globalThreadID] += 9213.000000;
+		x[totalThreadCount * 13 + globalThreadID] += 4080.000000;
+		x[totalThreadCount * 14 + globalThreadID] += 3766.000000;
+		x[totalThreadCount * 15 + globalThreadID] += 2835.000000;
+		x[totalThreadCount * 25 + globalThreadID] += 1379.000000;
+		x[totalThreadCount * 28 + globalThreadID] += 5545.000000;
+		x[totalThreadCount * 29 + globalThreadID] += 7756.000000;
+		x[totalThreadCount * 35 + globalThreadID] += 1564.000000;
+		x[totalThreadCount * 38 + globalThreadID] += 5314.000000;
 	}
 	if ((gray >> 31) & 1LL)
 	{
-		reg7 += 92.318800;
-		reg11 += 43.625200;
-		x[totalThreadCount * 10 + globalThreadID] += 49.946900;
-		x[totalThreadCount * 18 + globalThreadID] += 6.449240;
-		x[totalThreadCount * 19 + globalThreadID] += 68.956600;
-		x[totalThreadCount * 21 + globalThreadID] += 3.115310;
+		reg3 += 4537.000000;
+		x[totalThreadCount * 1 + globalThreadID] += 2559.000000;
+		x[totalThreadCount * 2 + globalThreadID] += 177.000000;
+		x[totalThreadCount * 8 + globalThreadID] += 9189.000000;
+		x[totalThreadCount * 15 + globalThreadID] += 1583.000000;
+		x[totalThreadCount * 19 + globalThreadID] += 9519.000000;
+		x[totalThreadCount * 22 + globalThreadID] += 8810.000000;
+		x[totalThreadCount * 36 + globalThreadID] += 6055.000000;
+		x[totalThreadCount * 38 + globalThreadID] += 330.000000;
 	}
 	if ((gray >> 32) & 1LL)
 	{
-		reg8 += 58.069000;
-		x[totalThreadCount * 0 + globalThreadID] += 92.852700;
-		x[totalThreadCount * 11 + globalThreadID] += 16.615500;
-		x[totalThreadCount * 15 + globalThreadID] += 71.605400;
-		x[totalThreadCount * 17 + globalThreadID] += 75.146800;
-		x[totalThreadCount * 20 + globalThreadID] += 9.801950;
-		x[totalThreadCount * 21 + globalThreadID] += 65.375600;
+		reg1 += 6174.000000;
+		reg3 += 6414.000000;
+		x[totalThreadCount * 1 + globalThreadID] += 7037.000000;
+		x[totalThreadCount * 4 + globalThreadID] += 9462.000000;
+		x[totalThreadCount * 5 + globalThreadID] += 334.000000;
+		x[totalThreadCount * 9 + globalThreadID] += 2061.000000;
+		x[totalThreadCount * 21 + globalThreadID] += 9117.000000;
+		x[totalThreadCount * 26 + globalThreadID] += 7446.000000;
+		x[totalThreadCount * 27 + globalThreadID] += 42.000000;
+		x[totalThreadCount * 29 + globalThreadID] += 3159.000000;
+		x[totalThreadCount * 33 + globalThreadID] += 6387.000000;
+		x[totalThreadCount * 36 + globalThreadID] += 5368.000000;
+		x[totalThreadCount * 38 + globalThreadID] += 7546.000000;
 	}
 	if ((gray >> 33) & 1LL)
 	{
-		reg3 += 15.705900;
-		reg8 += 16.999400;
-		x[totalThreadCount * 0 + globalThreadID] += 7.550220;
-		x[totalThreadCount * 6 + globalThreadID] += 14.092600;
-		x[totalThreadCount * 7 + globalThreadID] += 84.235700;
-		x[totalThreadCount * 21 + globalThreadID] += 31.455700;
+		reg2 += 6034.000000;
+		x[totalThreadCount * 2 + globalThreadID] += 7495.000000;
+		x[totalThreadCount * 4 + globalThreadID] += 7690.000000;
+		x[totalThreadCount * 5 + globalThreadID] += 1149.000000;
+		x[totalThreadCount * 7 + globalThreadID] += 336.000000;
+		x[totalThreadCount * 13 + globalThreadID] += 9465.000000;
+		x[totalThreadCount * 30 + globalThreadID] += 7622.000000;
+		x[totalThreadCount * 35 + globalThreadID] += 9021.000000;
+		x[totalThreadCount * 38 + globalThreadID] += 8403.000000;
+		x[totalThreadCount * 39 + globalThreadID] += 5365.000000;
 	}
 	if ((gray >> 34) & 1LL)
 	{
-		reg0 += 96.236700;
-		reg5 += 86.880000;
-		x[totalThreadCount * 14 + globalThreadID] += 76.197700;
-		x[totalThreadCount * 21 + globalThreadID] += 6.800200;
-		x[totalThreadCount * 22 + globalThreadID] += 19.750500;
+		reg1 += 2857.000000;
+		x[totalThreadCount * 5 + globalThreadID] += 4949.000000;
+		x[totalThreadCount * 10 + globalThreadID] += 1005.000000;
+		x[totalThreadCount * 13 + globalThreadID] += 8681.000000;
+		x[totalThreadCount * 16 + globalThreadID] += 6548.000000;
+		x[totalThreadCount * 21 + globalThreadID] += 6770.000000;
+		x[totalThreadCount * 25 + globalThreadID] += 7161.000000;
+		x[totalThreadCount * 26 + globalThreadID] += 7360.000000;
+		x[totalThreadCount * 36 + globalThreadID] += 9755.000000;
+		x[totalThreadCount * 37 + globalThreadID] += 4635.000000;
+		x[totalThreadCount * 39 + globalThreadID] += 3193.000000;
 	}
 	if ((gray >> 35) & 1LL)
 	{
-		reg0 += 64.436300;
-		reg7 += 91.187300;
-		x[totalThreadCount * 12 + globalThreadID] += 87.925300;
-		x[totalThreadCount * 13 + globalThreadID] += 87.159300;
-		x[totalThreadCount * 22 + globalThreadID] += 16.238200;
-		x[totalThreadCount * 23 + globalThreadID] += 36.829800;
+		reg1 += 512.000000;
+		reg3 += 847.000000;
+		x[totalThreadCount * 3 + globalThreadID] += 8852.000000;
+		x[totalThreadCount * 4 + globalThreadID] += 5941.000000;
+		x[totalThreadCount * 6 + globalThreadID] += 2709.000000;
+		x[totalThreadCount * 11 + globalThreadID] += 5612.000000;
+		x[totalThreadCount * 20 + globalThreadID] += 2092.000000;
+		x[totalThreadCount * 22 + globalThreadID] += 6210.000000;
+		x[totalThreadCount * 23 + globalThreadID] += 7249.000000;
+		x[totalThreadCount * 24 + globalThreadID] += 4471.000000;
+		x[totalThreadCount * 29 + globalThreadID] += 117.000000;
+		x[totalThreadCount * 34 + globalThreadID] += 7016.000000;
+		x[totalThreadCount * 37 + globalThreadID] += 7163.000000;
 	}
 	if ((gray >> 36) & 1LL)
 	{
-		reg10 += 22.123600;
-		x[totalThreadCount * 2 + globalThreadID] += 74.636900;
-		x[totalThreadCount * 24 + globalThreadID] += 54.996500;
+		reg1 += 5290.000000;
+		x[totalThreadCount * 4 + globalThreadID] += 2158.000000;
+		x[totalThreadCount * 5 + globalThreadID] += 9019.000000;
+		x[totalThreadCount * 25 + globalThreadID] += 2500.000000;
+		x[totalThreadCount * 28 + globalThreadID] += 2296.000000;
+		x[totalThreadCount * 32 + globalThreadID] += 6386.000000;
+		x[totalThreadCount * 36 + globalThreadID] += 4289.000000;
+		x[totalThreadCount * 37 + globalThreadID] += 1211.000000;
+		x[totalThreadCount * 38 + globalThreadID] += 6196.000000;
+		x[totalThreadCount * 39 + globalThreadID] += 512.000000;
 	}
 	if ((gray >> 37) & 1LL)
 	{
-		reg1 += 48.670600;
-		reg3 += 74.624400;
-		reg7 += 79.157300;
-		reg11 += 29.023700;
-		x[totalThreadCount * 10 + globalThreadID] += 60.769200;
-		x[totalThreadCount * 21 + globalThreadID] += 50.639000;
-		x[totalThreadCount * 23 + globalThreadID] += 47.284700;
-		x[totalThreadCount * 24 + globalThreadID] += 55.031300;
-		x[totalThreadCount * 25 + globalThreadID] += 6.241150;
+		reg1 += 845.000000;
+		x[totalThreadCount * 0 + globalThreadID] += 2347.000000;
+		x[totalThreadCount * 8 + globalThreadID] += 6130.000000;
+		x[totalThreadCount * 13 + globalThreadID] += 3969.000000;
+		x[totalThreadCount * 15 + globalThreadID] += 7192.000000;
+		x[totalThreadCount * 20 + globalThreadID] += 1721.000000;
+		x[totalThreadCount * 22 + globalThreadID] += 7603.000000;
+		x[totalThreadCount * 28 + globalThreadID] += 721.000000;
+		x[totalThreadCount * 39 + globalThreadID] += 8929.000000;
 	}
 	if ((gray >> 38) & 1LL)
 	{
-		reg0 += 4.338620;
-		reg10 += 95.622500;
-		x[totalThreadCount * 9 + globalThreadID] += 25.395900;
-		x[totalThreadCount * 20 + globalThreadID] += 6.186790;
-		x[totalThreadCount * 23 + globalThreadID] += 52.463000;
-		x[totalThreadCount * 26 + globalThreadID] += 74.719800;
+		reg2 += 9403.000000;
+		x[totalThreadCount * 5 + globalThreadID] += 8514.000000;
+		x[totalThreadCount * 7 + globalThreadID] += 6872.000000;
+		x[totalThreadCount * 12 + globalThreadID] += 5861.000000;
+		x[totalThreadCount * 19 + globalThreadID] += 1424.000000;
+		x[totalThreadCount * 22 + globalThreadID] += 3307.000000;
+		x[totalThreadCount * 24 + globalThreadID] += 2974.000000;
+		x[totalThreadCount * 28 + globalThreadID] += 2475.000000;
+		x[totalThreadCount * 39 + globalThreadID] += 5056.000000;
+	}
+	if ((gray >> 39) & 1LL)
+	{
+		reg4 += 4657.000000;
+		x[totalThreadCount * 1 + globalThreadID] += 7408.000000;
+		x[totalThreadCount * 4 + globalThreadID] += 4662.000000;
+		x[totalThreadCount * 6 + globalThreadID] += 6989.000000;
+		x[totalThreadCount * 8 + globalThreadID] += 8540.000000;
+		x[totalThreadCount * 9 + globalThreadID] += 6649.000000;
+		x[totalThreadCount * 15 + globalThreadID] += 5507.000000;
+		x[totalThreadCount * 21 + globalThreadID] += 3700.000000;
+		x[totalThreadCount * 23 + globalThreadID] += 6375.000000;
+		x[totalThreadCount * 24 + globalThreadID] += 4828.000000;
+		x[totalThreadCount * 25 + globalThreadID] += 3195.000000;
+		x[totalThreadCount * 27 + globalThreadID] += 3369.000000;
+		x[totalThreadCount * 33 + globalThreadID] += 8121.000000;
+		x[totalThreadCount * 34 + globalThreadID] += 7732.000000;
+		x[totalThreadCount * 39 + globalThreadID] += 5625.000000;
+	}
+	if ((gray >> 40) & 1LL)
+	{
+		reg1 += 8179.000000;
+		reg4 += 2860.000000;
+		x[totalThreadCount * 2 + globalThreadID] += 3088.000000;
+		x[totalThreadCount * 4 + globalThreadID] += 6450.000000;
+		x[totalThreadCount * 5 + globalThreadID] += 471.000000;
+		x[totalThreadCount * 11 + globalThreadID] += 579.000000;
+		x[totalThreadCount * 13 + globalThreadID] += 6614.000000;
+		x[totalThreadCount * 17 + globalThreadID] += 4554.000000;
+		x[totalThreadCount * 26 + globalThreadID] += 5279.000000;
+		x[totalThreadCount * 28 + globalThreadID] += 1763.000000;
+		x[totalThreadCount * 35 + globalThreadID] += 8311.000000;
+		x[totalThreadCount * 36 + globalThreadID] += 7329.000000;
+	}
+	if ((gray >> 41) & 1LL)
+	{
+		reg1 += 7682.000000;
+		reg2 += 8726.000000;
+		x[totalThreadCount * 5 + globalThreadID] += 210.000000;
+		x[totalThreadCount * 6 + globalThreadID] += 3193.000000;
+		x[totalThreadCount * 7 + globalThreadID] += 3860.000000;
+		x[totalThreadCount * 9 + globalThreadID] += 3790.000000;
+		x[totalThreadCount * 12 + globalThreadID] += 8589.000000;
+		x[totalThreadCount * 19 + globalThreadID] += 7290.000000;
+		x[totalThreadCount * 22 + globalThreadID] += 7945.000000;
+		x[totalThreadCount * 23 + globalThreadID] += 6251.000000;
+		x[totalThreadCount * 30 + globalThreadID] += 7946.000000;
+		x[totalThreadCount * 39 + globalThreadID] += 1187.000000;
+	}
+	if ((gray >> 42) & 1LL)
+	{
+		reg3 += 7259.000000;
+		reg4 += 2345.000000;
+		x[totalThreadCount * 4 + globalThreadID] += 3485.000000;
+		x[totalThreadCount * 9 + globalThreadID] += 6555.000000;
+		x[totalThreadCount * 16 + globalThreadID] += 7294.000000;
+		x[totalThreadCount * 17 + globalThreadID] += 6657.000000;
+		x[totalThreadCount * 25 + globalThreadID] += 5789.000000;
+		x[totalThreadCount * 31 + globalThreadID] += 5055.000000;
+		x[totalThreadCount * 34 + globalThreadID] += 9950.000000;
+		x[totalThreadCount * 39 + globalThreadID] += 4861.000000;
+	}
+	if ((gray >> 43) & 1LL)
+	{
+		reg0 += 4887.000000;
+		reg1 += 9507.000000;
+		reg2 += 2715.000000;
+		x[totalThreadCount * 2 + globalThreadID] += 4173.000000;
+		x[totalThreadCount * 4 + globalThreadID] += 212.000000;
+		x[totalThreadCount * 5 + globalThreadID] += 5805.000000;
+		x[totalThreadCount * 10 + globalThreadID] += 418.000000;
+		x[totalThreadCount * 16 + globalThreadID] += 9422.000000;
+		x[totalThreadCount * 22 + globalThreadID] += 8623.000000;
+		x[totalThreadCount * 24 + globalThreadID] += 1527.000000;
+		x[totalThreadCount * 26 + globalThreadID] += 5412.000000;
+		x[totalThreadCount * 28 + globalThreadID] += 2074.000000;
+		x[totalThreadCount * 30 + globalThreadID] += 5128.000000;
+		x[totalThreadCount * 33 + globalThreadID] += 7219.000000;
 	}
 
 	C globalProduct = 1;
@@ -5593,6 +6899,18 @@ __global__ void globalKernel(S* mat,
 	globalProduct *= x[totalThreadCount * 25 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 26 + globalThreadID];
 	globalProduct *= x[totalThreadCount * 27 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 28 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 29 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 30 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 31 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 32 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 33 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 34 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 35 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 36 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 37 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 38 + globalThreadID];
+	globalProduct *= x[totalThreadCount * 39 + globalThreadID];
 
     int productSign = (myStart & 1LL) ? -1 : 1;
 
@@ -5618,14 +6936,7 @@ __global__ void globalKernel(S* mat,
 								reg1,
 								reg2,
 								reg3,
-								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								reg4);
 					break;
 				case 1:
 					c1included<C>(
@@ -5635,14 +6946,7 @@ __global__ void globalKernel(S* mat,
 								reg1,
 								reg2,
 								reg3,
-								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								reg4);
 					break;
 				case 2:
 					c2included<C>(
@@ -5652,14 +6956,7 @@ __global__ void globalKernel(S* mat,
 								reg1,
 								reg2,
 								reg3,
-								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								reg4);
 					break;
 				case 3:
 					c3included<C>(
@@ -5669,14 +6966,7 @@ __global__ void globalKernel(S* mat,
 								reg1,
 								reg2,
 								reg3,
-								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								reg4);
 					break;
 				case 4:
 					c4included<C>(
@@ -5686,14 +6976,7 @@ __global__ void globalKernel(S* mat,
 								reg1,
 								reg2,
 								reg3,
-								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								reg4);
 					break;
 				case 5:
 					c5included<C>(
@@ -5703,14 +6986,7 @@ __global__ void globalKernel(S* mat,
 								reg1,
 								reg2,
 								reg3,
-								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								reg4);
 					break;
 				case 6:
 					c6included<C>(
@@ -5720,14 +6996,7 @@ __global__ void globalKernel(S* mat,
 								reg1,
 								reg2,
 								reg3,
-								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								reg4);
 					break;
 				case 7:
 					c7included<C>(
@@ -5738,13 +7007,9 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								totalThreadCount,
+								globalThreadID,
+								x);
 					break;
 				case 8:
 					c8included<C>(
@@ -5755,13 +7020,9 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								totalThreadCount,
+								globalThreadID,
+								x);
 					break;
 				case 9:
 					c9included<C>(
@@ -5772,13 +7033,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -5792,13 +7046,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -5812,13 +7059,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -5832,13 +7072,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -5852,13 +7085,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -5872,13 +7098,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -5892,13 +7111,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -5912,13 +7124,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -5932,13 +7137,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -5952,13 +7150,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -5972,13 +7163,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -5992,13 +7176,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6012,13 +7189,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6032,13 +7202,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6052,13 +7215,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6072,13 +7228,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6092,13 +7241,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6112,13 +7254,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6132,13 +7267,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6152,13 +7280,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6172,13 +7293,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6192,13 +7306,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6212,13 +7319,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6232,13 +7332,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6252,13 +7345,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6272,13 +7358,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6292,13 +7371,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6312,13 +7384,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6332,13 +7397,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6352,13 +7410,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6372,13 +7423,71 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
+								totalThreadCount,
+								globalThreadID,
+								x);
+					break;
+				case 40:
+					c40included<C>(
+								product,
+								globalProduct,
+								reg0,
+								reg1,
+								reg2,
+								reg3,
+								reg4,
+								totalThreadCount,
+								globalThreadID,
+								x);
+					break;
+				case 41:
+					c41included<C>(
+								product,
+								globalProduct,
+								reg0,
+								reg1,
+								reg2,
+								reg3,
+								reg4,
+								totalThreadCount,
+								globalThreadID,
+								x);
+					break;
+				case 42:
+					c42included<C>(
+								product,
+								globalProduct,
+								reg0,
+								reg1,
+								reg2,
+								reg3,
+								reg4,
+								totalThreadCount,
+								globalThreadID,
+								x);
+					break;
+				case 43:
+					c43included<C>(
+								product,
+								globalProduct,
+								reg0,
+								reg1,
+								reg2,
+								reg3,
+								reg4,
+								totalThreadCount,
+								globalThreadID,
+								x);
+					break;
+				case 44:
+					c44included<C>(
+								product,
+								globalProduct,
+								reg0,
+								reg1,
+								reg2,
+								reg3,
+								reg4,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6399,14 +7508,7 @@ __global__ void globalKernel(S* mat,
 								reg1,
 								reg2,
 								reg3,
-								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								reg4);
 					break;
 				case 1:
 					c1excluded<C>(
@@ -6416,14 +7518,7 @@ __global__ void globalKernel(S* mat,
 								reg1,
 								reg2,
 								reg3,
-								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								reg4);
 					break;
 				case 2:
 					c2excluded<C>(
@@ -6433,14 +7528,7 @@ __global__ void globalKernel(S* mat,
 								reg1,
 								reg2,
 								reg3,
-								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								reg4);
 					break;
 				case 3:
 					c3excluded<C>(
@@ -6450,14 +7538,7 @@ __global__ void globalKernel(S* mat,
 								reg1,
 								reg2,
 								reg3,
-								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								reg4);
 					break;
 				case 4:
 					c4excluded<C>(
@@ -6467,14 +7548,7 @@ __global__ void globalKernel(S* mat,
 								reg1,
 								reg2,
 								reg3,
-								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								reg4);
 					break;
 				case 5:
 					c5excluded<C>(
@@ -6484,14 +7558,7 @@ __global__ void globalKernel(S* mat,
 								reg1,
 								reg2,
 								reg3,
-								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								reg4);
 					break;
 				case 6:
 					c6excluded<C>(
@@ -6501,14 +7568,7 @@ __global__ void globalKernel(S* mat,
 								reg1,
 								reg2,
 								reg3,
-								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								reg4);
 					break;
 				case 7:
 					c7excluded<C>(
@@ -6519,13 +7579,9 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								totalThreadCount,
+								globalThreadID,
+								x);
 					break;
 				case 8:
 					c8excluded<C>(
@@ -6536,13 +7592,9 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11);
+								totalThreadCount,
+								globalThreadID,
+								x);
 					break;
 				case 9:
 					c9excluded<C>(
@@ -6553,13 +7605,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6573,13 +7618,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6593,13 +7631,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6613,13 +7644,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6633,13 +7657,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6653,13 +7670,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6673,13 +7683,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6693,13 +7696,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6713,13 +7709,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6733,13 +7722,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6753,13 +7735,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6773,13 +7748,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6793,13 +7761,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6813,13 +7774,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6833,13 +7787,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6853,13 +7800,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6873,13 +7813,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6893,13 +7826,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6913,13 +7839,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6933,13 +7852,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6953,13 +7865,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6973,13 +7878,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -6993,13 +7891,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -7013,13 +7904,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -7033,13 +7917,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -7053,13 +7930,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -7073,13 +7943,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -7093,13 +7956,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -7113,13 +7969,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -7133,13 +7982,6 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
 								totalThreadCount,
 								globalThreadID,
 								x);
@@ -7153,13 +7995,71 @@ __global__ void globalKernel(S* mat,
 								reg2,
 								reg3,
 								reg4,
-								reg5,
-								reg6,
-								reg7,
-								reg8,
-								reg9,
-								reg10,
-								reg11,
+								totalThreadCount,
+								globalThreadID,
+								x);
+					break;
+				case 40:
+					c40excluded<C>(
+								product,
+								globalProduct,
+								reg0,
+								reg1,
+								reg2,
+								reg3,
+								reg4,
+								totalThreadCount,
+								globalThreadID,
+								x);
+					break;
+				case 41:
+					c41excluded<C>(
+								product,
+								globalProduct,
+								reg0,
+								reg1,
+								reg2,
+								reg3,
+								reg4,
+								totalThreadCount,
+								globalThreadID,
+								x);
+					break;
+				case 42:
+					c42excluded<C>(
+								product,
+								globalProduct,
+								reg0,
+								reg1,
+								reg2,
+								reg3,
+								reg4,
+								totalThreadCount,
+								globalThreadID,
+								x);
+					break;
+				case 43:
+					c43excluded<C>(
+								product,
+								globalProduct,
+								reg0,
+								reg1,
+								reg2,
+								reg3,
+								reg4,
+								totalThreadCount,
+								globalThreadID,
+								x);
+					break;
+				case 44:
+					c44excluded<C>(
+								product,
+								globalProduct,
+								reg0,
+								reg1,
+								reg2,
+								reg3,
+								reg4,
 								totalThreadCount,
 								globalThreadID,
 								x);

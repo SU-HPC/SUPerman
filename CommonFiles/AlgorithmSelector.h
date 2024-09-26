@@ -55,7 +55,7 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
         }
         else
         {
-            recompilationStatus(-1, settings->rank);
+            recompilationStatus(0, settings->rank);
         }
     }
 

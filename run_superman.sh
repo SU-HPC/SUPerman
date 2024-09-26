@@ -3,9 +3,8 @@
 repo_directory="/home/delbek/SUPerman/"
 # The directory belonging to the repository.
 
-# DO NOT MODIFY
 build_directory="${repo_directory}build/"
-###############
+# The directory into which the build files will be dumped.
 
 matrix_directory="/home/delbek/SparsePermanExperiments/"
 # The directory under which your matrix files are located.
@@ -14,7 +13,7 @@ filenames=("sparse_matrix_40_0.100000.mtx")
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based. Otherwise, it assumes them to be 0-based.
 
-algorithms=("register_efficient_code_generation")
+algorithms=("auto")
 # The algorithm used to compute the permanent of your matrix.
 # "auto" lets the library select the fastest algorithm available.
 # DEFAULT: "auto"
@@ -58,4 +57,4 @@ printing_precision=(30)
 g++ -std=c++17 wrapper.cpp
 for i in "${!filenames[@]}"; do
   "${repo_directory}a.out" ${build_directory} repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}"
-  done
+done

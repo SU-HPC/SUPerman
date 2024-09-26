@@ -129,11 +129,10 @@ int main(int argc, char* argv[])
         mkfifo(PIPE_NAME, S_IFIFO|0640);
         
         int recompilationNeeded = readPipe();
-        if (recompilationNeeded == 0) 
+        if (recompilationNeeded == 0)
         {
             int status;
             waitpid(first_pid, &status, 0);
-
         } 
         else if (recompilationNeeded == 1) 
         {
