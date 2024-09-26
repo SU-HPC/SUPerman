@@ -96,7 +96,7 @@ template <class C, class S, class Permanent>
 void DecomposePerman<C, S, Permanent>::startRecursion(Matrix<S>* matrix)
 {
     bool isCompressed = true;
-    while (isCompressed && matrix->nov > 1)
+    while (isCompressed && matrix->nov > 1 && (this->m_Settings.algorithm != NAIVECODEGENERATION && this->m_Settings.algorithm != REGEFFICIENTCODEGENERATION))
     {
         isCompressed = compress1NNZ(matrix);
 
@@ -110,7 +110,6 @@ void DecomposePerman<C, S, Permanent>::startRecursion(Matrix<S>* matrix)
             std::stringstream stream;
             stream << "Matrix is rank deficient." << std::endl;
             print(stream, this->m_Settings.rank);
-            updateCache(-1, this->m_Settings.rank);
             return;
         }
     }
@@ -122,7 +121,7 @@ template <class C, class S, class Permanent>
 void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
 {
     int minDeg = getMinDegree(matrix);
-    if (minDeg < 5 && matrix->nov > 30)
+    if (minDeg < 5 && matrix->nov > 30 && (this->m_Settings.algorithm != NAIVECODEGENERATION && this->m_Settings.algorithm != REGEFFICIENTCODEGENERATION))
     {
         if (minDeg == 1)
         {
@@ -133,10 +132,6 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
         {
             compress2NNZ(matrix);
             recurse(matrix);
-        }
-        else if (this->m_Settings.algorithm == NAIVECODEGENERATION || this->m_Settings.algorithm == REGEFFICIENTCODEGENERATION)
-        {
-            goto CODEGEN;
         }
         else if (minDeg == 3 || minDeg == 4)
         {
@@ -149,7 +144,6 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
     }
     else
     {
-        CODEGEN:
         int nnz = getNNZ(matrix);
         matrix->sparsity = double(nnz) / double(matrix->nov * matrix->nov);
         Matrix<S>* newMatrix = new Matrix<S>(*matrix);

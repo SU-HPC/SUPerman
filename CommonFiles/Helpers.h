@@ -6,7 +6,51 @@
 #define SUPERMAN_HELPERS_H
 
 #include "Matrix.h"
+#include <string>
+#include <cstdlib>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <cstring>
+#include <sys/wait.h>
 
+
+#define PIPE_NAME "/tmp/wrapper_pipe"
+
+inline int readPipe()
+{
+    int fd = open(PIPE_NAME, O_RDONLY);
+    if (fd == -1)
+    {
+        throw std::runtime_error("Failed to open pipe for reading!\n");
+    }
+
+    int val;
+    if (read(fd, &val, sizeof(int)) != sizeof(int))
+    {
+        throw std::runtime_error("Failed to read integer from pipe!\n");
+    }
+
+    close(fd);
+    return val;
+}
+
+inline void writePipe(int value)
+{
+    int fd = open(PIPE_NAME, O_WRONLY);
+    if (fd == -1)
+    {
+        throw std::runtime_error("Failed to open pipe for writing!\n");
+    }
+
+    if (write(fd, &value, sizeof(int)) != sizeof(int))
+    {
+        throw std::runtime_error("Failed to write integer to pipe!\n");
+    }
+
+    close(fd);
+}
 
 struct ScalingCompact
 {
@@ -96,13 +140,11 @@ inline bool isRankDeficient(Matrix<S>* matrix)
     return false;
 }
 
-inline void updateCache(int value, int rank)
+inline void recompilationStatus(int value, int rank)
 {
     if (rank == 0)
     {
-        std::ofstream file("build/Cache.txt");
-        file << value;
-        file.close();
+        writePipe(value);
     }
 }
 

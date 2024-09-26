@@ -32,28 +32,31 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
     if (settings->algorithm == AlgorithmEnds && settings->mode != Mode::CPU)
     {
         std::stringstream stream;
-        if ((matrix->nov >= 45) || (matrix->nov >= 42 && matrix->sparsity < 50))
-        {
-            settings->algorithm = REGEFFICIENTCODEGENERATION;
-            stream << "SELECTED ALGORITHM IS: register_efficient_code_generation" << std::endl;
-            print(stream, settings->rank);
-        }
-        else
+        if (matrix->sparsity < 10 || matrix->nov < 42)
         {
             settings->algorithm = XREGISTERMSHARED;
             stream << "SELECTED ALGORITHM IS: xregister_mshared" << std::endl;
             print(stream, settings->rank);
         }
+        else
+        {
+            settings->algorithm = REGEFFICIENTCODEGENERATION;
+            stream << "SELECTED ALGORITHM IS: register_efficient_code_generation" << std::endl;
+            print(stream, settings->rank);
+        }
     }
 #endif
 
-    if (settings->algorithm == NAIVECODEGENERATION || settings->algorithm == REGEFFICIENTCODEGENERATION)
+    if (settings->PID == 1)
     {
-        updateCache(1, settings->rank);
-    }
-    else
-    {
-        updateCache(-1, settings->rank);
+        if (settings->algorithm == NAIVECODEGENERATION || settings->algorithm == REGEFFICIENTCODEGENERATION)
+        {
+            recompilationStatus(1, settings->rank);
+        }
+        else
+        {
+            recompilationStatus(0, settings->rank);
+        }
     }
 
     if (settings->mode == Mode::CPU)

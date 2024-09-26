@@ -5,6 +5,8 @@
 #ifndef SUPERMAN_SETTINGS_H
 #define SUPERMAN_SETTINGS_H
 
+#include <string>
+
 
 enum Algorithm
 {
@@ -41,6 +43,8 @@ enum Precision
 struct Settings
 {
     // General
+    int PID;
+    std::string REPO_DIR;
     Algorithm algorithm;
     Mode mode;
 

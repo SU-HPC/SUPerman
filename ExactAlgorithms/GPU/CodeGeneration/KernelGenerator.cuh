@@ -92,29 +92,8 @@ void generateKernels(int& k, S* mat, C* x, int nov, Settings& settings)
 {
     if (settings.rank == 0)
     {
-        int codeGenerated = -1;
-        std::ifstream cacheReader("build/CodeGenCache.txt");
-        if (cacheReader.is_open())
+        if (settings.PID == 1)
         {
-            cacheReader >> codeGenerated;
-            if (codeGenerated == 1)
-            {
-                cacheReader >> k;
-            }
-            cacheReader.close();
-        }
-
-        if (codeGenerated == 1)
-        {
-            std::ofstream cacheWriter("build/CodeGenCache.txt");
-            cacheWriter << -1 << std::endl;
-            cacheWriter.close();
-        }
-        else
-        {
-            std::ofstream cacheWriter("build/CodeGenCache.txt");
-            cacheWriter << 1 << std::endl;
-
             S* matTransposed = new S[nov * nov];
             for (int i = 0; i < nov; ++i)
             {
@@ -124,29 +103,33 @@ void generateKernels(int& k, S* mat, C* x, int nov, Settings& settings)
                 }
             }
 
-            std::ofstream kernelFile("ExactAlgorithms/GPU/CodeGeneration/generatedKernels.cuh");
+            std::string kernelFile = settings.REPO_DIR + "ExactAlgorithms/GPU/CodeGeneration/generatedKernels.cuh";
+            std::ofstream kernelWriter(kernelFile);
             KernelGenerator<C, S> kernelGenerator(matTransposed, nov, x, settings);
             std::string kernel;
             if (settings.algorithm == NAIVECODEGENERATION)
             {
                 kernel = kernelGenerator.generateNaiveKernelCode();
+                k = nov;
             }
             else if (settings.algorithm == REGEFFICIENTCODEGENERATION)
             {
                 kernel = kernelGenerator.generateUTOrderedKernelCode(k);
             }
-            kernelFile << kernel;
+            kernelWriter << kernel << std::flush;
+            kernelWriter.close();
 
             delete[] matTransposed;
-
-            cacheWriter << k << std::endl;
-            cacheWriter.close();
+            writePipe(k);
 
             #ifdef MPI_AVAILABLE
                 finalizeMPI();
             #endif
-
             exit(0);
+        }
+        else
+        {
+            k = readPipe();
         }
     }
 }
