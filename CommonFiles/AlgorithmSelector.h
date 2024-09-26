@@ -47,13 +47,16 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
     }
 #endif
 
-    if (settings->algorithm == NAIVECODEGENERATION || settings->algorithm == REGEFFICIENTCODEGENERATION)
+    if (settings->PID == 1)
     {
-        updateCache(1, settings->rank);
-    }
-    else
-    {
-        updateCache(-1, settings->rank);
+        if (settings->algorithm == NAIVECODEGENERATION || settings->algorithm == REGEFFICIENTCODEGENERATION)
+        {
+            recompilationStatus(1, settings->rank);
+        }
+        else
+        {
+            recompilationStatus(-1, settings->rank);
+        }
     }
 
     if (settings->mode == Mode::CPU)

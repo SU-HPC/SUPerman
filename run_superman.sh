@@ -1,19 +1,16 @@
 #!/bin/bash
 
-sync
-
 repo_directory="/home/delbek/SUPerman/"
 # The directory belonging to the repository.
 
 # DO NOT MODIFY
 build_directory="${repo_directory}build/"
-cache="${build_directory}Cache.txt"
 ###############
 
 matrix_directory="/home/delbek/SparsePermanExperiments/"
 # The directory under which your matrix files are located.
 
-filenames=("sparse_matrix_40_0.200000.mtx")
+filenames=("sparse_matrix_40_0.100000.mtx")
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based. Otherwise, it assumes them to be 0-based.
 
@@ -58,42 +55,7 @@ printing_precision=(30)
 # Precision in which to print the permanent result
 # DEFAULT: 30
 
-kernel_compilation_check()
-{
-    local file=${1}
-    if [[ -f "${file}" ]]; then
-        # shellcheck disable=SC2155
-        local content=$(cat "${file}")
-        if [[ "${content}" -eq 1 ]]; then
-            return 0
-        else
-            return 1
-        fi
-    else
-        return 1
-    fi
-}
-
-build()
-{
-  mkdir -p "${build_directory}"
-  cmake -S . -B "${build_directory}"
-  make -C "${build_directory}" -j 4
-}
-
+g++ -std=c++17 wrapper.cpp
 for i in "${!filenames[@]}"; do
-    rm -rf "${build_directory}"
-    sync
-    echo "SUPERMAN IS BEING COMPILED ..."
-    build > /dev/null 2>&1
-    sync
-    "${build_directory}SUPerman" repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}"
-    sync
-    if kernel_compilation_check "$cache"; then
-      echo "KERNELS ARE BEING COMPILED ..."
-      build > /dev/null 2>&1
-      sync
-      "${build_directory}SUPerman" repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}"
-      sync
-    fi
-done
+  "${repo_directory}a.out" ${build_directory} repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}"
+  done

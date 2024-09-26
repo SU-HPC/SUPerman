@@ -16,18 +16,17 @@
 
 int main(int argv, char* argc[])
 {
-    Settings settings;
-
     int rank = 0;
+    int numberOfProcessors = 1;
 #ifdef MPI_AVAILABLE
-    int numberOfProcessors;
-
     initMPI(nullptr, nullptr);
     mpiCommRank(getMPI_COMM_WORLD(), &rank);
     mpiCommSize(getMPI_COMM_WORLD(), &numberOfProcessors);
+#endif
+
+    Settings settings;
     settings.rank = rank;
     settings.processorNum = numberOfProcessors;
-#endif
 
     std::string filename;
     IO::readSettings<S>(filename, settings, argv, argc);

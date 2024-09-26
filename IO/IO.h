@@ -131,8 +131,9 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
     settings.partition = 1;
     settings.calculationPrecision = DD;
 
-    bool filenameFound = false;
+    bool pidFound = false;
     bool repoDirFound = false;
+    bool filenameFound = false;
     for (int i = 1; i < argc; ++i)
     {
         std::vector<std::string> argumentSplitted = split<S>(argv[i], '=');
@@ -140,15 +141,27 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
         std::string value = argumentSplitted[1];
         std::stringstream stream;
 
-        if (arg == "filename")
+        if (arg == "pid")
+        {
+            try
+            {
+                settings.PID = std::stoi(value);
+                pidFound = true;
+            }
+            catch (const std::exception& e)
+            {
+                throw std::runtime_error("An integer value should be provided to the pid argument!\n");
+            }
+        }
+        else if (arg == "repo_dir")
+        {
+            settings.REPO_DIR = value;
+            repoDirFound = true;
+        }
+        else if (arg == "filename")
         {
             filename = value;
             filenameFound = true;
-        }
-        else if (arg=="repo_dir")
-        {
-            REPO_DIR = value;
-            repoDirFound = true;
         }
         else if (arg == "algorithm")
         {
@@ -352,13 +365,17 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
         }
     }
 
-    if (!filenameFound)
+    if (!pidFound)
     {
-        throw std::runtime_error("You are required to provide the absolute path of the matrix file that you want to calculate the matrix permanent for to the executable of this program!\n");
+        throw std::runtime_error("You are required to provide the pid of the program to the executable. If you are reading this, you are probably doing something you should not be doing. Use ./run_superman.sh located directly under the source directory instead!");
     }
     if (!repoDirFound)
     {
         throw std::runtime_error("You are required to provide the absolute path of the repository directory to the executable of this program!\n");
+    }
+    if (!filenameFound)
+    {
+        throw std::runtime_error("You are required to provide the absolute path of the matrix file that you want to calculate the matrix permanent for to the executable of this program!\n");
     }
 }
 
