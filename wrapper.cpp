@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
         std::string firstProgramArguments = programPath + " pid=1 " + arguments;
         if (processorNumber > 1)
         {
-            firstProgramArguments += "mpirun --mca btl ^openib -np " + std::to_string(processorNumber) + ' ' + firstProgramArguments;
+            firstProgramArguments = "mpirun --mca btl ^openib -np " + std::to_string(processorNumber) + ' ' + firstProgramArguments;
             system(firstProgramArguments.c_str());
             return 0;
         }
@@ -156,7 +156,7 @@ int main(int argc, char* argv[])
                 std::string secondProgramArguments = programPath + " pid=2 " + arguments;
                 if (processorNumber > 1)
                 {
-                    secondProgramArguments += "mpirun --mca btl ^openib -np " + std::to_string(processorNumber) + ' ' + secondProgramArguments;
+                    secondProgramArguments = "mpirun --mca btl ^openib -np " + std::to_string(processorNumber) + ' ' + secondProgramArguments;
                     system(secondProgramArguments.c_str());
                     return 0;
                 }

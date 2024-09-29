@@ -37,7 +37,7 @@ device_ids=(0)
 # or the device ID for which the GPU kernels are generated if the mode is "multi_gpu" or "multi_gpu_mpi".
 # DEFAULT: 0
 
-gpu_nums=(2)
+gpu_nums=(1)
 # The number of GPUs used for computation.
 # Only relevant if the mode is "multi_gpu" or "multi_gpu_mpi".
 # DEFAULT: 1
