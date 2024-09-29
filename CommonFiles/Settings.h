@@ -33,10 +33,6 @@ enum Mode
 enum Precision
 {
     DD,
-    DQ1,
-    DQ2,
-    QQ,
-    KAHAN,
     PrecisionEnds
 };
 

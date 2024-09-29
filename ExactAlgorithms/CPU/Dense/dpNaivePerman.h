@@ -21,7 +21,7 @@ public:
     virtual double permanentFunction() final;
 
 public:
-    __float128 productSum;
+    C productSum;
 };
 
 
@@ -34,7 +34,7 @@ double dpNaivePerman<C, S>::permanentFunction()
     int threads = this->m_Settings.threadC;
 
     C x[nov];
-    __float128 product = 1;
+    C product = 1;
     for (int i = 0; i < nov; ++i)
     {
         C rowSum = 0;
@@ -62,7 +62,7 @@ double dpNaivePerman<C, S>::permanentFunction()
 #pragma omp parallel num_threads(threads)
     {
         int threadID = omp_get_thread_num();
-        __float128 myResult = 0;
+        C myResult = 0;
 
         C myX[nov];
         memcpy(myX, x, sizeof(C) * nov);

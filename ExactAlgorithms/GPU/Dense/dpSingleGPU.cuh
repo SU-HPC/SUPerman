@@ -20,7 +20,7 @@ public:
     virtual double permanentFunction() final;
 
 public:
-    __float128 productSum;
+    C productSum;
 };
 
 
@@ -43,7 +43,7 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
     S* matTransposed = new S[nov * nov];
 
     C x[nov];
-    __float128 product = 1;
+    C product = 1;
     for (int i = 0; i < nov; ++i)
     {
         C rowSum = 0;

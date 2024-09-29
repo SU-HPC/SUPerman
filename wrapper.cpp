@@ -90,16 +90,17 @@ std::vector<std::string> splitArguments(const std::string& arguments)
 
 int main(int argc, char* argv[]) 
 {
-    if (argc < 4)
+    if (argc < 5)
     {
         throw std::runtime_error("Few arguments passed to the wrapper.cpp than what is required!\n");
     }
 
-    std::string buildDir = argv[1];
+    unsigned processorNumber = std::stoi(argv[1]);
+    std::string buildDir = argv[2];
     
     std::string programPath = buildDir + "/SUPerman";
     std::string arguments;
-    for (int i = 2; i < argc; ++i) 
+    for (int i = 3; i < argc; ++i)
     {
         arguments += std::string(argv[i]) + ' ';
     }
@@ -113,6 +114,12 @@ int main(int argc, char* argv[])
     {
         // 1-Child
         std::string firstProgramArguments = programPath + " pid=1 " + arguments;
+        if (processorNumber > 1)
+        {
+            firstProgramArguments += "mpirun --mca btl ^openib -np " + std::to_string(processorNumber) + ' ' + firstProgramArguments;
+            system(firstProgramArguments.c_str());
+            return 0;
+        }
         std::vector<std::string> args = splitArguments(firstProgramArguments);
         std::vector<char*> execArgs;
         for (auto& arg: args)
@@ -147,6 +154,12 @@ int main(int argc, char* argv[])
             {
                 // 2-Child
                 std::string secondProgramArguments = programPath + " pid=2 " + arguments;
+                if (processorNumber > 1)
+                {
+                    secondProgramArguments += "mpirun --mca btl ^openib -np " + std::to_string(processorNumber) + ' ' + secondProgramArguments;
+                    system(secondProgramArguments.c_str());
+                    return 0;
+                }
                 std::vector<std::string> args = splitArguments(secondProgramArguments);
                 std::vector<char*> execArgs;
                 for (auto& arg: args)

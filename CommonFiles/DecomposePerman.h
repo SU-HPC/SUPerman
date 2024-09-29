@@ -48,7 +48,7 @@ protected:
     Matrix<S>* m_Matrix;
     Settings m_Settings;
     std::vector<Permanent*> m_Permanents;
-    std::vector<ScalingCompact*> m_ScalingValues;
+    std::vector<ScalingCompact<C>*> m_ScalingValues;
 };
 
 
@@ -59,7 +59,7 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
 
     startRecursion(m_Matrix);
 
-    __float128 overall = 0;
+    C overall = 0;
     if (m_Permanents.size() > 1)
     {
         std::stringstream stream;
@@ -69,12 +69,12 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
     for (int p = 0; p < m_Permanents.size(); ++p)
     {
         auto derived = dynamic_cast<Permanent*>(m_Permanents[p]);
-        __float128 result = ((4 * (derived->m_Matrix->nov & 1) - 2) * derived->productSum);
+        C result = ((4 * (derived->m_Matrix->nov % 2) - 2) * derived->productSum);
         if (m_Settings.scaling)
         {
             auto scalingCompact = m_ScalingValues[p];
-            __float128* rowScale = scalingCompact->rowScale;
-            __float128* colScale = scalingCompact->colScale;
+            C* rowScale = scalingCompact->rowScale;
+            C* colScale = scalingCompact->colScale;
             for (int i = 0; i < derived->m_Matrix->nov; ++i)
             {
                 result /= rowScale[i];
@@ -96,7 +96,7 @@ template <class C, class S, class Permanent>
 void DecomposePerman<C, S, Permanent>::startRecursion(Matrix<S>* matrix)
 {
     bool isCompressed = true;
-    while (isCompressed && matrix->nov > 1 && (this->m_Settings.algorithm != NAIVECODEGENERATION && this->m_Settings.algorithm != REGEFFICIENTCODEGENERATION))
+    while (false && isCompressed && matrix->nov > 1 && (this->m_Settings.algorithm != NAIVECODEGENERATION && this->m_Settings.algorithm != REGEFFICIENTCODEGENERATION))
     {
         isCompressed = compress1NNZ(matrix);
 
@@ -121,7 +121,7 @@ template <class C, class S, class Permanent>
 void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
 {
     int minDeg = getMinDegree(matrix);
-    if (minDeg < 5 && matrix->nov > 30 && (this->m_Settings.algorithm != NAIVECODEGENERATION && this->m_Settings.algorithm != REGEFFICIENTCODEGENERATION))
+    if (false && minDeg < 5 && matrix->nov > 30 && (this->m_Settings.algorithm != NAIVECODEGENERATION && this->m_Settings.algorithm != REGEFFICIENTCODEGENERATION))
     {
         if (minDeg == 1)
         {
@@ -133,7 +133,7 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
             compress2NNZ(matrix);
             recurse(matrix);
         }
-        else if (minDeg == 3 || minDeg == 4)
+        if (minDeg == 3 || minDeg == 4)
         {
             auto matrix2 = new Matrix<S>;
             compress34NNZ(matrix, matrix2, minDeg);
@@ -153,7 +153,7 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
         }
         if (m_Settings.scaling)
         {
-            ScalingCompact* scalingCompact = new ScalingCompact;
+            ScalingCompact<C>* scalingCompact = new ScalingCompact<C>;
             IO::scale(newMatrix, m_Settings, scalingCompact);
             m_ScalingValues.push_back(scalingCompact);
         }

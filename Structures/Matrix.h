@@ -23,10 +23,6 @@ public:
         memset(mat, 0, sizeof(S) * entry);
     }
 
-    Matrix(S* mat, int nov)
-    :   mat(mat),
-        nov(nov) {}
-
     Matrix(const Matrix& other);
     Matrix& operator=(const Matrix& other) = delete;
     Matrix(Matrix&& other);
