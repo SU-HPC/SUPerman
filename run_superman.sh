@@ -6,10 +6,12 @@ repo_directory="/home/delbek/SUPerman/"
 build_directory="${repo_directory}build/"
 # The directory into which the build files will be dumped.
 
-matrix_directory="/common_data/matrices/"
+matrix_directory="/home/delbek/SparsePermanExperiments/"
 # The directory under which your matrix files are located.
 
-filenames=("deniz_sparse_%25_40.mtx")
+filenames=(
+sparse_matrix_45_0.400000.mtx
+)
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based. Otherwise, it assumes them to be 0-based.
 
@@ -27,7 +29,7 @@ modes=("single_gpu")
 # - multi_gpu_mpi: Uses multiple nodes, each with possibly multiple GPUs.
 # DEFAULT: "cpu"
 
-thread_counts=(88)
+thread_counts=(64)
 # The number of CPU threads the library will use when computing the permanent on the CPU.
 # Only relevant if the mode is "cpu".
 # DEFAULT: maximum number of hardware threads allowed on the architecture

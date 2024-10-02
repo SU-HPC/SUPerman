@@ -18,7 +18,7 @@ std::string KernelGenerator<C, S>::generateUTOrderedKernelCode(int& k)
               "#define SUPERMAN_GENERATEDKERNELS_CUH\n";
     m_File += "\n\n";
 
-    int c = 0;
+    int c = -1;
     determineRegisterArea(k, c);
 
     prodReduce_ut(k);
@@ -55,10 +55,10 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
 
     double percent = 50;
 
+    int currentRegisters = 0;
     for (int j = 0; j < m_Nov; ++j)
     {
         int rowSpan = 0;
-
         for (int i = (m_Nov - 1); i >= 0; --i)
         {
             if (m_Mat[j * m_Nov + i] == 0)
@@ -73,9 +73,7 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
         double currentIteration = iterationCovered + percent;
         percent /= 2;
 
-        int currentRegisters = k;
         currentRegisters = std::max(currentRegisters, (rowSpan + 1));
-
         unsigned numberOfThreads = determineNumberOfThreads(currentRegisters);
 
         double regAccess = ((currentRegisters * currentIteration) / 100) * REG_ACCESS_CONSTANT;
@@ -88,10 +86,6 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
             totalPoint = currentPoint;
             k = currentRegisters;
             c = j;
-        }
-        else
-        {
-            break;
         }
     }
 
