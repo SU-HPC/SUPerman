@@ -16,6 +16,7 @@
 #include "Helpers.h"
 #include "algorithm"
 #include "omp.h"
+#include <cstdint>
 
 
 class IO

@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
     unsigned processorNumber = std::stoi(argv[1]);
     std::string buildDir = argv[2];
     
-    std::string programPath = buildDir + "/SUPerman";
+    std::string programPath = buildDir + "SUPerman";
     std::string arguments;
     for (int i = 3; i < argc; ++i)
     {
