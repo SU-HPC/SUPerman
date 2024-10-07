@@ -21,28 +21,28 @@ public:
     virtual double permanentFunction() final;
 
 public:
-    __float128 productSum;
+    C productSum;
 };
 
 
 template<class C, class S>
 double spNaivePerman<C, S>::permanentFunction()
 {
-    SparseMatrix<S>* ccs = dynamic_cast<SparseMatrix<S>*>(this->m_Matrix);
+    SparseMatrix<S>* sp = dynamic_cast<SparseMatrix<S>*>(this->m_Matrix);
 
-    int nov = ccs->nov;
-    S* mat = ccs->mat;
-    int* cptrs = ccs->cptrs;
-    int* rows = ccs->rows;
-    S* cvals = ccs->cvals;
-    int* rptrs = ccs->rptrs;
-    int* cols = ccs->cols;
-    S* rvals = ccs->rvals;
+    int nov = sp->nov;
+    S* mat = sp->mat;
+    int* cptrs = sp->cptrs;
+    int* rows = sp->rows;
+    S* cvals = sp->cvals;
+    int* rptrs = sp->rptrs;
+    int* cols = sp->cols;
+    S* rvals = sp->rvals;
 
     int threads = this->m_Settings.threadC;
 
     C x[nov];
-    __float128 product = 1;
+    C product = 1;
     for (int i = 0; i < nov; ++i)
     {
         C rowSum = 0;
@@ -61,7 +61,7 @@ double spNaivePerman<C, S>::permanentFunction()
 #pragma omp parallel num_threads(threads)
     {
         int threadID = omp_get_thread_num();
-        __float128 myResult = 0;
+        C myResult = 0;
 
         C myX[nov];
         memcpy(myX, x, sizeof(C) * nov);

@@ -32,7 +32,7 @@ if(CMAKE_CUDA_COMPILER)
 endif()
 
 # MPI
-find_package(MPI)
+find_package(MPI QUIET)
 if(MPI_FOUND)
     add_definitions(-DMPI_AVAILABLE)
     include_directories(${MPI_INCLUDE_PATH})
@@ -132,13 +132,16 @@ add_executable(SUPerman
         ${FILES}
 )
 
-# Link the shared library
-target_link_libraries(SUPerman
-        OpenMP::OpenMP_CXX
+# Link shared libraries
+target_link_libraries(SUPerman OpenMP::OpenMP_CXX)
+
+if(CMAKE_CUDA_COMPILER)
+    target_link_libraries(SUPerman
         cuda
         CUDA::cudart
         ${CUDA_LIBRARIES}
 )
+endif()
 
 if(MPI_FOUND)
     target_link_libraries(SUPerman

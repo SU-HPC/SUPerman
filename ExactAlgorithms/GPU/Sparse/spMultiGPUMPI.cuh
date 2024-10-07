@@ -22,34 +22,33 @@ public:
     virtual double permanentFunction() final;
 
 public:
-    __float128 productSum;
+    C productSum;
 };
 
 
 template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
 double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 {
-    SparseMatrix<S>* ccs = dynamic_cast<SparseMatrix<S>*>(this->m_Matrix);
+    SparseMatrix<S>* sp = dynamic_cast<SparseMatrix<S>*>(this->m_Matrix);
 
-    int nov = ccs->nov;
-    int nnz = ccs->nnz;
-    int* cptrs = ccs->cptrs;
-    int* rows = ccs->rows;
-    S* cvals = ccs->cvals;
-    int* rptrs = ccs->rptrs;
-    int* cols = ccs->cols;
-    S* rvals = ccs->rvals;
-    S* mat = ccs->mat;
+    int nov = sp->nov;
+    int nnz = sp->nnz;
+    int* cptrs = sp->cptrs;
+    int* rows = sp->rows;
+    S* cvals = sp->cvals;
+    int* rptrs = sp->rptrs;
+    int* cols = sp->cols;
+    S* rvals = sp->rvals;
+    S* mat = sp->mat;
 
     C x[nov];
-    C rowSum;
-    __float128 product = 1;
+    C product = 1;
     for (int i = 0; i < nov; ++i)
     {
-        rowSum = 0;
-        for (int j = 0; j < nov; ++j)
+        C rowSum = 0;
+        for (int ptr = rptrs[i]; ptr < rptrs[i + 1]; ++ptr)
         {
-            rowSum += mat[(i * nov) + j];
+            rowSum += rvals[ptr];
         }
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];

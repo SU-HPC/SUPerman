@@ -23,7 +23,7 @@ public:
     virtual double permanentFunction() final;
 
 public:
-    __float128 productSum;
+    C productSum;
 };
 
 
@@ -34,7 +34,7 @@ double KernelGenMultiGPU<C, S, Algo, Shared>::permanentFunction()
     S* mat = this->m_Matrix->mat;
 
     C x[nov];
-    __float128 product = 1;
+    C product = 1;
     for (int i = 0; i < nov; ++i)
     {
         C rowSum = 0;

@@ -32,7 +32,7 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
     if (settings->algorithm == AlgorithmEnds && settings->mode != Mode::CPU)
     {
         std::stringstream stream;
-        if (matrix->sparsity < 10 || matrix->nov < 42)
+        if (matrix->sparsity < 10 || matrix->nov < 42 || settings->mode == MultiGPUMPI)
         {
             settings->algorithm = XREGISTERMSHARED;
             stream << "SELECTED ALGORITHM IS: xregister_mshared" << std::endl;

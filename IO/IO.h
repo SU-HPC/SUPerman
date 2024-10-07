@@ -16,6 +16,7 @@
 #include "Helpers.h"
 #include "algorithm"
 #include "omp.h"
+#include <cstdint>
 
 
 class IO
@@ -28,9 +29,6 @@ public:
     static Matrix<S>* readMatrix(std::string filename, Settings& settings);
 
     template <class S>
-    static Matrix<S>* denseToSparse(Matrix<S>* denseMatrix, int nnz);
-
-    template <class S>
     static void skipOrder(Matrix<S>* matrix);
 
     template <class S>
@@ -39,8 +37,8 @@ public:
     template <class S>
     static void UTOrder(Matrix<S>* matrix);
 
-    template <class S>
-    static void scale(Matrix<S>* matrix, const Settings& settings, ScalingCompact* scalingCompact);
+    template <class C, class S>
+    static void scale(Matrix<S>* matrix, const Settings& settings, ScalingCompact<C>* scalingCompact);
 
     template <class S>
     static void writeMatrixToFile(Matrix<S>* matrix, std::string filename);
@@ -60,19 +58,19 @@ private:
 };
 
 
-template<class S>
-void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact* scalingCompact)
+template<class C, class S>
+void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact<C>* scalingCompact)
 {
     int nov = matrix->nov;
     S* mat = matrix->mat;
     unsigned scalingIterationNo = settings.scalingIterationNo;
     unsigned scaleInto = settings.scaleInto;
 
-    __float128*& rowScale = scalingCompact->rowScale;
-    __float128*& colScale = scalingCompact->colScale;
+    C*& rowScale = scalingCompact->rowScale;
+    C*& colScale = scalingCompact->colScale;
 
-    rowScale = new __float128[nov];
-    colScale = new __float128[nov];
+    rowScale = new C[nov];
+    colScale = new C[nov];
 
     for (int i = 0; i < nov; ++i)
     {
@@ -83,24 +81,24 @@ void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact* scal
     {
         for (int iv = 0; iv < nov; ++iv)
         {
-            __float128 sum = 0;
+            C sum = 0;
             for (int jv = 0; jv < nov; ++jv)
             {
                 sum += mat[iv * nov + jv] * rowScale[iv] * colScale[jv];
             }
             if (sum != 0)
-                rowScale[iv] = __float128(scaleInto) / sum;
+                rowScale[iv] = C(scaleInto) / sum;
         }
 
         for (int jv = 0; jv < nov; ++jv)
         {
-            __float128 sum = 0;
+            C sum = 0;
             for (int iv = 0; iv < nov; ++iv)
             {
                 sum += mat[iv * nov + jv] * rowScale[iv] * colScale[jv];
             }
             if (sum != 0)
-                colScale[jv] = __float128(scaleInto) / sum;
+                colScale[jv] = C(scaleInto) / sum;
         }
     }
 
@@ -327,40 +325,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
         }
         else if (arg == "calculation_precision")
         {
-            if (value == "dd")
-            {
-                settings.calculationPrecision = DD;
-            }
-            else if (value == "dq1")
-            {
-                stream << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
-                print(stream, settings.rank);
-                settings.calculationPrecision = DQ1;
-            }
-            else if (value == "dq2")
-            {
-                stream << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
-                print(stream, settings.rank);
-                settings.calculationPrecision = DQ2;
-            }
-            else if (value == "qq")
-            {
-                stream << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
-                print(stream, settings.rank);
-                settings.calculationPrecision = QQ;
-            }
-            else if (value == "kahan")
-            {
-                stream << "Calculation precision settings other than dd (double-double) can only be utilized when the matrix-specific compilation is made!" << std::endl;
-                print(stream, settings.rank);
-                settings.calculationPrecision = KAHAN;
-            }
-            else
-            {
-                stream << "UNKNOWN CALCULATION PRECISION: " << value << " - selecting dd by default instead." << std::endl;
-                print(stream, settings.rank);
-                settings.calculationPrecision = DD;
-            }
+            settings.calculationPrecision = DD;
         }
         else
         {
@@ -407,10 +372,11 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     int noRow, noCol, noLines;
     file >> noRow >> noCol >> noLines;
 
-    double val;
+    S val;
     int x, y;
 
-    std::vector<std::vector<std::pair<std::pair<int, int>, double>>> colBuckets(noCol);
+    Matrix<S>* matrix = new Matrix<S>(noRow);
+    S* mat = matrix->mat;
     for(int i = 0; i < noLines; i++)
     {
         file >> x >> y;
@@ -425,38 +391,15 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
             y -= 1;
         }
 
-        colBuckets[y].push_back({{x, y}, val});
+        mat[x * noRow + y] = val;
 
         if (settings.undirected)
         {
-            colBuckets[x].push_back({{y, x}, val});
-        }
-    }
-
-    std::vector<std::vector<std::pair<std::pair<int, int>, double>>> rowBuckets(noRow);
-    for (const auto& bucket: colBuckets)
-    {
-        for (const auto& el: bucket)
-        {
-            rowBuckets[el.first.first].push_back(el);
-        }
-    }
-
-    colBuckets.clear();
-
-    S* mat = new S[noRow * noCol];
-    memset(mat, 0, sizeof(S) * noRow * noCol);
-    for (const auto& bucket: rowBuckets)
-    {
-        for (const auto& el: bucket)
-        {
-            mat[el.first.first * noRow + el.first.second] = el.second;
+            mat[y * noRow + x] = val;
         }
     }
 
     file.close();
-
-    Matrix<S>* matrix = new Matrix<S>(mat, noRow);
 
     int nnz;
     if (settings.undirected)
@@ -572,12 +515,12 @@ void IO::sortOrder(Matrix<S>* matrix)
 
     typedef std::pair<int, S*> Entry;
     Entry arr[nov];
-    for (int j = 0; j < nov; j++)
+    for (int j = 0; j < nov; ++j)
     {
         int currNNZ = 0;
         S* col = new S[nov];
         memset(col, 0, sizeof(S) * nov);
-        for(int i = 0; i < nov; i++)
+        for(int i = 0; i < nov; ++i)
         {
             S entry = mat[i * nov + j];
             if (entry != 0)
@@ -598,13 +541,16 @@ void IO::sortOrder(Matrix<S>* matrix)
     }
 
     S* newMat = new S[nov * nov];
-    int j = 0;
-    for (int i = 0; i <= nov; ++i)
+    int col = 0;
+    for (int el = 0; el <= nov; ++el)
     {
-        for (Entry* entryPtr: buckets[i])
+        for (Entry* entryPtr: buckets[el])
         {
-            memcpy(&newMat[j * nov], entryPtr->second, sizeof(S) * nov);
-            ++j;
+            for (int i = 0; i < nov; ++i)
+            {
+                newMat[i * nov + col] = entryPtr->second[i];
+            }
+            ++col;
             delete[] entryPtr->second;
         }
     }
@@ -749,49 +695,6 @@ void IO::applyColPermutation(Matrix<S>* matrix, int* colIPermutation)
 
     matrix->mat = newMat;
     delete[] mat;
-}
-
-template<class S>
-Matrix<S> *IO::denseToSparse(Matrix<S>* denseMatrix, int nnz)
-{
-    SparseMatrix<S>* sparseMatrix = new SparseMatrix<S>(denseMatrix, nnz);
-    delete denseMatrix;
-
-    S* mat = sparseMatrix->mat;
-    int* cptrs = sparseMatrix->cptrs;
-    int* rptrs = sparseMatrix->rptrs;
-    int* rows = sparseMatrix->rows;
-    int* cols = sparseMatrix->cols;
-    S* cvals = sparseMatrix->cvals;
-    S* rvals = sparseMatrix->rvals;
-    int nov = sparseMatrix->nov;
-
-    int rowNNZ = 0;
-    int colNNZ = 0;
-    for (int i = 0 ; i < nov; ++i)
-    {
-        rptrs[i] = rowNNZ;
-        cptrs[i] = colNNZ;
-        for (int j = 0; j < nov; ++j)
-        {
-            if (mat[i * nov + j] != 0)
-            {
-                cols[rowNNZ] = j;
-                rvals[rowNNZ] = mat[i * nov + j];
-                ++rowNNZ;
-            }
-            if (mat[j * nov + i] != 0)
-            {
-                rows[colNNZ] = j;
-                cvals[colNNZ] = mat[j * nov + i];
-                ++colNNZ;
-            }
-        }
-    }
-    rptrs[nov] = rowNNZ;
-    cptrs[nov] = colNNZ;
-
-    return sparseMatrix;
 }
 
 template <class S>
