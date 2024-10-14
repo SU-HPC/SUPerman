@@ -8,7 +8,7 @@
 
 struct Result
 {
-    Result(double time = 0, double permanent = 0)
+    Result(double time = 0, __float128 permanent = 0)
     :   time(time),
         permanent(permanent) {}
 
@@ -20,7 +20,7 @@ struct Result
     }
 
     double time;
-    double permanent;
+    __float128 permanent;
 };
 
 inline Result operator+(const Result& left, const Result& right)

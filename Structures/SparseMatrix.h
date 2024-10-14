@@ -77,7 +77,7 @@ SparseMatrix<S>::SparseMatrix(Matrix<S>* matrix, int nnz)
     rptrs[nov] = rowNNZ;
     cptrs[nov] = colNNZ;
 
-    delete matrix;
+    delete matrix; // let's take the ownership for now
 }
 
 template<class S>

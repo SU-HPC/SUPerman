@@ -45,10 +45,7 @@ public:
 
 private:
     template <class S>
-    static void applyRowPermutation(Matrix<S>* matrix, int* rowIPermutation);
-
-    template <class S>
-    static void applyColPermutation(Matrix<S>* matrix, int* colIPermutation);
+    static void applyPermutations(Matrix<S>* matrix, int* rowIPermutation, int* colIPermutation);
 
     template <class S>
     static void trim(std::string &s);
@@ -369,17 +366,17 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
         file.ignore(2048, '\n');
     }
 
-    int noRow, noCol, noLines;
-    file >> noRow >> noCol >> noLines;
+    int nov, noLines;
+    file >> nov >> nov >> noLines;
 
     S val;
-    int x, y;
+    int i, j;
 
-    Matrix<S>* matrix = new Matrix<S>(noRow);
+    Matrix<S>* matrix = new Matrix<S>(nov);
     S* mat = matrix->mat;
-    for(int i = 0; i < noLines; i++)
+    for(int iter = 0; iter < noLines; ++iter)
     {
-        file >> x >> y;
+        file >> i >> j;
 
         // binary read check
         if (!settings.binary) file >> val;
@@ -387,15 +384,15 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
 
         if (isMTX)
         {
-            x -= 1; // Convert from 1-based to 0-based
-            y -= 1;
+            i -= 1; // Convert from 1-based to 0-based
+            j -= 1;
         }
 
-        mat[x * noRow + y] = val;
+        mat[i * nov + j] = val;
 
         if (settings.undirected)
         {
-            mat[y * noRow + x] = val;
+            mat[j * nov + i] = val;
         }
     }
 
@@ -410,11 +407,11 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     {
         nnz = noLines;
     }
-    int size = noRow * noCol;
+    int size = nov * nov;
     double sparsity = (double(nnz) / double(size)) * 100;
 
     std::stringstream stream;
-    stream << "Number of rows/columns of matrix is: " << noRow << std::endl;
+    stream << "Number of rows/columns of matrix is: " << nov << std::endl;
     stream << "Total number of nonzeros is: " << nnz << std::endl;
     stream << "Sparsity of the matrix is determined to be: " << sparsity << std::endl;
     print(stream, settings.rank);
@@ -513,50 +510,44 @@ void IO::sortOrder(Matrix<S>* matrix)
     S* mat = matrix->mat;
     int nov = matrix->nov;
 
-    typedef std::pair<int, S*> Entry;
-    Entry arr[nov];
+    int* indegrees = new int[nov];
     for (int j = 0; j < nov; ++j)
     {
-        int currNNZ = 0;
-        S* col = new S[nov];
-        memset(col, 0, sizeof(S) * nov);
-        for(int i = 0; i < nov; ++i)
+        int indegree = 0;
+        for (int i = 0; i < nov; ++i)
         {
-            S entry = mat[i * nov + j];
-            if (entry != 0)
+            if (mat[i * nov + j] != 0)
             {
-                col[i] = entry;
-                ++currNNZ;
+                ++indegree;
             }
         }
-        arr[j] = Entry(currNNZ, col);
-    }
-
-    typedef std::vector<Entry*> Bucket;
-    std::vector<Bucket> buckets(nov + 1);
-
-    for (int i = 0; i < nov; ++i)
-    {
-        buckets[arr[i].first].push_back(&arr[i]);
+        indegrees[j] = indegree;
     }
 
     S* newMat = new S[nov * nov];
-    int col = 0;
-    for (int el = 0; el <= nov; ++el)
+    for (int j = 0; j < nov; ++j)
     {
-        for (Entry* entryPtr: buckets[el])
+        int mindegree = INT32_MAX;
+        int col;
+        for (int m = 0; m < nov; ++m)
         {
-            for (int i = 0; i < nov; ++i)
+            if (indegrees[m] < mindegree)
             {
-                newMat[i * nov + col] = entryPtr->second[i];
+                mindegree = indegrees[m];
+                col = m;
             }
-            ++col;
-            delete[] entryPtr->second;
+        }
+        indegrees[col] = INT32_MAX;
+        for (int i = 0; i < nov; ++i)
+        {
+            newMat[i * nov + col] = mat[i * nov + j];
         }
     }
 
     matrix->mat = newMat;
     delete[] mat;
+    delete[] indegrees;
+
 }
 
 template<class S>
@@ -604,6 +595,7 @@ void IO::UTOrder(Matrix<S> *matrix)
             }
         }
         colIPermutation[col] = iter;
+        indegrees[col] = UINT32_MAX;
 
         for (int i = 0; i < nov; ++i)
         {
@@ -614,28 +606,8 @@ void IO::UTOrder(Matrix<S> *matrix)
 
             if (!rowMarkers[i])
             {
-                int newPlace;
-                if (rowIPermutation[i] > free)
-                {
-                    newPlace = free++;
-                }
-                else
-                {
-                    ++free;
-                    rowMarkers[i] = true;
-                    continue;
-                }
-
-                for (int r = 0; r < nov; ++r)
-                {
-                    if (rowIPermutation[r] < rowIPermutation[i] && rowIPermutation[r] >= newPlace)
-                    {
-                        ++rowIPermutation[r];
-                    }
-                }
-
-                rowIPermutation[i] = newPlace;
                 rowMarkers[i] = true;
+                rowIPermutation[i] = free++;
 
                 for (int j = 0; j < nov; ++j)
                 {
@@ -646,12 +618,18 @@ void IO::UTOrder(Matrix<S> *matrix)
                 }
             }
         }
-
-        indegrees[col] = UINT32_MAX;
     }
 
-    applyRowPermutation(matrix, rowIPermutation);
-    applyColPermutation(matrix, colIPermutation);
+    for (int i = 0; i < nov; ++i)
+    {
+        if (rowMarkers[i] == false)
+        {
+            rowMarkers[i] = true;
+            rowIPermutation[i] = free++;
+        }
+    }
+
+    applyPermutations(matrix, rowIPermutation, colIPermutation);
 
     delete[] indegrees;
     delete[] rowMarkers;
@@ -660,7 +638,7 @@ void IO::UTOrder(Matrix<S> *matrix)
 }
 
 template<class S>
-void IO::applyRowPermutation(Matrix<S> *matrix, int *rowIPermutation)
+void IO::applyPermutations(Matrix<S>* matrix, int *rowIPermutation, int* colIPermutation)
 {
     int nov = matrix->nov;
     S* mat = matrix->mat;
@@ -670,26 +648,7 @@ void IO::applyRowPermutation(Matrix<S> *matrix, int *rowIPermutation)
     {
         for (int j = 0; j < nov; ++j)
         {
-            newMat[rowIPermutation[i] * nov + j] = mat[i * nov + j];
-        }
-    }
-
-    matrix->mat = newMat;
-    delete[] mat;
-}
-
-template<class S>
-void IO::applyColPermutation(Matrix<S>* matrix, int* colIPermutation)
-{
-    int nov = matrix->nov;
-    S* mat = matrix->mat;
-    S* newMat = new S[nov * nov];
-
-    for (int j = 0; j < nov; ++j)
-    {
-        for (int i = 0; i < nov; ++i)
-        {
-            newMat[i * nov + colIPermutation[j]] = mat[i * nov + j];
+            newMat[rowIPermutation[i] * nov + colIPermutation[j]] = mat[i * nov + j];
         }
     }
 

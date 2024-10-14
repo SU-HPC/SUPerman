@@ -13,9 +13,9 @@ template <class S>
 class Matrix
 {
 public:
-    Matrix() {}
+    Matrix() = default;
 
-    Matrix(int nov)
+    explicit Matrix(int nov)
     :   nov(nov)
     {
         int entry = nov * nov;

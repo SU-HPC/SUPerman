@@ -23,7 +23,7 @@ public:
     virtual double permanentFunction() final;
 
 public:
-    C productSum;
+    __float128 productSum;
 };
 
 
@@ -39,7 +39,7 @@ double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
     S* mat = this->m_Matrix->mat;
 
     C x[nov];
-    C product = 1;
+    __float128 product = 1;
     for (int i = 0; i < nov; ++i)
     {
         C rowSum = 0;
@@ -67,6 +67,7 @@ double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
     int totalRegs = prop.regsPerMultiprocessor * noSM;
     int totalThreadCount = gridDim * blockDim;
     int regsUsed = ((k * (sizeof(C) / 4)) + 20) * totalThreadCount;
+    if (regsUsed > totalRegs) regsUsed = totalRegs;
 
     int maxBlocks;
     gpuErrchk( cudaOccupancyMaxActiveBlocksPerMultiprocessor(
