@@ -47,13 +47,13 @@ int readPipe()
     int fd = open(PIPE_NAME, O_RDONLY);
     if (fd == -1)
     {
-        throw std::runtime_error("Failed to open pipe for reading!\n");
+        throw std::runtime_error("PARENT: Failed to open pipe for reading!\n");
     }
 
     int val;
     if (read(fd, &val, sizeof(int)) != sizeof(int))
     {
-        throw std::runtime_error("Failed to read integer from pipe!\n");
+        throw std::runtime_error("PARENT: Failed to read integer from pipe!\n");
     }
 
     close(fd);
@@ -65,12 +65,12 @@ void writePipe(int value)
     int fd = open(PIPE_NAME, O_WRONLY);
     if (fd == -1)
     {
-        throw std::runtime_error("Failed to open pipe for writing!\n");
+        throw std::runtime_error("PARENT: Failed to open pipe for writing!\n");
     }
 
     if (write(fd, &value, sizeof(int)) != sizeof(int))
     {
-        throw std::runtime_error("Failed to write integer to pipe!\n");
+        throw std::runtime_error("PARENT: Failed to write integer to pipe!\n");
     }
 
     close(fd);

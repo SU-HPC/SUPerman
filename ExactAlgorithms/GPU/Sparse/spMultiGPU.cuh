@@ -21,7 +21,7 @@ public:
     virtual double permanentFunction() final;
 
 public:
-    C productSum;
+    __float128 productSum;
 };
 
 
@@ -41,7 +41,7 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
     S* mat = sp->mat;
 
     C x[nov];
-    C product = 1;
+    __float128 product = 1;
     for (int i = 0; i < nov; ++i)
     {
         C rowSum = 0;

@@ -43,6 +43,7 @@ private:
 
     void startRecursion(Matrix<S>* matrix);
     void recurse(Matrix<S>* matrix);
+    void addQueue(Matrix<S>* matrix);
 
 protected:
     Matrix<S>* m_Matrix;
@@ -59,7 +60,7 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
 
     startRecursion(m_Matrix);
 
-    C overall = 0;
+    __float128 overall = 0;
     if (m_Permanents.size() > 1)
     {
         std::stringstream stream;
@@ -69,7 +70,7 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
     for (int p = 0; p < m_Permanents.size(); ++p)
     {
         auto derived = dynamic_cast<Permanent*>(m_Permanents[p]);
-        C result = ((4 * (derived->m_Matrix->nov % 2) - 2) * derived->productSum);
+        __float128 result = ((4 * (derived->m_Matrix->nov % 2) - 2) * derived->productSum);
         if (m_Settings.scaling)
         {
             auto scalingCompact = m_ScalingValues[p];
@@ -96,7 +97,7 @@ template <class C, class S, class Permanent>
 void DecomposePerman<C, S, Permanent>::startRecursion(Matrix<S>* matrix)
 {
     bool isCompressed = true;
-    while (false && isCompressed && matrix->nov > 1 && (this->m_Settings.algorithm != NAIVECODEGENERATION && this->m_Settings.algorithm != REGEFFICIENTCODEGENERATION))
+    while (isCompressed && matrix->nov > 30)
     {
         isCompressed = compress1NNZ(matrix);
 
@@ -114,6 +115,12 @@ void DecomposePerman<C, S, Permanent>::startRecursion(Matrix<S>* matrix)
         }
     }
 
+    if (this->m_Settings.algorithm == NAIVECODEGENERATION || this->m_Settings.algorithm == REGEFFICIENTCODEGENERATION)
+    {
+        addQueue(matrix);
+        return;
+    }
+
     recurse(matrix);
 }
 
@@ -121,7 +128,7 @@ template <class C, class S, class Permanent>
 void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
 {
     int minDeg = getMinDegree(matrix);
-    if (false && minDeg < 5 && matrix->nov > 30 && (this->m_Settings.algorithm != NAIVECODEGENERATION && this->m_Settings.algorithm != REGEFFICIENTCODEGENERATION))
+    if (minDeg < 5 && matrix->nov > 30)
     {
         if (minDeg == 1)
         {
@@ -133,7 +140,7 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
             compress2NNZ(matrix);
             recurse(matrix);
         }
-        if (minDeg == 3 || minDeg == 4)
+        else if (minDeg == 3 || minDeg == 4)
         {
             auto matrix2 = new Matrix<S>;
             compress34NNZ(matrix, matrix2, minDeg);
@@ -144,23 +151,29 @@ void DecomposePerman<C, S, Permanent>::recurse(Matrix<S>* matrix)
     }
     else
     {
-        int nnz = getNNZ(matrix);
-        matrix->sparsity = double(nnz) / double(matrix->nov * matrix->nov);
-        Matrix<S>* newMatrix = new Matrix<S>(*matrix);
-        if (newMatrix->nov > 63)
-        {
-            throw std::runtime_error("Permanent is an #P-complete problem. The size of the matrix you want to calculate the permanent for exceeds the limit of what is computationally possible. Try approximation algorithms.\n");
-        }
-        if (m_Settings.scaling)
-        {
-            ScalingCompact<C>* scalingCompact = new ScalingCompact<C>;
-            IO::scale(newMatrix, m_Settings, scalingCompact);
-            m_ScalingValues.push_back(scalingCompact);
-        }
-        Permanent* newPermanent = new Permanent(newMatrix, m_Settings);
-        newPermanent->computePermanent();
-        m_Permanents.push_back(newPermanent);
+        addQueue(matrix);
     }
+}
+
+template <class C, class S, class Permanent>
+void DecomposePerman<C, S, Permanent>::addQueue(Matrix<S> *matrix)
+{
+    int nnz = getNNZ(matrix);
+    matrix->sparsity = double(nnz) / double(matrix->nov * matrix->nov);
+    Matrix<S>* newMatrix = new Matrix<S>(*matrix);
+    if (newMatrix->nov > 63)
+    {
+        throw std::runtime_error("Permanent is an #P-complete problem. The size of the matrix you want to calculate the permanent for exceeds the limit of what is computationally possible. Try approximation algorithms.\n");
+    }
+    if (m_Settings.scaling)
+    {
+        ScalingCompact<C>* scalingCompact = new ScalingCompact<C>;
+        IO::scale(newMatrix, m_Settings, scalingCompact);
+        m_ScalingValues.push_back(scalingCompact);
+    }
+    Permanent* newPermanent = new Permanent(newMatrix, m_Settings);
+    newPermanent->computePermanent();
+    m_Permanents.push_back(newPermanent);
 }
 
 template <class C, class S, class Permanent>
