@@ -10,12 +10,12 @@ matrix_directory="/home/delbek/SparsePermanExperiments/"
 # The directory under which your matrix files are located.
 
 filenames=(
-reg_efficient_sparse_matrix_40_0.150000.mtx
+sparse_matrix_40_0.100000.mtx
 )
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based. Otherwise, it assumes them to be 0-based.
 
-algorithms=("register_efficient_code_generation")
+algorithms=("auto")
 # The algorithm used to compute the permanent of your matrix.
 # "auto" lets the library select the fastest algorithm available.
 # DEFAULT: "auto"
