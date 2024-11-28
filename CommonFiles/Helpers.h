@@ -52,7 +52,6 @@ inline void writePipe(int value)
     close(fd);
 }
 
-template <class C>
 struct ScalingCompact
 {
     ~ScalingCompact()
@@ -61,8 +60,8 @@ struct ScalingCompact
         delete[] colScale;
     }
 
-    C *rowScale;
-    C *colScale;
+    __float128 *rowScale;
+    __float128 *colScale;
 };
 
 template <class S>
