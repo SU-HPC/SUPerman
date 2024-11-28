@@ -49,7 +49,7 @@ protected:
     Matrix<S>* m_Matrix;
     Settings m_Settings;
     std::vector<Permanent*> m_Permanents;
-    std::vector<ScalingCompact<C>*> m_ScalingValues;
+    std::vector<ScalingCompact*> m_ScalingValues;
 };
 
 
@@ -74,8 +74,8 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
         if (m_Settings.scaling)
         {
             auto scalingCompact = m_ScalingValues[p];
-            C* rowScale = scalingCompact->rowScale;
-            C* colScale = scalingCompact->colScale;
+            __float128* rowScale = scalingCompact->rowScale;
+            __float128* colScale = scalingCompact->colScale;
             for (int i = 0; i < derived->m_Matrix->nov; ++i)
             {
                 result /= rowScale[i];
@@ -167,8 +167,8 @@ void DecomposePerman<C, S, Permanent>::addQueue(Matrix<S> *matrix)
     }
     if (m_Settings.scaling)
     {
-        ScalingCompact<C>* scalingCompact = new ScalingCompact<C>;
-        IO::scale(newMatrix, m_Settings, scalingCompact);
+        ScalingCompact* scalingCompact = new ScalingCompact;
+        IO::scale<C, S>(newMatrix, m_Settings, scalingCompact);
         m_ScalingValues.push_back(scalingCompact);
     }
     Permanent* newPermanent = new Permanent(newMatrix, m_Settings);

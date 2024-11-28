@@ -6,11 +6,11 @@ repo_directory="/home/delbek/SUPerman/"
 build_directory="${repo_directory}build/"
 # The directory into which the build files will be dumped.
 
-matrix_directory="/home/delbek/SparsePermanExperiments/"
+matrix_directory="/common_data/matrices/"
 # The directory under which your matrix files are located.
 
 filenames=(
-sparse_matrix_40_0.100000.mtx
+"deniz_sparse_%25_45.mtx"
 )
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based. Otherwise, it assumes them to be 0-based.

@@ -38,7 +38,7 @@ public:
     static void UTOrder(Matrix<S>* matrix);
 
     template <class C, class S>
-    static void scale(Matrix<S>* matrix, const Settings& settings, ScalingCompact<C>* scalingCompact);
+    static void scale(Matrix<S>* matrix, const Settings& settings, ScalingCompact* scalingCompact);
 
     template <class S>
     static void writeMatrixToFile(Matrix<S>* matrix, std::string filename);
@@ -56,18 +56,18 @@ private:
 
 
 template<class C, class S>
-void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact<C>* scalingCompact)
+void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact* scalingCompact)
 {
     int nov = matrix->nov;
     S* mat = matrix->mat;
     unsigned scalingIterationNo = settings.scalingIterationNo;
     unsigned scaleInto = settings.scaleInto;
 
-    C*& rowScale = scalingCompact->rowScale;
-    C*& colScale = scalingCompact->colScale;
+    __float128*& rowScale = scalingCompact->rowScale;
+    __float128*& colScale = scalingCompact->colScale;
 
-    rowScale = new C[nov];
-    colScale = new C[nov];
+    rowScale = new __float128[nov];
+    colScale = new __float128[nov];
 
     for (int i = 0; i < nov; ++i)
     {
@@ -78,24 +78,24 @@ void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact<C>* s
     {
         for (int iv = 0; iv < nov; ++iv)
         {
-            C sum = 0;
+            __float128 sum = 0;
             for (int jv = 0; jv < nov; ++jv)
             {
                 sum += mat[iv * nov + jv] * rowScale[iv] * colScale[jv];
             }
             if (sum != 0)
-                rowScale[iv] = C(scaleInto) / sum;
+                rowScale[iv] = __float128(scaleInto) / sum;
         }
 
         for (int jv = 0; jv < nov; ++jv)
         {
-            C sum = 0;
+            __float128 sum = 0;
             for (int iv = 0; iv < nov; ++iv)
             {
                 sum += mat[iv * nov + jv] * rowScale[iv] * colScale[jv];
             }
             if (sum != 0)
-                colScale[jv] = C(scaleInto) / sum;
+                colScale[jv] = __float128(scaleInto) / sum;
         }
     }
 
@@ -540,14 +540,13 @@ void IO::sortOrder(Matrix<S>* matrix)
         indegrees[col] = INT32_MAX;
         for (int i = 0; i < nov; ++i)
         {
-            newMat[i * nov + col] = mat[i * nov + j];
+            newMat[i * nov + j] = mat[i * nov + col];
         }
     }
 
     matrix->mat = newMat;
     delete[] mat;
     delete[] indegrees;
-
 }
 
 template<class S>
