@@ -46,16 +46,14 @@ std::string KernelGenerator<C, S>::generateUTOrderedKernelCode(int& k)
 template<class C, class S>
 void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
 {
-    const double REG_ACCESS_CONSTANT = 1;
-    const double SHARED_ACCESS_CONSTANT = 16;
-    const double GLOBAL_ACCESS_CONSTANT = 32;
+    const double GRATIO = 32; // change this to 16 while taking article tests
 
     double iterationCovered = 0;
     double totalPoint = 0;
 
     double percent = 50;
 
-    int currentRegisters = 0;
+    int nrows = 0;
     for (int j = 0; j < m_Nov; ++j)
     {
         int rowSpan = 0;
@@ -73,31 +71,32 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
         double currentIteration = iterationCovered + percent;
         percent /= 2;
 
-        currentRegisters = std::max(currentRegisters, (rowSpan + 1));
-        unsigned numberOfThreads = determineNumberOfThreads(currentRegisters);
+        nrows = std::max(nrows, (rowSpan + 1));
+        int nregisters = nrows * (sizeof(C) / 4);
+        unsigned numberOfThreads = determineNumberOfThreads(nregisters);
 
-        double regAccess = ((currentRegisters * currentIteration) / 100) * REG_ACCESS_CONSTANT;
-        double globalAccess = (((m_Nov - currentRegisters) * (100 - currentIteration)) / 100) * GLOBAL_ACCESS_CONSTANT;
+        double regAccess = ((nregisters * currentIteration) / 100);
+        double globalAccess = (((m_Nov - nrows) * (100 - currentIteration)) / 100) * GRATIO;
 
         double currentPoint = numberOfThreads / (regAccess + globalAccess);
-        if ((currentPoint > totalPoint) || (currentRegisters == k))
+        if ((currentPoint > totalPoint) || (nrows == k))
         {
             iterationCovered = currentIteration;
             totalPoint = currentPoint;
-            k = currentRegisters;
+            k = nrows;
             c = j;
         }
     }
 
     std::stringstream stream;
     stream << "Number of registers needed to store the X vector in: " << k * (sizeof(C) / 4) << std::endl;
-    stream << "Last column id to be included in the register area: " << c << std::endl;
+    stream << "Last column index to be included in the register area: " << c << std::endl;
     stream << "Total iteration space in which only register access is required: " << iterationCovered << std::endl;
     print(stream, m_Settings.rank);
 }
 
 template<class C, class S>
-unsigned KernelGenerator<C, S>::determineNumberOfThreads(int k)
+unsigned KernelGenerator<C, S>::determineNumberOfThreads(int nregisters)
 {
     cudaDeviceProp prop;
     cudaGetDeviceProperties(&prop, m_Settings.deviceID);
@@ -105,7 +104,7 @@ unsigned KernelGenerator<C, S>::determineNumberOfThreads(int k)
     const unsigned& SM_NO = prop.multiProcessorCount;
     const unsigned& REG_NO = prop.regsPerMultiprocessor;
 
-    unsigned regBoundThreadNo = double(REG_NO) / (20 + (k * (sizeof(C) / 4)));
+    unsigned regBoundThreadNo = double(REG_NO) / (20 + nregisters);
 
     return regBoundThreadNo * SM_NO;
 }

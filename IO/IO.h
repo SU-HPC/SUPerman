@@ -17,6 +17,8 @@
 #include "algorithm"
 #include "omp.h"
 #include <cstdint>
+#include "dm.h"
+#include <iomanip>
 
 
 class IO
@@ -42,6 +44,9 @@ public:
 
     template <class S>
     static void writeMatrixToFile(Matrix<S>* matrix, std::string filename);
+
+    template <class S>
+    static void printMatrix(S* mat, int nov, bool rowMajor = true);
 
 private:
     template <class S>
@@ -372,8 +377,8 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     S val;
     int i, j;
 
-    Matrix<S>* matrix = new Matrix<S>(nov);
-    S* mat = matrix->mat;
+    S* mat = new S[nov * nov];
+    memset(mat, 0, sizeof(S) * nov * nov);
     for(int iter = 0; iter < noLines; ++iter)
     {
         file >> i >> j;
@@ -416,6 +421,41 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     stream << "Sparsity of the matrix is determined to be: " << sparsity << std::endl;
     print(stream, settings.rank);
 
+    // for dm
+    int* rptrs = new int[nov + 1];
+    rptrs[0] = 0;
+    int* cids = new int[nnz];
+    int nnzSeen = 0;
+    for (int i = 0; i < nov; ++i)
+    {
+        for (int j = 0; j < nov; ++j)
+        {
+            if (mat[i * nov + j] != 0)
+            {
+                cids[nnzSeen++] = j;
+            }
+        }
+        rptrs[i + 1] = nnzSeen;
+    }
+    dm(rptrs, cids, nov, nnz);
+
+    Matrix<S>* matrix = new Matrix<S>(nov);
+    S* newMat = matrix->mat;
+    for (int i = 0; i < nov; ++i)
+    {
+        for (int ptr = rptrs[i]; ptr < rptrs[i + 1]; ++ptr)
+        {
+            newMat[i * nov + cids[ptr]] = mat[i * nov + cids[ptr]];
+        }
+    }
+
+    delete[] rptrs;
+    delete[] cids;
+    delete[] mat;
+    // for dm
+
+    size = nov * nov;
+    sparsity = (double(nnz) / double(size)) * 100;
     matrix->sparsity = sparsity;
 
     return matrix;
@@ -708,6 +748,40 @@ void IO::writeMatrixToFile(Matrix<S>* matrix, std::string filename)
     }
 
     file.close();
+}
+
+template <class S>
+void IO::printMatrix(S *mat, int nov, bool rowMajor)
+{
+    for (int i = 0; i < nov; ++i)
+    {
+        for (int j = 0; j < nov; ++j)
+        {
+            if (rowMajor)
+            {
+                if (int(mat[i * nov + j]) % 10 > 0)
+                {
+                    std::cout << mat[i * nov + j] << "   ";
+                }
+                else
+                {
+                    std::cout << mat[i * nov + j] << "    ";
+                }
+            }
+            else
+            {
+                if (int(mat[j * nov + i]) % 10 > 0)
+                {
+                    std::cout << mat[j * nov + i] << "   ";
+                }
+                else
+                {
+                    std::cout << mat[j * nov + i] << "    ";
+                }
+            }
+        }
+        std::cout << std::endl;
+    }
 }
 
 

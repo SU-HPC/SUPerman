@@ -86,8 +86,8 @@ double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
             printf("Permanent is being computed on device id: %d, %s\n", this->m_Settings.deviceID, prop.name);
             printf("Number of streaming multiprocessors: %d\n", noSM);
             printf("Total number of registers available across the GPU: %d\n", totalRegs);
-            printf("Total number of registers used across the GPU: %d\n", regsUsed);
-            printf("%f%% of the entire register file is in use\n", (double(regsUsed) / double(totalRegs)) * 100);
+            printf("Total number of registers used across the GPU: %d\n", std::min(regsUsed, totalRegs));
+            printf("%f%% of the entire register file is in use\n", std::min((double(regsUsed) / double(totalRegs)) * 100, double(100)));
             printf("Grid Dimension: %d\n", gridDim);
             printf("Block Dimension: %d\n", blockDim);
             printf("Total number of threads: %d\n", totalThreadCount);
