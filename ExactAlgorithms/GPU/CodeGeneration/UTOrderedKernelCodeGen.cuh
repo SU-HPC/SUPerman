@@ -79,7 +79,6 @@ void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
         double globalAccess = (((m_Nov - nrows) * (100 - currentIteration)) / 100) * GRATIO;
 
         double currentPoint = numberOfThreads / (regAccess + globalAccess);
-        std::cout << "COL: " << j << " , POINT: " << currentPoint << std::endl;
         if ((currentPoint > totalPoint) || (nrows == k))
         {
             iterationCovered = currentIteration;
