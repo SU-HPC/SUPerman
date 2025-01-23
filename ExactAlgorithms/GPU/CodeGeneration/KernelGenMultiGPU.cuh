@@ -100,8 +100,8 @@ double KernelGenMultiGPU<C, S, Algo, Shared>::permanentFunction()
             {
                 printf("%s (%d): Number of streaming multiprocessors: %d\n", prop.name, gpuNo, noSM);
                 printf("%s (%d): Total number of registers available across the GPU: %d\n", prop.name, gpuNo, totalRegs);
-                printf("%s (%d): Total number of registers used across the GPU: %d\n", prop.name, gpuNo, regsUsed);
-                printf("%s (%d): %f%% of the entire register file is in use\n", prop.name, gpuNo, (double(regsUsed) / double(totalRegs)) * 100);
+                printf("%s (%d): Total number of registers used across the GPU: %d\n", prop.name, gpuNo, std::min(regsUsed, totalRegs));
+                printf("%s (%d): %f%% of the entire register file is in use\n", prop.name, gpuNo, std::min((double(regsUsed) / double(totalRegs)) * 100, double(100)));
                 printf("%s (%d): Grid Dimension: %d\n", prop.name, gpuNo, gridDim);
                 printf("%s (%d): Block Dimension: %d\n", prop.name, gpuNo, blockDim);
                 printf("%s (%d): Total number of threads: %d\n", prop.name, gpuNo, totalThreadCount);

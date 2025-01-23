@@ -67,6 +67,8 @@ set(COMMON_HEADER_FILES
         Structures/Matrix.h
         Structures/SparseMatrix.h
         IO/IO.h
+        IO/dm.h
+        IO/dm.cpp
         CommonFiles/AlgorithmSelector.h
         ExactAlgorithms/AllExactAlgorithms.h
 )

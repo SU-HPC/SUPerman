@@ -47,7 +47,7 @@ private:
 
     /*          UT ORDERED KERNEL CODE           */
     void determineRegisterArea(int& k, int& c);
-    unsigned determineNumberOfThreads(int k);
+    unsigned determineNumberOfThreads(int nregisters);
 
     void prodReduce_ut(int k);
 
