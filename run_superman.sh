@@ -29,7 +29,7 @@ modes=("single_gpu")
 # - multi_gpu_mpi: Uses multiple nodes, each with possibly multiple GPUs.
 # DEFAULT: "cpu"
 
-thread_counts=(64)
+thread_counts=(88)
 # The number of CPU threads the library will use when computing the permanent on the CPU.
 # Only relevant if the mode is "cpu".
 # DEFAULT: maximum number of hardware threads allowed on the architecture
@@ -48,6 +48,10 @@ processor_num=(1)
 # The number of MPI nodes to use for the computation.
 # Only relevant if the mode is "multi_gpu_mpi".
 
+is_complex=("false")
+# If true, the library assumes the matrix to contain complex entries of the form (a + bi).
+# DEFAULT: "false"
+
 is_binary=("false")
 # If true, the library assumes that the matrix edges are unweighted.
 # DEFAULT: "false"
@@ -62,5 +66,5 @@ printing_precision=(30)
 
 g++ -std=c++17 wrapper.cpp
 for i in "${!filenames[@]}"; do
-  "${repo_directory}a.out" "${processor_num[$i]}" ${build_directory} repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}"
+  "${repo_directory}a.out" "${processor_num[$i]}" ${build_directory} repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" complex="${is_complex[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}"
 done

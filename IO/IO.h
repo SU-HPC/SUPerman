@@ -18,7 +18,7 @@
 #include "omp.h"
 #include <cstdint>
 #include "dm.h"
-#include <iomanip>
+#include <complex>
 
 
 class IO
@@ -29,6 +29,9 @@ public:
 
     template <class S>
     static Matrix<S>* readMatrix(std::string filename, Settings& settings);
+
+    template <class S>
+    static Matrix<std::complex<S>>* readComplex(std::string filename, Settings& settings);
 
     template <class S>
     static void skipOrder(Matrix<S>* matrix);
@@ -44,9 +47,6 @@ public:
 
     template <class S>
     static void writeMatrixToFile(Matrix<S>* matrix, std::string filename);
-
-    template <class S>
-    static void printMatrix(S* mat, int nov, bool rowMajor = true);
 
 private:
     template <class S>
@@ -119,6 +119,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
 {
     settings.algorithm = AlgorithmEnds;
     settings.mode = Mode::CPU;
+    settings.complex = false;
     settings.binary = false;
     settings.undirected = false;
     settings.scaling = false;
@@ -268,6 +269,10 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             {
                 throw std::runtime_error("An integer value should be provided to the gpu_num argument!\n");
             }
+        }
+        else if (arg == "complex")
+        {
+            settings.complex = value == "true";
         }
         else if (arg == "binary")
         {
@@ -544,6 +549,83 @@ void IO::skipOrder(Matrix<S>* matrix)
     delete[] matPrev;
 }
 
+template <class S>
+Matrix<std::complex<S>> *IO::readComplex(std::string filename, Settings &settings)
+{
+    std::ifstream file(filename);
+    if (!file.is_open())
+    {
+        throw std::runtime_error("File could not be opened.\n");
+    }
+
+    bool isMTX = false;
+    std::string extension = split<S>(filename, '.').back();
+    if (extension == "mtx")
+    {
+        isMTX = true;
+    }
+
+    while (file.peek() == '%')
+    {
+        file.ignore(2048, '\n');
+    }
+
+    int nov, noLines;
+    file >> nov >> nov >> noLines;
+
+    std::complex<S> entry;
+    S real;
+    S imag;
+    int i, j;
+
+    Matrix<std::complex<S>>* matrix = new Matrix<std::complex<S>>(nov);
+    std::complex<S>* mat = matrix->mat;
+    for(int iter = 0; iter < noLines; ++iter)
+    {
+        file >> i >> j;
+        file >> real >> imag;
+        entry.real(real);
+        entry.imag(imag);
+
+        if (isMTX)
+        {
+            i -= 1; // Convert from 1-based to 0-based
+            j -= 1;
+        }
+
+        mat[i * nov + j] = entry;
+
+        if (settings.undirected)
+        {
+            mat[j * nov + i] = entry;
+        }
+    }
+
+    file.close();
+
+    int nnz;
+    if (settings.undirected)
+    {
+        nnz = noLines * 2;
+    }
+    else
+    {
+        nnz = noLines;
+    }
+    int size = nov * nov;
+    double sparsity = (double(nnz) / double(size)) * 100;
+
+    std::stringstream stream;
+    stream << "Number of rows/columns of matrix is: " << nov << std::endl;
+    stream << "Total number of nonzeros is: " << nnz << std::endl;
+    stream << "Sparsity of the matrix is determined to be: " << sparsity << std::endl;
+    print(stream, settings.rank);
+
+    matrix->sparsity = sparsity;
+
+    return matrix;
+}
+
 template<class S>
 void IO::sortOrder(Matrix<S>* matrix)
 {
@@ -748,40 +830,6 @@ void IO::writeMatrixToFile(Matrix<S>* matrix, std::string filename)
     }
 
     file.close();
-}
-
-template <class S>
-void IO::printMatrix(S *mat, int nov, bool rowMajor)
-{
-    for (int i = 0; i < nov; ++i)
-    {
-        for (int j = 0; j < nov; ++j)
-        {
-            if (rowMajor)
-            {
-                if (int(mat[i * nov + j]) % 10 > 0)
-                {
-                    std::cout << mat[i * nov + j] << "   ";
-                }
-                else
-                {
-                    std::cout << mat[i * nov + j] << "    ";
-                }
-            }
-            else
-            {
-                if (int(mat[j * nov + i]) % 10 > 0)
-                {
-                    std::cout << mat[j * nov + i] << "   ";
-                }
-                else
-                {
-                    std::cout << mat[j * nov + i] << "    ";
-                }
-            }
-        }
-        std::cout << std::endl;
-    }
 }
 
 

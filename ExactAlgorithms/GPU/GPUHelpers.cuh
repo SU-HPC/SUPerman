@@ -10,6 +10,7 @@
 #include "omp.h"
 #include <algorithm>
 #include "Registers.cuh"
+#include "cuComplex.h"
 
 #define X_SIZE 63
 
@@ -87,6 +88,11 @@ template<class C, class S>
 inline int dpXSharedMShared(int b)
 {
     return dpXShared<C, S>(b) + dpMShared<C, S>(b);
+}
+
+inline int dpMSharedComplex(int b)
+{
+    return V * V * sizeof(cuDoubleComplex);
 }
 
 
