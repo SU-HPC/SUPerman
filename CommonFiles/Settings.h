@@ -45,6 +45,7 @@ struct Settings
     Mode mode;
 
     // Matrix Related
+    bool complex;
     bool binary;
     bool undirected;
 
