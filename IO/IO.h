@@ -332,7 +332,14 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
         }
         else if (arg == "calculation_precision")
         {
-            settings.calculationPrecision = DD;
+            if (value == "kahan")
+            {
+                settings.calculationPrecision = KAHAN;
+            }
+            else
+            {
+                settings.calculationPrecision = DD;
+            }
         }
         else
         {

@@ -60,11 +60,15 @@ is_undirected=("false")
 # If true, the library assumes that the matrix is undirected, meaning for every edge u -> v, there is also an edge v -> u.
 # DEFAULT: "false"
 
+calculation_precision=("dd")
+# Precision in which to compute the permanent
+# DEFAULT: dd
+
 printing_precision=(30)
 # Precision in which to print the permanent result
 # DEFAULT: 30
 
 g++ -std=c++17 wrapper.cpp
 for i in "${!filenames[@]}"; do
-  "${repo_directory}a.out" "${processor_num[$i]}" ${build_directory} repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" complex="${is_complex[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" printing_precision="${printing_precision[$i]}"
+  "${repo_directory}a.out" "${processor_num[$i]}" ${build_directory} repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" complex="${is_complex[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" calculation_precision="${calculation_precision[$i]}" printing_precision="${printing_precision[$i]}"
 done

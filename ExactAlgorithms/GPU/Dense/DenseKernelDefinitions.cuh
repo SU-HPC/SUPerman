@@ -96,6 +96,88 @@ namespace DenseDefinitions
     }
 
     template <class C, class S>
+    __global__ void xRegisterMSharedKahan(S* mat,
+                                     C* x,
+                                     C* p,
+                                     int nov,
+                                     long long start,
+                                     long long end,
+                                     long long chunkSize)
+    {
+        int threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        int totalThreadCount = gridDim.x * blockDim.x;
+
+        C myResult = 0;
+        C myError = 0;
+
+        #define REG(reg, number) C reg;
+            REGISTERS
+        #undef REG
+
+        extern __shared__ char sharedMemory[];
+        S* sharedMat = (S*)sharedMemory;
+
+        if (threadIdx.x == 0)
+        {
+            for (int i = 0; i < nov; ++i)
+            {
+                for (int j = 0; j < nov; ++j)
+                {
+                    sharedMat[i * nov + j] = mat[i * nov + j];
+                }
+            }
+        }
+
+        __syncthreads();
+
+        #define REG(reg, number) if (number < nov) {reg = x[number];}
+            REGISTERS
+        #undef REG
+
+        if (chunkSize == -1)
+        {
+            chunkSize = (end - start) / totalThreadCount + 1;
+        }
+        long long myStart = start + (threadID * chunkSize);
+        long long myEnd = min(start + ((threadID + 1) * chunkSize), end);
+
+        long long gray = (myStart - 1) ^ ((myStart - 1) >> 1); // gray code for the previous subset
+        // getting the x vector from the previous subset
+        for (int j = 0; j < (nov - 1); ++j)
+        {
+            if ((gray >> j) & 1LL) // was jth column included?
+            {
+                #define REG(reg, number) if (number < nov) {reg += sharedMat[j * nov + number];}
+                    REGISTERS
+                #undef REG
+            }
+        }
+
+        // are we starting with a negative product sign?
+        int productSign = (myStart & 1LL) ? -1 : 1;
+
+        for (long long i = myStart; i < myEnd; ++i)
+        {
+            long long grayDifference = (i ^ (i >> 1)) ^ gray;
+            int columnChanged = __ffsll(grayDifference) - 1; // column no that was added or removed
+            gray ^= (1LL << columnChanged);
+
+            // is column removed or added
+            C added = ((1LL << columnChanged) & gray) ? 1 : -1;
+
+            C product = 1;
+            #define REG(reg, number) if (number < nov) {reg += added * sharedMat[columnChanged * nov + number]; product *= reg;}
+                REGISTERS
+            #undef REG
+
+            kahanAdd<C>(myResult, myError, productSign * product);
+            productSign *= -1; // sign for the next subset
+        }
+
+        p[threadID] += myResult;
+    }
+
+    template <class C, class S>
     __global__ void xRegisterMGlobal(S* mat,
                                      C* x,
                                      C* p,
