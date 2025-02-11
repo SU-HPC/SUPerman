@@ -1,5 +1,8 @@
 # SUPerman - Highly Efficient Permanent Computation Library
 
+SUPerman is a state-of-the-art, complete software suite built for the efficient computation of matrix permanents. It supports a diverse range of matrix types, including real, complex, binary, sparse, and dense matrices, with specialized handling tailored to each type to maximize performance.
+
+
 ### Hard Requirements
 
 | **Requirement** | **Minimum Version** |
@@ -31,3 +34,13 @@
 ```bash
   ./run_superman.sh
 ```
+
+
+If you use this library in your research, please cite:
+Deniz Elbek, Fatih Taşyaran, Bora Uçar, Kamer Kaya. SUPerman: Efficient Permanent Computation on GPUs (2025).
+
+If you use the ideas behind our state-of-the-art sparse matrix permanent code generation technique in your research, please cite:
+Deniz Elbek and Kamer Kaya. Fully-Automated Code Generation for Efficient Computation of Sparse Matrix Permanents on GPUs (2025). arXiv:2501.15126. URL: https://arxiv.org/abs/2501.15126
+
+
+### MIT Licence
