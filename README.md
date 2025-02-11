@@ -1,17 +1,21 @@
 # SUPerman - Highly Efficient Permanent Computation Library
 
-## Hard Requirements
-```bash 
-  C++ >= 17
-  GCC >= 12.3.1
-  CMake >= 3.16.3
-```
+### Hard Requirements
 
-## Soft Requirements
-```bash
-  CUDA >= 12.3
-  OpenMPI >= 4.1.4
-```
+| **Requirement** | **Minimum Version** |
+| --------------- | ------------------- |
+| C++             | `>= 17`             |
+| GCC             | `>= 12.3.1`         |
+| CMake           | `>= 3.16.3`         |
+| Linux OS        | -                   |
+
+### Soft Requirements
+
+| **Requirement** | **Minimum Version** |
+| --------------- | ------------------- |
+| CUDA            | `>= 12.3`           |
+| OpenMPI         | `>= 4.1.4`          |
+
 
 ## Step-by-Step Guide
 
