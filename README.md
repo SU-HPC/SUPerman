@@ -15,17 +15,17 @@ Deniz Elbek and Kamer Kaya. Fully-Automated Code Generation for Efficient Comput
 
 | **Requirement** | **Minimum Version** |
 | --------------- | ------------------- |
-| C++             | `>= 17`             |
-| GCC             | `>= 12.3.1`         |
-| CMake           | `>= 3.16.3`         |
+| C++             | `17`             |
+| GCC             | `12.3.1`         |
+| CMake           | `3.16.3`         |
 | Linux OS        | -                   |
 
 ### Soft Requirements
 
 | **Requirement** | **Minimum Version** |
 | --------------- | ------------------- |
-| CUDA            | `>= 12.3`           |
-| OpenMPI         | `>= 4.1.4`          |
+| CUDA            | `12.3`           |
+| OpenMPI         | `4.1.4`          |
 
 
 ## Step-by-Step Guide
