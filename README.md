@@ -37,9 +37,11 @@ SUPerman is a state-of-the-art, complete software suite built for the efficient 
 
 
 If you use this library in your research, please cite:
+<br/><br/>
 Deniz Elbek, Fatih Taşyaran, Bora Uçar, Kamer Kaya. SUPerman: Efficient Permanent Computation on GPUs (2025).
 
 If you use the ideas behind our state-of-the-art sparse matrix permanent code generation technique in your research, please cite:
+<br/><br/>
 Deniz Elbek and Kamer Kaya. Fully-Automated Code Generation for Efficient Computation of Sparse Matrix Permanents on GPUs (2025). arXiv:2501.15126. URL: https://arxiv.org/abs/2501.15126
 
 
