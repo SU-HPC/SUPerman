@@ -15,6 +15,83 @@ namespace DenseDefinitions
     // all matrices are assumed to be stored in the col-major order, meaning their transpose taken in the host code
 
     template <class C, class S>
+    __global__ void xRegisterMSharedKahanMatSpecificCompilation(S* mat,
+                                                           C* x,
+                                                           C* p,
+                                                           int nov,
+                                                           long long start,
+                                                           long long end,
+                                                           long long chunkSize)
+    {
+        unsigned threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        unsigned totalThreadCount = gridDim.x * blockDim.x;
+
+        C myResult = 0;
+        C myError = 0;
+
+        #define REG(reg, number) C reg;
+            SPECIFIC
+        #undef REG
+
+        extern __shared__ char sharedMemory[];
+        S* sharedMat = (S*)sharedMemory;
+
+        unsigned threadNNZ = ceil(double(NOV * NOV) / blockDim.x);
+        for (unsigned i = threadIdx.x * threadNNZ; i < min((threadIdx.x + 1) * threadNNZ, NOV * NOV); ++i)
+        {
+            sharedMat[i] = mat[i];
+        }
+
+        __syncthreads();
+
+        #define REG(reg, number) reg = x[number];
+            SPECIFIC
+        #undef REG
+
+        if (chunkSize == -1)
+        {
+            chunkSize = (end - start) / totalThreadCount + 1;
+        }
+        long long myStart = start + (threadID * chunkSize);
+        long long myEnd = min(start + ((threadID + 1) * chunkSize), end);
+
+        long long gray = (myStart - 1) ^ ((myStart - 1) >> 1); // gray code for the previous subset
+        // getting the x vector from the previous subset
+        for (int j = 0; j < (NOV - 1); ++j)
+        {
+            if ((gray >> j) & 1LL) // was jth column included?
+            {
+                #define REG(reg, number) reg += sharedMat[j * NOV + number];
+                    SPECIFIC
+                #undef REG
+            }
+        }
+
+        // are we starting with a negative product sign?
+        int productSign = (myStart & 1LL) ? -1 : 1;
+
+        for (long long i = myStart; i < myEnd; ++i)
+        {
+            long long grayDifference = (i ^ (i >> 1)) ^ gray;
+            int columnChanged = __ffsll(grayDifference) - 1; // column no that was added or removed
+            gray ^= (1LL << columnChanged);
+
+            // is column removed or added
+            C added = ((1LL << columnChanged) & gray) ? 1 : -1;
+
+            C product = 1;
+            #define REG(reg, number) reg += added * sharedMat[columnChanged * NOV + number]; product *= reg;
+                SPECIFIC
+            #undef REG
+
+            kahanAdd<C>(myResult, myError, productSign * product);
+            productSign *= -1; // sign for the next subset
+        }
+
+        p[threadID] += myResult;
+    }
+
+    template <class C, class S>
     __global__ void xRegisterMSharedMatSpecificCompilation(S* mat,
                                      C* x,
                                      C* p,
@@ -23,8 +100,8 @@ namespace DenseDefinitions
                                      long long end,
                                      long long chunkSize)
     {
-        int threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
-        int totalThreadCount = gridDim.x * blockDim.x;
+        unsigned threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        unsigned totalThreadCount = gridDim.x * blockDim.x;
 
         C myResult = 0;
 
@@ -35,15 +112,10 @@ namespace DenseDefinitions
         extern __shared__ char sharedMemory[];
         S* sharedMat = (S*)sharedMemory;
 
-        if (threadIdx.x == 0)
+        unsigned threadNNZ = ceil(double(NOV * NOV) / blockDim.x);
+        for (unsigned i = threadIdx.x * threadNNZ; i < min((threadIdx.x + 1) * threadNNZ, NOV * NOV); ++i)
         {
-            for (int i = 0; i < NOV; ++i)
-            {
-                for (int j = 0; j < NOV; ++j)
-                {
-                    sharedMat[i * NOV + j] = mat[i * NOV + j];
-                }
-            }
+            sharedMat[i] = mat[i];
         }
 
         __syncthreads();
@@ -104,8 +176,8 @@ namespace DenseDefinitions
                                      long long end,
                                      long long chunkSize)
     {
-        int threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
-        int totalThreadCount = gridDim.x * blockDim.x;
+        unsigned threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        unsigned totalThreadCount = gridDim.x * blockDim.x;
 
         C myResult = 0;
         C myError = 0;
@@ -117,15 +189,10 @@ namespace DenseDefinitions
         extern __shared__ char sharedMemory[];
         S* sharedMat = (S*)sharedMemory;
 
-        if (threadIdx.x == 0)
+        unsigned threadNNZ = ceil(double(nov * nov) / blockDim.x);
+        for (unsigned i = threadIdx.x * threadNNZ; i < min((threadIdx.x + 1) * threadNNZ, nov * nov); ++i)
         {
-            for (int i = 0; i < nov; ++i)
-            {
-                for (int j = 0; j < nov; ++j)
-                {
-                    sharedMat[i * nov + j] = mat[i * nov + j];
-                }
-            }
+            sharedMat[i] = mat[i];
         }
 
         __syncthreads();
@@ -186,8 +253,8 @@ namespace DenseDefinitions
                                      long long end,
                                      long long chunkSize)
     {
-        int threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
-        int totalThreadCount = gridDim.x * blockDim.x;
+        unsigned threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        unsigned totalThreadCount = gridDim.x * blockDim.x;
 
         C myResult = 0;
 
@@ -251,8 +318,8 @@ namespace DenseDefinitions
                                   long long end,
                                   long long chunkSize)
     {
-        int threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
-        int totalThreadCount = gridDim.x * blockDim.x;
+        unsigned threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        unsigned totalThreadCount = gridDim.x * blockDim.x;
 
         C myResult = 0;
 
@@ -263,15 +330,10 @@ namespace DenseDefinitions
         extern __shared__ char sharedMemory[];
         S* sharedMat = (S*)sharedMemory;
 
-        if (threadIdx.x == 0)
+        unsigned threadNNZ = ceil(double(nov * nov) / blockDim.x);
+        for (unsigned i = threadIdx.x * threadNNZ; i < min((threadIdx.x + 1) * threadNNZ, nov * nov); ++i)
         {
-            for (int i = 0; i < nov; ++i)
-            {
-                for (int j = 0; j < nov; ++j)
-                {
-                    sharedMat[i * nov + j] = mat[i * nov + j];
-                }
-            }
+            sharedMat[i] = mat[i];
         }
 
         __syncthreads();
@@ -332,10 +394,8 @@ namespace DenseDefinitions
                                    long long end,
                                    long long chunkSize)
     {
-        int globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
-        int localThreadID = threadIdx.x;
-        int totalThreadCount = gridDim.x * blockDim.x;
-        int threadsPerBlock = blockDim.x;
+        unsigned globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        unsigned totalThreadCount = gridDim.x * blockDim.x;
 
         C myResult = 0;
 
@@ -344,7 +404,7 @@ namespace DenseDefinitions
 
         for (int i = 0; i < nov; ++i)
         {
-            sharedX[threadsPerBlock * i + localThreadID] = x[i];
+            sharedX[blockDim.x * i + threadIdx.x] = x[i];
         }
 
         if (chunkSize == -1)
@@ -362,7 +422,7 @@ namespace DenseDefinitions
             {
                 for (int i = 0; i < nov; ++i)
                 {
-                    sharedX[threadsPerBlock * i + localThreadID] += mat[j * nov + i];
+                    sharedX[blockDim.x * i + threadIdx.x] += mat[j * nov + i];
                 }
             }
         }
@@ -382,7 +442,7 @@ namespace DenseDefinitions
             C product = 1;
             for (int r = 0; r < nov; ++r)
             {
-                int index = threadsPerBlock * r + localThreadID;
+                unsigned index = blockDim.x * r + threadIdx.x;
                 sharedX[index] += added * mat[columnChanged * nov + r];
                 product *= sharedX[index];
             }
@@ -403,33 +463,26 @@ namespace DenseDefinitions
                                    long long end,
                                    long long chunkSize)
     {
-        int globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
-        int localThreadID = threadIdx.x;
-        int totalThreadCount = gridDim.x * blockDim.x;
-        int threadsPerBlock = blockDim.x;
+        unsigned globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        unsigned totalThreadCount = gridDim.x * blockDim.x;
 
         C myResult = 0;
 
         extern __shared__ char sharedMemory[];
         C* sharedX = (C*)sharedMemory; // size: nov * threadsPerBlock
-        S* sharedMat = (S*)&sharedX[nov * threadsPerBlock]; // size: nov * nov
+        S* sharedMat = (S*)&sharedX[nov * blockDim.x]; // size: nov * nov
 
-        if (localThreadID == 0)
+        unsigned threadNNZ = ceil(double(nov * nov) / blockDim.x);
+        for (unsigned i = threadIdx.x * threadNNZ; i < min((threadIdx.x + 1) * threadNNZ, nov * nov); ++i)
         {
-            for (int i = 0; i < nov; ++i)
-            {
-                for (int j  = 0; j < nov; ++j)
-                {
-                    sharedMat[i * nov + j] = mat[i * nov + j];
-                }
-            }
+            sharedMat[i] = mat[i];
         }
 
         __syncthreads();
 
         for (int i = 0; i < nov; ++i)
         {
-            sharedX[threadsPerBlock * i + localThreadID] = x[i];
+            sharedX[blockDim.x * i + threadIdx.x] = x[i];
         }
 
         if (chunkSize == -1)
@@ -447,7 +500,7 @@ namespace DenseDefinitions
             {
                 for (int i = 0; i < nov; ++i)
                 {
-                    sharedX[threadsPerBlock * i + localThreadID] += sharedMat[j * nov + i];
+                    sharedX[blockDim.x * i + threadIdx.x] += sharedMat[j * nov + i];
                 }
             }
         }
@@ -467,7 +520,7 @@ namespace DenseDefinitions
             C product = 1;
             for (int r = 0; r < nov; ++r)
             {
-                int index = threadsPerBlock * r + localThreadID;
+                unsigned index = blockDim.x * r + threadIdx.x;
                 sharedX[index] += added * sharedMat[columnChanged * nov + r];
                 product *= sharedX[index];
             }

@@ -140,7 +140,6 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
         gpuErrchk( cudaMemcpy(d_rows, rows, nnz * sizeof(int), cudaMemcpyHostToDevice) )
         gpuErrchk( cudaMemcpy(d_cvals, cvals, nnz * sizeof(S), cudaMemcpyHostToDevice) )
 
-        C* h_products = new C[totalThreadCount];
         C myProductSum = 0;
 
         while (true)
@@ -204,14 +203,16 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
                     myStart,
                     myEnd,
                     -1);
+        }
 
-            gpuErrchk( cudaDeviceSynchronize() )
-            gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
+        gpuErrchk( cudaDeviceSynchronize() )
 
-            for (int i = 0; i < totalThreadCount; ++i)
-            {
-                myProductSum += h_products[i];
-            }
+        C* h_products = new C[totalThreadCount];
+        gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
+
+        for (int i = 0; i < totalThreadCount; ++i)
+        {
+            myProductSum += h_products[i];
         }
 
         gpuErrchk( cudaFree(d_x) )

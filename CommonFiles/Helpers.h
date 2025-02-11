@@ -18,9 +18,10 @@
 
 #define PIPE_NAME "/tmp/wrapper_pipe"
 
-inline int readPipe()
+inline int readPipe(int rank)
 {
-    int fd = open(PIPE_NAME, O_RDONLY);
+    std::string pipeName = std::string(PIPE_NAME) + '_' + std::to_string(rank);
+    int fd = open(pipeName.c_str(), O_RDONLY);
     if (fd == -1)
     {
         throw std::runtime_error("CHILD: Failed to open pipe for reading!\n");
@@ -36,9 +37,10 @@ inline int readPipe()
     return val;
 }
 
-inline void writePipe(int value)
+inline void writePipe(int value, int rank)
 {
-    int fd = open(PIPE_NAME, O_WRONLY);
+    std::string pipeName = std::string(PIPE_NAME) + '_' + std::to_string(rank);
+    int fd = open(pipeName.c_str(), O_WRONLY);
     if (fd == -1)
     {
         throw std::runtime_error("CHILD: Failed to open pipe for writing!\n");
@@ -142,10 +144,7 @@ inline bool isRankDeficient(Matrix<S>* matrix)
 
 inline void recompilationStatus(int value, int rank)
 {
-    if (rank == 0)
-    {
-        writePipe(value);
-    }
+    writePipe(value, rank);
 }
 
 inline void print(const std::stringstream& str, int rank)

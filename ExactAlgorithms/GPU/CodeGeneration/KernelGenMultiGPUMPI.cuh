@@ -1,44 +1,39 @@
 //
-// Created by delbek on 6/11/24.
+// Created by delbek on 2/11/25.
 //
 
-#ifndef SUPERMAN_DPMULTIGPU_CUH
-#define SUPERMAN_DPMULTIGPU_CUH
+#ifndef SUPERMAN_KERNELGENMULTIGPUMPI_CUH
+#define SUPERMAN_KERNELGENMULTIGPUMPI_CUH
 
 #include "Permanent.h"
 #include "Matrix.h"
-#include "DenseKernelDefinitions.cuh"
+#include "generatedKernels.cuh"
+#include "KernelGenerator.cuh"
+#include <fstream>
 
 
 template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
-class dpMultiGPU: public Permanent<C, S>
+class KernelGenMultiGPUMPI: public Permanent<C, S>
 {
 public:
-    dpMultiGPU(Matrix<S>* matrix, Settings settings)
+    KernelGenMultiGPUMPI(Matrix<S>* matrix, Settings settings)
     :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
 
 public:
-    __float128 productSum;
+    double productSum;
 };
 
 
 template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
-double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
+double KernelGenMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 {
     int nov = this->m_Matrix->nov;
-#ifdef MAT_SPECIFIC_COMPILATION
-    if (NOV != nov)
-    {
-        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? Read README.md for details.\n");
-    }
-#endif
     S* mat = this->m_Matrix->mat;
-    S* matTransposed = new S[nov * nov];
 
     C x[nov];
-    __float128 product = 1;
+    double product = 1;
     for (int i = 0; i < nov; ++i)
     {
         C rowSum = 0;
@@ -49,23 +44,78 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
     }
-    productSum = product;
 
-    for (int i = 0; i < nov; ++i)
-    {
-        for (int j = 0; j < nov; ++j)
-        {
-            matTransposed[j * nov + i] = mat[i * nov + j];
-        }
-    }
+    int k = 0;
+    generateKernels(k, mat, x, nov, this->m_Settings);
 
+    int rank = this->m_Settings.rank;
+    int numberOfProcessors = this->m_Settings.processorNum;
     int gpuNum = this->m_Settings.gpuNum;
     unsigned partition = this->m_Settings.partition;
 
+    int* computeCapabilities = new int[gpuNum];
+    memset(computeCapabilities, 0, sizeof(int) * gpuNum);
+    for (int i = 0; i < gpuNum; ++i)
+    {
+        cudaDeviceProp deviceProp;
+        cudaGetDeviceProperties(&deviceProp, i);
+        computeCapabilities[i] = std::pow(deviceProp.major, 2);
+    }
+
+    int totalComputeDevices;
+    mpiAllReduce(&gpuNum, &totalComputeDevices, 1, getMPI_INT(), getMPI_SUM(), getMPI_COMM_WORLD());
+
+    int* totalComputeCapabilities = new int[totalComputeDevices];
+    memset(totalComputeCapabilities, 0, sizeof(int) * totalComputeDevices);
+
+    int* recvcounts = new int[numberOfProcessors];
+    int* displs = new int[numberOfProcessors];
+
+    mpiAllGather(&gpuNum, 1, getMPI_INT(), recvcounts, 1, getMPI_INT(), getMPI_COMM_WORLD());
+
+    displs[0] = 0;
+    for (int i = 1; i < numberOfProcessors; ++i)
+    {
+        displs[i] = displs[i - 1] + recvcounts[i - 1];
+    }
+
+    mpiAllGatherV(computeCapabilities, gpuNum, getMPI_INT(), totalComputeCapabilities, recvcounts, displs, getMPI_INT(), getMPI_COMM_WORLD());
+
     long long start = 1;
     long long end = (1LL << (nov - 1));
-    long long CHUNK_SIZE = (end - start + (gpuNum * partition) - 1) / (gpuNum * partition);
-    long long currentChunkStart = start;
+
+    long long totalRange = end - start;
+    long long nodeStart, nodeEnd;
+
+    mpiBarrier(getMPI_COMM_WORLD());
+
+    long long cumulativeStart = 0;
+    for (int i = 0; i < numberOfProcessors; ++i)
+    {
+        long long nodeRange = (totalRange * recvcounts[i]) / totalComputeDevices;
+        if (i == rank)
+        {
+            nodeStart = start + cumulativeStart;
+            nodeEnd = nodeStart + nodeRange;
+            break;
+        }
+        cumulativeStart += nodeRange;
+    }
+
+    if (rank == numberOfProcessors - 1)
+    {
+        nodeEnd = end;
+    }
+
+    delete[] computeCapabilities;
+    delete[] totalComputeCapabilities;
+    delete[] recvcounts;
+    delete[] displs;
+
+    long long CHUNK_SIZE = (nodeEnd - nodeStart + (gpuNum * partition) - 1) / (gpuNum * partition);
+    long long currentChunkStart = nodeStart;
+
+    C gpuReducedProductSum = 0;
 
     omp_lock_t lock;
     omp_init_lock(&lock);
@@ -81,41 +131,36 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
 
         int gridDim;
         int blockDim;
-        V = nov;
-        gpuErrchk( cudaOccupancyMaxPotentialBlockSizeVariableSMem(
+        gpuErrchk( cudaOccupancyMaxPotentialBlockSize(
                 &gridDim,
                 &blockDim,
-                Algo,
-                Shared,
-                0) )
+                Algo
+        ) )
 
         int noSM = prop.multiProcessorCount;
-        int sharedMemoryPerBlock = Shared(blockDim);
-        int maxSharedMemoryPerBlock= prop.sharedMemPerBlock;
-        int maxSharedMemoryPerSM = prop.sharedMemPerMultiprocessor;
-        int maxRegsPerSM = prop.regsPerMultiprocessor;
+        int totalRegs = prop.regsPerMultiprocessor * noSM;
         int totalThreadCount = gridDim * blockDim;
+        int regsUsed = ((k * (sizeof(C) / 4)) + 20) * totalThreadCount;
+        if (regsUsed > totalRegs) regsUsed = totalRegs;
 
         int maxBlocks;
         gpuErrchk( cudaOccupancyMaxActiveBlocksPerMultiprocessor(
                 &maxBlocks,
                 Algo,
                 blockDim,
-                sharedMemoryPerBlock
+                0
         ) )
 
 #ifndef SILENT
-        #pragma omp critical
+    #pragma omp critical
         {
             static std::vector<bool> printed(gpuNum, false);
             if (!printed[gpuNo])
             {
                 printf("%s (%d): Number of streaming multiprocessors: %d\n", prop.name, gpuNo, noSM);
-                printf("%s (%d): Shared memory used per block: %d bytes\n", prop.name, gpuNo, sharedMemoryPerBlock);
-                printf("%s (%d): Shared memory used per SM: %d bytes\n", prop.name, gpuNo, sharedMemoryPerBlock * maxBlocks);
-                printf("%s (%d): %f%% of the entire shared memory dedicated per block is used\n", prop.name, gpuNo, (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
-                printf("%s (%d): %f%% of the entire shared memory dedicated per SM is used\n", prop.name, gpuNo, ((double(sharedMemoryPerBlock) * maxBlocks) / double(maxSharedMemoryPerSM)) * 100);
-                printf("%s (%d): Maximum number of registers that could be used per SM: %d\n", prop.name, gpuNo, maxRegsPerSM);
+                printf("%s (%d): Total number of registers available across the GPU: %d\n", prop.name, gpuNo, totalRegs);
+                printf("%s (%d): Total number of registers used across the GPU: %d\n", prop.name, gpuNo, std::min(regsUsed, totalRegs));
+                printf("%s (%d): %f%% of the entire register file is in use\n", prop.name, gpuNo, std::min((double(regsUsed) / double(totalRegs)) * 100, double(100)));
                 printf("%s (%d): Grid Dimension: %d\n", prop.name, gpuNo, gridDim);
                 printf("%s (%d): Block Dimension: %d\n", prop.name, gpuNo, blockDim);
                 printf("%s (%d): Total number of threads: %d\n", prop.name, gpuNo, totalThreadCount);
@@ -126,17 +171,14 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
         }
 #endif
 
-        C* d_x;
         C* d_products;
-        S* d_mat;
+        C* d_x;
 
-        gpuErrchk( cudaMalloc(&d_x, nov * sizeof(C)) )
+        size_t xSize = (nov - k);
+        gpuErrchk( cudaMalloc(&d_x, totalThreadCount * sizeof(C) * xSize) )
+
         gpuErrchk( cudaMalloc(&d_products, totalThreadCount * sizeof(C)) )
         gpuErrchk( cudaMemset(d_products, 0, totalThreadCount * sizeof(C)) )
-        gpuErrchk( cudaMalloc(&d_mat, (nov * nov) * sizeof(S)) )
-
-        gpuErrchk( cudaMemcpy(d_x, x, nov * sizeof(C), cudaMemcpyHostToDevice) )
-        gpuErrchk( cudaMemcpy(d_mat, matTransposed, (nov * nov) * sizeof(S), cudaMemcpyHostToDevice) )
 
         C myProductSum = 0;
 
@@ -145,7 +187,7 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
             long long myStart;
             long long myEnd;
             omp_set_lock(&lock);
-            if (currentChunkStart >= end)
+            if (currentChunkStart >= nodeEnd)
             {
                 omp_unset_lock(&lock);
                 break;
@@ -155,7 +197,7 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
             myEnd = currentChunkStart;
             omp_unset_lock(&lock);
 
-            if (myEnd > end) myEnd = end;
+            if (myEnd > nodeEnd) myEnd = nodeEnd;
 
             long long left = (myEnd - myStart);
 
@@ -173,8 +215,8 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
                     break;
                 }
 
-                Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
-                        d_mat,
+                Algo<<<gridDim, blockDim>>>(
+                        nullptr,
                         d_x,
                         d_products,
                         nov,
@@ -187,8 +229,8 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
                 myStart += thisIteration;
             }
 
-            Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
-                    d_mat,
+            Algo<<<gridDim, blockDim>>>(
+                    nullptr,
                     d_x,
                     d_products,
                     nov,
@@ -207,21 +249,23 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
             myProductSum += h_products[i];
         }
 
-        gpuErrchk( cudaFree(d_x) )
         gpuErrchk( cudaFree(d_products) )
-        gpuErrchk( cudaFree(d_mat) )
+        gpuErrchk( cudaFree(d_x) )
 
         delete[] h_products;
 
         #pragma omp atomic
-            productSum += myProductSum;
+            gpuReducedProductSum += myProductSum;
     }
     omp_destroy_lock(&lock);
 
-    delete[] matTransposed;
+    mpiBarrier(getMPI_COMM_WORLD());
+    productSum = 0;
+    mpiReduce(&gpuReducedProductSum, &productSum, 1, getMPI_DOUBLE(), getMPI_SUM(), 0, getMPI_COMM_WORLD());
+    productSum += product;
 
     return 0;
 }
 
 
-#endif //SUPERMAN_DPMULTIGPU_CUH
+#endif //SUPERMAN_KERNELGENMULTIGPUMPI_CUH

@@ -33,6 +33,7 @@
 #ifdef MPI_AVAILABLE
 #include "spMultiGPUMPI.cuh"
 #include "dpMultiGPUMPI.cuh"
+#include "KernelGenMultiGPUMPI.cuh"
 #endif
 
 
@@ -156,6 +157,12 @@ extern Result gpuSPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
+    else if ((selectedAlgorithm == Algorithm::NAIVECODEGENERATION) || selectedAlgorithm == Algorithm::REGEFFICIENTCODEGENERATION)
+    {
+        auto permanent = new DecomposePerman<C, S, KernelGenMultiGPUMPI<C, S, &globalKernel, spNoShared<C, S> > >(matrix, *settings);
+        result = permanent->computePermanentRecursively();
+        delete permanent;
+    }
     else
     {
         throw std::runtime_error("Algorithm you have selected is not included in the available GPU algorithms list.\n");
@@ -177,9 +184,18 @@ extern Result gpuDPSingleGPU(Matrix<S>* matrix, Settings* settings)
     if (selectedAlgorithm == Algorithm::XREGISTERMSHARED)
     {
         #ifdef MAT_SPECIFIC_COMPILATION
-            auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xRegisterMSharedMatSpecificCompilation, dpMShared<C, S> > >(matrix, *settings);
-            result = permanent->computePermanentRecursively();
-            delete permanent;
+            if (settings->calculationPrecision == DD)
+            {
+                auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xRegisterMSharedMatSpecificCompilation, dpMShared<C, S> > >(matrix, *settings);
+                result = permanent->computePermanentRecursively();
+                delete permanent;
+            }
+            else if (settings->calculationPrecision == KAHAN)
+            {
+                auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xRegisterMSharedKahanMatSpecificCompilation, dpMShared<C, S> > >(matrix, *settings);
+                result = permanent->computePermanentRecursively();
+                delete permanent;
+            }
         #else
             if (settings->calculationPrecision == DD)
             {

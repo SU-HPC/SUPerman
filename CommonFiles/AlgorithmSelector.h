@@ -11,6 +11,7 @@
 #include "Settings.h"
 #include "Result.h"
 #include <fstream>
+#include "mpi_wrapper.h"
 
 
 template <class C, class S>
@@ -27,12 +28,11 @@ public:
 template<class C, class S>
 typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgorithm(Matrix<S> *matrix, Settings *settings)
 {
-
 #ifdef GPU_AVAILABLE
     if (settings->algorithm == AlgorithmEnds && settings->mode != Mode::CPU)
     {
         std::stringstream stream;
-        if (matrix->sparsity < 10 || matrix->nov < 42 || settings->mode == Mode::MultiGPUMPI)
+        if (matrix->sparsity < 10 || matrix->nov < 42)
         {
             settings->algorithm = XREGISTERMSHARED;
             stream << "SELECTED ALGORITHM IS: xregister_mshared" << std::endl;

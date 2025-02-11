@@ -22,8 +22,8 @@ namespace SparseDefinitions
                                    long long end,
                                    long long chunkSize)
     {
-        int globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
-        int totalThreadCount = gridDim.x * blockDim.x;
+        unsigned globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        unsigned totalThreadCount = gridDim.x * blockDim.x;
 
         C myResult = 0;
 
@@ -57,7 +57,7 @@ namespace SparseDefinitions
         // product from the previous subset
         for (int i = 0; i < nov; ++i)
         {
-            int index = totalThreadCount * i + globalThreadID;
+            unsigned index = totalThreadCount * i + globalThreadID;
             if (x[index] == 0)
             {
                 ++zeroNumber;
@@ -78,7 +78,7 @@ namespace SparseDefinitions
 
             for (int j = cptrs[columnChanged]; j < cptrs[columnChanged + 1]; ++j)
             {
-                int index = totalThreadCount * rows[j] + globalThreadID;
+                unsigned index = totalThreadCount * rows[j] + globalThreadID;
                 C xValue = x[index];
 
                 // excluding
@@ -103,7 +103,7 @@ namespace SparseDefinitions
                 C product = 1;
                 for (int r = 0; r < nov; ++r)
                 {
-                    int index = totalThreadCount * r + globalThreadID;
+                    unsigned index = totalThreadCount * r + globalThreadID;
                     product *= x[index];
                 }
                 myResult += productSign * product;
@@ -127,8 +127,8 @@ namespace SparseDefinitions
                                    long long end,
                                    long long chunkSize)
     {
-        int globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
-        int totalThreadCount = gridDim.x * blockDim.x;
+        unsigned globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        unsigned totalThreadCount = gridDim.x * blockDim.x;
 
         C myResult = 0;
 
@@ -141,16 +141,18 @@ namespace SparseDefinitions
         size_t sharedCValsOffset = (sharedRowsOffset + nnz * sizeof(int) + (alignof(S) - 1)) & ~(alignof(S) - 1);
         S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
 
-        if (threadIdx.x == 0)
+        if (threadIdx.x < 32)
         {
-            for (int i = 0; i < nov; ++i)
+            unsigned threadVal = ceil(double(nov + 1) / 32);
+            for (unsigned i = threadIdx.x * threadVal; i < min((threadIdx.x + 1) * threadVal, (nov + 1)); ++i)
             {
                 sharedCPtrs[i] = cptrs[i];
             }
-
-            sharedCPtrs[nov] = cptrs[nov];
-
-            for (int i = 0; i < nnz; ++i)
+        }
+        else
+        {
+            unsigned threadNNZ = ceil(double(nnz) / (blockDim.x - 32));
+            for (unsigned i = (threadIdx.x - 32) * threadNNZ; i < min((threadIdx.x - 31) * threadNNZ, nnz); ++i)
             {
                 sharedRows[i] = rows[i];
                 sharedCVals[i] = cvals[i];
@@ -189,7 +191,7 @@ namespace SparseDefinitions
         // product from the previous subset
         for (int i = 0; i < nov; ++i)
         {
-            int index = totalThreadCount * i + globalThreadID;
+            unsigned index = totalThreadCount * i + globalThreadID;
             if (x[index] == 0)
             {
                 ++zeroNumber;
@@ -210,7 +212,7 @@ namespace SparseDefinitions
 
             for (int j = sharedCPtrs[columnChanged]; j < sharedCPtrs[columnChanged + 1]; ++j)
             {
-                int index = totalThreadCount * sharedRows[j] + globalThreadID;
+                unsigned index = totalThreadCount * sharedRows[j] + globalThreadID;
                 C xValue = x[index];
 
                 // excluding
@@ -235,7 +237,7 @@ namespace SparseDefinitions
                 C product = 1;
                 for (int r = 0; r < nov; ++r)
                 {
-                    int index = totalThreadCount * r + globalThreadID;
+                    unsigned index = totalThreadCount * r + globalThreadID;
                     product *= x[index];
                 }
                 myResult += productSign * product;
@@ -259,10 +261,8 @@ namespace SparseDefinitions
                                    long long end,
                                    long long chunkSize)
     {
-        int globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
-        int localThreadID = threadIdx.x;
-        int totalThreadCount = gridDim.x * blockDim.x;
-        int threadsPerBlock = blockDim.x;
+        unsigned globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        unsigned totalThreadCount = gridDim.x * blockDim.x;
 
         C myResult = 0;
 
@@ -271,7 +271,7 @@ namespace SparseDefinitions
 
         for (int i = 0; i < nov; ++i)
         {
-            sharedX[threadsPerBlock * i + localThreadID] = x[i];
+            sharedX[blockDim.x * i + threadIdx.x] = x[i];
         }
 
         if (chunkSize == -1)
@@ -289,7 +289,7 @@ namespace SparseDefinitions
             {
                 for (int i = cptrs[j]; i < cptrs[j + 1]; ++i)
                 {
-                    sharedX[threadsPerBlock * rows[i] + localThreadID] += cvals[i];
+                    sharedX[blockDim.x * rows[i] + threadIdx.x] += cvals[i];
                 }
             }
         }
@@ -298,7 +298,7 @@ namespace SparseDefinitions
         // product from the previous subset
         for (int i = 0; i < nov; ++i)
         {
-            int index = threadsPerBlock * i + localThreadID;
+            unsigned index = blockDim.x * i + threadIdx.x;
             if (sharedX[index] == 0)
             {
                 ++zeroNumber;
@@ -319,7 +319,7 @@ namespace SparseDefinitions
 
             for (int j = cptrs[columnChanged]; j < cptrs[columnChanged + 1]; ++j)
             {
-                int index = threadsPerBlock * rows[j] + localThreadID;
+                unsigned index = blockDim.x * rows[j] + threadIdx.x;
                 C xValue = sharedX[index];
 
                 // excluding
@@ -344,7 +344,7 @@ namespace SparseDefinitions
                 C product = 1;
                 for (int r = 0; r < nov; ++r)
                 {
-                    int index = threadsPerBlock * r + localThreadID;
+                    unsigned index = blockDim.x * r + threadIdx.x;
                     product *= sharedX[index];
                 }
                 myResult += productSign * product;
@@ -368,17 +368,15 @@ namespace SparseDefinitions
                                    long long end,
                                    long long chunkSize)
     {
-        int globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
-        int localThreadID = threadIdx.x;
-        int totalThreadCount = gridDim.x * blockDim.x;
-        int threadsPerBlock = blockDim.x;
+        unsigned globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        unsigned totalThreadCount = gridDim.x * blockDim.x;
 
         C myResult = 0;
 
         extern __shared__ char sharedMemory[];
-        C* sharedX = (C*)sharedMemory; // size: nov * threadsPerBlock * sizeof(C)
+        C* sharedX = (C*)sharedMemory; // size: nov * blockDim.x * sizeof(C)
 
-        size_t sharedCPtrsOffset = threadsPerBlock * nov * sizeof(C);
+        size_t sharedCPtrsOffset = blockDim.x * nov * sizeof(C);
         int* sharedCPtrs = (int*)&sharedMemory[sharedCPtrsOffset]; // size: nov + 1 * sizeof(int)
 
         size_t sharedRowsOffset = sharedCPtrsOffset + ((nov + 1) * sizeof(int) + (sizeof(int) - 1)) & ~(sizeof(int) - 1);
@@ -387,16 +385,18 @@ namespace SparseDefinitions
         size_t sharedCValsOffset = (sharedRowsOffset + nnz * sizeof(int) + (alignof(S) - 1)) & ~(alignof(S) - 1);
         S* sharedCVals = (S*)&sharedMemory[sharedCValsOffset]; // size: nnz * sizeof(S)
 
-        if (localThreadID == 0)
+        if (threadIdx.x < 32)
         {
-            for (int i = 0; i < nov; ++i)
+            unsigned threadVal = ceil(double(nov + 1) / 32);
+            for (unsigned i = threadIdx.x * threadVal; i < min((threadIdx.x + 1) * threadVal, (nov + 1)); ++i)
             {
                 sharedCPtrs[i] = cptrs[i];
             }
-
-            sharedCPtrs[nov] = cptrs[nov];
-
-            for (int i = 0; i < nnz; ++i)
+        }
+        else
+        {
+            unsigned threadNNZ = ceil(double(nnz) / (blockDim.x - 32));
+            for (unsigned i = (threadIdx.x - 32) * threadNNZ; i < min((threadIdx.x - 31) * threadNNZ, nnz); ++i)
             {
                 sharedRows[i] = rows[i];
                 sharedCVals[i] = cvals[i];
@@ -407,7 +407,7 @@ namespace SparseDefinitions
 
         for (int i = 0; i < nov; ++i)
         {
-            sharedX[threadsPerBlock * i + localThreadID] = x[i];
+            sharedX[blockDim.x * i + threadIdx.x] = x[i];
         }
 
         if (chunkSize == -1)
@@ -425,7 +425,7 @@ namespace SparseDefinitions
             {
                 for (int i = sharedCPtrs[j]; i < sharedCPtrs[j + 1]; ++i)
                 {
-                    sharedX[threadsPerBlock * sharedRows[i] + localThreadID] += sharedCVals[i];
+                    sharedX[blockDim.x * sharedRows[i] + threadIdx.x] += sharedCVals[i];
                 }
             }
         }
@@ -434,7 +434,7 @@ namespace SparseDefinitions
         // product from the previous subset
         for (int i = 0; i < nov; ++i)
         {
-            int index = threadsPerBlock * i + localThreadID;
+            unsigned index = blockDim.x * i + threadIdx.x;
             if (sharedX[index] == 0)
             {
                 ++zeroNumber;
@@ -455,7 +455,7 @@ namespace SparseDefinitions
 
             for (int j = sharedCPtrs[columnChanged]; j < sharedCPtrs[columnChanged + 1]; ++j)
             {
-                int index = threadsPerBlock * sharedRows[j] + localThreadID;
+                unsigned index = blockDim.x * sharedRows[j] + threadIdx.x;
                 C xValue = sharedX[index];
 
                 // excluding
@@ -480,7 +480,7 @@ namespace SparseDefinitions
                 C product = 1;
                 for (int r = 0; r < nov; ++r)
                 {
-                    int index = threadsPerBlock * r + localThreadID;
+                    unsigned index = blockDim.x * r + threadIdx.x;
                     product *= sharedX[index];
                 }
                 myResult += productSign * product;

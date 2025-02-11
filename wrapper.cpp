@@ -9,6 +9,7 @@
 #include <vector>
 #include <sys/wait.h>
 #include <sstream>
+#include <fstream>
 
 #define PIPE_NAME "/tmp/wrapper_pipe"
 
@@ -42,9 +43,10 @@ void compileProgram(const std::string& build_directory)
     }
 }
 
-int readPipe()
+int readPipe(int rank)
 {
-    int fd = open(PIPE_NAME, O_RDONLY);
+    std::string pipeName = std::string(PIPE_NAME) + '_' + std::to_string(rank);
+    int fd = open(pipeName.c_str(), O_RDONLY);
     if (fd == -1)
     {
         throw std::runtime_error("PARENT: Failed to open pipe for reading!\n");
@@ -60,9 +62,10 @@ int readPipe()
     return val;
 }
 
-void writePipe(int value)
+void writePipe(int value, int rank)
 {
-    int fd = open(PIPE_NAME, O_WRONLY);
+    std::string pipeName = std::string(PIPE_NAME) + '_' + std::to_string(rank);
+    int fd = open(pipeName.c_str(), O_WRONLY);
     if (fd == -1)
     {
         throw std::runtime_error("PARENT: Failed to open pipe for writing!\n");
@@ -74,6 +77,81 @@ void writePipe(int value)
     }
 
     close(fd);
+}
+
+void modifyCMakeLists(bool matrixSpecificCompilation, std::string X)
+{
+    std::string filename = "CMakeLists.txt";
+    std::ifstream infile(filename.c_str());
+    if (!infile)
+    {
+        throw std::runtime_error("Cannot open " + filename + " for reading!");
+    }
+
+    std::vector<std::string> lines;
+    std::string line;
+    while (std::getline(infile, line))
+    {
+        lines.push_back(line);
+    }
+    infile.close();
+
+    const std::string marker = "### MATRIX SPECIFIC COMPILATION (SHOULD NEVER BE MODIFIED)";
+
+    int startIdx = -1;
+    int endIdx = -1;
+    for (size_t i = 0; i < lines.size(); ++i)
+    {
+        if (lines[i].find(marker) != std::string::npos)
+        {
+            if (startIdx == -1)
+            {
+                startIdx = static_cast<int>(i);
+            }
+            else
+            {
+                endIdx = static_cast<int>(i);
+                break;
+            }
+        }
+    }
+
+    if (startIdx == -1 || endIdx == -1)
+    {
+        throw std::runtime_error("Please never modify the matrix-specific compilation part of the CMakeLists.txt file!");
+    }
+
+    std::vector<std::string> replacement;
+    replacement.push_back(marker);
+
+    if (matrixSpecificCompilation)
+    {
+        replacement.push_back("add_compile_definitions(SPECIFIC=REGISTERS" + X + ")");
+        replacement.push_back("add_compile_definitions(NOV=" + X + ")");
+        replacement.push_back("add_definitions(-DMAT_SPECIFIC_COMPILATION)");
+    }
+    else
+    {
+        replacement.push_back("add_compile_definitions(SPECIFIC=REGISTERS40)");
+        replacement.push_back("add_compile_definitions(NOV=40)");
+        replacement.push_back("# add_definitions(-DMAT_SPECIFIC_COMPILATION)");
+    }
+
+    replacement.push_back(marker);
+
+    lines.erase(lines.begin() + startIdx, lines.begin() + endIdx + 1);
+    lines.insert(lines.begin() + startIdx, replacement.begin(), replacement.end());
+
+    std::ofstream outfile(filename);
+    if (!outfile)
+    {
+        throw std::runtime_error("Cannot open " + filename + " for writing!");
+    }
+    for (const auto& l: lines)
+    {
+        outfile << l << "\n";
+    }
+    outfile.close();
 }
 
 std::vector<std::string> splitArguments(const std::string& arguments)
@@ -90,17 +168,28 @@ std::vector<std::string> splitArguments(const std::string& arguments)
 
 int main(int argc, char* argv[]) 
 {
-    if (argc < 5)
+    if (argc < 7)
     {
         throw std::runtime_error("Few arguments passed to the wrapper.cpp than what is required!\n");
     }
 
     unsigned processorNumber = std::stoi(argv[1]);
     std::string buildDir = argv[2];
+    std::string matrixSpecificCompilation = argv[3];
+    std::string matrixSpecificSize = argv[4];
+
+    if (matrixSpecificCompilation == "true")
+    {
+        modifyCMakeLists(true, matrixSpecificSize);
+    }
+    else
+    {
+        modifyCMakeLists(false, matrixSpecificSize);
+    }
     
     std::string programPath = buildDir + "SUPerman";
     std::string arguments;
-    for (int i = 3; i < argc; ++i)
+    for (int i = 5; i < argc; ++i)
     {
         arguments += std::string(argv[i]) + ' ';
     }
@@ -110,7 +199,7 @@ int main(int argc, char* argv[])
     compileProgram(buildDir);
     
     pid_t first_pid = fork();
-    if (first_pid == 0) 
+    if (first_pid == 0)
     {
         // 1-Child
         std::string firstProgramArguments = programPath + " pid=1 " + arguments;
@@ -133,9 +222,17 @@ int main(int argc, char* argv[])
     else if (first_pid > 0) 
     {
         // 1-Parent
-        mkfifo(PIPE_NAME, S_IFIFO|0640);
+        for (int i = 0; i < processorNumber; ++i)
+        {
+            std::string pipeName = std::string(PIPE_NAME) + '_' + std::to_string(i);
+            mkfifo(pipeName.c_str(), S_IFIFO|0640);
+        }
         
-        int recompilationNeeded = readPipe();
+        int recompilationNeeded;
+        for (int i = 0; i < processorNumber; ++i)
+        {
+            recompilationNeeded = readPipe(i);
+        }
         if (recompilationNeeded == 0)
         {
             int status;
@@ -143,7 +240,11 @@ int main(int argc, char* argv[])
         } 
         else if (recompilationNeeded == 1) 
         {
-            int k = readPipe();
+            int k;
+            for (int i = 0; i < processorNumber; ++i)
+            {
+                k = readPipe(i);
+            }
             int status;
             waitpid(first_pid, &status, 0);
             std::cout << "************KERNELS ARE BEING COMPILED************" << std::endl;
@@ -173,7 +274,10 @@ int main(int argc, char* argv[])
             else if (second_pid > 0)
             {
                 // 2-Parent
-                writePipe(k);
+                for (int i = 0; i < processorNumber; ++i)
+                {
+                    writePipe(k, i);
+                }
                 waitpid(second_pid, &status, 0);
             }
             else
@@ -182,7 +286,11 @@ int main(int argc, char* argv[])
             }
         }
 
-        unlink(PIPE_NAME);
+        for (int i = 0; i < processorNumber; ++i)
+        {
+            std::string pipeName = std::string(PIPE_NAME) + '_' + std::to_string(i);
+            unlink(pipeName.c_str());
+        }
     }
     else
     {

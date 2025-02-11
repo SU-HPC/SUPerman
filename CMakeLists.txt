@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.16.3)
 project(SUPerman)
 
-### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
+### MATRIX SPECIFIC COMPILATION (SHOULD NEVER BE MODIFIED)
 add_compile_definitions(SPECIFIC=REGISTERS40)
 add_compile_definitions(NOV=40)
 # add_definitions(-DMAT_SPECIFIC_COMPILATION)
-### LEFT TO USER FOR MATRIX SPECIFIC COMPILATION
+### MATRIX SPECIFIC COMPILATION (SHOULD NEVER BE MODIFIED)
 
 # C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -49,7 +49,6 @@ include_directories(IO)
 include_directories(CommonFiles)
 include_directories(MPIWrappers)
 include_directories(ExactAlgorithms)
-include_directories(ExactAlgorithms/Complex)
 include_directories(ExactAlgorithms/CPU)
 include_directories(ExactAlgorithms/CPU/Dense)
 include_directories(ExactAlgorithms/CPU/Sparse)
@@ -77,14 +76,12 @@ set(COMMON_HEADER_FILES
 # CPU Files
 set(CPU_HEADER_FILES
         ExactAlgorithms/CPU/Dense/dpNaivePerman.h
-        ExactAlgorithms/Complex/cpuComputeComplex.h
         ExactAlgorithms/CPU/Sparse/spNaivePerman.h
 )
 
 # GPU Files
 set(GPU_HEADER_FILES
         ExactAlgorithms/GPU/GPUHelpers.cuh
-        ExactAlgorithms/Complex/gpuComputeComplex.cuh
         ExactAlgorithms/GPU/Sparse/SparseKernelDefinitions.cuh
         ExactAlgorithms/GPU/Sparse/spSingleGPU.cuh
         ExactAlgorithms/GPU/Sparse/spMultiGPU.cuh
@@ -97,6 +94,7 @@ set(GPU_HEADER_FILES
         ExactAlgorithms/GPU/PrecisionHelpers.cuh
         ExactAlgorithms/GPU/CodeGeneration/KernelGenSingleGPU.cuh
         ExactAlgorithms/GPU/CodeGeneration/KernelGenMultiGPU.cuh
+        ExactAlgorithms/GPU/CodeGeneration/KernelGenMultiGPUMPI.cuh
         ExactAlgorithms/GPU/CodeGeneration/KernelGenerator.cuh
         ExactAlgorithms/GPU/CodeGeneration/NaiveKernelCodeGen.cuh
         ExactAlgorithms/GPU/CodeGeneration/UTOrderedKernelCodeGen.cuh
@@ -106,7 +104,6 @@ set(GPU_HEADER_FILES
 set(GPU_WRAPPER_FILES
         ExactAlgorithms/GPU/GPUKernelWrappers.h
         ExactAlgorithms/GPU/GPUKernelWrappers.cu
-        ExactAlgorithms/Complex/gpuComputeComplex.cu
 )
 
 # MPI Files

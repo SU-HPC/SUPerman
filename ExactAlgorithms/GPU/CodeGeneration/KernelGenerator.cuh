@@ -90,48 +90,42 @@ KernelGenerator<C, S>::KernelGenerator(S* mat, int nov, C* x, Settings& settings
 template <class C, class S>
 void generateKernels(int& k, S* mat, C* x, int nov, Settings& settings)
 {
-    if (settings.rank == 0)
+    if (settings.PID == 1)
     {
-        if (settings.PID == 1)
+        S* matTransposed = new S[nov * nov];
+        for (int i = 0; i < nov; ++i)
         {
-            S* matTransposed = new S[nov * nov];
-            for (int i = 0; i < nov; ++i)
+            for (int j = 0; j < nov; ++j)
             {
-                for (int j = 0; j < nov; ++j)
-                {
-                    matTransposed[j * nov + i] = mat[i * nov + j];
-                }
+                matTransposed[j * nov + i] = mat[i * nov + j];
             }
-
-            std::string kernelFile = settings.REPO_DIR + "ExactAlgorithms/GPU/CodeGeneration/generatedKernels.cuh";
-            std::ofstream kernelWriter(kernelFile);
-            KernelGenerator<C, S> kernelGenerator(matTransposed, nov, x, settings);
-            std::string kernel;
-            if (settings.algorithm == NAIVECODEGENERATION)
-            {
-                kernel = kernelGenerator.generateNaiveKernelCode();
-                k = nov;
-            }
-            else if (settings.algorithm == REGEFFICIENTCODEGENERATION)
-            {
-                kernel = kernelGenerator.generateUTOrderedKernelCode(k);
-            }
-            kernelWriter << kernel << std::flush;
-            kernelWriter.close();
-
-            delete[] matTransposed;
-            writePipe(k);
-
-            #ifdef MPI_AVAILABLE
-                finalizeMPI();
-            #endif
-            exit(0);
         }
-        else
+
+        std::string kernelFile = settings.REPO_DIR + "ExactAlgorithms/GPU/CodeGeneration/generatedKernels.cuh";
+        std::ofstream kernelWriter(kernelFile);
+        KernelGenerator<C, S> kernelGenerator(matTransposed, nov, x, settings);
+        std::string kernel;
+        if (settings.algorithm == NAIVECODEGENERATION)
         {
-            k = readPipe();
+            kernel = kernelGenerator.generateNaiveKernelCode();
+            k = nov;
         }
+        else if (settings.algorithm == REGEFFICIENTCODEGENERATION)
+        {
+            kernel = kernelGenerator.generateUTOrderedKernelCode(k);
+        }
+        kernelWriter << kernel << std::flush;
+        kernelWriter.close();
+
+        delete[] matTransposed;
+        writePipe(k, settings.rank);
+
+        #ifdef MPI_AVAILABLE
+            finalizeMPI();
+        #endif
+        exit(0);
     }
+    k = readPipe(settings.rank);
 }
 
 

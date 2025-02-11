@@ -2,18 +2,23 @@
 
 repo_directory="/home/delbek/SUPerman/"
 # The directory belonging to the repository.
+# NO DEFAULT, absence of it is undefined!
 
 build_directory="${repo_directory}build/"
 # The directory into which the build files will be dumped.
+# NO DEFAULT, absence of it is undefined!
 
 matrix_directory="/common_data/matrices/"
 # The directory under which your matrix files are located.
+# NO DEFAULT, absence of it is undefined!
 
 filenames=(
 "deniz_sparse_%25_45.mtx"
 )
 # The filename of your matrix.
-# If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based. Otherwise, it assumes them to be 0-based.
+# If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based.
+# Otherwise, it assumes them to be 0-based.
+# NO DEFAULT, absence of it is undefined!
 
 algorithms=("auto")
 # The algorithm used to compute the permanent of your matrix.
@@ -47,6 +52,8 @@ gpu_nums=(1)
 processor_num=(1)
 # The number of MPI nodes to use for the computation.
 # Only relevant if the mode is "multi_gpu_mpi".
+# NO DEFAULT, absence of it is undefined!
+# UNDEFINED EXECUTION PATTERN IF: processor_num > 1 and mode != multi_gpu_mpi
 
 is_complex=("false")
 # If true, the library assumes the matrix to contain complex entries of the form (a + bi).
@@ -57,8 +64,15 @@ is_binary=("false")
 # DEFAULT: "false"
 
 is_undirected=("false")
-# If true, the library assumes that the matrix is undirected, meaning for every edge u -> v, there is also an edge v -> u.
+# If true, the library assumes that the matrix is undirected, meaning for every edge u -> v,
+#                                                              there is also an edge v -> u.
 # DEFAULT: "false"
+
+matrix_specific_compilation=("false")
+# Although not recommended to be set as "true", if so, the library compiles itself with specific matrix size
+# (to be determined in the following argument) for improved efficiency, details of which is accessible in our paper.
+# DEFAULT: "false"
+matrix_specific_size=("40")
 
 calculation_precision=("dd")
 # Precision in which to compute the permanent
@@ -70,5 +84,5 @@ printing_precision=(30)
 
 g++ -std=c++17 wrapper.cpp
 for i in "${!filenames[@]}"; do
-  "${repo_directory}a.out" "${processor_num[$i]}" ${build_directory} repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" complex="${is_complex[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" calculation_precision="${calculation_precision[$i]}" printing_precision="${printing_precision[$i]}"
+  "${repo_directory}a.out" "${processor_num[$i]}" ${build_directory} "${matrix_specific_compilation[$i]}" "${matrix_specific_size[$i]}" repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" complex="${is_complex[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" calculation_precision="${calculation_precision[$i]}" printing_precision="${printing_precision[$i]}"
 done

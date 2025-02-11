@@ -22,7 +22,7 @@ public:
     virtual double permanentFunction() final;
 
 public:
-    __float128 productSum;
+    double productSum;
 };
 
 
@@ -40,7 +40,7 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
     S* matTransposed = new S[nov * nov];
 
     C x[nov];
-    __float128 product = 1;
+    double product = 1;
     for (int i = 0; i < nov; ++i)
     {
         C rowSum = 0;
@@ -203,7 +203,6 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
         gpuErrchk( cudaMemcpy(d_x, x, nov * sizeof(C), cudaMemcpyHostToDevice) )
         gpuErrchk( cudaMemcpy(d_mat, matTransposed, (nov * nov) * sizeof(S), cudaMemcpyHostToDevice) )
 
-        C* h_products = new C[totalThreadCount];
         C myProductSum = 0;
 
         while (true)
@@ -261,14 +260,16 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                     myStart,
                     myEnd,
                     -1);
+        }
 
-            gpuErrchk( cudaDeviceSynchronize() )
-            gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
+        gpuErrchk( cudaDeviceSynchronize() )
 
-            for (int i = 0; i < totalThreadCount; ++i)
-            {
-                myProductSum += h_products[i];
-            }
+        C* h_products = new C[totalThreadCount];
+        gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
+
+        for (int i = 0; i < totalThreadCount; ++i)
+        {
+            myProductSum += h_products[i];
         }
 
         gpuErrchk( cudaFree(d_x) )
