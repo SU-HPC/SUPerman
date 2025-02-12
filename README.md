@@ -31,6 +31,7 @@ Deniz Elbek and Kamer Kaya. Fully-Automated Code Generation for Efficient Comput
 ## Supported Algorithms
 
 ```plaintext
+-----------------------------------------------------------------------------------------------------------
 ├── Dense
 │   ├── CPU (cpu)
 │   │   ├── Parallel Ryser
@@ -85,6 +86,7 @@ Deniz Elbek and Kamer Kaya. Fully-Automated Code Generation for Efficient Comput
 │   │   └── X-Shared M-Global (xshared_mglobal)
 │   │   └── X-Global M-Shared (xglobal_mshared)
 │   │   └── X-Global M-Global (xshared_mglobal)
+-----------------------------------------------------------------------------------------------------------
 ```
 
 
