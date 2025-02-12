@@ -4,11 +4,9 @@
 
 To make the library accessible to users from all backgrounds, we provide the `run_superman.sh` script, which automates all the necessary intermediate steps for a successful execution. This script:
 
-- Internally calls a C++ program (`wrapper.cpp`) that handles efficient recompilation phases.
+- Internally calls a C++ program (`wrapper.cpp`) that handles recompilation phases.
 - Manages communication between successive `SUPerman` runs using Linux interprocess communication primitives (e.g., named pipes).
 - Relies on named pipes located under the `/tmp/` directory, which are critical during compilation.
-
-**Note:** Each and every setting in this script is an array of parameters, allowing you to compute multiple matrix permanents sequentially with a single execution.
 
 Using the `run_superman.sh` script to compute matrix permanents is incredibly straightforward. The detailed usage is provided below.
 
@@ -37,17 +35,18 @@ Below is a compact summary of the settings in the `run_superman.sh` script:
 - **Matrix Directory (`matrix_directory`):**
     - **Description:** The directory where your matrix files are located.
     - **Requirement:** No default; must be defined.
+  
+-**Note:** Following settings can be given as an array of parameters, with the `ith` parameter in every setting determining a configuration for the `ith` matrix for which permanent computation will be made.
 
 - **Matrix Filenames (`filenames`):**
-    - **Description:** An array of matrix filenames to be processed.
-    - **Notes:**
-        - If the filename ends with `.mtx`, the library assumes that the nonzero coordinates are 1-based; otherwise, 0-based.
-        - No default; must be defined.
+    - **Description:** Matrix filename to be processed.
+    - **Requirement:** No default; must be defined.
+    - **Note:** If the filename ends with `.mtx`, the library assumes that the nonzero coordinates are 1-based; otherwise, 0-based.
 
 - **Algorithm (`algorithms`):**
     - **Description:** The algorithm used to compute the permanent of your matrix.
     - **Default:** `"auto"` (allows the library to select the fastest available algorithm).
-    - **Note:** Although `"auto"` is recommended, you can manually select an algorithm. Supported algorithms are listed in [supported_algorithms.md](md/supported_algorithms.md).
+    - **Note:** Although `"auto"` is recommended, you can manually select an algorithm. Supported algorithms are listed in [supported_algorithms.md](supported_algorithms.md).
 
 - **Computation Mode (`modes`):**
     - **Description:** The mode in which the matrix permanent is computed.
