@@ -26,7 +26,7 @@ Deniz Elbek, Fatih Taşyaran, Bora Uçar, and Kamer Kaya. SUPerman: Efficient Pe
 
 ## Step-by-Step Guide
 
-1. Open the run_superman.sh file, modify it as needed for your matrices, and save the changes. (For a detailed description on how run_superman.sh works: [READ MORE](md/example_run_superman.md))
+1. Open the run_superman.sh file, modify it as needed for your matrices, and save the changes. (For a detailed description on how run_superman.sh works: [READ MORE](md/run_superman.md))
 
 2. Make the run_superman.sh executable by running the following command:
 
