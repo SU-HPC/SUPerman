@@ -24,71 +24,9 @@ Deniz Elbek, Fatih Taşyaran, Bora Uçar, and Kamer Kaya. SUPerman: Efficient Pe
 | OpenMPI         | `4.1.4`          |
 
 
-## Supported Algorithms
-
-```plaintext
------------------------------------------------------------------------------------------------------------
-├── Dense
-│   ├── CPU (cpu)
-│   │   ├── Parallel Ryser
-│   ├── Single-GPU (single_gpu)
-│   │   ├── Naive Code Generation (naive_code_generation)
-│   │   └── Hybrid Code Generation (register_efficient_code_generation)
-│   │   └── X-Register M-Shared (xregister_mshared) (Kahan and Matrix-Specific Compilation are supported)
-│   │   └── X-Register M-Global (xregister_mglobal)
-│   │   └── X-Shared M-Shared (xshared_mshared)
-│   │   └── X-Shared M-Global (xshared_mglobal)
-│   ├── Multi-GPU (multi_gpu)
-│   │   ├── Naive Code Generation (naive_code_generation)
-│   │   └── Hybrid Code Generation (register_efficient_code_generation)
-│   │   └── X-Register M-Shared (xregister_mshared) (Kahan and Matrix-Specific Compilation are supported)
-│   │   └── X-Register M-Global (xregister_mglobal)
-│   │   └── X-Shared M-Shared (xshared_mshared)
-│   │   └── X-Shared M-Global (xshared_mglobal)
-│   ├── Multi-GPU-MPI (multi_gpu_mpi)
-│   │   ├── Naive Code Generation (naive_code_generation)
-│   │   └── Hybrid Code Generation (register_efficient_code_generation)
-│   │   └── X-Register M-Shared (xregister_mshared) (Kahan and Matrix-Specific Compilation are supported)
-│   │   └── X-Register M-Global (xregister_mglobal)
-│   │   └── X-Shared M-Shared (xshared_mshared)
-│   │   └── X-Shared M-Global (xshared_mglobal)
-├── Sparse (density < 0.5)
-│   ├── CPU (cpu)
-│   │   ├── Parallel SpaRyser
-│   ├── Single-GPU (single_gpu)
-│   │   ├── Naive Code Generation (naive_code_generation)
-│   │   └── Hybrid Code Generation (register_efficient_code_generation)
-│   │   └── X-Register M-Shared (xregister_mshared) (Kahan and Matrix-Specific Compilation are supported)
-│   │   └── X-Register M-Global (xregister_mglobal)
-│   │   └── X-Shared M-Shared (xshared_mshared)
-│   │   └── X-Shared M-Global (xshared_mglobal)
-│   │   └── X-Global M-Shared (xglobal_mshared)
-│   │   └── X-Global M-Global (xshared_mglobal)
-│   ├── Multi-GPU (multi_gpu)
-│   │   ├── Naive Code Generation (naive_code_generation)
-│   │   └── Hybrid Code Generation (register_efficient_code_generation)
-│   │   └── X-Register M-Shared (xregister_mshared) (Kahan and Matrix-Specific Compilation are supported)
-│   │   └── X-Register M-Global (xregister_mglobal)
-│   │   └── X-Shared M-Shared (xshared_mshared)
-│   │   └── X-Shared M-Global (xshared_mglobal)
-│   │   └── X-Global M-Shared (xglobal_mshared)
-│   │   └── X-Global M-Global (xshared_mglobal)
-│   ├── Multi-GPU-MPI (multi_gpu_mpi)
-│   │   ├── Naive Code Generation (naive_code_generation)
-│   │   └── Hybrid Code Generation (register_efficient_code_generation)
-│   │   └── X-Register M-Shared (xregister_mshared) (Kahan and Matrix-Specific Compilation are supported)
-│   │   └── X-Register M-Global (xregister_mglobal)
-│   │   └── X-Shared M-Shared (xshared_mshared)
-│   │   └── X-Shared M-Global (xshared_mglobal)
-│   │   └── X-Global M-Shared (xglobal_mshared)
-│   │   └── X-Global M-Global (xshared_mglobal)
------------------------------------------------------------------------------------------------------------
-```
-
-
 ## Step-by-Step Guide
 
-1. Open the run_superman.sh file, modify it as needed for your matrices, and save the changes.
+1. Open the run_superman.sh file, modify it as needed for your matrices, and save the changes. (For a detailed description on how run_superman.sh works: [READ MORE](md/example_run_superman.md))
 
 2. Make the run_superman.sh executable by running the following command:
 

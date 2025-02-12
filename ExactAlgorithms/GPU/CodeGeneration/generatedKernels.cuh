@@ -101,3073 +101,7 @@ __device__ __inline__ void prodReduce(
 }
 
 template <class C>
-__device__ __inline__ void c4included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c23included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c27included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c42included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c7included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c8included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c17included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c32included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c21included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c18included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
 __device__ __inline__ void c0included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c3included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c19included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c1included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c34included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c15included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c5included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c6included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c10included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c25included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c11included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c33included(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -3459,444 +393,6 @@ __device__ __inline__ void c28included(
 }
 
 template <class C>
-__device__ __inline__ void c13included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c26included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c36included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
 __device__ __inline__ void c24included(
 									C& product,
 									const C& globalProduct,
@@ -4043,7 +539,7 @@ __device__ __inline__ void c24included(
 }
 
 template <class C>
-__device__ __inline__ void c37included(
+__device__ __inline__ void c5included(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -4189,7 +685,7 @@ __device__ __inline__ void c37included(
 }
 
 template <class C>
-__device__ __inline__ void c31included(
+__device__ __inline__ void c10included(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -4335,1613 +831,7 @@ __device__ __inline__ void c31included(
 }
 
 template <class C>
-__device__ __inline__ void c16included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c20included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c39included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c9included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c14included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c2included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c44included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c40included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c38included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c35included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c41included(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 += 0.910000;
-	reg1 += 0.910000;
-	reg2 += 0.910000;
-	reg3 += 0.910000;
-	reg4 += 0.910000;
-	reg5 += 0.910000;
-	reg6 += 0.910000;
-	reg7 += 0.910000;
-	reg8 += 0.910000;
-	reg9 += 0.910000;
-	reg10 += 0.910000;
-	reg11 += 0.910000;
-	reg12 += 0.910000;
-	reg13 += 0.910000;
-	reg14 += 0.910000;
-	reg15 += 0.910000;
-	reg16 += 0.910000;
-	reg17 += 0.910000;
-	reg18 += 0.910000;
-	reg19 += 0.910000;
-	reg20 += 0.910000;
-	reg21 += 0.910000;
-	reg22 += 0.910000;
-	reg23 += 0.910000;
-	reg24 += 0.910000;
-	reg25 += 0.910000;
-	reg26 += 0.910000;
-	reg27 += 0.910000;
-	reg28 += 0.910000;
-	reg29 += 0.910000;
-	reg30 += 0.910000;
-	reg31 += 0.910000;
-	reg32 += 0.910000;
-	reg33 += 0.910000;
-	reg34 += 0.910000;
-	reg35 += 0.910000;
-	reg36 += 0.910000;
-	reg37 += 0.910000;
-	reg38 += 0.910000;
-	reg39 += 0.910000;
-	reg40 += 0.910000;
-	reg41 += 0.910000;
-	reg42 += 0.910000;
-	reg43 += 0.910000;
-	reg44 += 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c29included(
+__device__ __inline__ void c1included(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -6233,7 +1123,7 @@ __device__ __inline__ void c30included(
 }
 
 template <class C>
-__device__ __inline__ void c12included(
+__device__ __inline__ void c17included(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -6379,7 +1269,1759 @@ __device__ __inline__ void c12included(
 }
 
 template <class C>
-__device__ __inline__ void c22included(
+__device__ __inline__ void c14included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c21included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c34included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c23included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c15included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c3included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c36included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c18included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c39included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c44included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c32included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c13included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c9included(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -6671,7 +3313,7 @@ __device__ __inline__ void c43included(
 }
 
 template <class C>
-__device__ __inline__ void c14excluded(
+__device__ __inline__ void c40included(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -6720,51 +3362,51 @@ __device__ __inline__ void c14excluded(
 									C& reg43,
 									C& reg44)
 {
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
 
 	prodReduce<C>(
 					product,
@@ -6817,7 +3459,7 @@ __device__ __inline__ void c14excluded(
 }
 
 template <class C>
-__device__ __inline__ void c38excluded(
+__device__ __inline__ void c2included(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -6866,51 +3508,51 @@ __device__ __inline__ void c38excluded(
 									C& reg43,
 									C& reg44)
 {
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
 
 	prodReduce<C>(
 					product,
@@ -6963,7 +3605,7 @@ __device__ __inline__ void c38excluded(
 }
 
 template <class C>
-__device__ __inline__ void c9excluded(
+__device__ __inline__ void c11included(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -7012,51 +3654,51 @@ __device__ __inline__ void c9excluded(
 									C& reg43,
 									C& reg44)
 {
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
 
 	prodReduce<C>(
 					product,
@@ -7109,7 +3751,7 @@ __device__ __inline__ void c9excluded(
 }
 
 template <class C>
-__device__ __inline__ void c29excluded(
+__device__ __inline__ void c31included(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -7158,51 +3800,51 @@ __device__ __inline__ void c29excluded(
 									C& reg43,
 									C& reg44)
 {
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
 
 	prodReduce<C>(
 					product,
@@ -7255,7 +3897,7 @@ __device__ __inline__ void c29excluded(
 }
 
 template <class C>
-__device__ __inline__ void c7excluded(
+__device__ __inline__ void c6included(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -7304,51 +3946,2679 @@ __device__ __inline__ void c7excluded(
 									C& reg43,
 									C& reg44)
 {
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c38included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c33included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c12included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c20included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c35included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c42included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c26included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c27included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c19included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c22included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c8included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c41included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c37included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c7included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c4included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c29included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c16included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c25included(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 += 0.910000;
+	reg1 += 0.910000;
+	reg2 += 0.910000;
+	reg3 += 0.910000;
+	reg4 += 0.910000;
+	reg5 += 0.910000;
+	reg6 += 0.910000;
+	reg7 += 0.910000;
+	reg8 += 0.910000;
+	reg9 += 0.910000;
+	reg10 += 0.910000;
+	reg11 += 0.910000;
+	reg12 += 0.910000;
+	reg13 += 0.910000;
+	reg14 += 0.910000;
+	reg15 += 0.910000;
+	reg16 += 0.910000;
+	reg17 += 0.910000;
+	reg18 += 0.910000;
+	reg19 += 0.910000;
+	reg20 += 0.910000;
+	reg21 += 0.910000;
+	reg22 += 0.910000;
+	reg23 += 0.910000;
+	reg24 += 0.910000;
+	reg25 += 0.910000;
+	reg26 += 0.910000;
+	reg27 += 0.910000;
+	reg28 += 0.910000;
+	reg29 += 0.910000;
+	reg30 += 0.910000;
+	reg31 += 0.910000;
+	reg32 += 0.910000;
+	reg33 += 0.910000;
+	reg34 += 0.910000;
+	reg35 += 0.910000;
+	reg36 += 0.910000;
+	reg37 += 0.910000;
+	reg38 += 0.910000;
+	reg39 += 0.910000;
+	reg40 += 0.910000;
+	reg41 += 0.910000;
+	reg42 += 0.910000;
+	reg43 += 0.910000;
+	reg44 += 0.910000;
 
 	prodReduce<C>(
 					product,
@@ -7402,444 +6672,6 @@ __device__ __inline__ void c7excluded(
 
 template <class C>
 __device__ __inline__ void c3excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c27excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c10excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c6excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -8131,1321 +6963,7 @@ __device__ __inline__ void c16excluded(
 }
 
 template <class C>
-__device__ __inline__ void c39excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c35excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c2excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c13excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c0excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c1excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c25excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c24excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c41excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c22excluded(
+__device__ __inline__ void c14excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -9737,7 +7255,7 @@ __device__ __inline__ void c44excluded(
 }
 
 template <class C>
-__device__ __inline__ void c20excluded(
+__device__ __inline__ void c32excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -9883,7 +7401,7 @@ __device__ __inline__ void c20excluded(
 }
 
 template <class C>
-__device__ __inline__ void c4excluded(
+__device__ __inline__ void c35excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -10029,7 +7547,7 @@ __device__ __inline__ void c4excluded(
 }
 
 template <class C>
-__device__ __inline__ void c18excluded(
+__device__ __inline__ void c29excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -10175,7 +7693,7 @@ __device__ __inline__ void c18excluded(
 }
 
 template <class C>
-__device__ __inline__ void c31excluded(
+__device__ __inline__ void c10excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -10321,153 +7839,7 @@ __device__ __inline__ void c31excluded(
 }
 
 template <class C>
-__device__ __inline__ void c23excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c34excluded(
+__device__ __inline__ void c39excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -10759,7 +8131,299 @@ __device__ __inline__ void c5excluded(
 }
 
 template <class C>
-__device__ __inline__ void c43excluded(
+__device__ __inline__ void c9excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c24excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c2excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -11051,7 +8715,7 @@ __device__ __inline__ void c40excluded(
 }
 
 template <class C>
-__device__ __inline__ void c17excluded(
+__device__ __inline__ void c20excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -11197,7 +8861,7 @@ __device__ __inline__ void c17excluded(
 }
 
 template <class C>
-__device__ __inline__ void c36excluded(
+__device__ __inline__ void c1excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -11343,7 +9007,7 @@ __device__ __inline__ void c36excluded(
 }
 
 template <class C>
-__device__ __inline__ void c32excluded(
+__device__ __inline__ void c11excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -11489,737 +9153,7 @@ __device__ __inline__ void c32excluded(
 }
 
 template <class C>
-__device__ __inline__ void c30excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c12excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c28excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c21excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c42excluded(
-									C& product,
-									const C& globalProduct,
-									C& reg0,
-									C& reg1,
-									C& reg2,
-									C& reg3,
-									C& reg4,
-									C& reg5,
-									C& reg6,
-									C& reg7,
-									C& reg8,
-									C& reg9,
-									C& reg10,
-									C& reg11,
-									C& reg12,
-									C& reg13,
-									C& reg14,
-									C& reg15,
-									C& reg16,
-									C& reg17,
-									C& reg18,
-									C& reg19,
-									C& reg20,
-									C& reg21,
-									C& reg22,
-									C& reg23,
-									C& reg24,
-									C& reg25,
-									C& reg26,
-									C& reg27,
-									C& reg28,
-									C& reg29,
-									C& reg30,
-									C& reg31,
-									C& reg32,
-									C& reg33,
-									C& reg34,
-									C& reg35,
-									C& reg36,
-									C& reg37,
-									C& reg38,
-									C& reg39,
-									C& reg40,
-									C& reg41,
-									C& reg42,
-									C& reg43,
-									C& reg44)
-{
-	reg0 -= 0.910000;
-	reg1 -= 0.910000;
-	reg2 -= 0.910000;
-	reg3 -= 0.910000;
-	reg4 -= 0.910000;
-	reg5 -= 0.910000;
-	reg6 -= 0.910000;
-	reg7 -= 0.910000;
-	reg8 -= 0.910000;
-	reg9 -= 0.910000;
-	reg10 -= 0.910000;
-	reg11 -= 0.910000;
-	reg12 -= 0.910000;
-	reg13 -= 0.910000;
-	reg14 -= 0.910000;
-	reg15 -= 0.910000;
-	reg16 -= 0.910000;
-	reg17 -= 0.910000;
-	reg18 -= 0.910000;
-	reg19 -= 0.910000;
-	reg20 -= 0.910000;
-	reg21 -= 0.910000;
-	reg22 -= 0.910000;
-	reg23 -= 0.910000;
-	reg24 -= 0.910000;
-	reg25 -= 0.910000;
-	reg26 -= 0.910000;
-	reg27 -= 0.910000;
-	reg28 -= 0.910000;
-	reg29 -= 0.910000;
-	reg30 -= 0.910000;
-	reg31 -= 0.910000;
-	reg32 -= 0.910000;
-	reg33 -= 0.910000;
-	reg34 -= 0.910000;
-	reg35 -= 0.910000;
-	reg36 -= 0.910000;
-	reg37 -= 0.910000;
-	reg38 -= 0.910000;
-	reg39 -= 0.910000;
-	reg40 -= 0.910000;
-	reg41 -= 0.910000;
-	reg42 -= 0.910000;
-	reg43 -= 0.910000;
-	reg44 -= 0.910000;
-
-	prodReduce<C>(
-					product,
-					globalProduct,
-					reg0,
-					reg1,
-					reg2,
-					reg3,
-					reg4,
-					reg5,
-					reg6,
-					reg7,
-					reg8,
-					reg9,
-					reg10,
-					reg11,
-					reg12,
-					reg13,
-					reg14,
-					reg15,
-					reg16,
-					reg17,
-					reg18,
-					reg19,
-					reg20,
-					reg21,
-					reg22,
-					reg23,
-					reg24,
-					reg25,
-					reg26,
-					reg27,
-					reg28,
-					reg29,
-					reg30,
-					reg31,
-					reg32,
-					reg33,
-					reg34,
-					reg35,
-					reg36,
-					reg37,
-					reg38,
-					reg39,
-					reg40,
-					reg41,
-					reg42,
-					reg43,
-					reg44);
-}
-
-template <class C>
-__device__ __inline__ void c26excluded(
+__device__ __inline__ void c22excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -12511,7 +9445,153 @@ __device__ __inline__ void c8excluded(
 }
 
 template <class C>
-__device__ __inline__ void c15excluded(
+__device__ __inline__ void c21excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c18excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -12803,7 +9883,1321 @@ __device__ __inline__ void c33excluded(
 }
 
 template <class C>
-__device__ __inline__ void c37excluded(
+__device__ __inline__ void c4excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c30excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c26excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c28excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c31excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c15excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c7excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c41excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c13excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c23excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
@@ -13095,7 +11489,1613 @@ __device__ __inline__ void c19excluded(
 }
 
 template <class C>
-__device__ __inline__ void c11excluded(
+__device__ __inline__ void c34excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c0excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c36excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c37excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c6excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c12excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c25excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c17excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c42excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c38excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c43excluded(
+									C& product,
+									const C& globalProduct,
+									C& reg0,
+									C& reg1,
+									C& reg2,
+									C& reg3,
+									C& reg4,
+									C& reg5,
+									C& reg6,
+									C& reg7,
+									C& reg8,
+									C& reg9,
+									C& reg10,
+									C& reg11,
+									C& reg12,
+									C& reg13,
+									C& reg14,
+									C& reg15,
+									C& reg16,
+									C& reg17,
+									C& reg18,
+									C& reg19,
+									C& reg20,
+									C& reg21,
+									C& reg22,
+									C& reg23,
+									C& reg24,
+									C& reg25,
+									C& reg26,
+									C& reg27,
+									C& reg28,
+									C& reg29,
+									C& reg30,
+									C& reg31,
+									C& reg32,
+									C& reg33,
+									C& reg34,
+									C& reg35,
+									C& reg36,
+									C& reg37,
+									C& reg38,
+									C& reg39,
+									C& reg40,
+									C& reg41,
+									C& reg42,
+									C& reg43,
+									C& reg44)
+{
+	reg0 -= 0.910000;
+	reg1 -= 0.910000;
+	reg2 -= 0.910000;
+	reg3 -= 0.910000;
+	reg4 -= 0.910000;
+	reg5 -= 0.910000;
+	reg6 -= 0.910000;
+	reg7 -= 0.910000;
+	reg8 -= 0.910000;
+	reg9 -= 0.910000;
+	reg10 -= 0.910000;
+	reg11 -= 0.910000;
+	reg12 -= 0.910000;
+	reg13 -= 0.910000;
+	reg14 -= 0.910000;
+	reg15 -= 0.910000;
+	reg16 -= 0.910000;
+	reg17 -= 0.910000;
+	reg18 -= 0.910000;
+	reg19 -= 0.910000;
+	reg20 -= 0.910000;
+	reg21 -= 0.910000;
+	reg22 -= 0.910000;
+	reg23 -= 0.910000;
+	reg24 -= 0.910000;
+	reg25 -= 0.910000;
+	reg26 -= 0.910000;
+	reg27 -= 0.910000;
+	reg28 -= 0.910000;
+	reg29 -= 0.910000;
+	reg30 -= 0.910000;
+	reg31 -= 0.910000;
+	reg32 -= 0.910000;
+	reg33 -= 0.910000;
+	reg34 -= 0.910000;
+	reg35 -= 0.910000;
+	reg36 -= 0.910000;
+	reg37 -= 0.910000;
+	reg38 -= 0.910000;
+	reg39 -= 0.910000;
+	reg40 -= 0.910000;
+	reg41 -= 0.910000;
+	reg42 -= 0.910000;
+	reg43 -= 0.910000;
+	reg44 -= 0.910000;
+
+	prodReduce<C>(
+					product,
+					globalProduct,
+					reg0,
+					reg1,
+					reg2,
+					reg3,
+					reg4,
+					reg5,
+					reg6,
+					reg7,
+					reg8,
+					reg9,
+					reg10,
+					reg11,
+					reg12,
+					reg13,
+					reg14,
+					reg15,
+					reg16,
+					reg17,
+					reg18,
+					reg19,
+					reg20,
+					reg21,
+					reg22,
+					reg23,
+					reg24,
+					reg25,
+					reg26,
+					reg27,
+					reg28,
+					reg29,
+					reg30,
+					reg31,
+					reg32,
+					reg33,
+					reg34,
+					reg35,
+					reg36,
+					reg37,
+					reg38,
+					reg39,
+					reg40,
+					reg41,
+					reg42,
+					reg43,
+					reg44);
+}
+
+template <class C>
+__device__ __inline__ void c27excluded(
 									C& product,
 									const C& globalProduct,
 									C& reg0,
