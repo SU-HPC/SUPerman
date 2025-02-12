@@ -1,4 +1,4 @@
-# SUPerman - Highly Efficient Permanent Computation Library
+# SUPerman: Highly Efficient Permanent Computation Library
 
 SUPerman is a state-of-the-art, complete software suite built for the efficient computation of matrix permanents. It supports a diverse range of matrix types, including real, complex, binary, sparse, and dense matrices, with specialized handling tailored to each type to maximize performance.
 
@@ -40,4 +40,4 @@ Deniz Elbek, Fatih Taşyaran, Bora Uçar, and Kamer Kaya. SUPerman: Efficient Pe
 ```
 
 
-### MIT Licence
+## MIT Licence
