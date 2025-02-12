@@ -35,14 +35,14 @@ Deniz Elbek and Kamer Kaya. Fully-Automated Code Generation for Efficient Comput
 ├── Dense
 │   ├── CPU (cpu)
 │   │   ├── Parallel Ryser
-│   ├── Single-GPU
+│   ├── Single-GPU (single_gpu)
 │   │   ├── Naive Code Generation (naive_code_generation)
 │   │   └── Hybrid Code Generation (register_efficient_code_generation)
 │   │   └── X-Register M-Shared (xregister_mshared) (Kahan and Matrix-Specific Compilation are supported)
 │   │   └── X-Register M-Global (xregister_mglobal)
 │   │   └── X-Shared M-Shared (xshared_mshared)
 │   │   └── X-Shared M-Global (xshared_mglobal)
-│   ├── Multi-GPU (single_gpu)
+│   ├── Multi-GPU (multi_gpu)
 │   │   ├── Naive Code Generation (naive_code_generation)
 │   │   └── Hybrid Code Generation (register_efficient_code_generation)
 │   │   └── X-Register M-Shared (xregister_mshared) (Kahan and Matrix-Specific Compilation are supported)
@@ -59,7 +59,7 @@ Deniz Elbek and Kamer Kaya. Fully-Automated Code Generation for Efficient Comput
 ├── Sparse (density < 0.5)
 │   ├── CPU (cpu)
 │   │   ├── Parallel SpaRyser
-│   ├── Single-GPU
+│   ├── Single-GPU (single_gpu)
 │   │   ├── Naive Code Generation (naive_code_generation)
 │   │   └── Hybrid Code Generation (register_efficient_code_generation)
 │   │   └── X-Register M-Shared (xregister_mshared) (Kahan and Matrix-Specific Compilation are supported)
@@ -68,7 +68,7 @@ Deniz Elbek and Kamer Kaya. Fully-Automated Code Generation for Efficient Comput
 │   │   └── X-Shared M-Global (xshared_mglobal)
 │   │   └── X-Global M-Shared (xglobal_mshared)
 │   │   └── X-Global M-Global (xshared_mglobal)
-│   ├── Multi-GPU (single_gpu)
+│   ├── Multi-GPU (multi_gpu)
 │   │   ├── Naive Code Generation (naive_code_generation)
 │   │   └── Hybrid Code Generation (register_efficient_code_generation)
 │   │   └── X-Register M-Shared (xregister_mshared) (Kahan and Matrix-Specific Compilation are supported)
