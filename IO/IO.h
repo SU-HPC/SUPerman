@@ -387,6 +387,7 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
 
     S* mat = new S[nov * nov];
     memset(mat, 0, sizeof(S) * nov * nov);
+    int nnz = 0;
     for(int iter = 0; iter < noLines; ++iter)
     {
         file >> i >> j;
@@ -402,24 +403,17 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
         }
 
         mat[i * nov + j] = val;
+        ++nnz;
 
-        if (settings.undirected)
+        if (settings.undirected && i != j)
         {
             mat[j * nov + i] = val;
+            ++nnz;
         }
     }
 
     file.close();
 
-    int nnz;
-    if (settings.undirected)
-    {
-        nnz = noLines * 2;
-    }
-    else
-    {
-        nnz = noLines;
-    }
     int size = nov * nov;
     double sparsity = (double(nnz) / double(size)) * 100;
 
@@ -465,6 +459,11 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     size = nov * nov;
     sparsity = (double(nnz) / double(size)) * 100;
     matrix->sparsity = sparsity;
+
+    stream = std::stringstream();
+    stream << "Total number of nonzeros after DM is: " << nnz << std::endl;
+    stream << "Sparsity of the matrix after DM is determined to be: " << sparsity << std::endl;
+    print(stream, settings.rank);
 
     return matrix;
 }

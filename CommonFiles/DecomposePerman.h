@@ -50,12 +50,20 @@ protected:
     Settings m_Settings;
     std::vector<Permanent*> m_Permanents;
     std::vector<ScalingCompact*> m_ScalingValues;
+
+    unsigned m_1Decompose;
+    unsigned m_2Decompose;
+    unsigned m_34Decompose;
 };
 
 
 template <class C, class S, class Permanent>
 Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
 {
+    m_1Decompose = 0;
+    m_2Decompose = 0;
+    m_34Decompose = 0;
+
     double start = omp_get_wtime();
 
     startRecursion(m_Matrix);
@@ -159,7 +167,17 @@ template <class C, class S, class Permanent>
 void DecomposePerman<C, S, Permanent>::addQueue(Matrix<S> *matrix)
 {
     int nnz = getNNZ(matrix);
-    matrix->sparsity = double(nnz) / double(matrix->nov * matrix->nov);
+    matrix->sparsity = (double(nnz) / double(matrix->nov * matrix->nov)) * 100;
+
+    std::stringstream stream;
+    stream << "Number of rows/columns of matrix after decomposition is: " << matrix->nov << std::endl;
+    stream << "Total number of nonzeros after decomposition is: " << nnz << std::endl;
+    stream << "Sparsity of the matrix after decomposition is determined to be: " << matrix->sparsity << std::endl;
+    stream << "Number of 1 NNZ decompositions performed: " << m_1Decompose << std::endl;
+    stream << "Number of 2 NNZ decompositions performed: " << m_2Decompose << std::endl;
+    stream << "Number of 3-4 NNZ decompositions performed: " << m_34Decompose << std::endl;
+    print(stream, this->m_Settings.rank);
+
     Matrix<S>* newMatrix = new Matrix<S>(*matrix);
     if (newMatrix->nov > 63)
     {
@@ -203,6 +221,8 @@ bool DecomposePerman<C, S, Permanent>::compress1NNZ(Matrix<S> *matrix)
     {
         return false;
     }
+
+    ++m_1Decompose;
 
     S val;
     if (row != -1) // if there is a row of degree 1
@@ -297,6 +317,8 @@ bool DecomposePerman<C, S, Permanent>::compress2NNZ(Matrix<S>* matrix)
     {
         return false;
     }
+
+    ++m_2Decompose;
 
     int firstNNZ = -1;
     int secondNNZ = -1;
@@ -438,6 +460,8 @@ bool DecomposePerman<C, S, Permanent>::compress34NNZ(Matrix<S>* matrix1, Matrix<
     {
         return false;
     }
+
+    ++m_34Decompose;
 
     S* transposeMatrix = new S[nov * nov];
     if (row == -1)

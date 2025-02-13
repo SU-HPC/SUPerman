@@ -46,7 +46,7 @@ std::string KernelGenerator<C, S>::generateUTOrderedKernelCode(int& k)
 template<class C, class S>
 void KernelGenerator<C, S>::determineRegisterArea(int &k, int &c)
 {
-    const double GRATIO = 32; // change this to 16 while taking article tests
+    const double GRATIO = 32;
 
     double iterationCovered = 0;
     double totalPoint = 0;
