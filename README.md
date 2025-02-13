@@ -12,7 +12,7 @@ Deniz Elbek, Fatih Taşyaran, Bora Uçar, and Kamer Kaya. SUPerman: Efficient Pe
 | **Requirement** | **Minimum Version** |
 | --------------- | ------------------- |
 | C++             | `17`             |
-| GCC             | `12.3.1`         |
+| GCC             | `10.5`         |
 | CMake           | `3.16.3`         |
 | Linux OS        | -                   |
 
