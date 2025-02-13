@@ -147,9 +147,9 @@ inline void recompilationStatus(int value, int rank)
     writePipe(value, rank);
 }
 
-inline void print(const std::stringstream& str, int rank)
+inline void print(const std::stringstream& str, int rank, int pid, int pidAllowed)
 {
-    if (rank == 0)
+    if (rank == 0 && (pid == pidAllowed || pidAllowed == -1))
     {
         std::cout << str.str();
     }

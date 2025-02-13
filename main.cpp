@@ -33,7 +33,7 @@ int main(int argv, char* argc[])
 
     std::stringstream stream;
     stream << "MATRIX NAME: " << filename << std::endl;
-    print(stream, rank);
+    print(stream, rank, settings.PID, 1);
     Matrix<S>* matrix = IO::readMatrix<S>(filename, settings);
 
     AlgorithmSelector<C, S>::Algorithm algorithm = AlgorithmSelector<C, S>::selectAlgorithm(matrix, &settings);
@@ -41,7 +41,7 @@ int main(int argv, char* argc[])
 
     stream = std::stringstream();
     stream << "Permanent: " << std::setprecision (settings.printingPrecision) << double(result.permanent) << " - Computed in: " << result.time << " seconds." << std::endl << std::endl;
-    print(stream, rank);
+    print(stream, rank, settings.PID, -1);
 
     delete matrix;
 

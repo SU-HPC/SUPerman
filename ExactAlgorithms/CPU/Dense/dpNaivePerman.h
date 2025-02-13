@@ -59,6 +59,15 @@ double dpNaivePerman<C, S>::permanentFunction()
     long long start = 1;
     long long end = (1LL << (nov - 1));
 
+#ifndef SILENT
+    static bool printed = false;
+    if (!printed)
+    {
+        printf("Permanent is being computed on the CPU\n");
+        printed = true;
+    }
+#endif
+
 #pragma omp parallel num_threads(threads)
     {
         int threadID = omp_get_thread_num();

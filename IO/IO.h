@@ -205,7 +205,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             else
             {
                 stream << "UNKNOWN ALGORITHM: " << value << " - selecting automatically instead." << std::endl;
-                print(stream, settings.rank);
+                print(stream, settings.rank, settings.PID, 1);
             }
         }
         else if (arg == "mode")
@@ -229,7 +229,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             else
             {
                 stream << "UNKNOWN MODE: " << value << " - selecting CPU by default instead." << std::endl;
-                print(stream, settings.rank);
+                print(stream, settings.rank, settings.PID, 1);
                 settings.mode = CPU;
             }
         }
@@ -340,7 +340,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
         else
         {
             stream << "UNKNOWN ARGUMENT: " << arg << " - skipping it." << std::endl;
-            print(stream, settings.rank);
+            print(stream, settings.rank, settings.PID, 1);
         }
     }
 
@@ -421,7 +421,7 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     stream << "Number of rows/columns of matrix is: " << nov << std::endl;
     stream << "Total number of nonzeros is: " << nnz << std::endl;
     stream << "Sparsity of the matrix is determined to be: " << sparsity << std::endl;
-    print(stream, settings.rank);
+    print(stream, settings.rank, settings.PID, 1);
 
     // for dm
     int* rptrs = new int[nov + 1];
@@ -463,7 +463,7 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     stream = std::stringstream();
     stream << "Total number of nonzeros after DM is: " << nnz << std::endl;
     stream << "Sparsity of the matrix after DM is determined to be: " << sparsity << std::endl;
-    print(stream, settings.rank);
+    print(stream, settings.rank, settings.PID, 1);
 
     return matrix;
 }

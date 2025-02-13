@@ -36,13 +36,13 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
         {
             settings->algorithm = XREGISTERMSHARED;
             stream << "SELECTED ALGORITHM IS: xregister_mshared" << std::endl;
-            print(stream, settings->rank);
+            print(stream, settings->rank, settings->PID, 1);
         }
         else
         {
             settings->algorithm = REGEFFICIENTCODEGENERATION;
             stream << "SELECTED ALGORITHM IS: register_efficient_code_generation" << std::endl;
-            print(stream, settings->rank);
+            print(stream, settings->rank, settings->PID, 1);
         }
     }
 #endif

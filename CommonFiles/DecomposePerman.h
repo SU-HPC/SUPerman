@@ -73,7 +73,7 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
     {
         std::stringstream stream;
         stream << "The computation of the original permanent is partitioned into the computation of the " << m_Permanents.size() << " sub-permanent." << std::endl;
-        print(stream, this->m_Settings.rank);
+        print(stream, this->m_Settings.rank, this->m_Settings.PID, -1);
     }
     for (int p = 0; p < m_Permanents.size(); ++p)
     {
@@ -118,7 +118,7 @@ void DecomposePerman<C, S, Permanent>::startRecursion(Matrix<S>* matrix)
         {
             std::stringstream stream;
             stream << "Matrix is rank deficient." << std::endl;
-            print(stream, this->m_Settings.rank);
+            print(stream, this->m_Settings.rank, this->m_Settings.PID, -1);
             return;
         }
     }
@@ -176,7 +176,7 @@ void DecomposePerman<C, S, Permanent>::addQueue(Matrix<S> *matrix)
     stream << "Number of 1 NNZ decompositions performed: " << m_1Decompose << std::endl;
     stream << "Number of 2 NNZ decompositions performed: " << m_2Decompose << std::endl;
     stream << "Number of 3-4 NNZ decompositions performed: " << m_34Decompose << std::endl;
-    print(stream, this->m_Settings.rank);
+    print(stream, this->m_Settings.rank, this->m_Settings.PID, 1);
 
     Matrix<S>* newMatrix = new Matrix<S>(*matrix);
     if (newMatrix->nov > 63)
