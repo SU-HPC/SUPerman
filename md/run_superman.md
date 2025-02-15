@@ -72,7 +72,7 @@ Below is a compact summary of the settings in the `run_superman.sh` script:
 - **Processor Count (`processor_num`):**
     - **Description:** The number of MPI nodes to use (only relevant for `multi_gpu_mpi` mode).
     - **Requirement:** No default; must be defined.
-    - **Note:** Undefined execution if `processor_num > 1` and mode is not `multi_gpu_mpi`.
+    - **Note:** Undefined execution if `processor_num > 1` and `mode is not multi_gpu_mpi`.
 
 - **Complex Matrix Flag (`is_complex`):**
     - **Description:** If `"true"`, the library assumes the matrix contains complex entries (formatted as `a + bi`).
@@ -92,7 +92,7 @@ Below is a compact summary of the settings in the `run_superman.sh` script:
 
 - **Matrix Specific Size (`matrix_specific_size`):**
     - **Description:** The specific matrix size to use if matrix-specific compilation is enabled.
-    - **Default:** `"40"`
+    - **Requirement:** No default; must be indicated if `matrix_specific_compilation is true`.
 
 - **Calculation Precision (`calculation_precision`):**
     - **Description:** Precision in which to compute the matrix permanent.

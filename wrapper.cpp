@@ -154,21 +154,9 @@ void modifyCMakeLists(bool matrixSpecificCompilation, std::string X)
     outfile.close();
 }
 
-std::vector<std::string> splitArguments(const std::string& arguments)
-{
-    std::vector<std::string> result;
-    std::istringstream iss(arguments);
-    std::string token;
-    while (iss >> token)
-    {
-        result.push_back(token);
-    }
-    return result;
-}
-
 int main(int argc, char* argv[]) 
 {
-    if (argc < 7)
+    if (argc < 6)
     {
         throw std::runtime_error("Few arguments passed to the wrapper.cpp than what is required!\n");
     }
@@ -176,10 +164,11 @@ int main(int argc, char* argv[])
     unsigned processorNumber = std::stoi(argv[1]);
     std::string buildDir = argv[2];
     std::string matrixSpecificCompilation = argv[3];
-    std::string matrixSpecificSize = argv[4];
+    std::string matrixSpecificSize;
 
     if (matrixSpecificCompilation == "true")
     {
+        matrixSpecificSize = argv[4];
         modifyCMakeLists(true, matrixSpecificSize);
     }
     else
@@ -189,7 +178,7 @@ int main(int argc, char* argv[])
     
     std::string programPath = buildDir + "SUPerman";
     std::string arguments;
-    for (int i = 5; i < argc; ++i)
+    for (int i = (matrixSpecificCompilation == "true" ? 5: 4); i < argc; ++i)
     {
         arguments += std::string(argv[i]) + ' ';
     }
@@ -197,6 +186,12 @@ int main(int argc, char* argv[])
 
     std::cout << "************SUPERMAN IS BEING COMPILED************" << std::endl;
     compileProgram(buildDir);
+
+    for (int i = 0; i < processorNumber; ++i)
+    {
+        std::string pipeName = std::string(PIPE_NAME) + '_' + std::to_string(i);
+        mkfifo(pipeName.c_str(), S_IFIFO|0640);
+    }
     
     pid_t first_pid = fork();
     if (first_pid == 0)
@@ -209,36 +204,18 @@ int main(int argc, char* argv[])
             system(firstProgramArguments.c_str());
             return 0;
         }
-        std::vector<std::string> args = splitArguments(firstProgramArguments);
-        std::vector<char*> execArgs;
-        for (auto& arg: args)
-        {
-            execArgs.push_back(const_cast<char*>(arg.c_str()));
-        }
-        execArgs.push_back(nullptr);
-        execvp(programPath.c_str(), execArgs.data());
-        throw std::runtime_error("Failed to run the first program!\n");
+        system(firstProgramArguments.c_str());
+        return 0;
     } 
     else if (first_pid > 0) 
     {
         // 1-Parent
-        for (int i = 0; i < processorNumber; ++i)
-        {
-            std::string pipeName = std::string(PIPE_NAME) + '_' + std::to_string(i);
-            mkfifo(pipeName.c_str(), S_IFIFO|0640);
-        }
-        
         int recompilationNeeded;
         for (int i = 0; i < processorNumber; ++i)
         {
             recompilationNeeded = readPipe(i);
         }
-        if (recompilationNeeded == 0)
-        {
-            int status;
-            waitpid(first_pid, &status, 0);
-        } 
-        else if (recompilationNeeded == 1) 
+        if (recompilationNeeded == 1)
         {
             int k;
             for (int i = 0; i < processorNumber; ++i)
@@ -261,15 +238,8 @@ int main(int argc, char* argv[])
                     system(secondProgramArguments.c_str());
                     return 0;
                 }
-                std::vector<std::string> args = splitArguments(secondProgramArguments);
-                std::vector<char*> execArgs;
-                for (auto& arg: args)
-                {
-                    execArgs.push_back(const_cast<char*>(arg.c_str()));
-                }
-                execArgs.push_back(nullptr);
-                execvp(programPath.c_str(), execArgs.data());
-                throw std::runtime_error("Failed to run the second program after recompilation!\n");
+                system(secondProgramArguments.c_str());
+                return 0;
             }
             else if (second_pid > 0)
             {
@@ -285,7 +255,8 @@ int main(int argc, char* argv[])
                 throw std::runtime_error("Second fork failed!\n");
             }
         }
-
+        int status;
+        waitpid(first_pid, &status, 0);
         for (int i = 0; i < processorNumber; ++i)
         {
             std::string pipeName = std::string(PIPE_NAME) + '_' + std::to_string(i);

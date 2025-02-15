@@ -186,13 +186,13 @@ extern Result gpuDPSingleGPU(Matrix<S>* matrix, Settings* settings)
         #ifdef MAT_SPECIFIC_COMPILATION
             if (settings->calculationPrecision == DD)
             {
-                auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xRegisterMSharedMatSpecificCompilation, dpMShared<C, S> > >(matrix, *settings);
+                auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xRegisterMSharedMatSpecificCompilation, dpMShared<C, S> > >(matrix, *settings);
                 result = permanent->computePermanentRecursively();
                 delete permanent;
             }
             else if (settings->calculationPrecision == KAHAN)
             {
-                auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xRegisterMSharedKahanMatSpecificCompilation, dpMShared<C, S> > >(matrix, *settings);
+                auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xRegisterMSharedKahanMatSpecificCompilation, dpMShared<C, S> > >(matrix, *settings);
                 result = permanent->computePermanentRecursively();
                 delete permanent;
             }
@@ -311,13 +311,13 @@ extern Result gpuDPMultiGPUMPI(Matrix<S>* matrix, Settings* settings)
         #ifdef MAT_SPECIFIC_COMPILATION
             if (settings->calculationPrecision == DD)
             {
-                auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xRegisterMSharedMatSpecificCompilation, dpMShared<C, S> > >(matrix, *settings);
+                auto permanent = new DecomposePerman<C, S, dpMultiGPUMPI<C, S, &DenseDefinitions::xRegisterMSharedMatSpecificCompilation, dpMShared<C, S> > >(matrix, *settings);
                 result = permanent->computePermanentRecursively();
                 delete permanent;
             }
             else if (settings->calculationPrecision == KAHAN)
             {
-                auto permanent = new DecomposePerman<C, S, dpMultiGPU<C, S, &DenseDefinitions::xRegisterMSharedKahanMatSpecificCompilation, dpMShared<C, S> > >(matrix, *settings);
+                auto permanent = new DecomposePerman<C, S, dpMultiGPUMPI<C, S, &DenseDefinitions::xRegisterMSharedKahanMatSpecificCompilation, dpMShared<C, S> > >(matrix, *settings);
                 result = permanent->computePermanentRecursively();
                 delete permanent;
             }

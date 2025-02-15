@@ -73,6 +73,7 @@ matrix_specific_compilation=("false")
 # (to be determined in the following argument) for improved efficiency, details of which is accessible in our paper.
 # DEFAULT: "false"
 matrix_specific_size=("40")
+# NO DEFAULT, must be indicated if matrix_specific_compilation is true.
 
 calculation_precision=("dd")
 # Precision in which to compute the permanent
@@ -84,5 +85,9 @@ printing_precision=(30)
 
 g++ -std=c++17 wrapper.cpp
 for i in "${!filenames[@]}"; do
-  "${repo_directory}a.out" "${processor_num[$i]}" ${build_directory} "${matrix_specific_compilation[$i]}" "${matrix_specific_size[$i]}" repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" complex="${is_complex[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" calculation_precision="${calculation_precision[$i]}" printing_precision="${printing_precision[$i]}"
+  if [ "${matrix_specific_compilation[$i]}" = "true" ]; then
+    "${repo_directory}a.out" "${processor_num[$i]}" "${build_directory}" "${matrix_specific_compilation[$i]}" "${matrix_specific_size[$i]}" repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" complex="${is_complex[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" calculation_precision="${calculation_precision[$i]}" printing_precision="${printing_precision[$i]}"
+  else
+    "${repo_directory}a.out" "${processor_num[$i]}" "${build_directory}" "${matrix_specific_compilation[$i]}" repo_dir="${repo_directory}" filename="${matrix_directory}${filenames[$i]}" algorithm="${algorithms[$i]}" mode="${modes[$i]}" thread_count="${thread_counts[$i]}" device_id="${device_ids[$i]}" gpu_num="${gpu_nums[$i]}" complex="${is_complex[$i]}" binary="${is_binary[$i]}" undirected="${is_undirected[$i]}" calculation_precision="${calculation_precision[$i]}" printing_precision="${printing_precision[$i]}"
+  fi
 done
