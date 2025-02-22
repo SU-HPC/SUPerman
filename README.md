@@ -40,6 +40,3 @@ Deniz Elbek, Fatih Taşyaran, Bora Uçar, and Kamer Kaya. SUPerman: Efficient Pe
 ```bash
   ./run_superman.sh
 ```
-
-
-## MIT Licence
