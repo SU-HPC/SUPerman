@@ -1,16 +1,46 @@
 #!/bin/bash
+#SBATCH -J wr
+#SBATCH --account=proj13
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=16
+#SBATCH --partition=kolyoz-cuda
+#SBATCH --gres=gpu:1
+#SBATCH --time=0-0:10:00
+#SBATCH --output=/arf/home/delbek/SUPerman/res/wr-%j.out
+#SBATCH --error=/arf/home/delbek/SUPerman/res/wr-%j.err
+#SBATCH --export=NONE
 
-repo_directory="/home/delbek/SUPerman/"
-# The directory belonging to the repository.
-# NO DEFAULT, absence of it is undefined!
+module purge
+unset SLURM_EXPORT_ENV
 
-build_directory="${repo_directory}build/"
-# The directory into which the build files will be dumped.
-# NO DEFAULT, absence of it is undefined!
+source /etc/profile.d/modules.sh
 
-matrix_directory="/common_data/matrices/"
-# The directory under which your matrix files are located.
-# NO DEFAULT, absence of it is undefined!
+module use /arf/sw/modulefiles
+module load comp/cmake/3.31.1
+if [ $? -ne 0 ]; then
+  echo "Failed to load comp/cmake/3.31.1"
+  exit 1
+fi
+
+module load comp/gcc/12.3.0
+if [ $? -ne 0 ]; then
+  echo "Failed to load comp/gcc/12.3.0"
+  exit 1
+fi
+
+module load lib/cuda/12.4
+if [ $? -ne 0 ]; then
+  echo "Failed to load lib/cuda/12.4"
+  exit 1
+fi
+
+repo_directory=/arf/home/delbek/SUPerman/
+matrix_directory=/arf/home/delbek/test_matrices/
+build_directory=/arf/home/delbek/SUPerman/build/
+output_directory=${repo_directory}wr/
+
+mkdir -p ${output_directory}
 
 filenames=(
 "deniz_dense_45.mtx"
@@ -83,6 +113,9 @@ printing_precision=(30)
 # Precision in which to print the permanent result
 # DEFAULT: 30
 
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
+
 g++ -std=c++17 "${repo_directory}wrapper.cpp" -o "${repo_directory}wrapper"
 if [ $? -ne 0 ]; then
   echo "Compilation of wrapper.cpp failed!" >&2
@@ -96,6 +129,7 @@ if [ $? -ne 0 ]; then
 fi
 
 for i in "${!filenames[@]}"; do
+  output_file="${output_directory}out.txt"
   if [ "${matrix_specific_compilation[$i]}" = "true" ]; then
     "${repo_directory}wrapper" \
       "${processor_num[$i]}" \
@@ -113,9 +147,9 @@ for i in "${!filenames[@]}"; do
       binary="${is_binary[$i]}" \
       undirected="${is_undirected[$i]}" \
       calculation_precision="${calculation_precision[$i]}" \
-      printing_precision="${printing_precision[$i]}"
+      printing_precision="${printing_precision[$i]}" >> "${output_file}" 2>&1
     if [ $? -ne 0 ]; then
-      echo "Execution of wrapper failed for matrix-specific compilation on file ${filenames[$i]}"
+      echo "Execution of wrapper failed for matrix-specific compilation on file ${filenames[$i]}" >&2
       exit 1
     fi
   else
@@ -134,9 +168,9 @@ for i in "${!filenames[@]}"; do
       binary="${is_binary[$i]}" \
       undirected="${is_undirected[$i]}" \
       calculation_precision="${calculation_precision[$i]}" \
-      printing_precision="${printing_precision[$i]}"
+      printing_precision="${printing_precision[$i]}" >> "${output_file}" 2>&1
     if [ $? -ne 0 ]; then
-      echo "Execution of wrapper failed on file ${filenames[$i]}"
+      echo "Execution of wrapper failed on file ${filenames[$i]}" >&2
       exit 1
     fi
   fi

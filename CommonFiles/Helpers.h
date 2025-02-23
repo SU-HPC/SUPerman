@@ -15,7 +15,6 @@
 #include <cstring>
 #include <sys/wait.h>
 
-
 #define PIPE_NAME "/tmp/wrapper_pipe"
 
 inline int readPipe(int rank)

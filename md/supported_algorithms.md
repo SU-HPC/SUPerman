@@ -56,5 +56,10 @@
 │   │   └── X-Shared M-Global (xshared_mglobal)
 │   │   └── X-Global M-Shared (xglobal_mshared)
 │   │   └── X-Global M-Global (xshared_mglobal)
+├── Complex (a + bi)
+│   ├── CPU (cpu)
+│   │   ├── Parallel SpaRyser
+│   ├── Single-GPU (single_gpu)
+│   │   └── X-Register M-Shared (xregister_mshared) (Matrix-Specific Compilation is supported)
 -----------------------------------------------------------------------------------------------------------
 ```

@@ -13,8 +13,7 @@
 
 #define PIPE_NAME "/tmp/wrapper_pipe"
 
-
-int runCommand(const std::string& command, bool silent = 0)
+int runCommand(const std::string& command, bool silent = false)
 {
     std::string full_command = command;
     if (silent)
@@ -25,19 +24,19 @@ int runCommand(const std::string& command, bool silent = 0)
     return result;
 }
 
-void compileProgram(const std::string& build_directory) 
+void compileProgram(const std::string& build_directory)
 {
-    std::string build_command = "mkdir -p " + build_directory;
-    runCommand(build_command, 1);
+    std::string build = "mkdir -p " + build_directory;
+    runCommand(build, true);
 
-    std::string cmake_command = "cmake -S . -B " + build_directory;
-    if (runCommand(cmake_command, 1) != 0)
+    std::string cmake = "cmake -S . -B " + build_directory;
+    if (runCommand(cmake, true) != 0)
     {
         throw std::runtime_error("CMake failed!\n");
     }
 
-    std::string make_command = "make -C " + build_directory + " -j 4";
-    if (runCommand(make_command, 1) != 0)
+    std::string make = "make -C " + build_directory;
+    if (runCommand(make, true) != 0)
     {
         throw std::runtime_error("Make failed!\n");
     }
@@ -158,31 +157,33 @@ int main(int argc, char* argv[])
 {
     if (argc < 6)
     {
-        throw std::runtime_error("Few arguments passed to the wrapper.cpp than what is required!\n");
+        throw std::runtime_error("Too few arguments passed to wrapper.cpp than what is required!\n");
     }
 
-    unsigned processorNumber = std::stoi(argv[1]);
+    int processorNumber = std::stoi(argv[1]);
     std::string buildDir = argv[2];
     std::string matrixSpecificCompilation = argv[3];
     std::string matrixSpecificSize;
+    int arg_offset = 4;
 
     if (matrixSpecificCompilation == "true")
     {
         matrixSpecificSize = argv[4];
+        arg_offset = 5;
         modifyCMakeLists(true, matrixSpecificSize);
     }
     else
     {
         modifyCMakeLists(false, matrixSpecificSize);
     }
-    
+
     std::string programPath = buildDir + "SUPerman";
     std::string arguments;
-    for (int i = (matrixSpecificCompilation == "true" ? 5: 4); i < argc; ++i)
+    for (int i = arg_offset; i < argc; ++i)
     {
         arguments += std::string(argv[i]) + ' ';
     }
-    arguments.pop_back();
+    if (!arguments.empty()) arguments.pop_back();
 
     std::cout << "************SUPERMAN IS BEING COMPILED************" << std::endl;
     compileProgram(buildDir);
@@ -190,7 +191,10 @@ int main(int argc, char* argv[])
     for (int i = 0; i < processorNumber; ++i)
     {
         std::string pipeName = std::string(PIPE_NAME) + '_' + std::to_string(i);
-        mkfifo(pipeName.c_str(), S_IFIFO|0640);
+        if (mkfifo(pipeName.c_str(), S_IFIFO | 0640) != 0)
+        {
+            throw std::runtime_error("Pipes could not be created!");
+        }
     }
     
     pid_t first_pid = fork();
@@ -200,11 +204,12 @@ int main(int argc, char* argv[])
         std::string firstProgramArguments = programPath + " pid=1 " + arguments;
         if (processorNumber > 1)
         {
-            firstProgramArguments = "mpirun --mca btl ^openib -np " + std::to_string(processorNumber) + ' ' + firstProgramArguments;
-            system(firstProgramArguments.c_str());
-            return 0;
+            firstProgramArguments = "srun -n " + std::to_string(processorNumber) + " " + firstProgramArguments;
         }
-        system(firstProgramArguments.c_str());
+        if (runCommand(firstProgramArguments.c_str()) != 0)
+        {
+            throw std::runtime_error("First SUPerman could not be created!");
+        }
         return 0;
     } 
     else if (first_pid > 0) 
@@ -234,11 +239,12 @@ int main(int argc, char* argv[])
                 std::string secondProgramArguments = programPath + " pid=2 " + arguments;
                 if (processorNumber > 1)
                 {
-                    secondProgramArguments = "mpirun --mca btl ^openib -np " + std::to_string(processorNumber) + ' ' + secondProgramArguments;
-                    system(secondProgramArguments.c_str());
-                    return 0;
+                    secondProgramArguments = "srun -n " + std::to_string(processorNumber) + " " + secondProgramArguments;
                 }
-                system(secondProgramArguments.c_str());
+                if (runCommand(secondProgramArguments.c_str()) != 0)
+                {
+                    throw std::runtime_error("Second SUPerman could not be created!");
+                }
                 return 0;
             }
             else if (second_pid > 0)

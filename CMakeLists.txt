@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16.3)
+cmake_minimum_required(VERSION 3.18)
 project(SUPerman)
 
 ### MATRIX SPECIFIC COMPILATION (SHOULD NEVER BE MODIFIED)
@@ -20,15 +20,11 @@ if(OpenMP_FOUND)
 endif()
 
 # Cuda
-include(CheckLanguage)
-check_language(CUDA)
-if(CMAKE_CUDA_COMPILER)
-    set(CMAKE_CUDA_ARCHITECTURES 52 60 70 75 80)
+find_package(CUDAToolkit QUIET)
+if(CUDAToolkit_FOUND)
+    set(CMAKE_CUDA_ARCHITECTURES 52 60 70 75 80 90)
     enable_language(CUDA)
     add_definitions(-DGPU_AVAILABLE)
-    #set(CMAKE_CUDA_FLAGS_DEBUG "${CMAKE_CUDA_FLAGS_DEBUG} -G -lineinfo")
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --ptxas-options=-v -Xcompiler ${OpenMP_CXX_FLAGS}")
-    find_package(CUDAToolkit REQUIRED)
 endif()
 
 # MPI
@@ -56,6 +52,7 @@ include_directories(ExactAlgorithms/GPU)
 include_directories(ExactAlgorithms/GPU/Dense)
 include_directories(ExactAlgorithms/GPU/Sparse)
 include_directories(ExactAlgorithms/GPU/CodeGeneration)
+include_directories(ExactAlgorithms/Complex)
 
 # Files
 set(COMMON_HEADER_FILES
@@ -77,6 +74,7 @@ set(COMMON_HEADER_FILES
 set(CPU_HEADER_FILES
         ExactAlgorithms/CPU/Dense/dpNaivePerman.h
         ExactAlgorithms/CPU/Sparse/spNaivePerman.h
+        ExactAlgorithms/Complex/cpuComputeComplex.h
 )
 
 # GPU Files
@@ -99,11 +97,13 @@ set(GPU_HEADER_FILES
         ExactAlgorithms/GPU/CodeGeneration/NaiveKernelCodeGen.cuh
         ExactAlgorithms/GPU/CodeGeneration/UTOrderedKernelCodeGen.cuh
         ExactAlgorithms/GPU/CodeGeneration/generatedKernels.cuh
+        ExactAlgorithms/Complex/gpuComputeComplex.cuh
 )
 
 set(GPU_WRAPPER_FILES
         ExactAlgorithms/GPU/GPUKernelWrappers.h
         ExactAlgorithms/GPU/GPUKernelWrappers.cu
+        ExactAlgorithms/Complex/gpuComputeComplex.cu
 )
 
 # MPI Files
