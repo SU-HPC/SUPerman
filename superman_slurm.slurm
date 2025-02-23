@@ -99,8 +99,9 @@ is_undirected=("false")
 # DEFAULT: "false"
 
 matrix_specific_compilation=("false")
-# Although not recommended to be set as "true", if so, the library compiles itself with specific matrix size
-# (to be determined in the following argument) for improved efficiency, details of which is accessible in our paper.
+# Although not recommended to be set as "true" (unless the matrix has complex entries, in which case we highly recommend it), if so,
+# the library compiles itself with specific matrix size (to be determined in the following argument) for improved efficiency,
+# details of which is accessible in our paper.
 # DEFAULT: "false"
 matrix_specific_size=("40")
 # NO DEFAULT, must be indicated if matrix_specific_compilation is true.
