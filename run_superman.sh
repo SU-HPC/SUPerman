@@ -1,6 +1,6 @@
 #!/bin/bash
 
-repo_directory="/home/delbek/SUPerman/"
+repo_directory="YOUR_REPO_DIRECTORY"
 # The directory belonging to the repository.
 # NO DEFAULT, absence of it is undefined!
 
@@ -13,7 +13,7 @@ matrix_directory="/common_data/matrices/"
 # NO DEFAULT, absence of it is undefined!
 
 filenames=(
-"deniz_dense_45.mtx"
+"dense_45.mtx"
 )
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based.
