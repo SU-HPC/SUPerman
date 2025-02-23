@@ -130,7 +130,7 @@ if [ $? -ne 0 ]; then
 fi
 
 for i in "${!filenames[@]}"; do
-  output_file="${output_directory}out.txt"
+  output_file="${output_directory}${filenames[$i]}_out.txt"
   if [ "${matrix_specific_compilation[$i]}" = "true" ]; then
     "${repo_directory}wrapper" \
       "${processor_num[$i]}" \

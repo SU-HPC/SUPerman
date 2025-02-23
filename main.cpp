@@ -62,12 +62,12 @@ int main(int argv, char* argc[])
         {
             cpuComputeComplex<C, S>(matrix, &settings);
         }
-#ifdef GPU_AVAILABLE
+        #ifdef GPU_AVAILABLE
         else if (settings.mode == Mode::SingleGPU)
         {
             gpuComputeComplex(matrix, &settings);
         }
-#endif
+        #endif
         else
         {
             throw std::runtime_error("Computation of permanent on complex matrices are supported only on a cpu or on a single gpu.");
