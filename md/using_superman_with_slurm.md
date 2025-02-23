@@ -15,3 +15,21 @@ It is essential to ensure that the correct modules are loaded within the Slurm s
 ### Pipe Permissions
 
 SUPerman utilizes pipes located in the `/tmp/` directory, as explained in the [run_superman.md](run_superman.md) tutorial. Proper permissions for creating, reading, and writing these pipes are critical. If SUPerman cannot access the pipes, it will warn you and stop execution immediately. In such cases, consider changing the directory to one where you have the necessary permissions (for example, your home directory). To do so, modify the `PIPE_NAME` macros declared at the top of both [Helpers.h](../CommonFiles/Helpers.h) and [wrapper.cpp](../wrapper.cpp).
+
+### Multi-Node Command Setup
+
+To run **SUPerman** on a multi-node cluster with Slurm, you need to adjust a few settings. First, set the `modes` parameter to `multi_gpu_mpi` and change the `processor_num` parameter to a value greater than 1, as outlined in [run_superman.md](run_superman.md).
+
+Slurm requires that multi-node jobs be launched using `srun`. This means you must modify the execution commands in the `wrapper.cpp` file ([wrapper.cpp](../wrapper.cpp)). In this file, locate the two lines where SUPerman is executed (found on lines 207 and 242):
+
+```cpp
+firstProgramArguments = "mpirun --mca btl ^openib -np " + std::to_string(processorNumber) + " " + firstProgramArguments;
+secondProgramArguments = "mpirun --mca btl ^openib -np " + std::to_string(processorNumber) + " " + secondProgramArguments;
+```
+
+Replace these lines with the following commands to use srun instead:
+
+```cpp
+firstProgramArguments = "srun -n " + std::to_string(processorNumber) + " " + firstProgramArguments;
+secondProgramArguments = "srun -n " + std::to_string(processorNumber) + " " + secondProgramArguments;
+```

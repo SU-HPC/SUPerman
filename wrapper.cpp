@@ -204,11 +204,11 @@ int main(int argc, char* argv[])
         std::string firstProgramArguments = programPath + " pid=1 " + arguments;
         if (processorNumber > 1)
         {
-            firstProgramArguments = "srun -n " + std::to_string(processorNumber) + " " + firstProgramArguments;
+            firstProgramArguments = "mpirun --mca btl ^openib -np " + std::to_string(processorNumber) + " " + firstProgramArguments;
         }
         if (runCommand(firstProgramArguments.c_str()) != 0)
         {
-            throw std::runtime_error("First SUPerman could not be created!");
+            throw std::runtime_error("SUPerman could not be executed!");
         }
         return 0;
     } 
@@ -239,11 +239,11 @@ int main(int argc, char* argv[])
                 std::string secondProgramArguments = programPath + " pid=2 " + arguments;
                 if (processorNumber > 1)
                 {
-                    secondProgramArguments = "srun -n " + std::to_string(processorNumber) + " " + secondProgramArguments;
+                    secondProgramArguments = "mpirun --mca btl ^openib -np " + std::to_string(processorNumber) + " " + secondProgramArguments;
                 }
                 if (runCommand(secondProgramArguments.c_str()) != 0)
                 {
-                    throw std::runtime_error("Second SUPerman could not be created!");
+                    throw std::runtime_error("SUPerman could not be executed!");
                 }
                 return 0;
             }
