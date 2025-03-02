@@ -4,7 +4,7 @@ SUPerman is a state-of-the-art, complete software suite built for the efficient 
 
 If you use this library in your research, please cite:
 <br/><br/>
-D. Elbek, F. Taşyaran, B. Uçar, and K. Kaya. SUPerman: Efficient Permanent Computation on GPUs (2025). arXiv:2502.16577. URL https://www.arxiv.org/abs/2502.16577
+D. Elbek, F. Taşyaran, B. Uçar, and K. Kaya. SUperman: Efficient Permanent Computation on GPUs (2025). arXiv:2502.16577. URL https://www.arxiv.org/abs/2502.16577
 
 ### Hard Requirements
 
