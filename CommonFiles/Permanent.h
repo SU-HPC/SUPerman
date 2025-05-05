@@ -38,6 +38,8 @@ public:
 public:
     Matrix<S>* m_Matrix;
     Settings m_Settings;
+    
+    double productSum;
 };
 
 

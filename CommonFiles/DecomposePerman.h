@@ -68,7 +68,7 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
 
     startRecursion(m_Matrix);
 
-    __float128 overall = 0;
+    double overall = 0;
     if (m_Permanents.size() > 1)
     {
         std::stringstream stream;
@@ -78,12 +78,12 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
     for (int p = 0; p < m_Permanents.size(); ++p)
     {
         auto derived = dynamic_cast<Permanent*>(m_Permanents[p]);
-        __float128 result = ((4 * (derived->m_Matrix->nov % 2) - 2) * derived->productSum);
+        double result = ((4 * (derived->m_Matrix->nov % 2) - 2) * derived->productSum);
         if (m_Settings.scaling)
         {
             auto scalingCompact = m_ScalingValues[p];
-            __float128* rowScale = scalingCompact->rowScale;
-            __float128* colScale = scalingCompact->colScale;
+            double* rowScale = scalingCompact->rowScale;
+            double* colScale = scalingCompact->colScale;
             for (int i = 0; i < derived->m_Matrix->nov; ++i)
             {
                 result /= rowScale[i];

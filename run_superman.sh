@@ -76,13 +76,13 @@ matrix_specific_compilation=("false")
 matrix_specific_size=("40")
 # NO DEFAULT, must be indicated if matrix_specific_compilation is true.
 
-calculation_precision=("dd")
+calculation_precision=("kahan")
 # Precision in which to compute the permanent
-# DEFAULT: dd
+# DEFAULT: kahan
 
-printing_precision=(30)
+printing_precision=(50)
 # Precision in which to print the permanent result
-# DEFAULT: 30
+# DEFAULT: 50
 
 g++ -std=c++17 "${repo_directory}wrapper.cpp" -o "${repo_directory}wrapper"
 if [ $? -ne 0 ]; then

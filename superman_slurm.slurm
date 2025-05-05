@@ -36,14 +36,14 @@ if [ $? -ne 0 ]; then
 fi
 
 repo_directory=/arf/home/delbek/SUPerman/
-matrix_directory=/arf/home/delbek/test_matrices/
+matrix_directory=/arf/home/delbek/SUPerman/ExampleMatrices/
 build_directory=/arf/home/delbek/SUPerman/build/
 output_directory=${repo_directory}wr/
 
 mkdir -p ${output_directory}
 
 filenames=(
-"deniz_dense_45.mtx"
+"dense.mtx"
 )
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based.
@@ -106,13 +106,13 @@ matrix_specific_compilation=("false")
 matrix_specific_size=("40")
 # NO DEFAULT, must be indicated if matrix_specific_compilation is true.
 
-calculation_precision=("dd")
+calculation_precision=("kahan")
 # Precision in which to compute the permanent
-# DEFAULT: dd
+# DEFAULT: kahan
 
-printing_precision=(30)
+printing_precision=(50)
 # Precision in which to print the permanent result
-# DEFAULT: 30
+# DEFAULT: 50
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK

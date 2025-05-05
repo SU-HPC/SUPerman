@@ -61,8 +61,8 @@ struct ScalingCompact
         delete[] colScale;
     }
 
-    __float128 *rowScale;
-    __float128 *colScale;
+    double* rowScale;
+    double* colScale;
 };
 
 template <class S>

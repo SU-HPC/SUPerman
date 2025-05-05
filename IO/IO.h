@@ -68,11 +68,11 @@ void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact* scal
     unsigned scalingIterationNo = settings.scalingIterationNo;
     unsigned scaleInto = settings.scaleInto;
 
-    __float128*& rowScale = scalingCompact->rowScale;
-    __float128*& colScale = scalingCompact->colScale;
+    double*& rowScale = scalingCompact->rowScale;
+    double*& colScale = scalingCompact->colScale;
 
-    rowScale = new __float128[nov];
-    colScale = new __float128[nov];
+    rowScale = new double[nov];
+    colScale = new double[nov];
 
     for (int i = 0; i < nov; ++i)
     {
@@ -83,24 +83,24 @@ void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact* scal
     {
         for (int iv = 0; iv < nov; ++iv)
         {
-            __float128 sum = 0;
+            double sum = 0;
             for (int jv = 0; jv < nov; ++jv)
             {
                 sum += mat[iv * nov + jv] * rowScale[iv] * colScale[jv];
             }
             if (sum != 0)
-                rowScale[iv] = __float128(scaleInto) / sum;
+                rowScale[iv] = double(scaleInto) / sum;
         }
 
         for (int jv = 0; jv < nov; ++jv)
         {
-            __float128 sum = 0;
+            double sum = 0;
             for (int iv = 0; iv < nov; ++iv)
             {
                 sum += mat[iv * nov + jv] * rowScale[iv] * colScale[jv];
             }
             if (sum != 0)
-                colScale[jv] = __float128(scaleInto) / sum;
+                colScale[jv] = double(scaleInto) / sum;
         }
     }
 
@@ -125,12 +125,12 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
     settings.scaling = false;
     settings.scalingIterationNo = 100;
     settings.scaleInto = 2;
-    settings.printingPrecision = 30;
+    settings.printingPrecision = 50;
     settings.threadC = omp_get_max_threads();
     settings.deviceID = 0;
     settings.gpuNum = 1;
     settings.partition = 1;
-    settings.calculationPrecision = DD;
+    settings.calculationPrecision = KAHAN;
 
     bool pidFound = false;
     bool repoDirFound = false;
@@ -638,8 +638,8 @@ void IO::sortOrder(Matrix<S>* matrix)
     S* mat = matrix->mat;
     int nov = matrix->nov;
 
-    int* indegrees = new int[nov];
-    for (int j = 0; j < nov; ++j)
+    std::vector<int> indegrees(nov);
+    for (int j = 0; j < nov; ++j) 
     {
         int indegree = 0;
         for (int i = 0; i < nov; ++i)
@@ -653,91 +653,89 @@ void IO::sortOrder(Matrix<S>* matrix)
     }
 
     S* newMat = new S[nov * nov];
-    for (int j = 0; j < nov; ++j)
+    for (int outCol = 0; outCol < nov; ++outCol) 
     {
         int mindegree = INT32_MAX;
-        int col;
-        for (int m = 0; m < nov; ++m)
+        int chosen = 0;
+        for (int j = 0; j < nov; ++j) 
         {
-            if (indegrees[m] < mindegree)
+            if (indegrees[j] < mindegree) 
             {
-                mindegree = indegrees[m];
-                col = m;
+                mindegree   = indegrees[j];
+                chosen      = j;
             }
         }
-        indegrees[col] = INT32_MAX;
-        for (int i = 0; i < nov; ++i)
+
+        indegrees[chosen] = INT32_MAX;
+
+        for (int i = 0; i < nov; ++i) 
         {
-            newMat[i * nov + j] = mat[i * nov + col];
+            newMat[i * nov + outCol] = mat[i * nov + chosen];
         }
     }
 
     matrix->mat = newMat;
     delete[] mat;
-    delete[] indegrees;
 }
 
 template<class S>
-void IO::UTOrder(Matrix<S> *matrix)
+void IO::UTOrder(Matrix<S>* matrix)
 {
     int nov = matrix->nov;
     S* mat = matrix->mat;
 
-    int* rowIPermutation = new int[nov];
-    int* colIPermutation = new int[nov];
+    std::vector<int> rowPerm(nov), colPerm(nov);
     for (int i = 0; i < nov; ++i)
     {
-        rowIPermutation[i] = i;
-        colIPermutation[i] = i;
+        rowPerm[i] = colPerm[i] = i;
     }
 
-    unsigned* indegrees = new unsigned[nov];
-    for (int j = 0; j < nov; ++j)
+    std::vector<unsigned> indegrees(nov);
+    for (int j = 0; j < nov; ++j) 
     {
-        unsigned indegree = 0;
+        unsigned d = 0;
         for (int i = 0; i < nov; ++i)
-        {
+        {    
             if (mat[i * nov + j] != 0)
             {
-                ++indegree;
+                ++d;
             }
         }
-        indegrees[j] = indegree;
+        indegrees[j] = d;
     }
 
-    bool* rowMarkers = new bool[nov];
-    memset(rowMarkers, false, sizeof(bool) * nov);
+    std::vector<bool> rowMarked(nov, false);
+    int nextRow = 0;
 
-    int free = 0;
-    for (int iter = 0; iter < nov; ++iter)
+    for (int step = 0; step < nov; ++step) 
     {
-        unsigned mindegree = UINT32_MAX;
-        int col;
-        for (int j = 0; j < nov; ++j)
+        unsigned mind = UINT32_MAX;
+        int chosen = 0;
+        for (int j = 0; j < nov; ++j) 
         {
-            if (indegrees[j] < mindegree)
+            if (indegrees[j] < mind) 
             {
-                mindegree = indegrees[j];
-                col = j;
+                mind = indegrees[j];
+                chosen = j;
             }
         }
-        colIPermutation[col] = iter;
-        indegrees[col] = UINT32_MAX;
 
-        for (int i = 0; i < nov; ++i)
+        colPerm[chosen] = step;
+        indegrees[chosen] = UINT32_MAX;
+
+        for (int i = 0; i < nov; ++i) 
         {
-            if (mat[i * nov + col] == 0)
-            {
-                continue;
-            }
+            if (mat[i * nov + chosen] == 0) continue;
 
-            if (!rowMarkers[i])
+            if (!rowMarked[i]) 
             {
-                rowMarkers[i] = true;
-                rowIPermutation[i] = free++;
+                rowMarked[i] = true;
+                rowPerm[i] = nextRow++;
 
-                for (int j = 0; j < nov; ++j)
+                for (int j = 0; j < nov; ++j) 
                 {
+                    if (indegrees[j] == UINT32_MAX) continue;
+                    
                     if (mat[i * nov + j] != 0)
                     {
                         --indegrees[j];
@@ -747,21 +745,15 @@ void IO::UTOrder(Matrix<S> *matrix)
         }
     }
 
-    for (int i = 0; i < nov; ++i)
+    for (int i = 0; i < nov; ++i) 
     {
-        if (rowMarkers[i] == false)
+        if (!rowMarked[i])
         {
-            rowMarkers[i] = true;
-            rowIPermutation[i] = free++;
+            rowPerm[i] = nextRow++;
         }
     }
 
-    applyPermutations(matrix, rowIPermutation, colIPermutation);
-
-    delete[] indegrees;
-    delete[] rowMarkers;
-    delete[] rowIPermutation;
-    delete[] colIPermutation;
+    applyPermutations(matrix, rowPerm.data(), colPerm.data());
 }
 
 template<class S>

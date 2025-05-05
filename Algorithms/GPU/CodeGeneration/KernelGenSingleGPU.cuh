@@ -21,9 +21,6 @@ public:
     :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
-
-public:
-    __float128 productSum;
 };
 
 
@@ -39,7 +36,7 @@ double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
     S* mat = this->m_Matrix->mat;
 
     C x[nov];
-    __float128 product = 1;
+    double product = 1;
     for (int i = 0; i < nov; ++i)
     {
         C rowSum = 0;
@@ -50,7 +47,7 @@ double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
     }
-    productSum = product;
+    this->productSum = product;
 
     int k = 0;
     generateKernels(k, mat, x, nov, this->m_Settings);
@@ -134,6 +131,8 @@ double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
                 end,
                 chunkSize);
 
+        gpuErrchk( cudaDeviceSynchronize() )
+
         long long thisIteration = totalThreadCount * chunkSize;
         left -= thisIteration;
         start += thisIteration;
@@ -155,7 +154,7 @@ double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     for (int i = 0; i < totalThreadCount; ++i)
     {
-        productSum += h_products[i];
+        this->productSum += h_products[i];
     }
 
     gpuErrchk( cudaFree(d_products) )

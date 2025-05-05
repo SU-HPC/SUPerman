@@ -19,9 +19,6 @@ public:
     :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
-
-public:
-    __float128 productSum;
 };
 
 
@@ -42,7 +39,7 @@ double spNaivePerman<C, S>::permanentFunction()
     int threads = this->m_Settings.threadC;
 
     C x[nov];
-    __float128 product = 1;
+    double product = 1;
     for (int i = 0; i < nov; ++i)
     {
         C rowSum = 0;
@@ -53,7 +50,7 @@ double spNaivePerman<C, S>::permanentFunction()
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
     }
-    productSum = product;
+    this->productSum = product;
 
     long long start = 1;
     long long end = (1LL << (nov - 1));
@@ -149,7 +146,7 @@ double spNaivePerman<C, S>::permanentFunction()
         }
 
         #pragma omp atomic
-            productSum += myResult;
+            this->productSum += myResult;
     }
 
     return 0;

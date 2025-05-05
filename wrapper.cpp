@@ -42,6 +42,25 @@ void compileProgram(const std::string& build_directory)
     }
 }
 
+void createPipe(const std::string& pipeName) 
+{
+    if (unlink(pipeName.c_str()) != 0) 
+    {
+        if (errno != ENOENT)
+        {
+            throw std::runtime_error(
+                "Failed to remove existing file '" + pipeName + "': " + std::strerror(errno));
+        }
+    }
+
+    if (mkfifo(pipeName.c_str(), S_IRUSR | S_IWUSR) != 0) 
+    {
+        throw std::runtime_error(
+            "mkfifo(\"" + pipeName + "\") failed: " + std::strerror(errno) +
+            " (errno=" + std::to_string(errno) + ")");
+    }
+}
+
 int readPipe(int rank)
 {
     std::string pipeName = std::string(PIPE_NAME) + '_' + std::to_string(rank);
@@ -191,10 +210,7 @@ int main(int argc, char* argv[])
     for (int i = 0; i < processorNumber; ++i)
     {
         std::string pipeName = std::string(PIPE_NAME) + '_' + std::to_string(i);
-        if (mkfifo(pipeName.c_str(), S_IFIFO | 0640) != 0)
-        {
-            throw std::runtime_error("Pipes could not be created!");
-        }
+        createPipe(pipeName);
     }
     
     pid_t first_pid = fork();

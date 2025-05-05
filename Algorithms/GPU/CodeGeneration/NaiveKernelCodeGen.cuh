@@ -15,8 +15,10 @@ template <class C, class S>
 std::string KernelGenerator<C, S>::generateNaiveKernelCode()
 {
     m_File += "#ifndef SUPERMAN_GENERATEDKERNELS_CUH\n"
-              "#define SUPERMAN_GENERATEDKERNELS_CUH\n";
-    m_File += "\n\n";
+              "#define SUPERMAN_GENERATEDKERNELS_CUH\n\n";
+
+    m_File += "#include \"GPUHelpers.cuh\"\n";
+    m_File += "#include \"PrecisionHelpers.cuh\"\n\n\n";
 
     prodReduce();
 
@@ -173,19 +175,41 @@ void KernelGenerator<C, S>::globalKernel()
 {
     std::string globalKernel;
 
-    globalKernel += "template <class C, class S>\n"
-                    "__global__ void globalKernel(S* mat,\n"
-                    "                             C* x,\n"
-                    "                             C* p,\n"
-                    "                             int nov,\n"
-                    "                             long long start,\n"
-                    "                             long long end,\n"
-                    "                             long long chunkSize)\n"
-                    "{\n"
-                    "    int threadID = (blockIdx.x * blockDim.x) + threadIdx.x;\n"
-                    "    int totalThreadCount = gridDim.x * blockDim.x;\n"
-                    "\n"
-                    "    C myResult = 0;\n\n";
+    if (m_Settings.calculationPrecision == KAHAN)
+    {
+        globalKernel += "template <class C, class S>\n"
+                        "__global__ void globalKernel(S* mat,\n"
+                        "                             C* x,\n"
+                        "                             C* p,\n"
+                        "                             int nov,\n"
+                        "                             long long start,\n"
+                        "                             long long end,\n"
+                        "                             long long chunkSize)\n"
+                        "{\n"
+                        "    int threadID = (blockIdx.x * blockDim.x) + threadIdx.x;\n"
+                        "    int totalThreadCount = gridDim.x * blockDim.x;\n"
+                        "\n"
+                        "    C myResult = 0;\n"
+                        "    C myError = 0;\n"
+                        "\n";
+            }
+    else
+    {
+        globalKernel += "template <class C, class S>\n"
+                        "__global__ void globalKernel(S* mat,\n"
+                        "                             C* x,\n"
+                        "                             C* p,\n"
+                        "                             int nov,\n"
+                        "                             long long start,\n"
+                        "                             long long end,\n"
+                        "                             long long chunkSize)\n"
+                        "{\n"
+                        "    int threadID = (blockIdx.x * blockDim.x) + threadIdx.x;\n"
+                        "    int totalThreadCount = gridDim.x * blockDim.x;\n"
+                        "\n"
+                        "    C myResult = 0;\n"
+                        "\n";
+    }
 
     globKernelRegInit(globalKernel);
 
@@ -214,12 +238,24 @@ void KernelGenerator<C, S>::globalKernel()
 
     globKernelSwitchCase(globalKernel);
 
-    globalKernel += "        myResult += productSign * product;\n"
-                    "        productSign *= -1;\n"
-                    "    }\n"
-                    "\n"
-                    "    p[threadID] += myResult;\n"
-                    "}\n";
+    if (m_Settings.calculationPrecision == KAHAN)
+    {
+        globalKernel += "        kahanAdd<C>(myResult, myError, productSign * product);\n"
+                        "        productSign *= -1;\n"
+                        "    }\n"
+                        "\n"
+                        "    p[threadID] += myResult;\n"
+                        "}\n";
+    }
+    else
+    {
+        globalKernel += "        myResult += productSign * product;\n"
+                        "        productSign *= -1;\n"
+                        "    }\n"
+                        "\n"
+                        "    p[threadID] += myResult;\n"
+                        "}\n";
+    }
 
     m_File += globalKernel + '\n';
 }

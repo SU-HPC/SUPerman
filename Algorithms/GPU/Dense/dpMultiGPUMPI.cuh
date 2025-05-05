@@ -20,9 +20,6 @@ public:
     :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
-
-public:
-    double productSum;
 };
 
 
@@ -33,7 +30,7 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 #ifdef MAT_SPECIFIC_COMPILATION
     if (NOV != nov)
     {
-        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? Read README.md for details.\n");
+        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime?\n");
     }
 #endif
     S* mat = this->m_Matrix->mat;
@@ -247,6 +244,8 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                         myEnd,
                         chunkSize);
 
+                gpuErrchk( cudaDeviceSynchronize() )
+
                 long long thisIteration = totalThreadCount * chunkSize;
                 left -= thisIteration;
                 myStart += thisIteration;
@@ -260,9 +259,9 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                     myStart,
                     myEnd,
                     -1);
-        }
 
-        gpuErrchk( cudaDeviceSynchronize() )
+            gpuErrchk( cudaDeviceSynchronize() )
+        }
 
         C* h_products = new C[totalThreadCount];
         gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
@@ -286,9 +285,9 @@ double dpMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
     delete[] matTransposed;
 
     mpiBarrier(getMPI_COMM_WORLD());
-    productSum = 0;
-    mpiReduce(&gpuReducedProductSum, &productSum, 1, getMPI_DOUBLE(), getMPI_SUM(), 0, getMPI_COMM_WORLD());
-    productSum += product;
+    this->productSum = 0;
+    mpiReduce(&gpuReducedProductSum, &this->productSum, 1, getMPI_DOUBLE(), getMPI_SUM(), 0, getMPI_COMM_WORLD());
+    this->productSum += product;
 
     return 0;
 }

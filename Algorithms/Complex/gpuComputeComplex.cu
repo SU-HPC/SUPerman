@@ -89,7 +89,7 @@ __global__ void xRegisterMSharedComplex(cuDoubleComplex* mat,
             REGISTERS
         #undef REG
 
-                myResult = cuCadd(myResult, cuCmul(productSign, product));
+        myResult = cuCadd(myResult, cuCmul(productSign, product));
         productSign = cuCmul(productSign, make_cuDoubleComplex(-1, 0));
     }
 
@@ -187,7 +187,7 @@ void gpuComputeComplex(Matrix<std::complex<double>>* matrix, Settings* settings)
 #ifdef MAT_SPECIFIC_COMPILATION
     if (NOV != nov)
     {
-        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime? Read README.md for details.\n");
+        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime?\n");
     }
 #endif
     cuDoubleComplex* mat = new cuDoubleComplex[nov * nov];
@@ -326,6 +326,8 @@ void gpuComputeComplex(Matrix<std::complex<double>>* matrix, Settings* settings)
                 chunkSize);
         #endif
 
+        gpuErrchk( cudaDeviceSynchronize() )
+
         long long thisIteration = totalThreadCount * chunkSize;
         left -= thisIteration;
         start += thisIteration;
@@ -352,6 +354,7 @@ void gpuComputeComplex(Matrix<std::complex<double>>* matrix, Settings* settings)
     #endif
 
     gpuErrchk( cudaDeviceSynchronize() )
+
     gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(cuDoubleComplex), cudaMemcpyDeviceToHost) )
 
     for (int i = 0; i < totalThreadCount; ++i)

@@ -1,10 +1,9 @@
 //
-// Created by deniz on 9/16/24.
+// Created by delbek on 2/11/25.
 //
 
-#ifndef SUPERMAN_KERNELGENMULTIGPU_CUH
-#define SUPERMAN_KERNELGENMULTIGPU_CUH
-
+#ifndef SUPERMAN_KERNELGENMULTIGPUMPI_CUH
+#define SUPERMAN_KERNELGENMULTIGPUMPI_CUH
 
 #include "Permanent.h"
 #include "Matrix.h"
@@ -14,27 +13,24 @@
 
 
 template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
-class KernelGenMultiGPU: public Permanent<C, S>
+class KernelGenMultiGPUMPI: public Permanent<C, S>
 {
 public:
-    KernelGenMultiGPU(Matrix<S>* matrix, Settings settings)
+    KernelGenMultiGPUMPI(Matrix<S>* matrix, Settings settings)
     :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
-
-public:
-    __float128 productSum;
 };
 
 
 template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
-double KernelGenMultiGPU<C, S, Algo, Shared>::permanentFunction()
+double KernelGenMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
 {
     int nov = this->m_Matrix->nov;
     S* mat = this->m_Matrix->mat;
 
     C x[nov];
-    __float128 product = 1;
+    double product = 1;
     for (int i = 0; i < nov; ++i)
     {
         C rowSum = 0;
@@ -45,18 +41,78 @@ double KernelGenMultiGPU<C, S, Algo, Shared>::permanentFunction()
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
     }
-    productSum = product;
 
     int k = 0;
     generateKernels(k, mat, x, nov, this->m_Settings);
 
+    int rank = this->m_Settings.rank;
+    int numberOfProcessors = this->m_Settings.processorNum;
     int gpuNum = this->m_Settings.gpuNum;
     unsigned partition = this->m_Settings.partition;
 
+    int* computeCapabilities = new int[gpuNum];
+    memset(computeCapabilities, 0, sizeof(int) * gpuNum);
+    for (int i = 0; i < gpuNum; ++i)
+    {
+        cudaDeviceProp deviceProp;
+        cudaGetDeviceProperties(&deviceProp, i);
+        computeCapabilities[i] = std::pow(deviceProp.major, 2);
+    }
+
+    int totalComputeDevices;
+    mpiAllReduce(&gpuNum, &totalComputeDevices, 1, getMPI_INT(), getMPI_SUM(), getMPI_COMM_WORLD());
+
+    int* totalComputeCapabilities = new int[totalComputeDevices];
+    memset(totalComputeCapabilities, 0, sizeof(int) * totalComputeDevices);
+
+    int* recvcounts = new int[numberOfProcessors];
+    int* displs = new int[numberOfProcessors];
+
+    mpiAllGather(&gpuNum, 1, getMPI_INT(), recvcounts, 1, getMPI_INT(), getMPI_COMM_WORLD());
+
+    displs[0] = 0;
+    for (int i = 1; i < numberOfProcessors; ++i)
+    {
+        displs[i] = displs[i - 1] + recvcounts[i - 1];
+    }
+
+    mpiAllGatherV(computeCapabilities, gpuNum, getMPI_INT(), totalComputeCapabilities, recvcounts, displs, getMPI_INT(), getMPI_COMM_WORLD());
+
     long long start = 1;
     long long end = (1LL << (nov - 1));
-    long long CHUNK_SIZE = (end - start + (gpuNum * partition) - 1) / (gpuNum * partition);
-    long long currentChunkStart = start;
+
+    long long totalRange = end - start;
+    long long nodeStart, nodeEnd;
+
+    mpiBarrier(getMPI_COMM_WORLD());
+
+    long long cumulativeStart = 0;
+    for (int i = 0; i < numberOfProcessors; ++i)
+    {
+        long long nodeRange = (totalRange * recvcounts[i]) / totalComputeDevices;
+        if (i == rank)
+        {
+            nodeStart = start + cumulativeStart;
+            nodeEnd = nodeStart + nodeRange;
+            break;
+        }
+        cumulativeStart += nodeRange;
+    }
+
+    if (rank == numberOfProcessors - 1)
+    {
+        nodeEnd = end;
+    }
+
+    delete[] computeCapabilities;
+    delete[] totalComputeCapabilities;
+    delete[] recvcounts;
+    delete[] displs;
+
+    long long CHUNK_SIZE = (nodeEnd - nodeStart + (gpuNum * partition) - 1) / (gpuNum * partition);
+    long long currentChunkStart = nodeStart;
+
+    C gpuReducedProductSum = 0;
 
     omp_lock_t lock;
     omp_init_lock(&lock);
@@ -93,7 +149,7 @@ double KernelGenMultiGPU<C, S, Algo, Shared>::permanentFunction()
         ) )
 
 #ifndef SILENT
-#pragma omp critical
+    #pragma omp critical
         {
             static std::vector<bool> printed(gpuNum, false);
             if (!printed[gpuNo])
@@ -128,7 +184,7 @@ double KernelGenMultiGPU<C, S, Algo, Shared>::permanentFunction()
             long long myStart;
             long long myEnd;
             omp_set_lock(&lock);
-            if (currentChunkStart >= end)
+            if (currentChunkStart >= nodeEnd)
             {
                 omp_unset_lock(&lock);
                 break;
@@ -138,7 +194,7 @@ double KernelGenMultiGPU<C, S, Algo, Shared>::permanentFunction()
             myEnd = currentChunkStart;
             omp_unset_lock(&lock);
 
-            if (myEnd > end) myEnd = end;
+            if (myEnd > nodeEnd) myEnd = nodeEnd;
 
             long long left = (myEnd - myStart);
 
@@ -165,6 +221,8 @@ double KernelGenMultiGPU<C, S, Algo, Shared>::permanentFunction()
                         myEnd,
                         chunkSize);
 
+                gpuErrchk( cudaDeviceSynchronize() )
+
                 long long thisIteration = totalThreadCount * chunkSize;
                 left -= thisIteration;
                 myStart += thisIteration;
@@ -178,9 +236,9 @@ double KernelGenMultiGPU<C, S, Algo, Shared>::permanentFunction()
                     myStart,
                     myEnd,
                     -1);
-        }
 
-        gpuErrchk( cudaDeviceSynchronize() )
+            gpuErrchk( cudaDeviceSynchronize() )
+        }
 
         C* h_products = new C[totalThreadCount];
         gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
@@ -196,12 +254,17 @@ double KernelGenMultiGPU<C, S, Algo, Shared>::permanentFunction()
         delete[] h_products;
 
         #pragma omp atomic
-            productSum += myProductSum;
+            gpuReducedProductSum += myProductSum;
     }
     omp_destroy_lock(&lock);
+
+    mpiBarrier(getMPI_COMM_WORLD());
+    this->productSum = 0;
+    mpiReduce(&gpuReducedProductSum, &this->productSum, 1, getMPI_DOUBLE(), getMPI_SUM(), 0, getMPI_COMM_WORLD());
+    this->productSum += product;
 
     return 0;
 }
 
 
-#endif //SUPERMAN_KERNELGENMULTIGPU_CUH
+#endif //SUPERMAN_KERNELGENMULTIGPUMPI_CUH

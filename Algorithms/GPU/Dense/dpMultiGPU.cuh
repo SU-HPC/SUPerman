@@ -1,58 +1,60 @@
 //
-// Created by deniz on 4/22/24.
+// Created by delbek on 6/11/24.
 //
 
-#ifndef SUPERMAN_SPMULTIGPU_CUH
-#define SUPERMAN_SPMULTIGPU_CUH
+#ifndef SUPERMAN_DPMULTIGPU_CUH
+#define SUPERMAN_DPMULTIGPU_CUH
 
 #include "Permanent.h"
-#include "SparseMatrix.h"
-#include "SparseKernelDefinitions.cuh"
-#include "omp.h"
+#include "Matrix.h"
+#include "DenseKernelDefinitions.cuh"
 
 
-template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
-class spMultiGPU: public Permanent<C, S>
+template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
+class dpMultiGPU: public Permanent<C, S>
 {
 public:
-    spMultiGPU(Matrix<S>* matrix, Settings settings)
+    dpMultiGPU(Matrix<S>* matrix, Settings settings)
     :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
-
-public:
-    __float128 productSum;
 };
 
 
-template <typename C, typename S, SparseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
-double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
+template <typename C, typename S, DenseKernelPointer<C, S> Algo, SharedMemoryFunctionPointer<C, S> Shared>
+double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
 {
-    SparseMatrix<S>* sp = dynamic_cast<SparseMatrix<S>*>(this->m_Matrix);
-
-    int nov = sp->nov;
-    int nnz = sp->nnz;
-    int* cptrs = sp->cptrs;
-    int* rows = sp->rows;
-    S* cvals = sp->cvals;
-    int* rptrs = sp->rptrs;
-    int* cols = sp->cols;
-    S* rvals = sp->rvals;
-    S* mat = sp->mat;
+    int nov = this->m_Matrix->nov;
+#ifdef MAT_SPECIFIC_COMPILATION
+    if (NOV != nov)
+    {
+        throw std::runtime_error("It seems that you have made a matrix specific compilation but the size of the matrix does not match with that of your indicated size during compilation. Perhaps decomposition reduced the size on the runtime?\n");
+    }
+#endif
+    S* mat = this->m_Matrix->mat;
+    S* matTransposed = new S[nov * nov];
 
     C x[nov];
-    __float128 product = 1;
+    double product = 1;
     for (int i = 0; i < nov; ++i)
     {
         C rowSum = 0;
-        for (int ptr = rptrs[i]; ptr < rptrs[i + 1]; ++ptr)
+        for (int j = 0; j < nov; ++j)
         {
-            rowSum += rvals[ptr];
+            rowSum += mat[i * nov + j];
         }
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
     }
-    productSum = product;
+    this->productSum = product;
+
+    for (int i = 0; i < nov; ++i)
+    {
+        for (int j = 0; j < nov; ++j)
+        {
+            matTransposed[j * nov + i] = mat[i * nov + j];
+        }
+    }
 
     int gpuNum = this->m_Settings.gpuNum;
     unsigned partition = this->m_Settings.partition;
@@ -77,7 +79,6 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
         int gridDim;
         int blockDim;
         V = nov;
-        E = nnz;
         gpuErrchk( cudaOccupancyMaxPotentialBlockSizeVariableSMem(
                 &gridDim,
                 &blockDim,
@@ -122,23 +123,17 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
         }
 #endif
 
-        C *d_x;
+        C* d_x;
         C* d_products;
-        int* d_cptrs;
-        int* d_rows;
-        S *d_cvals;
+        S* d_mat;
 
         gpuErrchk( cudaMalloc(&d_x, nov * sizeof(C)) )
         gpuErrchk( cudaMalloc(&d_products, totalThreadCount * sizeof(C)) )
         gpuErrchk( cudaMemset(d_products, 0, totalThreadCount * sizeof(C)) )
-        gpuErrchk( cudaMalloc(&d_cptrs, (nov + 1) * sizeof(int)) )
-        gpuErrchk( cudaMalloc(&d_rows, nnz * sizeof(int)) )
-        gpuErrchk( cudaMalloc(&d_cvals, nnz * sizeof(S)) )
+        gpuErrchk( cudaMalloc(&d_mat, (nov * nov) * sizeof(S)) )
 
         gpuErrchk( cudaMemcpy(d_x, x, nov * sizeof(C), cudaMemcpyHostToDevice) )
-        gpuErrchk( cudaMemcpy(d_cptrs, cptrs, (nov + 1) * sizeof(int), cudaMemcpyHostToDevice) )
-        gpuErrchk( cudaMemcpy(d_rows, rows, nnz * sizeof(int), cudaMemcpyHostToDevice) )
-        gpuErrchk( cudaMemcpy(d_cvals, cvals, nnz * sizeof(S), cudaMemcpyHostToDevice) )
+        gpuErrchk( cudaMemcpy(d_mat, matTransposed, (nov * nov) * sizeof(S), cudaMemcpyHostToDevice) )
 
         C myProductSum = 0;
 
@@ -176,16 +171,15 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
                 }
 
                 Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
-                        d_cptrs,
-                        d_rows,
-                        d_cvals,
+                        d_mat,
                         d_x,
                         d_products,
                         nov,
-                        nnz,
                         myStart,
                         myEnd,
                         chunkSize);
+
+                gpuErrchk( cudaDeviceSynchronize() )
 
                 long long thisIteration = totalThreadCount * chunkSize;
                 left -= thisIteration;
@@ -193,19 +187,16 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
             }
 
             Algo<<<gridDim, blockDim, sharedMemoryPerBlock>>>(
-                    d_cptrs,
-                    d_rows,
-                    d_cvals,
+                    d_mat,
                     d_x,
                     d_products,
                     nov,
-                    nnz,
                     myStart,
                     myEnd,
                     -1);
-        }
 
-        gpuErrchk( cudaDeviceSynchronize() )
+            gpuErrchk( cudaDeviceSynchronize() )
+        }
 
         C* h_products = new C[totalThreadCount];
         gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
@@ -217,19 +208,19 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
 
         gpuErrchk( cudaFree(d_x) )
         gpuErrchk( cudaFree(d_products) )
-        gpuErrchk( cudaFree(d_cptrs) )
-        gpuErrchk( cudaFree(d_rows) )
-        gpuErrchk( cudaFree(d_cvals) )
+        gpuErrchk( cudaFree(d_mat) )
 
         delete[] h_products;
 
         #pragma omp atomic
-            productSum += myProductSum;
+            this->productSum += myProductSum;
     }
     omp_destroy_lock(&lock);
+
+    delete[] matTransposed;
 
     return 0;
 }
 
 
-#endif //SUPERMAN_SPMULTIGPU_CUH
+#endif //SUPERMAN_DPMULTIGPU_CUH

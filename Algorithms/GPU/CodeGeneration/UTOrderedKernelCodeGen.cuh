@@ -15,8 +15,10 @@ template<class C, class S>
 std::string KernelGenerator<C, S>::generateUTOrderedKernelCode(int& k)
 {
     m_File += "#ifndef SUPERMAN_GENERATEDKERNELS_CUH\n"
-              "#define SUPERMAN_GENERATEDKERNELS_CUH\n";
-    m_File += "\n\n";
+              "#define SUPERMAN_GENERATEDKERNELS_CUH\n\n";
+
+    m_File += "#include \"GPUHelpers.cuh\"\n";
+    m_File += "#include \"PrecisionHelpers.cuh\"\n\n\n";
 
     int c = -1;
     determineRegisterArea(k, c);
@@ -296,20 +298,41 @@ void KernelGenerator<C, S>::globalKernel_ut(int k, int c)
 {
     std::string globalKernel;
 
-    globalKernel += "template <class C, class S>\n"
-                    "__global__ void globalKernel(S* mat,\n"
-                    "                             C* x,\n"
-                    "                             C* p,\n"
-                    "                             int nov,\n"
-                    "                             long long start,\n"
-                    "                             long long end,\n"
-                    "                             long long chunkSize)\n"
-                    "{\n"
-                    "    const volatile unsigned globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;\n"
-                    "    const volatile unsigned totalThreadCount = gridDim.x * blockDim.x;\n"
-                    "\n"
-                    "    C myResult = 0;\n"
-                    "\n";
+    if (m_Settings.calculationPrecision == KAHAN)
+    {
+        globalKernel += "template <class C, class S>\n"
+                        "__global__ void globalKernel(S* mat,\n"
+                        "                             C* x,\n"
+                        "                             C* p,\n"
+                        "                             int nov,\n"
+                        "                             long long start,\n"
+                        "                             long long end,\n"
+                        "                             long long chunkSize)\n"
+                        "{\n"
+                        "    const volatile unsigned globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;\n"
+                        "    const volatile unsigned totalThreadCount = gridDim.x * blockDim.x;\n"
+                        "\n"
+                        "    C myResult = 0;\n"
+                        "    C myError = 0;\n"
+                        "\n";
+    }
+    else
+    {
+        globalKernel += "template <class C, class S>\n"
+                        "__global__ void globalKernel(S* mat,\n"
+                        "                             C* x,\n"
+                        "                             C* p,\n"
+                        "                             int nov,\n"
+                        "                             long long start,\n"
+                        "                             long long end,\n"
+                        "                             long long chunkSize)\n"
+                        "{\n"
+                        "    const volatile unsigned globalThreadID = (blockIdx.x * blockDim.x) + threadIdx.x;\n"
+                        "    const volatile unsigned totalThreadCount = gridDim.x * blockDim.x;\n"
+                        "\n"
+                        "    C myResult = 0;\n"
+                        "\n";
+    }
 
     globKernelRegInit_ut(k, globalKernel);
 
@@ -339,12 +362,24 @@ void KernelGenerator<C, S>::globalKernel_ut(int k, int c)
 
     globKernelSwitchCase_ut(k, c, globalKernel);
 
-    globalKernel += "        myResult += productSign * product;\n"
-                    "        productSign *= -1;\n"
-                    "    }\n"
-                    "\n"
-                    "    p[globalThreadID] += myResult;\n"
-                    "}\n";
+    if (m_Settings.calculationPrecision == KAHAN)
+    {
+        globalKernel += "        kahanAdd<C>(myResult, myError, productSign * product);\n"
+                        "        productSign *= -1;\n"
+                        "    }\n"
+                        "\n"
+                        "    p[globalThreadID] += myResult;\n"
+                        "}\n";
+    }
+    else
+    {
+        globalKernel += "        myResult += productSign * product;\n"
+                        "        productSign *= -1;\n"
+                        "    }\n"
+                        "\n"
+                        "    p[globalThreadID] += myResult;\n"
+                        "}\n";
+    }
 
     m_File += globalKernel + '\n';
 }

@@ -20,9 +20,6 @@ public:
     :   Permanent<C, S>(matrix, settings) {}
 
     virtual double permanentFunction() final;
-
-public:
-    double productSum;
 };
 
 
@@ -251,6 +248,8 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                         myEnd,
                         chunkSize);
 
+                gpuErrchk( cudaDeviceSynchronize() )
+
                 long long thisIteration = totalThreadCount * chunkSize;
                 left -= thisIteration;
                 myStart += thisIteration;
@@ -267,9 +266,9 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
                     myStart,
                     myEnd,
                     -1);
-        }
 
-        gpuErrchk( cudaDeviceSynchronize() )
+            gpuErrchk( cudaDeviceSynchronize() )
+        }
 
         C* h_products = new C[totalThreadCount];
         gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
@@ -293,9 +292,9 @@ double spMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
     omp_destroy_lock(&lock);
 
     mpiBarrier(getMPI_COMM_WORLD());
-    productSum = 0;
-    mpiReduce(&gpuReducedProductSum, &productSum, 1, getMPI_DOUBLE(), getMPI_SUM(), 0, getMPI_COMM_WORLD());
-    productSum += product;
+    this->productSum = 0;
+    mpiReduce(&gpuReducedProductSum, &this->productSum, 1, getMPI_DOUBLE(), getMPI_SUM(), 0, getMPI_COMM_WORLD());
+    this->productSum += product;
 
     return 0;
 }

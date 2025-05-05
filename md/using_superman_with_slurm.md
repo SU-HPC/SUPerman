@@ -20,7 +20,7 @@ SUPerman utilizes pipes located in the `/tmp/` directory, as explained in the [r
 
 To run **SUPerman** on a multi-node cluster with Slurm, you need to adjust a few settings. First, set the `modes` parameter to `multi_gpu_mpi` and change the `processor_num` parameter to a value greater than 1, as outlined in [run_superman.md](run_superman.md).
 
-Slurm requires that multi-node jobs be launched using `srun`. This means you must modify the execution commands in the `wrapper.cpp` file ([wrapper.cpp](../wrapper.cpp)). In this file, locate the two lines where SUPerman is executed (found on lines 207 and 242):
+Slurm requires that multi-node jobs be launched using `srun`. This means you must modify the execution commands in the `wrapper.cpp` file ([wrapper.cpp](../wrapper.cpp)). In this file, locate the two lines where SUPerman is executed (found on lines 223 and 258):
 
 ```cpp
 firstProgramArguments = "mpirun --mca btl ^openib -np " + std::to_string(processorNumber) + " " + firstProgramArguments;

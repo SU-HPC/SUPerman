@@ -46,7 +46,7 @@ int main(int argv, char* argc[])
         Result result = algorithm(matrix, &settings);
 
         stream = std::stringstream();
-        stream << "Permanent: " << std::setprecision (settings.printingPrecision) << double(result.permanent) << " - Computed in: " << result.time << " seconds." << std::endl << std::endl;
+        stream << "Permanent: " << std::setprecision (settings.printingPrecision) << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl << std::endl;
         print(stream, rank, settings.PID, -1);
 
         delete matrix;
