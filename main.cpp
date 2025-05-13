@@ -9,10 +9,6 @@
 #ifdef MPI_AVAILABLE
 #include "mpi_wrapper.h"
 #endif
-#include "cpuComputeComplex.h"
-#ifdef GPU_AVAILABLE
-#include "gpuComputeComplex.cuh"
-#endif
 
 #define S double
 #define C double
@@ -58,20 +54,7 @@ int main(int argv, char* argc[])
         print(stream, rank, settings.PID, 1);
         Matrix<std::complex<S>>* matrix = IO::readComplex<S>(filename, settings);
         recompilationStatus(0, settings.rank);
-        if (settings.mode == Mode::CPU)
-        {
-            cpuComputeComplex<C, S>(matrix, &settings);
-        }
-        #ifdef GPU_AVAILABLE
-        else if (settings.mode == Mode::SingleGPU)
-        {
-            gpuComputeComplex(matrix, &settings);
-        }
-        #endif
-        else
-        {
-            throw std::runtime_error("Computation of permanent on complex matrices are supported only on a cpu or on a single gpu.");
-        }
+        complexPerman<C, S>(matrix, &settings);
         delete matrix;
     }
 

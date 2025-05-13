@@ -102,7 +102,7 @@ void generateKernels(int& k, S* mat, C* x, int nov, Settings& settings)
         }
 
         std::cout << "************KERNELS ARE BEING GENERATED************" << std::endl;
-        std::string kernelFile = settings.REPO_DIR + "Algorithms/GPU/CodeGeneration/generatedKernels.cuh";
+        std::string kernelFile = settings.REPO_DIR + "Algorithms/Exact/GPU/CodeGeneration/generatedKernels.cuh";
         std::ofstream kernelWriter(kernelFile);
         KernelGenerator<C, S> kernelGenerator(matTransposed, nov, x, settings);
         std::string kernel;

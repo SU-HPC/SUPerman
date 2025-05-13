@@ -661,8 +661,8 @@ void IO::sortOrder(Matrix<S>* matrix)
         {
             if (indegrees[j] < mindegree) 
             {
-                mindegree   = indegrees[j];
-                chosen      = j;
+                mindegree = indegrees[j];
+                chosen = j;
             }
         }
 

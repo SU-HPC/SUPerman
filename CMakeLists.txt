@@ -4,7 +4,7 @@ project(SUPerman)
 ### MATRIX SPECIFIC COMPILATION (SHOULD NEVER BE MODIFIED)
 add_compile_definitions(SPECIFIC=REGISTERS40)
 add_compile_definitions(NOV=40)
-# add_definitions(-DMAT_SPECIFIC_COMPILATION)
+add_definitions(-DMAT_SPECIFIC_COMPILATION)
 ### MATRIX SPECIFIC COMPILATION (SHOULD NEVER BE MODIFIED)
 
 # C++ standard
@@ -46,14 +46,15 @@ include_directories(IO)
 include_directories(CommonFiles)
 include_directories(MPIWrappers)
 include_directories(Algorithms)
-include_directories(Algorithms/CPU)
-include_directories(Algorithms/CPU/Dense)
-include_directories(Algorithms/CPU/Sparse)
-include_directories(Algorithms/GPU)
-include_directories(Algorithms/GPU/Dense)
-include_directories(Algorithms/GPU/Sparse)
-include_directories(Algorithms/GPU/CodeGeneration)
-include_directories(Algorithms/Complex)
+include_directories(Algorithms/Exact)
+include_directories(Algorithms/Exact/CPU)
+include_directories(Algorithms/Exact/CPU/Dense)
+include_directories(Algorithms/Exact/CPU/Sparse)
+include_directories(Algorithms/Exact/GPU)
+include_directories(Algorithms/Exact/GPU/Dense)
+include_directories(Algorithms/Exact/GPU/Sparse)
+include_directories(Algorithms/Exact/GPU/CodeGeneration)
+include_directories(Algorithms/Exact/Complex)
 
 # Files
 set(COMMON_HEADER_FILES
@@ -68,43 +69,43 @@ set(COMMON_HEADER_FILES
         IO/dm.h
         IO/dm.cpp
         CommonFiles/AlgorithmSelector.h
-        Algorithms/AllExactAlgorithms.h
+        Algorithms/Exact/AllExactAlgorithms.h
 )
 
 # CPU Files
 set(CPU_HEADER_FILES
-        Algorithms/CPU/Dense/dpNaivePerman.h
-        Algorithms/CPU/Sparse/spNaivePerman.h
-        Algorithms/Complex/cpuComputeComplex.h
+        Algorithms/Exact/CPU/Dense/dpNaivePerman.h
+        Algorithms/Exact/CPU/Sparse/spNaivePerman.h
+        Algorithms/Exact/Complex/cpuComputeComplex.h
 )
 
 # GPU Files
 set(GPU_HEADER_FILES
-        Algorithms/GPU/GPUHelpers.cuh
-        Algorithms/GPU/Sparse/SparseKernelDefinitions.cuh
-        Algorithms/GPU/Sparse/spSingleGPU.cuh
-        Algorithms/GPU/Sparse/spMultiGPU.cuh
-        Algorithms/GPU/Sparse/spMultiGPUMPI.cuh
-        Algorithms/GPU/Dense/DenseKernelDefinitions.cuh
-        Algorithms/GPU/Dense/dpSingleGPU.cuh
-        Algorithms/GPU/Dense/dpMultiGPU.cuh
-        Algorithms/GPU/Dense/dpMultiGPUMPI.cuh
-        Algorithms/GPU/Registers.cuh
-        Algorithms/GPU/PrecisionHelpers.cuh
-        Algorithms/GPU/CodeGeneration/KernelGenSingleGPU.cuh
-        Algorithms/GPU/CodeGeneration/KernelGenMultiGPU.cuh
-        Algorithms/GPU/CodeGeneration/KernelGenMultiGPUMPI.cuh
-        Algorithms/GPU/CodeGeneration/KernelGenerator.cuh
-        Algorithms/GPU/CodeGeneration/NaiveKernelCodeGen.cuh
-        Algorithms/GPU/CodeGeneration/UTOrderedKernelCodeGen.cuh
-        Algorithms/GPU/CodeGeneration/generatedKernels.cuh
-        Algorithms/Complex/gpuComputeComplex.cuh
+        Algorithms/Exact/GPU/GPUHelpers.cuh
+        Algorithms/Exact/GPU/Sparse/SparseKernelDefinitions.cuh
+        Algorithms/Exact/GPU/Sparse/spSingleGPU.cuh
+        Algorithms/Exact/GPU/Sparse/spMultiGPU.cuh
+        Algorithms/Exact/GPU/Sparse/spMultiGPUMPI.cuh
+        Algorithms/Exact/GPU/Dense/DenseKernelDefinitions.cuh
+        Algorithms/Exact/GPU/Dense/dpSingleGPU.cuh
+        Algorithms/Exact/GPU/Dense/dpMultiGPU.cuh
+        Algorithms/Exact/GPU/Dense/dpMultiGPUMPI.cuh
+        Algorithms/Exact/GPU/Registers.cuh
+        Algorithms/Exact/GPU/PrecisionHelpers.cuh
+        Algorithms/Exact/GPU/CodeGeneration/KernelGenSingleGPU.cuh
+        Algorithms/Exact/GPU/CodeGeneration/KernelGenMultiGPU.cuh
+        Algorithms/Exact/GPU/CodeGeneration/KernelGenMultiGPUMPI.cuh
+        Algorithms/Exact/GPU/CodeGeneration/KernelGenerator.cuh
+        Algorithms/Exact/GPU/CodeGeneration/NaiveKernelCodeGen.cuh
+        Algorithms/Exact/GPU/CodeGeneration/UTOrderedKernelCodeGen.cuh
+        Algorithms/Exact/GPU/CodeGeneration/generatedKernels.cuh
+        Algorithms/Exact/Complex/gpuComputeComplex.cuh
 )
 
 set(GPU_WRAPPER_FILES
-        Algorithms/GPU/GPUKernelWrappers.h
-        Algorithms/GPU/GPUKernelWrappers.cu
-        Algorithms/Complex/gpuComputeComplex.cu
+        Algorithms/Exact/GPU/GPUKernelWrappers.h
+        Algorithms/Exact/GPU/GPUKernelWrappers.cu
+        Algorithms/Exact/Complex/gpuComputeComplex.cu
 )
 
 # MPI Files

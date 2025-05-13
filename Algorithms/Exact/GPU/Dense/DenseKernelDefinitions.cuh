@@ -5,7 +5,6 @@
 #ifndef SUPERMAN_DENSEKERNELDEFINITIONS_CUH
 #define SUPERMAN_DENSEKERNELDEFINITIONS_CUH
 
-#include "cuda_runtime.h"
 #include "GPUHelpers.cuh"
 #include "PrecisionHelpers.cuh"
 
