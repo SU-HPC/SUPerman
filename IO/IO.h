@@ -206,6 +206,10 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             {
                 settings.algorithm = REGEFFICIENTCODEGENERATION;
             }
+            else if (value == "approximation")
+            {
+                settings.algorithm = APPROXIMATION;
+            }
             else
             {
                 stream << "UNKNOWN ALGORITHM: " << value << " - selecting automatically instead." << std::endl;

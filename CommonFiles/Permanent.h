@@ -46,6 +46,7 @@ public:
 template <class C, class S>
 Result Permanent<C, S>::computePermanent()
 {
+    // cases for sparse
     if (m_Settings.algorithm == NAIVECODEGENERATION)
     {
 
@@ -57,6 +58,11 @@ Result Permanent<C, S>::computePermanent()
     else if (m_Settings.algorithm != XREGISTERMSHARED && m_Settings.algorithm != XREGISTERMGLOBAL && m_Matrix->sparsity < 50)
     {
         IO::sortOrder(m_Matrix);
+        Matrix<S>* sparseMatrix = new SparseMatrix<S>(m_Matrix, getNNZ(m_Matrix));
+        m_Matrix = sparseMatrix;
+    }
+    else if (m_Settings.algorithm == APPROXIMATION)
+    {
         Matrix<S>* sparseMatrix = new SparseMatrix<S>(m_Matrix, getNNZ(m_Matrix));
         m_Matrix = sparseMatrix;
     }

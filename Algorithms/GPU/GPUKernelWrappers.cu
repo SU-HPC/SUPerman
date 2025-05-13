@@ -19,6 +19,10 @@
 #include "spSingleGPU.cuh"
 #include "spMultiGPU.cuh"
 
+// SP Approximation
+#include "ApproximateSparseKernelDefinitions.cuh"
+#include "aspSingleGPU.cuh"
+
 // DP
 #include "DenseKernelDefinitions.cuh"
 #include "dpSingleGPU.cuh"
@@ -71,6 +75,12 @@ extern Result gpuSPSingleGPU(Matrix<S>* matrix, Settings* settings)
     else if ((selectedAlgorithm == Algorithm::NAIVECODEGENERATION) || selectedAlgorithm == Algorithm::REGEFFICIENTCODEGENERATION)
     {
         auto permanent = new DecomposePerman<C, S, KernelGenSingleGPU<C, S, &globalKernel, spNoShared<C, S> > >(matrix, *settings);
+        result = permanent->computePermanentRecursively();
+        delete permanent;
+    }
+    else if (selectedAlgorithm == Algorithm::APPROXIMATION)
+    {
+        auto permanent = new DecomposePerman<C, S, aspSingleGPU<C, S, &ApproximateSparseDefinitions::rasmussenScaleAB, spNoShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }

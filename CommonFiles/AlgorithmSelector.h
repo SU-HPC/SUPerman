@@ -28,10 +28,16 @@ public:
 template<class C, class S>
 typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgorithm(Matrix<S> *matrix, Settings *settings)
 {
-#ifdef GPU_AVAILABLE
+    #ifdef GPU_AVAILABLE
     if (settings->algorithm == AlgorithmEnds && settings->mode != Mode::CPU)
     {
         std::stringstream stream;
+        if (matrix->nov > 63)
+        {
+            settings->algorithm = APPROXIMATION;
+            stream << "SELECTED ALGORITHM IS: APPROXIMATION" << std::endl;
+            print(stream, settings->rank, settings->PID, 1);
+        }
         if ((matrix->nov * matrix->sparsity / 100 <= 4) || matrix->nov <= 40)
         {
             settings->algorithm = XREGISTERMSHARED;
@@ -45,7 +51,7 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
             print(stream, settings->rank, settings->PID, 1);
         }
     }
-#endif
+    #endif
 
     if (settings->PID == 1)
     {
@@ -59,21 +65,27 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
         }
     }
 
+    // cpu
     if (settings->mode == Mode::CPU)
     {
-        if (matrix->sparsity < 50)
+        if (matrix->sparsity < 50)  // sparse
         {
             return cpuSPNaivePerman<C, S>;
         }
-        else
+        else                        // dense
         {
             return cpuDPNaivePerman<C, S>;
         }
     }
 
-    if ((settings->algorithm != XREGISTERMSHARED && settings->algorithm != XREGISTERMGLOBAL && matrix->sparsity < 50) || settings->algorithm == NAIVECODEGENERATION || settings->algorithm == REGEFFICIENTCODEGENERATION)
+    // gpu-mpi
+    if (
+            (settings->algorithm != XREGISTERMSHARED && settings->algorithm != XREGISTERMGLOBAL && matrix->sparsity < 50) 
+        ||  settings->algorithm == NAIVECODEGENERATION || settings->algorithm == REGEFFICIENTCODEGENERATION
+        ||  settings->algorithm == APPROXIMATION
+    ) // sparse
     {
-#ifdef GPU_AVAILABLE
+        #ifdef GPU_AVAILABLE
         if (settings->mode == Mode::SingleGPU)
         {
             return gpuSPSingleGPU<C, S>;
@@ -82,17 +94,17 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
         {
             return gpuSPMultiGPU<C, S>;
         }
-#endif
-#ifdef MPI_AVAILABLE
+        #endif
+        #ifdef MPI_AVAILABLE
         if (settings->mode == Mode::MultiGPUMPI)
         {
             return gpuSPMultiGPUMPI<C, S>;
         }
-#endif
+        #endif
     }
-    else
+    else // dense
     {
-#ifdef GPU_AVAILABLE
+        #ifdef GPU_AVAILABLE
         if (settings->mode == Mode::SingleGPU)
         {
             return gpuDPSingleGPU<C, S>;
@@ -101,13 +113,13 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
         {
             return gpuDPMultiGPU<C, S>;
         }
-#endif
-#ifdef MPI_AVAILABLE
+        #endif
+        #ifdef MPI_AVAILABLE
         if (settings->mode == Mode::MultiGPUMPI)
         {
             return gpuDPMultiGPUMPI<C, S>;
         }
-#endif
+        #endif
     }
     throw std::runtime_error("The mode you want to calculate the permanent in is unavailable for launch. Terminating...\n");
 }

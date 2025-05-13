@@ -57,7 +57,7 @@ void complexPerman(Matrix<std::complex<S>>* matrix, Settings* settings)
     #endif
     else
     {
-        throw std::runtime_error("Computation of permanent on complex matrices are supported only on a cpu or on a single gpu.");
+        throw std::runtime_error("The mode you want to calculate the permanent in is unavailable for launch. Terminating...\n");
     }
 }
 
