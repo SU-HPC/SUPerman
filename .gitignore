@@ -3,6 +3,3 @@ wrapper
 .vscode/
 res/
 wr/
-*.txt
-*.mtx
-*.py

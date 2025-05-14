@@ -15,9 +15,9 @@
 #include "Registers.cuh"
 
 #define X_SIZE 63
-#define NO_SAMPLES 131072
+#define NO_SAMPLES 67108864
 #define ALPHA 1
-#define BETA 2
+#define BETA 5
 #define INITIAL_BETA 50
 
 template <typename C, typename S>
@@ -127,7 +127,7 @@ inline void scaleABInit(
 		for (unsigned i = 0; i < nov; ++i) 
 		{
 			sum = 0;
-			for (unsigned ptr = rowPtrs[i]; ptr < rowPtrs[i+1]; ptr++)
+			for (unsigned ptr = rowPtrs[i]; ptr < rowPtrs[i + 1]; ++ptr)
 			{
 				sum += cv[cols[ptr]];
 			}
@@ -173,34 +173,50 @@ __device__ __inline__ void scaleAB(
 	}
 }
 
-__device__ __inline__ bool reduce_d1(unsigned nov,
-    unsigned* row_ptr, unsigned* row_idx, unsigned* col_ptr, unsigned* col_idx,
-    int* row_elems, int* col_elems, unsigned* stack, unsigned col) {
-  stack[0] = col;
-  unsigned stack_ptr = 1;
-  for (unsigned ii = 0; ii < stack_ptr; ii++) {
-    unsigned j = stack[ii];
-    for (unsigned ptr = col_ptr[j]; ptr < col_ptr[j+1]; ptr++) {
-      unsigned i = col_idx[ptr];
-      if (row_elems[i] <= 0)
-        continue;
-      int k = --row_elems[i];
-      if (k == 0)
-        return true;
-      if (k != 1)
-        continue;
-      for (unsigned ptr = row_ptr[i]; ptr < row_ptr[i+1]; ptr++) {
-        unsigned j2 = row_idx[ptr];
-        if (col_elems[j2] <= 0)
-          continue;
-        row_elems[i] = -1;
-        col_elems[j2] = -1;
-        stack[stack_ptr++] = j2;
-        break;
-      }
-    }
-  }
-  return false;
+__device__ __inline__ bool d1Reduce(
+									unsigned nov,
+    								unsigned* rowPtrs, unsigned* cols, 
+									unsigned* colPtrs, unsigned* rows,
+									int* rowElems, int* colElems, 
+									unsigned* stack, 
+									unsigned col) 
+{
+	stack[0] = col;
+	unsigned stackPtr = 1;
+	for (unsigned ii = 0; ii < stackPtr; ++ii) 
+	{
+		unsigned j = stack[ii];
+		for (unsigned ptr = colPtrs[j]; ptr < colPtrs[j + 1]; ++ptr) 
+		{
+			unsigned i = rows[ptr];
+			if (rowElems[i] <= 0)
+			{
+				continue;
+			}
+			int k = --rowElems[i];
+			if (k == 0)
+			{	
+				return true;
+			}
+			if (k != 1)
+			{
+				continue;
+			}
+			for (unsigned ptr = rowPtrs[i]; ptr < rowPtrs[i + 1]; ++ptr) 
+			{
+				unsigned j2 = cols[ptr];
+				if (colElems[j2] <= 0)
+				{
+					continue;
+				}
+				rowElems[i] = -1;
+				colElems[j2] = -1;
+				stack[stackPtr++] = j2;
+				break;
+			}
+		}
+	}
+	return false;
 }
 
 #endif //SUPERMAN_GPUHELPERS_CUH

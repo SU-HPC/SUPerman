@@ -38,12 +38,6 @@ namespace ApproximateSparseDefinitions
                 if (i != 0 && i % ALPHA == 0)
                 {
                     scaleAB(nov, nnz, rowPtrs, cols, colPtrs, rows, rv, cv, markedRows, markedCols, BETA, i);
-                    /*
-                    if (!check)
-                    {
-                        permanent = 0;
-                    }
-                    */
                 }
                 if (markedRows[i * noThreads + tid] < 0) continue;
                 double cumulative = 0;
@@ -83,8 +77,8 @@ namespace ApproximateSparseDefinitions
                 markedRows[i * noThreads + tid] = -1;
                 markedCols[column * noThreads + tid] = -1;
 
-                bool normal = reduce_d1(nov, rowPtrs, cols, colPtrs, rows, markedRows, markedCols, stack, column);
-                bool transpose = reduce_d1(nov, colPtrs, rows, rowPtrs, cols, markedCols, markedRows, stack, i);
+                bool normal = d1Reduce(nov, rowPtrs, cols, colPtrs, rows, markedRows, markedCols, stack, column);
+                bool transpose = d1Reduce(nov, colPtrs, rows, rowPtrs, cols, markedCols, markedRows, stack, i);
 
                 if (normal || transpose)
                 {

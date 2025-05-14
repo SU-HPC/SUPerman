@@ -56,7 +56,6 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     int gridSize, blockSize;
     cudaOccupancyMaxPotentialBlockSize(&gridSize, &blockSize, Algo, 0, 0);
-    std::cout << "gridSize: " << gridSize << " - blockSize: " << blockSize << std::endl;
     unsigned noThreads = gridSize * blockSize;
 
     gpuErrchk(cudaMalloc(&d_rowPtrs, sizeof(unsigned) * (nov + 1)))
@@ -93,11 +92,9 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
                                     d_result,
                                     d_stack);
     gpuErrchk(cudaDeviceSynchronize())
-    std::cout << "Time taken: " << omp_get_wtime() - start << " seconds" << std::endl;
 
     gpuErrchk(cudaMemcpy(&this->productSum, d_result, sizeof(double), cudaMemcpyDeviceToHost))
     this->productSum /= NO_SAMPLES;
-    std::cout << "Permanent: " << this->productSum << std::endl;
 
     gpuErrchk(cudaFree(d_rowPtrs))
     gpuErrchk(cudaFree(d_cols))

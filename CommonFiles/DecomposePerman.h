@@ -78,7 +78,15 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
     for (int p = 0; p < m_Permanents.size(); ++p)
     {
         auto derived = dynamic_cast<Permanent*>(m_Permanents[p]);
-        double result = ((4 * (derived->m_Matrix->nov % 2) - 2) * derived->productSum);
+        double result;
+        if (m_Settings.algorithm != APPROXIMATION)
+        {
+            result = ((4 * (derived->m_Matrix->nov % 2) - 2) * derived->productSum);
+        }
+        else
+        {
+            result = derived->productSum;
+        }
         if (m_Settings.scaling)
         {
             auto scalingCompact = m_ScalingValues[p];

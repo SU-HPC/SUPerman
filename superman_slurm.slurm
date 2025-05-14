@@ -43,7 +43,7 @@ output_directory=${repo_directory}wr/
 mkdir -p ${output_directory}
 
 filenames=(
-"dense.mtx"
+"mycielskian6.mtx"
 )
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based.
@@ -89,11 +89,11 @@ is_complex=("false")
 # If true, the library assumes the matrix to contain complex entries of the form (a + bi).
 # DEFAULT: "false"
 
-is_binary=("false")
+is_binary=("true")
 # If true, the library assumes that the matrix edges are unweighted.
 # DEFAULT: "false"
 
-is_undirected=("false")
+is_undirected=("true")
 # If true, the library assumes that the matrix is undirected, meaning for every edge u -> v,
 #                                                              there is also an edge v -> u.
 # DEFAULT: "false"
