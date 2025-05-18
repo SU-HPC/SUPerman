@@ -103,6 +103,12 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
         delete derived;
     }
 
+    std::stringstream stream;
+    stream << "Number of 1 NNZ decompositions performed: " << m_1Decompose << std::endl;
+    stream << "Number of 2 NNZ decompositions performed: " << m_2Decompose << std::endl;
+    stream << "Number of 3-4 NNZ decompositions performed: " << m_34Decompose << std::endl;
+    print(stream, this->m_Settings.rank, this->m_Settings.PID, 1);
+
     double end = omp_get_wtime();
     Result result(end - start, overall);
 
@@ -112,6 +118,12 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
 template <class C, class S, class Permanent>
 void DecomposePerman<C, S, Permanent>::startRecursion(Matrix<S>* matrix)
 {
+    if (this->m_Settings.algorithm == APPROXIMATION)
+    {
+        addQueue(matrix);
+        return;
+    }
+
     bool isCompressed = true;
     while (isCompressed && matrix->nov > 30)
     {
@@ -176,15 +188,6 @@ void DecomposePerman<C, S, Permanent>::addQueue(Matrix<S> *matrix)
 {
     int nnz = getNNZ(matrix);
     matrix->sparsity = (double(nnz) / double(matrix->nov * matrix->nov)) * 100;
-
-    std::stringstream stream;
-    stream << "Number of rows/columns of matrix after decomposition is: " << matrix->nov << std::endl;
-    stream << "Total number of nonzeros after decomposition is: " << nnz << std::endl;
-    stream << "Sparsity of the matrix after decomposition is determined to be: " << matrix->sparsity << std::endl;
-    stream << "Number of 1 NNZ decompositions performed: " << m_1Decompose << std::endl;
-    stream << "Number of 2 NNZ decompositions performed: " << m_2Decompose << std::endl;
-    stream << "Number of 3-4 NNZ decompositions performed: " << m_34Decompose << std::endl;
-    print(stream, this->m_Settings.rank, this->m_Settings.PID, 1);
 
     Matrix<S>* newMatrix = new Matrix<S>(*matrix);
     if (newMatrix->nov > 63)

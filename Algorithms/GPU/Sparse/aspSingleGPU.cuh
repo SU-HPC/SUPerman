@@ -39,8 +39,10 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
         h_cvInit[i] = 1;
     }
 
-    scaleABInit(nov, nnz, rowPtrs, cols, colPtrs, rows, h_rvInit, h_cvInit, INITIAL_BETA);
+    ApproximateSparseDefinitions::scaleABInit(nov, nnz, rowPtrs, cols, colPtrs, rows, h_rvInit, h_cvInit, INITIAL_BETA);
 
+    unsigned* d_nov;
+    unsigned* d_nnz;
     unsigned* d_rowPtrs;
     unsigned* d_cols;
     unsigned* d_colPtrs;
@@ -58,18 +60,19 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     cudaOccupancyMaxPotentialBlockSize(&gridSize, &blockSize, Algo, 0, 0);
     unsigned noThreads = gridSize * blockSize;
 
+    gpuErrchk(cudaMalloc(&d_nov, sizeof(unsigned)))
+    gpuErrchk(cudaMalloc(&d_nnz, sizeof(unsigned)))
     gpuErrchk(cudaMalloc(&d_rowPtrs, sizeof(unsigned) * (nov + 1)))
     gpuErrchk(cudaMalloc(&d_cols, sizeof(unsigned) * nnz))
     gpuErrchk(cudaMalloc(&d_colPtrs, sizeof(unsigned) * (nov + 1)))
     gpuErrchk(cudaMalloc(&d_rows, sizeof(unsigned) * nnz))
-    gpuErrchk(cudaMalloc(&d_result, sizeof(double)))
-    gpuErrchk(cudaMalloc(&d_stack, sizeof(unsigned) * nov))
 
+    gpuErrchk(cudaMemcpy(d_nov, &nov, sizeof(unsigned), cudaMemcpyHostToDevice))
+    gpuErrchk(cudaMemcpy(d_nnz, &nnz, sizeof(unsigned), cudaMemcpyHostToDevice))
     gpuErrchk(cudaMemcpy(d_rowPtrs, rowPtrs, sizeof(unsigned) * (nov + 1), cudaMemcpyHostToDevice))
     gpuErrchk(cudaMemcpy(d_cols, cols, sizeof(unsigned) * nnz, cudaMemcpyHostToDevice))
     gpuErrchk(cudaMemcpy(d_colPtrs, colPtrs, sizeof(unsigned) * (nov + 1), cudaMemcpyHostToDevice))
     gpuErrchk(cudaMemcpy(d_rows, rows, sizeof(unsigned) * nnz, cudaMemcpyHostToDevice))
-    gpuErrchk(cudaMemset(d_result, 0, sizeof(double)))
 
     gpuErrchk(cudaMalloc(&d_rvInit, sizeof(double) * nov))
     gpuErrchk(cudaMalloc(&d_cvInit, sizeof(double) * nov))
@@ -77,15 +80,19 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk(cudaMalloc(&d_cv, sizeof(double) * nov * noThreads))
     gpuErrchk(cudaMalloc(&d_markedRows, sizeof(int) * nov * noThreads))
     gpuErrchk(cudaMalloc(&d_markedCols, sizeof(int) * nov * noThreads))
+    gpuErrchk(cudaMalloc(&d_stack, sizeof(unsigned) * nov * noThreads))
 
     gpuErrchk(cudaMemcpy(d_rvInit, h_rvInit, sizeof(double) * nov, cudaMemcpyHostToDevice))
     gpuErrchk(cudaMemcpy(d_cvInit, h_cvInit, sizeof(double) * nov, cudaMemcpyHostToDevice))
+
+    gpuErrchk(cudaMalloc(&d_result, sizeof(double)))
+    gpuErrchk(cudaMemset(d_result, 0, sizeof(double)))
 
     double start = omp_get_wtime();
     Algo<<<gridSize, blockSize>>>(
                                     d_rowPtrs, d_cols, 
                                     d_colPtrs, d_rows, 
-                                    nov, nnz,
+                                    d_nov, d_nnz,
                                     d_rvInit, d_cvInit,
                                     d_rv, d_cv, 
                                     d_markedRows, d_markedCols, 
@@ -96,6 +103,8 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk(cudaMemcpy(&this->productSum, d_result, sizeof(double), cudaMemcpyDeviceToHost))
     this->productSum /= NO_SAMPLES;
 
+    gpuErrchk(cudaFree(d_nov))
+    gpuErrchk(cudaFree(d_nnz))
     gpuErrchk(cudaFree(d_rowPtrs))
     gpuErrchk(cudaFree(d_cols))
     gpuErrchk(cudaFree(d_colPtrs))
