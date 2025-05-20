@@ -190,7 +190,7 @@ void DecomposePerman<C, S, Permanent>::addQueue(Matrix<S> *matrix)
     matrix->sparsity = (double(nnz) / double(matrix->nov * matrix->nov)) * 100;
 
     Matrix<S>* newMatrix = new Matrix<S>(*matrix);
-    if (newMatrix->nov > 63)
+    if (newMatrix->nov > 63 && m_Settings.algorithm != APPROXIMATION)
     {
         throw std::runtime_error("Permanent is an #P-complete problem. The size of the matrix you want to calculate the permanent for exceeds the limit of what is computationally possible. Try approximation algorithms.\n");
     }

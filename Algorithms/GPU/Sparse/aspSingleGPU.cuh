@@ -51,8 +51,8 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     double* d_cvInit;
     double* d_rv;
     double* d_cv;
-    int* d_markedRows;
-    int* d_markedCols;
+    int* d_rowElems;
+    int* d_colElems;
     double* d_result;
     unsigned* d_stack;
 
@@ -78,8 +78,8 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk(cudaMalloc(&d_cvInit, sizeof(double) * nov))
     gpuErrchk(cudaMalloc(&d_rv, sizeof(double) * nov * noThreads))
     gpuErrchk(cudaMalloc(&d_cv, sizeof(double) * nov * noThreads))
-    gpuErrchk(cudaMalloc(&d_markedRows, sizeof(int) * nov * noThreads))
-    gpuErrchk(cudaMalloc(&d_markedCols, sizeof(int) * nov * noThreads))
+    gpuErrchk(cudaMalloc(&d_rowElems, sizeof(int) * nov * noThreads))
+    gpuErrchk(cudaMalloc(&d_colElems, sizeof(int) * nov * noThreads))
     gpuErrchk(cudaMalloc(&d_stack, sizeof(unsigned) * nov * noThreads))
 
     gpuErrchk(cudaMemcpy(d_rvInit, h_rvInit, sizeof(double) * nov, cudaMemcpyHostToDevice))
@@ -95,7 +95,7 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
                                     d_nov, d_nnz,
                                     d_rvInit, d_cvInit,
                                     d_rv, d_cv, 
-                                    d_markedRows, d_markedCols, 
+                                    d_rowElems, d_colElems, 
                                     d_result,
                                     d_stack);
     gpuErrchk(cudaDeviceSynchronize())
@@ -113,8 +113,8 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk(cudaFree(d_cvInit))
     gpuErrchk(cudaFree(d_rv))
     gpuErrchk(cudaFree(d_cv))
-    gpuErrchk(cudaFree(d_markedRows))
-    gpuErrchk(cudaFree(d_markedCols))
+    gpuErrchk(cudaFree(d_rowElems))
+    gpuErrchk(cudaFree(d_colElems))
     gpuErrchk(cudaFree(d_result))
     gpuErrchk(cudaFree(d_stack))
 

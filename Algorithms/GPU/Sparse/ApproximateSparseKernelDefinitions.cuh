@@ -45,24 +45,23 @@ namespace ApproximateSparseDefinitions
                                 const unsigned* const __restrict__ rowPtrs, const unsigned* const __restrict__ cols, 
                                 const unsigned* const __restrict__ colPtrs, const unsigned* const __restrict__ rows, 
                                 double* const __restrict__ rv, double* const __restrict__ cv, 
-                                const int* const __restrict__ markedRows, const int* const __restrict__ markedCols, 
                                 unsigned beta, const unsigned& row) 
     {
         unsigned tid = blockIdx.x * blockDim.x + threadIdx.x;
-        unsigned noThreads = blockDim.x * gridDim.x;
-
+        unsigned noThreads = gridDim.x * blockDim.x;
+        
         double sum;
         while (beta--) 
         {
             // cols
             for (unsigned j = 0; j < nov; ++j)
             {
-                if (markedCols[j * noThreads + tid] > 0)
+                if (cv[j * noThreads + tid] != 0)
                 {
                     sum = 0;
                     for (unsigned ptr = colPtrs[j]; ptr < colPtrs[j + 1]; ++ptr)
                     {
-                        sum += rv[rows[ptr] * noThreads + tid] * (markedRows[rows[ptr] * noThreads + tid] > 0);
+                        sum += rv[rows[ptr] * noThreads + tid];
                     }
                     if (sum == 0)
                     {
@@ -74,12 +73,12 @@ namespace ApproximateSparseDefinitions
             // rows
             for (unsigned i = row; i < nov; ++i) 
             {
-                if (markedRows[i * noThreads + tid] > 0)
+                if (rv[i * noThreads + tid] != 0)
                 {
                     sum = 0;
                     for (unsigned ptr = rowPtrs[i]; ptr < rowPtrs[i + 1]; ++ptr)
                     {
-                        sum += cv[cols[ptr] * noThreads + tid] * (markedCols[cols[ptr] * noThreads + tid] > 0);
+                        sum += cv[cols[ptr] * noThreads + tid];
                     }
                     if (sum == 0)
                     {
@@ -96,12 +95,13 @@ namespace ApproximateSparseDefinitions
                                         const unsigned& nov,
                                         const unsigned* const __restrict__ rowPtrs, const unsigned* const __restrict__ cols, 
                                         const unsigned* const __restrict__ colPtrs, const unsigned* const __restrict__ rows,
+                                        double* const __restrict__ rv, double* const __restrict__ cv, 
                                         int* const __restrict__ rowElems, int* const __restrict__ colElems, 
                                         unsigned* const __restrict__ stack, 
                                         unsigned col)
     {
         unsigned tid = blockIdx.x * blockDim.x + threadIdx.x;
-        unsigned noThreads = blockDim.x * gridDim.x;
+        unsigned noThreads = gridDim.x * blockDim.x;
 
         stack[0 * noThreads + tid] = col;
         unsigned stackPtr = 1;
@@ -111,7 +111,7 @@ namespace ApproximateSparseDefinitions
             for (unsigned ptr = colPtrs[j]; ptr < colPtrs[j + 1]; ++ptr) 
             {
                 unsigned i = rows[ptr];
-                if (rowElems[i * noThreads + tid] < 0)   
+                if (rv[i * noThreads + tid] == 0)   
                 {
                     continue;
                 }
@@ -127,12 +127,12 @@ namespace ApproximateSparseDefinitions
                 for (unsigned ptr = rowPtrs[i]; ptr < rowPtrs[i + 1]; ++ptr) 
                 {
                     unsigned j2 = cols[ptr];
-                    if (colElems[j2 * noThreads + tid] < 0)
+                    if (cv[j2 * noThreads + tid] == 0)
                     {
                         continue;
                     }
-                    rowElems[i * noThreads + tid] = -1;
-                    colElems[j2 * noThreads + tid] = -1;
+                    rv[i * noThreads + tid] = 0;
+                    cv[j2 * noThreads + tid] = 0;
                     stack[stackPtr++ * noThreads + tid] = j2;
                     break;
                 }
@@ -147,7 +147,7 @@ namespace ApproximateSparseDefinitions
                                     const unsigned* const __restrict__ novPtr, const unsigned* const __restrict__ nnzPtr,
                                     const double* const __restrict__ rvInit, const double* const __restrict__ cvInit,
                                     double* const __restrict__ rv, double* const __restrict__ cv, 
-                                    int* const __restrict__ markedRows, int* const __restrict__ markedCols,
+                                    int* const __restrict__ rowElems, int* const __restrict__ colElems,
                                     double* const __restrict__ result,
                                     unsigned* const __restrict__ stack)
     {
@@ -155,7 +155,7 @@ namespace ApproximateSparseDefinitions
         unsigned nnz = *nnzPtr;
 
         unsigned tid = blockIdx.x * blockDim.x + threadIdx.x;
-        unsigned noThreads = blockDim.x * gridDim.x;
+        unsigned noThreads = gridDim.x * blockDim.x;
 
         double approx = 0;
 
@@ -166,8 +166,8 @@ namespace ApproximateSparseDefinitions
         {
             for (unsigned i = 0; i < nov; ++i)
             {
-                markedRows[i * noThreads + tid] = rowPtrs[i + 1] - rowPtrs[i];
-                markedCols[i * noThreads + tid] = colPtrs[i + 1] - colPtrs[i];
+                rowElems[i * noThreads + tid] = rowPtrs[i + 1] - rowPtrs[i];
+                colElems[i * noThreads + tid] = colPtrs[i + 1] - colPtrs[i];
                 rv[i * noThreads + tid] = rvInit[i];
                 cv[i * noThreads + tid] = cvInit[i];
             }
@@ -179,14 +179,13 @@ namespace ApproximateSparseDefinitions
                                         rowPtrs, cols, 
                                         colPtrs, rows, 
                                         rv, cv, 
-                                        markedRows, markedCols, 
                                         BETA, i);
                 if (check)
                 {
                     permanent = 0;
                     break;
                 }
-                if (markedRows[i * noThreads + tid] < 0) continue; // already selected row
+                if (rv[i * noThreads + tid] == 0) continue; // already selected row
 
                 double sample = curand_uniform(&state);
                 double chosenProb;
@@ -195,7 +194,7 @@ namespace ApproximateSparseDefinitions
                 for (unsigned ptr = rowPtrs[i]; ptr < rowPtrs[i + 1]; ++ptr)
                 {
                     unsigned j = cols[ptr];
-                    if (markedCols[j * noThreads + tid] > 0) // already selected col
+                    if (cv[j * noThreads + tid] != 0) // already selected col
                     {
                         chosenProb = rv[i * noThreads + tid] * cv[j * noThreads + tid];
                         runningCumulative += chosenProb;
@@ -205,24 +204,26 @@ namespace ApproximateSparseDefinitions
                             break;
                         }
                     }
-                } 
+                }
 
                 permanent *= (1 / chosenProb);
-                markedRows[i * noThreads + tid] = -1;
-                markedCols[column * noThreads + tid] = -1;
+                rv[i * noThreads + tid] = 0;
+                cv[column * noThreads + tid] = 0;
 
                 bool zero = ApproximateSparseDefinitions::d1Reduce(
                                                                         nov, 
                                                                         rowPtrs, cols, 
                                                                         colPtrs, rows, 
-                                                                        markedRows, markedCols, 
+                                                                        rv, cv, 
+                                                                        rowElems, colElems, 
                                                                         stack, 
                                                                         column) || 
                             ApproximateSparseDefinitions::d1Reduce(
                                                                         nov, 
                                                                         colPtrs, rows, 
                                                                         rowPtrs, cols, 
-                                                                        markedCols, markedRows, 
+                                                                        cv, rv, 
+                                                                        colElems, rowElems, 
                                                                         stack, 
                                                                         i);
                 if (zero)
