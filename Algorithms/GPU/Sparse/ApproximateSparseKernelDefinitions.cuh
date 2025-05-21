@@ -149,90 +149,97 @@ namespace ApproximateSparseDefinitions
                                     double* const __restrict__ rv, double* const __restrict__ cv, 
                                     int* const __restrict__ rowElems, int* const __restrict__ colElems,
                                     double* const __restrict__ result,
-                                    unsigned* const __restrict__ stack)
+                                    unsigned* const __restrict__ stack,
+                                    unsigned* const __restrict__ sampleCounter
+                                    )
     {
         unsigned nov = *novPtr;
         unsigned nnz = *nnzPtr;
 
         unsigned tid = blockIdx.x * blockDim.x + threadIdx.x;
         unsigned noThreads = gridDim.x * blockDim.x;
+        unsigned noIter = ceilf(NO_SAMPLES / float(noThreads) / 10);
 
         double approx = 0;
 
         curandState state;
         curand_init(clock64(), tid, 0, &state);
         
-        for (unsigned iter = tid; iter < NO_SAMPLES; iter += noThreads)
+        while (*sampleCounter < NO_SAMPLES)
         {
-            for (unsigned i = 0; i < nov; ++i)
+            atomicAdd(sampleCounter, noIter);
+            for (unsigned iter = 0; iter < noIter; ++iter)
             {
-                rowElems[i * noThreads + tid] = rowPtrs[i + 1] - rowPtrs[i];
-                colElems[i * noThreads + tid] = colPtrs[i + 1] - colPtrs[i];
-                rv[i * noThreads + tid] = rvInit[i];
-                cv[i * noThreads + tid] = cvInit[i];
-            }
-            double permanent = 1;
-            for (unsigned i = 0; i < nov; ++i)
-            {
-                bool check = ApproximateSparseDefinitions::scaleAB(
-                                        nov, nnz, 
-                                        rowPtrs, cols, 
-                                        colPtrs, rows, 
-                                        rv, cv, 
-                                        BETA, i);
-                if (check)
+                for (unsigned i = 0; i < nov; ++i)
                 {
-                    permanent = 0;
-                    break;
+                    rowElems[i * noThreads + tid] = rowPtrs[i + 1] - rowPtrs[i];
+                    colElems[i * noThreads + tid] = colPtrs[i + 1] - colPtrs[i];
+                    rv[i * noThreads + tid] = rvInit[i];
+                    cv[i * noThreads + tid] = cvInit[i];
                 }
-                if (rv[i * noThreads + tid] == 0) continue; // already selected row
-
-                double sample = curand_uniform(&state);
-                double chosenProb;
-                unsigned column;
-                double runningCumulative = 0;
-                for (unsigned ptr = rowPtrs[i]; ptr < rowPtrs[i + 1]; ++ptr)
+                double permanent = 1;
+                for (unsigned i = 0; i < nov; ++i)
                 {
-                    unsigned j = cols[ptr];
-                    if (cv[j * noThreads + tid] != 0) // already selected col
+                    bool check = ApproximateSparseDefinitions::scaleAB(
+                                            nov, nnz, 
+                                            rowPtrs, cols, 
+                                            colPtrs, rows, 
+                                            rv, cv, 
+                                            BETA, i);
+                    if (check)
                     {
-                        chosenProb = rv[i * noThreads + tid] * cv[j * noThreads + tid];
-                        runningCumulative += chosenProb;
-                        if (runningCumulative > sample)
+                        permanent = 0;
+                        break;
+                    }
+                    if (rv[i * noThreads + tid] == 0) continue; // already selected row
+
+                    double sample = curand_uniform(&state);
+                    double chosenProb;
+                    unsigned column;
+                    double runningCumulative = 0;
+                    for (unsigned ptr = rowPtrs[i]; ptr < rowPtrs[i + 1]; ++ptr)
+                    {
+                        unsigned j = cols[ptr];
+                        if (cv[j * noThreads + tid] != 0) // already selected col
                         {
-                            column = j;
-                            break;
+                            chosenProb = rv[i * noThreads + tid] * cv[j * noThreads + tid];
+                            runningCumulative += chosenProb;
+                            if (runningCumulative > sample)
+                            {
+                                column = j;
+                                break;
+                            }
                         }
                     }
-                }
 
-                permanent *= (1 / chosenProb);
-                rv[i * noThreads + tid] = 0;
-                cv[column * noThreads + tid] = 0;
+                    permanent *= (1 / chosenProb);
+                    rv[i * noThreads + tid] = 0;
+                    cv[column * noThreads + tid] = 0;
 
-                bool zero = ApproximateSparseDefinitions::d1Reduce(
-                                                                        nov, 
-                                                                        rowPtrs, cols, 
-                                                                        colPtrs, rows, 
-                                                                        rv, cv, 
-                                                                        rowElems, colElems, 
-                                                                        stack, 
-                                                                        column) || 
-                            ApproximateSparseDefinitions::d1Reduce(
-                                                                        nov, 
-                                                                        colPtrs, rows, 
-                                                                        rowPtrs, cols, 
-                                                                        cv, rv, 
-                                                                        colElems, rowElems, 
-                                                                        stack, 
-                                                                        i);
-                if (zero)
-                {
-                    permanent = 0;
-                    break;
+                    bool zero = ApproximateSparseDefinitions::d1Reduce(
+                                                                            nov, 
+                                                                            rowPtrs, cols, 
+                                                                            colPtrs, rows, 
+                                                                            rv, cv, 
+                                                                            rowElems, colElems, 
+                                                                            stack, 
+                                                                            column) || 
+                                ApproximateSparseDefinitions::d1Reduce(
+                                                                            nov, 
+                                                                            colPtrs, rows, 
+                                                                            rowPtrs, cols, 
+                                                                            cv, rv, 
+                                                                            colElems, rowElems, 
+                                                                            stack, 
+                                                                            i);
+                    if (zero)
+                    {
+                        permanent = 0;
+                        break;
+                    }
                 }
+                approx += permanent;
             }
-            approx += permanent;
         }
 
         auto warp = cooperative_groups::coalesced_threads();

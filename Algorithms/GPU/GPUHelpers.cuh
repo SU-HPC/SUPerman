@@ -16,7 +16,7 @@
 using namespace cooperative_groups;
 
 #define X_SIZE 63
-#define NO_SAMPLES 67108864
+#define NO_SAMPLES 2097152
 #define ALPHA 1
 #define BETA 5
 #define INITIAL_BETA 50
@@ -39,7 +39,8 @@ using ApproximateSparseKernelPointer = void(*)(
     int* const __restrict__ /* rowElems */,
     int* const __restrict__ /* colElems */,
     double* const __restrict__ /* result */,
-    unsigned* const __restrict__ /* stack */
+    unsigned* const __restrict__ /* stack */,
+    unsigned* const __restrict__ /* sampleCounter */
 );
 
 template <typename C, typename S>

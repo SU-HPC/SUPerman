@@ -55,6 +55,7 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     int* d_colElems;
     double* d_result;
     unsigned* d_stack;
+    unsigned* d_sampleCounter;
 
     int gridSize, blockSize;
     cudaOccupancyMaxPotentialBlockSize(&gridSize, &blockSize, Algo, 0, 0);
@@ -88,6 +89,9 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk(cudaMalloc(&d_result, sizeof(double)))
     gpuErrchk(cudaMemset(d_result, 0, sizeof(double)))
 
+    gpuErrchk(cudaMalloc(&d_sampleCounter, sizeof(unsigned)))
+    gpuErrchk(cudaMemset(d_sampleCounter, 0, sizeof(unsigned)))
+
     double start = omp_get_wtime();
     Algo<<<gridSize, blockSize>>>(
                                     d_rowPtrs, d_cols, 
@@ -97,11 +101,15 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
                                     d_rv, d_cv, 
                                     d_rowElems, d_colElems, 
                                     d_result,
-                                    d_stack);
+                                    d_stack,
+                                    d_sampleCounter
+                                    );
     gpuErrchk(cudaDeviceSynchronize())
 
+    unsigned h_sampleCounter;
     gpuErrchk(cudaMemcpy(&this->productSum, d_result, sizeof(double), cudaMemcpyDeviceToHost))
-    this->productSum /= NO_SAMPLES;
+    gpuErrchk(cudaMemcpy(&h_sampleCounter, d_sampleCounter, sizeof(unsigned), cudaMemcpyDeviceToHost))
+    this->productSum /= h_sampleCounter;
 
     gpuErrchk(cudaFree(d_nov))
     gpuErrchk(cudaFree(d_nnz))
@@ -117,6 +125,7 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk(cudaFree(d_colElems))
     gpuErrchk(cudaFree(d_result))
     gpuErrchk(cudaFree(d_stack))
+    gpuErrchk(cudaFree(d_sampleCounter))
 
     delete[] h_rvInit;
     delete[] h_cvInit;

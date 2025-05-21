@@ -1,6 +1,6 @@
 #!/bin/bash
 
-repo_directory="/home/delbek/SUPerman/"
+repo_directory="/home/kamerk/SUPerman/"
 # The directory belonging to the repository.
 # NO DEFAULT, absence of it is undefined!
 
@@ -8,19 +8,19 @@ build_directory="${repo_directory}build/"
 # The directory into which the build files will be dumped.
 # NO DEFAULT, absence of it is undefined!
 
-matrix_directory="/common_data/matrices/"
+matrix_directory="/home/kamerk/SUPerman/ExampleMatrices/"
 # The directory under which your matrix files are located.
 # NO DEFAULT, absence of it is undefined!
 
 filenames=(
-"deniz_dense_45.mtx"
+"mycielskian6.mtx"
 )
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based.
 # Otherwise, it assumes them to be 0-based.
 # NO DEFAULT, absence of it is undefined!
 
-algorithms=("auto")
+algorithms=("approximation")
 # The algorithm used to compute the permanent of your matrix.
 # "auto" lets the library select the fastest algorithm available.
 # DEFAULT: "auto"
@@ -59,11 +59,11 @@ is_complex=("false")
 # If true, the library assumes the matrix to contain complex entries of the form (a + bi).
 # DEFAULT: "false"
 
-is_binary=("false")
+is_binary=("true")
 # If true, the library assumes that the matrix edges are unweighted.
 # DEFAULT: "false"
 
-is_undirected=("false")
+is_undirected=("true")
 # If true, the library assumes that the matrix is undirected, meaning for every edge u -> v,
 #                                                              there is also an edge v -> u.
 # DEFAULT: "false"
