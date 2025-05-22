@@ -19,6 +19,7 @@
 #include <cstdint>
 #include "dm.h"
 #include <complex>
+#include <cassert>
 
 
 class IO
@@ -37,7 +38,10 @@ public:
     static void skipOrder(Matrix<S>* matrix);
 
     template <class S>
-    static void sortOrder(Matrix<S>* matrix);
+    static void colSort(Matrix<S>* matrix, bool ascending = true);
+
+    template <class S>
+    static void rowSort(Matrix<S>* matrix, bool ascending = true);
 
     template <class S>
     static void UTOrder(Matrix<S>* matrix);
@@ -51,6 +55,18 @@ public:
 private:
     template <class S>
     static void applyPermutations(Matrix<S>* matrix, int* rowIPermutation, int* colIPermutation);
+
+    template <class S>
+    static void ascendingColSort(Matrix<S>* matrix);
+
+    template <class S>
+    static void descendingColSort(Matrix<S>* matrix);
+
+    template <class S>
+    static void ascendingRowSort(Matrix<S>* matrix);
+
+    template <class S>
+    static void descendingRowSort(Matrix<S>* matrix);
 
     template <class S>
     static void trim(std::string &s);
@@ -637,7 +653,20 @@ void IO::skipOrder(Matrix<S>* matrix)
 }
 
 template<class S>
-void IO::sortOrder(Matrix<S>* matrix)
+void IO::colSort(Matrix<S>* matrix, bool ascending)
+{
+    if (ascending)
+    {
+        ascendingColSort<S>(matrix);
+    }
+    else
+    {
+        descendingColSort<S>(matrix);
+    }
+}
+
+template<class S>
+void IO::ascendingColSort(Matrix<S>* matrix)
 {
     S* mat = matrix->mat;
     int nov = matrix->nov;
@@ -663,7 +692,7 @@ void IO::sortOrder(Matrix<S>* matrix)
         int chosen = 0;
         for (int j = 0; j < nov; ++j) 
         {
-            if (indegrees[j] < mindegree) 
+            if (indegrees[j] < mindegree)
             {
                 mindegree = indegrees[j];
                 chosen = j;
@@ -675,6 +704,157 @@ void IO::sortOrder(Matrix<S>* matrix)
         for (int i = 0; i < nov; ++i) 
         {
             newMat[i * nov + outCol] = mat[i * nov + chosen];
+        }
+    }
+
+    matrix->mat = newMat;
+    delete[] mat;
+}
+
+template<class S>
+void IO::descendingColSort(Matrix<S>* matrix)
+{
+    S* mat = matrix->mat;
+    int nov = matrix->nov;
+
+    std::vector<int> indegrees(nov);
+    for (int j = 0; j < nov; ++j) 
+    {
+        int indegree = 0;
+        for (int i = 0; i < nov; ++i)
+        {
+            if (mat[i * nov + j] != 0)
+            {
+                ++indegree;
+            }
+        }
+        indegrees[j] = indegree;
+    }
+
+    S* newMat = new S[nov * nov];
+    for (int col = 0; col < nov; ++col) 
+    {
+        int maxDegree = INT32_MIN;
+        int chosen = 0;
+        for (int j = 0; j < nov; ++j) 
+        {
+            if (indegrees[j] > maxDegree)
+            {
+                maxDegree = indegrees[j];
+                chosen = j;
+            }
+        }
+
+        indegrees[chosen] = INT32_MIN;
+
+        for (int i = 0; i < nov; ++i) 
+        {
+            newMat[i * nov + col] = mat[i * nov + chosen];
+        }
+    }
+
+    matrix->mat = newMat;
+    delete[] mat;
+}
+
+template<class S>
+void IO::rowSort(Matrix<S>* matrix, bool ascending)
+{
+    if (ascending)
+    {
+        ascendingRowSort<S>(matrix);
+    }
+    else
+    {
+        descendingRowSort<S>(matrix);
+    }
+}
+
+template<class S>
+void IO::ascendingRowSort(Matrix<S>* matrix)
+{
+    S* mat = matrix->mat;
+    int nov = matrix->nov;
+
+    std::vector<int> outDegrees(nov);
+    for (int i = 0; i < nov; ++i)
+    {
+        int outDegree = 0;
+        for (int j = 0; j < nov; ++j)
+        {
+            if (mat[i * nov + j] != 0)
+            {
+                ++outDegree;
+            } 
+        }
+        outDegrees[i] = outDegree;
+    }
+
+    S* newMat = new S[nov * nov];
+    for (int row = 0; row < nov; ++row)
+    {
+        int mindegree = INT32_MAX;
+        int chosen = 0;
+        for (int i = 0; i < nov; ++i) 
+        {
+            if (outDegrees[i] < mindegree)
+            {
+                mindegree = outDegrees[i];
+                chosen = i;
+            }
+        }
+
+        outDegrees[chosen] = INT32_MAX;
+
+        for (int j = 0; j < nov; ++j) 
+        {
+            newMat[row * nov + j] = mat[chosen * nov + j];
+        }
+    }
+
+    matrix->mat = newMat;
+    delete[] mat;
+}
+
+template<class S>
+void IO::descendingRowSort(Matrix<S>* matrix)
+{
+    S* mat = matrix->mat;
+    int nov = matrix->nov;
+
+    std::vector<int> outDegrees(nov);
+    for (int i = 0; i < nov; ++i)
+    {
+        int outDegree = 0;
+        for (int j = 0; j < nov; ++j)
+        {
+            if (mat[i * nov + j] != 0)
+            {
+                ++outDegree;
+            } 
+        }
+        outDegrees[i] = outDegree;
+    }
+
+    S* newMat = new S[nov * nov];
+    for (int row = 0; row < nov; ++row)
+    {
+        int maxDegree = INT32_MIN;
+        int chosen = 0;
+        for (int i = 0; i < nov; ++i) 
+        {
+            if (outDegrees[i] > maxDegree)
+            {
+                maxDegree = outDegrees[i];
+                chosen = i;
+            }
+        }
+
+        outDegrees[chosen] = INT32_MIN;
+
+        for (int j = 0; j < nov; ++j) 
+        {
+            newMat[row * nov + j] = mat[chosen * nov + j];
         }
     }
 

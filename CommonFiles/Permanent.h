@@ -55,14 +55,15 @@ Result Permanent<C, S>::computePermanent()
     {
         IO::UTOrder(m_Matrix);
     }
-    else if (m_Settings.algorithm != XREGISTERMSHARED && m_Settings.algorithm != XREGISTERMGLOBAL && m_Matrix->sparsity < 50)
+    else if (m_Settings.algorithm == APPROXIMATION)
     {
-        IO::sortOrder(m_Matrix);
+        IO::rowSort(m_Matrix);
         Matrix<S>* sparseMatrix = new SparseMatrix<S>(m_Matrix, getNNZ(m_Matrix));
         m_Matrix = sparseMatrix;
     }
-    else if (m_Settings.algorithm == APPROXIMATION)
+    else if (m_Settings.algorithm != XREGISTERMSHARED && m_Settings.algorithm != XREGISTERMGLOBAL && m_Matrix->sparsity < 50)
     {
+        IO::colSort(m_Matrix);
         Matrix<S>* sparseMatrix = new SparseMatrix<S>(m_Matrix, getNNZ(m_Matrix));
         m_Matrix = sparseMatrix;
     }
