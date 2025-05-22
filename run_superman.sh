@@ -20,7 +20,7 @@ filenames=(
 # Otherwise, it assumes them to be 0-based.
 # NO DEFAULT, absence of it is undefined!
 
-algorithms=("approximation")
+algorithms=("register_efficient_code_generation")
 # The algorithm used to compute the permanent of your matrix.
 # "auto" lets the library select the fastest algorithm available.
 # DEFAULT: "auto"
