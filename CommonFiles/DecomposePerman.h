@@ -107,7 +107,7 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
     stream << "Number of 1 NNZ decompositions performed: " << m_1Decompose << std::endl;
     stream << "Number of 2 NNZ decompositions performed: " << m_2Decompose << std::endl;
     stream << "Number of 3-4 NNZ decompositions performed: " << m_34Decompose << std::endl;
-    print(stream, this->m_Settings.rank, this->m_Settings.PID, 1);
+    print(stream, this->m_Settings.rank, this->m_Settings.PID, -1);
 
     double end = omp_get_wtime();
     Result result(end - start, overall);

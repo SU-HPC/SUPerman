@@ -8,6 +8,10 @@
 #include <string>
 #include "omp.h"
 #include "cuda_runtime.h"
+#include <errno.h>
+#include <fstream>
+#include <cstring>
+#include <iostream>
 #ifdef MPI_AVAILABLE
 #include "mpi_wrapper.h"
 #endif
@@ -102,8 +106,19 @@ void generateKernels(int& k, S* mat, C* x, int nov, Settings& settings)
         }
 
         std::cout << "************KERNELS ARE BEING GENERATED************" << std::endl;
-        std::string kernelFile = settings.REPO_DIR + "Algorithms/Exact/GPU/CodeGeneration/generatedKernels.cuh";
-        std::ofstream kernelWriter(kernelFile);
+        std::string kernelFile = settings.REPO_DIR + "Algorithms/GPU/CodeGeneration/generatedKernels.cuh";
+        std::ofstream kernelWriter;
+        try 
+        {
+            kernelWriter.exceptions(std::ios::badbit | std::ios::failbit);
+            kernelWriter.open(kernelFile);
+        } 
+        catch(std::exception &e) 
+        {
+            throw std::runtime_error("File to generate codes into cannot be opened.\n  what(): "
+                    + std::string(e.what()) + "\n  errno : "
+                    + strerror(errno) + "!\n");
+        }
         KernelGenerator<C, S> kernelGenerator(matTransposed, nov, x, settings);
         std::string kernel;
         if (settings.algorithm == NAIVECODEGENERATION)

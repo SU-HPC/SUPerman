@@ -40,8 +40,7 @@ using ApproximateSparseKernelPointer = void(*)(
     int* const __restrict__ /* colElems */,
     double* const __restrict__ /* result */,
     unsigned* const __restrict__ /* stack */,
-    unsigned* const __restrict__ /* sampleCounter */,
-    unsigned* const __restrict__ /* earlyExit */
+    unsigned* const __restrict__ /* sampleCounter */
 );
 
 template <typename C, typename S>

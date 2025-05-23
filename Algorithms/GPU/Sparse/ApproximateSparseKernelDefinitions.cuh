@@ -150,8 +150,7 @@ namespace ApproximateSparseDefinitions
                                     int* const __restrict__ rowElems, int* const __restrict__ colElems,
                                     double* const __restrict__ result,
                                     unsigned* const __restrict__ stack,
-                                    unsigned* const __restrict__ sampleCounter,
-                                    unsigned* const __restrict__ earlyExit
+                                    unsigned* const __restrict__ sampleCounter
                                     )
     {
         unsigned nov = *novPtr;
@@ -171,7 +170,6 @@ namespace ApproximateSparseDefinitions
             atomicAdd(sampleCounter, noIter);
             for (unsigned iter = 0; iter < noIter; ++iter)
             {
-                unsigned exit = nov - 1;
                 for (unsigned i = 0; i < nov; ++i)
                 {
                     rowElems[i * noThreads + tid] = rowPtrs[i + 1] - rowPtrs[i];
@@ -190,7 +188,6 @@ namespace ApproximateSparseDefinitions
                                             BETA, i);
                     if (check)
                     {
-                        exit = i;
                         permanent = 0;
                         break;
                     }
@@ -237,12 +234,10 @@ namespace ApproximateSparseDefinitions
                                                                             i);
                     if (zero)
                     {
-                        exit = i;
                         permanent = 0;
                         break;
                     }
                 }
-                earlyExit[exit * noThreads + tid] += 1;
                 approx += permanent;
             }
         }

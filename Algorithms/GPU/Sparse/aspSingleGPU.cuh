@@ -56,7 +56,6 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     double* d_result;
     unsigned* d_stack;
     unsigned* d_sampleCounter;
-    unsigned* d_earlyExit;
 
     int gridSize, blockSize;
     cudaOccupancyMaxPotentialBlockSize(&gridSize, &blockSize, Algo, 0, 0);
@@ -93,9 +92,6 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk(cudaMalloc(&d_sampleCounter, sizeof(unsigned)))
     gpuErrchk(cudaMemset(d_sampleCounter, 0, sizeof(unsigned)))
 
-    gpuErrchk(cudaMalloc(&d_earlyExit, sizeof(unsigned) * noThreads * nov))
-    gpuErrchk(cudaMemset(d_earlyExit, 0, sizeof(unsigned) * noThreads * nov))
-
     double start = omp_get_wtime();
     Algo<<<gridSize, blockSize>>>(
                                     d_rowPtrs, d_cols, 
@@ -106,8 +102,7 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
                                     d_rowElems, d_colElems, 
                                     d_result,
                                     d_stack,
-                                    d_sampleCounter,
-                                    d_earlyExit
+                                    d_sampleCounter
                                     );
     gpuErrchk(cudaDeviceSynchronize())
 
@@ -115,30 +110,6 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk(cudaMemcpy(&this->productSum, d_result, sizeof(double), cudaMemcpyDeviceToHost))
     gpuErrchk(cudaMemcpy(&h_sampleCounter, d_sampleCounter, sizeof(unsigned), cudaMemcpyDeviceToHost))
     this->productSum /= h_sampleCounter;
-
-    unsigned* h_earlyExit = new unsigned[noThreads * nov];
-    gpuErrchk(cudaMemcpy(h_earlyExit, d_earlyExit, sizeof(unsigned) * nov * noThreads, cudaMemcpyDeviceToHost))
-
-    double* cumulative = new double[nov];
-    std::fill(cumulative, cumulative + nov, 0);
-
-    for (unsigned i = 0; i < nov; ++i)
-    {
-        for (unsigned j = 0; j < noThreads; ++j)
-        {
-            cumulative[i] += h_earlyExit[i * noThreads + j];
-        }
-    }
-
-    for (unsigned i = 0; i < nov; ++i)
-    {
-        cumulative[i] /= h_sampleCounter;
-    }
-
-    for (unsigned i = nov - 1; i > 0; --i)
-    {
-        std::cout << i << " - " << rowPtrs[i + 1] - rowPtrs[i] << " - " << cumulative[i] << std::endl;
-    }
 
     gpuErrchk(cudaFree(d_nov))
     gpuErrchk(cudaFree(d_nnz))
@@ -155,12 +126,9 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk(cudaFree(d_result))
     gpuErrchk(cudaFree(d_stack))
     gpuErrchk(cudaFree(d_sampleCounter))
-    gpuErrchk(cudaFree(d_earlyExit))
 
     delete[] h_rvInit;
     delete[] h_cvInit;
-    delete[] h_earlyExit;
-    delete[] cumulative;
 
     return 0;
 }
