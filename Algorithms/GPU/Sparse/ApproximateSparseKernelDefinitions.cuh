@@ -52,57 +52,10 @@ namespace ApproximateSparseDefinitions
         
         double sum;
         #pragma unroll
-        for (unsigned b = 0; b < BETA; ++b)
+        for (unsigned iter = 0; iter < BETA; ++iter)
         {
             // cols
-            unsigned jj;
-            for (jj = 0; jj < nov - 1; jj += 2)
-            {
-                unsigned idx1 = jj * noThreads + tid;
-                unsigned idx2 = idx1 + noThreads;
-
-                unsigned val1 = cv[idx1];
-                unsigned val2 = cv[idx2];
-
-                unsigned j = nov;
-                if (val1 != 0)
-                {
-                    j = jj;
-                }
-                else if (val2 != 0)
-                {
-                    j = jj + 1;
-                }
-
-                #pragma unroll
-                for (unsigned iter = 0; iter < 2; ++iter)
-                {
-                    if (j != nov)
-                    {
-                        sum = 0;
-                        for (unsigned ptr = colPtrs[j]; ptr < colPtrs[j + 1]; ++ptr)
-                        {
-                            sum += rv[rows[ptr] * noThreads + tid];
-                        }
-                        if (sum == 0)
-                        {
-                            return true;
-                        }
-                        cv[j * noThreads + tid] = 1.0 / sum;
-                    }
-                    j = nov;
-                    if (val1 != 0)
-                    {
-                        j = jj;
-                    }
-                    else if (val2 != 0)
-                    {
-                        j = jj + 1;
-                    }
-                }
-            }
-            #pragma unroll 2
-            for (unsigned j = jj; j < nov; ++j)
+            for (unsigned j = 0; j < nov; ++j)
             {
                 if (cv[j * noThreads + tid] != 0)
                 {
