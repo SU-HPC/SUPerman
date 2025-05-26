@@ -44,6 +44,9 @@ public:
     static void rowSort(Matrix<S>* matrix, bool ascending = true);
 
     template <class S>
+    static void colIndexMinimization(Matrix<S>* matrix);
+
+    template <class S>
     static void UTOrder(Matrix<S>* matrix);
 
     template <class C, class S>
@@ -860,6 +863,41 @@ void IO::descendingRowSort(Matrix<S>* matrix)
 
     matrix->mat = newMat;
     delete[] mat;
+}
+
+template<class S>
+void IO::colIndexMinimization(Matrix<S>* matrix)
+{
+    int nov = matrix->nov;
+    S* mat = matrix->mat;
+
+    int* rowIPermutation = new int[nov];
+    for (unsigned i = 0; i < nov; ++i)
+    {
+        rowIPermutation[i] = i;
+    }
+    int* colIPermutation = new int[nov];
+    
+    bool* permuted = new bool[nov];
+    std::fill(permuted, permuted + nov, false);
+
+    unsigned currentCol = 0;
+    for (unsigned i = 0; i < nov; ++i)
+    {
+        for (unsigned j = 0; j < nov; ++j)
+        {
+            if (mat[i * nov + j] != 0 && permuted[j] == false)
+            {
+                colIPermutation[j] = currentCol++;
+                permuted[j] = true;
+            }
+        }
+    }
+    applyPermutations(matrix, rowIPermutation, colIPermutation);
+
+    delete[] rowIPermutation;
+    delete[] colIPermutation;
+    delete[] permuted;
 }
 
 template<class S>

@@ -42,6 +42,7 @@ namespace ApproximateSparseDefinitions
                                 const unsigned* const __restrict__ rowPtrs, const unsigned* const __restrict__ cols, 
                                 const unsigned* const __restrict__ colPtrs, const unsigned* const __restrict__ rows, 
                                 scaleType* const __restrict__ rv, scaleType* const __restrict__ cv, 
+                                const unsigned* const __restrict__ prefixMax,
                                 const unsigned& row) 
     {
         unsigned tid = blockIdx.x * blockDim.x + threadIdx.x;
@@ -52,7 +53,7 @@ namespace ApproximateSparseDefinitions
         for (unsigned iter = 0; iter < BETA; ++iter)
         {
             // cols
-            for (unsigned j = 0; j < nov; ++j)
+            for (unsigned j = 0; j < prefixMax[row + 1]; ++j)
             {
                 if (cv[j * noThreads + tid] != static_cast<scaleType>(0))
                 {
@@ -148,6 +149,7 @@ namespace ApproximateSparseDefinitions
                                     int* const __restrict__ rowElems, int* const __restrict__ colElems,
                                     double* const __restrict__ result,
                                     unsigned* const __restrict__ stack,
+                                    const unsigned* const __restrict__ prefixMax,
                                     unsigned* const __restrict__ sampleCounter)
     {
         unsigned nov = *novPtr;
@@ -182,6 +184,7 @@ namespace ApproximateSparseDefinitions
                                             rowPtrs, cols, 
                                             colPtrs, rows, 
                                             rv, cv, 
+                                            prefixMax,
                                             i);
                     if (check)
                     {
