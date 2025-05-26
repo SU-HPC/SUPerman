@@ -20,6 +20,7 @@ using namespace cooperative_groups;
 #define ALPHA 1
 #define BETA 2
 #define INITIAL_BETA 50
+#define scaleType float
 
 template <typename C, typename S>
 using SparseKernelPointer = void(*)(int*, int*, S*, C*, C*, int, int, long long, long long, long long);
@@ -32,10 +33,10 @@ using ApproximateSparseKernelPointer = void(*)(
     const unsigned* const __restrict__ /* rows */,
     const unsigned* const __restrict__ /* nov */,
     const unsigned* const __restrict__ /* nnz */,
-    const double* const __restrict__ /* rvInit */,
-    const double* const __restrict__ /* cvInit */,
-    double* const __restrict__ /* rv */,
-    double* const __restrict__ /* cv */,
+    const scaleType* const __restrict__ /* rvInit */,
+    const scaleType* const __restrict__ /* cvInit */,
+    scaleType* const __restrict__ /* rv */,
+    scaleType* const __restrict__ /* cv */,
     int* const __restrict__ /* rowElems */,
     int* const __restrict__ /* colElems */,
     double* const __restrict__ /* result */,

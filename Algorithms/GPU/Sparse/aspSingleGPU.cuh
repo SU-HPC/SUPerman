@@ -31,15 +31,15 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     unsigned* colPtrs = reinterpret_cast<unsigned*>(sp->cptrs);
     unsigned* rows = reinterpret_cast<unsigned*>(sp->rows);
 
-    double* h_rvInit = new double[nov];
-    double* h_cvInit = new double[nov];
+    scaleType* h_rvInit = new scaleType[nov];
+    scaleType* h_cvInit = new scaleType[nov];
     for (unsigned i = 0; i < nov; ++i)
     {
         h_rvInit[i] = 1;
         h_cvInit[i] = 1;
     }
 
-    ApproximateSparseDefinitions::scaleABInit(nov, nnz, rowPtrs, cols, colPtrs, rows, h_rvInit, h_cvInit, INITIAL_BETA);
+    ApproximateSparseDefinitions::scaleABInit(nov, nnz, rowPtrs, cols, colPtrs, rows, h_rvInit, h_cvInit);
 
     unsigned* d_nov;
     unsigned* d_nnz;
@@ -47,10 +47,10 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     unsigned* d_cols;
     unsigned* d_colPtrs;
     unsigned* d_rows;
-    double* d_rvInit;
-    double* d_cvInit;
-    double* d_rv;
-    double* d_cv;
+    scaleType* d_rvInit;
+    scaleType* d_cvInit;
+    scaleType* d_rv;
+    scaleType* d_cv;
     int* d_rowElems;
     int* d_colElems;
     double* d_result;
@@ -77,14 +77,14 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     gpuErrchk(cudaMalloc(&d_rvInit, sizeof(double) * nov))
     gpuErrchk(cudaMalloc(&d_cvInit, sizeof(double) * nov))
-    gpuErrchk(cudaMalloc(&d_rv, sizeof(double) * nov * noThreads))
-    gpuErrchk(cudaMalloc(&d_cv, sizeof(double) * nov * noThreads))
+    gpuErrchk(cudaMalloc(&d_rv, sizeof(scaleType) * nov * noThreads))
+    gpuErrchk(cudaMalloc(&d_cv, sizeof(scaleType) * nov * noThreads))
     gpuErrchk(cudaMalloc(&d_rowElems, sizeof(int) * nov * noThreads))
     gpuErrchk(cudaMalloc(&d_colElems, sizeof(int) * nov * noThreads))
     gpuErrchk(cudaMalloc(&d_stack, sizeof(unsigned) * nov * noThreads))
 
-    gpuErrchk(cudaMemcpy(d_rvInit, h_rvInit, sizeof(double) * nov, cudaMemcpyHostToDevice))
-    gpuErrchk(cudaMemcpy(d_cvInit, h_cvInit, sizeof(double) * nov, cudaMemcpyHostToDevice))
+    gpuErrchk(cudaMemcpy(d_rvInit, h_rvInit, sizeof(scaleType) * nov, cudaMemcpyHostToDevice))
+    gpuErrchk(cudaMemcpy(d_cvInit, h_cvInit, sizeof(scaleType) * nov, cudaMemcpyHostToDevice))
 
     gpuErrchk(cudaMalloc(&d_result, sizeof(double)))
     gpuErrchk(cudaMemset(d_result, 0, sizeof(double)))

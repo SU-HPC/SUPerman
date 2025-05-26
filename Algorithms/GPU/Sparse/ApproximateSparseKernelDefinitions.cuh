@@ -11,11 +11,10 @@ namespace ApproximateSparseDefinitions
                 const unsigned& nov, const unsigned& nnz, 
                 const unsigned* const __restrict__ rowPtrs, const unsigned* const __restrict__ cols, 
                 const unsigned* const __restrict__ colPtrs, const unsigned* const __restrict__ rows, 
-                double* const __restrict__ rv, double* const __restrict__ cv, 
-                unsigned beta)
+                scaleType* const __restrict__ rv, scaleType* const __restrict__ cv)
     {
-        double sum;
-        while (beta--) 
+        scaleType sum;
+        for (unsigned iter = 0; iter < INITIAL_BETA; ++iter)
         {
             // columns
             for (unsigned j = 0; j < nov; ++j) 
@@ -25,7 +24,7 @@ namespace ApproximateSparseDefinitions
                 {
                     sum += rv[rows[ptr]];
                 }
-                cv[j] = 1 / sum;
+                cv[j] = static_cast<scaleType>(1) / sum;
             }
             // rows
             for (unsigned i = 0; i < nov; ++i) 
@@ -35,7 +34,7 @@ namespace ApproximateSparseDefinitions
                 {
                     sum += cv[cols[ptr]];
                 }
-                rv[i] = 1 / sum;
+                rv[i] = static_cast<scaleType>(1) / sum;
             }
         }
     }
@@ -44,48 +43,48 @@ namespace ApproximateSparseDefinitions
                                 const unsigned& nov, const unsigned& nnz, 
                                 const unsigned* const __restrict__ rowPtrs, const unsigned* const __restrict__ cols, 
                                 const unsigned* const __restrict__ colPtrs, const unsigned* const __restrict__ rows, 
-                                double* const __restrict__ rv, double* const __restrict__ cv, 
-                                unsigned beta, const unsigned& row) 
+                                scaleType* const __restrict__ rv, scaleType* const __restrict__ cv, 
+                                const unsigned& row) 
     {
         unsigned tid = blockIdx.x * blockDim.x + threadIdx.x;
         unsigned noThreads = gridDim.x * blockDim.x;
         
-        double sum;
+        scaleType sum;
         #pragma unroll
         for (unsigned iter = 0; iter < BETA; ++iter)
         {
             // cols
             for (unsigned j = 0; j < nov; ++j)
             {
-                if (cv[j * noThreads + tid] != 0)
+                if (cv[j * noThreads + tid] != static_cast<scaleType>(0))
                 {
                     sum = 0;
                     for (unsigned ptr = colPtrs[j]; ptr < colPtrs[j + 1]; ++ptr)
                     {
                         sum += rv[rows[ptr] * noThreads + tid];
                     }
-                    if (sum == 0)
+                    if (sum == static_cast<scaleType>(0))
                     {
                         return true;
                     }
-                    cv[j * noThreads + tid] = 1.0 / sum;
+                    cv[j * noThreads + tid] = static_cast<scaleType>(1) / sum;
                 }
             }
             // rows
             for (unsigned i = row; i < nov; ++i) 
             {
-                if (rv[i * noThreads + tid] != 0)
+                if (rv[i * noThreads + tid] != static_cast<scaleType>(0))
                 {
                     sum = 0;
                     for (unsigned ptr = rowPtrs[i]; ptr < rowPtrs[i + 1]; ++ptr)
                     {
                         sum += cv[cols[ptr] * noThreads + tid];
                     }
-                    if (sum == 0)
+                    if (sum == static_cast<scaleType>(0))
                     {
                         return true;
                     }
-                    rv[i * noThreads + tid] = 1.0 / sum;
+                    rv[i * noThreads + tid] = static_cast<scaleType>(1) / sum;
                 }
             }
         }
@@ -146,8 +145,8 @@ namespace ApproximateSparseDefinitions
                                     const unsigned* const __restrict__ rowPtrs, const unsigned* const __restrict__ cols, 
                                     const unsigned* const __restrict__ colPtrs, const unsigned* const __restrict__ rows, 
                                     const unsigned* const __restrict__ novPtr, const unsigned* const __restrict__ nnzPtr,
-                                    const double* const __restrict__ rvInit, const double* const __restrict__ cvInit,
-                                    double* const __restrict__ rv, double* const __restrict__ cv, 
+                                    const scaleType* const __restrict__ rvInit, const scaleType* const __restrict__ cvInit,
+                                    scaleType* const __restrict__ rv, scaleType* const __restrict__ cv, 
                                     int* const __restrict__ rowElems, int* const __restrict__ colElems,
                                     double* const __restrict__ result,
                                     unsigned* const __restrict__ stack,
@@ -186,22 +185,22 @@ namespace ApproximateSparseDefinitions
                                             rowPtrs, cols, 
                                             colPtrs, rows, 
                                             rv, cv, 
-                                            BETA, i);
+                                            i);
                     if (check)
                     {
                         permanent = 0;
                         break;
                     }
-                    if (rv[i * noThreads + tid] == 0) continue; // already selected row
+                    if (rv[i * noThreads + tid] == static_cast<scaleType>(0)) continue; // already selected row
 
-                    double sample = curand_uniform(&state);
-                    double chosenProb;
+                    scaleType sample = static_cast<scaleType>(curand_uniform(&state));
+                    scaleType chosenProb;
                     unsigned column;
-                    double runningCumulative = 0;
+                    scaleType runningCumulative = 0;
                     for (unsigned ptr = rowPtrs[i]; ptr < rowPtrs[i + 1]; ++ptr)
                     {
                         unsigned j = cols[ptr];
-                        if (cv[j * noThreads + tid] != 0) // already selected col
+                        if (cv[j * noThreads + tid] != static_cast<scaleType>(0)) // already selected col
                         {
                             chosenProb = rv[i * noThreads + tid] * cv[j * noThreads + tid];
                             runningCumulative += chosenProb;
@@ -213,7 +212,7 @@ namespace ApproximateSparseDefinitions
                         }
                     }
 
-                    permanent *= (1 / chosenProb);
+                    permanent *= double(static_cast<scaleType>(1) / chosenProb);
                     rv[i * noThreads + tid] = 0;
                     cv[column * noThreads + tid] = 0;
 
