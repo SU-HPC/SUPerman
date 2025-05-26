@@ -3,8 +3,6 @@
 
 #include "GPUHelpers.cuh"
 
-#define ULL unsigned long long
-
 namespace ApproximateSparseDefinitions
 {
     inline void scaleABInit(
@@ -95,10 +93,10 @@ namespace ApproximateSparseDefinitions
                                         const unsigned& nov,
                                         const unsigned* const __restrict__ rowPtrs, const unsigned* const __restrict__ cols, 
                                         const unsigned* const __restrict__ colPtrs, const unsigned* const __restrict__ rows,
-                                        double* const __restrict__ rv, double* const __restrict__ cv, 
+                                        scaleType* const __restrict__ rv, scaleType* const __restrict__ cv, 
                                         int* const __restrict__ rowElems, int* const __restrict__ colElems, 
                                         unsigned* const __restrict__ stack, 
-                                        unsigned col)
+                                        const unsigned& col)
     {
         unsigned tid = blockIdx.x * blockDim.x + threadIdx.x;
         unsigned noThreads = gridDim.x * blockDim.x;
@@ -150,8 +148,7 @@ namespace ApproximateSparseDefinitions
                                     int* const __restrict__ rowElems, int* const __restrict__ colElems,
                                     double* const __restrict__ result,
                                     unsigned* const __restrict__ stack,
-                                    unsigned* const __restrict__ sampleCounter
-                                    )
+                                    unsigned* const __restrict__ sampleCounter)
     {
         unsigned nov = *novPtr;
         unsigned nnz = *nnzPtr;
@@ -216,7 +213,6 @@ namespace ApproximateSparseDefinitions
                     rv[i * noThreads + tid] = 0;
                     cv[column * noThreads + tid] = 0;
 
-                    /*
                     bool zero = ApproximateSparseDefinitions::d1Reduce(
                                                                             nov, 
                                                                             rowPtrs, cols, 
@@ -238,7 +234,6 @@ namespace ApproximateSparseDefinitions
                         permanent = 0;
                         break;
                     }
-                    */
                 }
                 approx += permanent;
             }

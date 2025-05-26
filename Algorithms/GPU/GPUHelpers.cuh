@@ -16,7 +16,7 @@
 using namespace cooperative_groups;
 
 #define X_SIZE 63
-#define NO_SAMPLES 67108864
+#define NO_SAMPLES 261144
 #define ALPHA 1
 #define BETA 2
 #define INITIAL_BETA 50
