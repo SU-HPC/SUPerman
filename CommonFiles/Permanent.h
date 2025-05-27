@@ -58,7 +58,7 @@ Result Permanent<C, S>::computePermanent()
     else if (m_Settings.algorithm == APPROXIMATION)
     {
         IO::rowSort(m_Matrix);
-        IO::colIndexMinimization(m_Matrix);
+        //IO::colIndexMinimization(m_Matrix);
         Matrix<S>* sparseMatrix = new SparseMatrix<S>(m_Matrix, getNNZ(m_Matrix));
         m_Matrix = sparseMatrix;
     }

@@ -1,7 +1,3 @@
-//
-// Created by deniz on 5/25/24.
-//
-
 #ifndef SUPERMAN_ASPSINGLEGPU_CUH
 #define SUPERMAN_ASPSINGLEGPU_CUH
 
@@ -39,17 +35,6 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
         h_cvInit[i] = 1;
     }
 
-    unsigned* h_prefixMax = new unsigned[nov + 1];
-    std::fill(h_prefixMax, h_prefixMax + nov + 1, 0);
-    for (unsigned i = 0; i < nov; ++i)
-    {
-        for (unsigned ptr = rowPtrs[i]; ptr < rowPtrs[i + 1]; ++ptr)
-        {
-            unsigned col = cols[ptr];
-            h_prefixMax[i + 1] = std::max(h_prefixMax[i], col);
-        }
-    }
-
     ApproximateSparseDefinitions::scaleABInit(nov, nnz, rowPtrs, cols, colPtrs, rows, h_rvInit, h_cvInit);
 
     unsigned* d_nov;
@@ -66,7 +51,6 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     int* d_colElems;
     double* d_result;
     unsigned* d_stack;
-    unsigned* d_prefixMax;
     unsigned* d_sampleCounter;
 
     int gridSize, blockSize;
@@ -102,9 +86,6 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk(cudaMalloc(&d_result, sizeof(double)))
     gpuErrchk(cudaMemset(d_result, 0, sizeof(double)))
 
-    gpuErrchk(cudaMalloc(&d_prefixMax, sizeof(unsigned) * (nov + 1)))
-    gpuErrchk(cudaMemcpy(d_prefixMax, h_prefixMax, sizeof(unsigned) * (nov + 1), cudaMemcpyHostToDevice))
-
     gpuErrchk(cudaMalloc(&d_sampleCounter, sizeof(unsigned)))
     gpuErrchk(cudaMemset(d_sampleCounter, 0, sizeof(unsigned)))
 
@@ -118,7 +99,6 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
                                     d_rowElems, d_colElems, 
                                     d_result,
                                     d_stack,
-                                    d_prefixMax,
                                     d_sampleCounter
                                     );
     gpuErrchk(cudaDeviceSynchronize())
@@ -142,12 +122,10 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk(cudaFree(d_colElems))
     gpuErrchk(cudaFree(d_result))
     gpuErrchk(cudaFree(d_stack))
-    gpuErrchk(cudaFree(d_prefixMax))
     gpuErrchk(cudaFree(d_sampleCounter))
 
     delete[] h_rvInit;
     delete[] h_cvInit;
-    delete[] h_prefixMax;
 
     return 0;
 }

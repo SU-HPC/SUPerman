@@ -41,8 +41,7 @@ namespace ApproximateSparseDefinitions
                                 const unsigned& nov, const unsigned& nnz, 
                                 const unsigned* const __restrict__ rowPtrs, const unsigned* const __restrict__ cols, 
                                 const unsigned* const __restrict__ colPtrs, const unsigned* const __restrict__ rows, 
-                                scaleType* const __restrict__ rv, scaleType* const __restrict__ cv, 
-                                const unsigned* const __restrict__ prefixMax,
+                                scaleType* const __restrict__ rv, scaleType* const __restrict__ cv,
                                 const unsigned& row) 
     {
         unsigned tid = blockIdx.x * blockDim.x + threadIdx.x;
@@ -53,8 +52,9 @@ namespace ApproximateSparseDefinitions
         for (unsigned iter = 0; iter < BETA; ++iter)
         {
             // cols
-            for (unsigned j = 0; j < prefixMax[row + 1]; ++j)
+            for (unsigned ptr = rowPtrs[row]; ptr < rowPtrs[row + 1]; ++ptr)
             {
+                unsigned j = cols[ptr];
                 if (cv[j * noThreads + tid] != static_cast<scaleType>(0))
                 {
                     sum = 0;
@@ -149,21 +149,20 @@ namespace ApproximateSparseDefinitions
                                     int* const __restrict__ rowElems, int* const __restrict__ colElems,
                                     double* const __restrict__ result,
                                     unsigned* const __restrict__ stack,
-                                    const unsigned* const __restrict__ prefixMax,
                                     unsigned* const __restrict__ sampleCounter)
     {
-        unsigned nov = *novPtr;
-        unsigned nnz = *nnzPtr;
-
         unsigned tid = blockIdx.x * blockDim.x + threadIdx.x;
         unsigned noThreads = gridDim.x * blockDim.x;
-        unsigned noIter = ceilf(NO_SAMPLES / float(noThreads) / 10);
+
+        unsigned nov = *novPtr;
+        unsigned nnz = *nnzPtr;
 
         double approx = 0;
 
         curandState state;
         curand_init(clock64(), tid, 0, &state);
         
+        unsigned noIter = ceilf(NO_SAMPLES / float(noThreads) / 10);
         while (*sampleCounter < NO_SAMPLES)
         {
             atomicAdd(sampleCounter, noIter);
@@ -180,11 +179,10 @@ namespace ApproximateSparseDefinitions
                 for (unsigned i = 0; i < nov; ++i)
                 {
                     bool check = ApproximateSparseDefinitions::scaleAB(
-                                            nov, nnz, 
-                                            rowPtrs, cols, 
-                                            colPtrs, rows, 
-                                            rv, cv, 
-                                            prefixMax,
+                                            nov, nnz,
+                                            rowPtrs, cols,
+                                            colPtrs, rows,
+                                            rv, cv,
                                             i);
                     if (check)
                     {

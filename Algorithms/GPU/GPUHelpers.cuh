@@ -41,7 +41,6 @@ using ApproximateSparseKernelPointer = void(*)(
     int* const __restrict__ /* colElems */,
     double* const __restrict__ /* result */,
     unsigned* const __restrict__ /* stack */,
-    const unsigned* const __restrict__ /* prefixMax */,
     unsigned* const __restrict__ /* sampleCounter */
 );
 
