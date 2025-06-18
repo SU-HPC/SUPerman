@@ -28,15 +28,14 @@ int main(int argv, char* argc[])
     settings.rank = rank;
     settings.processorNum = numberOfProcessors;
 
-    std::string filename;
-    IO::readSettings<S>(filename, settings, argv, argc);
+    IO::readSettings<S>(settings, argv, argc);
 
     if (!settings.complex)
     {
         std::stringstream stream;
-        stream << "MATRIX NAME: " << filename << std::endl;
+        stream << "MATRIX NAME: " << settings.filename << std::endl;
         print(stream, rank, settings.PID, 1);
-        Matrix<S>* matrix = IO::readMatrix<S>(filename, settings);
+        Matrix<S>* matrix = IO::readMatrix<S>(settings.filename, settings);
 
         AlgorithmSelector<C, S>::Algorithm algorithm = AlgorithmSelector<C, S>::selectAlgorithm(matrix, &settings);
         Result result = algorithm(matrix, &settings);
@@ -50,9 +49,9 @@ int main(int argv, char* argc[])
     else
     {
         std::stringstream stream;
-        stream << "MATRIX NAME: " << filename << std::endl;
+        stream << "MATRIX NAME: " << settings.filename << std::endl;
         print(stream, rank, settings.PID, 1);
-        Matrix<std::complex<S>>* matrix = IO::readComplex<S>(filename, settings);
+        Matrix<std::complex<S>>* matrix = IO::readComplex<S>(settings.filename, settings);
         recompilationStatus(0, settings.rank);
         complexPerman<C, S>(matrix, &settings);
         delete matrix;

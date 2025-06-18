@@ -41,6 +41,7 @@ enum Precision
 struct Settings
 {
     // General
+    std::string filename;
     int PID;
     std::string REPO_DIR;
     Algorithm algorithm;

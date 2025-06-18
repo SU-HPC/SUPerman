@@ -26,7 +26,7 @@ class IO
 {
 public:
     template <class S>
-    static void readSettings(std::string& filename, Settings& settings, int argc, char* argv[]);
+    static void readSettings(Settings& settings, int argc, char* argv[]);
 
     template <class S>
     static Matrix<S>* readMatrix(std::string filename, Settings& settings);
@@ -134,7 +134,7 @@ void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact* scal
 }
 
 template <class S>
-void IO::readSettings(std::string& filename, Settings& settings, int argc, char* argv[])
+void IO::readSettings(Settings& settings, int argc, char* argv[])
 {
     settings.algorithm = AlgorithmEnds;
     settings.mode = Mode::CPU;
@@ -184,7 +184,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
         }
         else if (arg == "filename")
         {
-            filename = value;
+            settings.filename = value;
             filenameFound = true;
         }
         else if (arg == "algorithm")
