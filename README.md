@@ -32,10 +32,10 @@ D. Elbek, F. Taşyaran, B. Uçar, and K. Kaya. SUperman: Efficient Permanent Com
 2. Make the run_superman.sh executable by running the following command:
 
 ```bash 
-  chmod +x run_superman.sh
+chmod +x run_superman.sh
 ```
 
-3. Execute the run_superman.sh file from within the source directory:
+3. Execute the run_superman.sh file from directly within the source directory:
 ```bash
-  ./run_superman.sh
+./run_superman.sh
 ```

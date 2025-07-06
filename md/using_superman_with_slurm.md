@@ -33,3 +33,9 @@ Replace these lines with the following commands to use srun instead:
 firstProgramArguments = "srun -n " + std::to_string(processorNumber) + " " + firstProgramArguments;
 secondProgramArguments = "srun -n " + std::to_string(processorNumber) + " " + secondProgramArguments;
 ```
+
+### WARNING
+As was the case in the `run_superman.sh`, the batch script should be submitted to the job scheduler from directly within the source directory through the following command:
+```bash
+sbatch superman_slurm.slurm
+```

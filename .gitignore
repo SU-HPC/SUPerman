@@ -3,4 +3,7 @@ wrapper
 .vscode/
 res/
 wr/
+small/
 medium/
+large/
+tests/
