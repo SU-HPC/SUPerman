@@ -52,9 +52,14 @@ namespace ApproximateSparseDefinitions
         for (unsigned iter = 0; iter < BETA; ++iter)
         {
             // cols
+            #ifdef FULL_SCALING
+            for (unsigned j = 0; j < nov; ++j)
+            {
+            #else
             for (unsigned ptr = rowPtrs[row]; ptr < rowPtrs[row + 1]; ++ptr)
             {
                 unsigned j = cols[ptr];
+            #endif
                 if (cv[j * noThreads + tid] != static_cast<scaleType>(0))
                 {
                     sum = 0;
@@ -70,8 +75,13 @@ namespace ApproximateSparseDefinitions
                 }
             }
             // rows
+            #ifdef FULL_SCALING
             for (unsigned i = row; i < nov; ++i) 
             {
+            #else
+            {
+                unsigned i = row;
+            #endif
                 if (rv[i * noThreads + tid] != static_cast<scaleType>(0))
                 {
                     sum = 0;
@@ -149,7 +159,7 @@ namespace ApproximateSparseDefinitions
                                     int* const __restrict__ rowElems, int* const __restrict__ colElems,
                                     double* const __restrict__ result,
                                     unsigned* const __restrict__ stack,
-                                    unsigned* const __restrict__ sampleCounter)
+                                    unsigned long long* const __restrict__ sampleCounter)
     {
         unsigned tid = blockIdx.x * blockDim.x + threadIdx.x;
         unsigned noThreads = gridDim.x * blockDim.x;
@@ -166,7 +176,7 @@ namespace ApproximateSparseDefinitions
         while (*sampleCounter < NO_SAMPLES)
         {
             atomicAdd(sampleCounter, noIter);
-            for (unsigned iter = 0; iter < noIter; ++iter)
+            for (unsigned long long iter = tid; iter < NO_SAMPLES; iter += noThreads)
             {
                 for (unsigned i = 0; i < nov; ++i)
                 {
@@ -214,6 +224,7 @@ namespace ApproximateSparseDefinitions
                     rv[i * noThreads + tid] = 0;
                     cv[column * noThreads + tid] = 0;
 
+                    #ifdef DECOMPOSITION
                     bool zero = ApproximateSparseDefinitions::d1Reduce(
                                                                             nov, 
                                                                             rowPtrs, cols, 
@@ -235,11 +246,13 @@ namespace ApproximateSparseDefinitions
                         permanent = 0;
                         break;
                     }
+                    #endif
                 }
                 approx += permanent;
             }
         }
 
+        /*
         auto warp = cooperative_groups::coalesced_threads();
         for (unsigned offset = 16; offset > 0; offset >>= 1)
         {
@@ -249,6 +262,9 @@ namespace ApproximateSparseDefinitions
         {
             atomicAdd(result, approx);
         }
+        */
+
+        atomicAdd(result, approx);
     }
 }
 

@@ -20,6 +20,7 @@
 #include "dm.h"
 #include <complex>
 #include <cassert>
+#include <random>
 
 
 class IO
@@ -44,16 +45,28 @@ public:
     static void rowSort(Matrix<S>* matrix, bool ascending = true);
 
     template <class S>
-    static void colIndexMinimization(Matrix<S>* matrix);
+    static void alphaOrder(Matrix<S>* matrix, unsigned alpha, bool ascending = false);
+
+    template <class S>
+    static void colIndexMinimizationOrder(Matrix<S>* matrix);
 
     template <class S>
     static void UTOrder(Matrix<S>* matrix);
+
+    template <class S>
+    static void randomOrder(Matrix<S>* matrix);
 
     template <class C, class S>
     static void scale(Matrix<S>* matrix, const Settings& settings, ScalingCompact* scalingCompact);
 
     template <class S>
     static void writeMatrixToFile(Matrix<S>* matrix, std::string filename);
+
+    template <class S>
+    static void trim(std::string &s);
+
+    template <class S>
+    static std::vector<std::string> split(const std::string& s, char delimiter);
 
 private:
     template <class S>
@@ -70,12 +83,6 @@ private:
 
     template <class S>
     static void descendingRowSort(Matrix<S>* matrix);
-
-    template <class S>
-    static void trim(std::string &s);
-
-    template <class S>
-    static std::vector<std::string> split(const std::string& s, char delimiter);
 };
 
 
@@ -866,7 +873,7 @@ void IO::descendingRowSort(Matrix<S>* matrix)
 }
 
 template<class S>
-void IO::colIndexMinimization(Matrix<S>* matrix)
+void IO::colIndexMinimizationOrder(Matrix<S>* matrix)
 {
     int nov = matrix->nov;
     S* mat = matrix->mat;
@@ -976,6 +983,97 @@ void IO::UTOrder(Matrix<S>* matrix)
     }
 
     applyPermutations(matrix, rowPerm.data(), colPerm.data());
+}
+
+template<class S>
+void IO::alphaOrder(Matrix<S>* matrix, unsigned alpha, bool ascending)
+{
+    int nov = matrix->nov;
+    S* mat = matrix->mat;
+
+    int* rowIPermutation = new int[nov];
+    int* colIPermutation = new int[nov];
+
+    for (unsigned i = 0; i < nov; ++i)
+    {
+        colIPermutation[i] = i;
+    }
+
+    typedef std::pair<int, unsigned> Row;
+    Row* rows = new Row[nov];
+    
+    for (int i = 0; i < nov; ++i)
+    {
+        unsigned nnz = 0;
+        for (int j = 0; j < nov; ++j)
+        {
+            if (mat[i * nov + j] != 0)
+            {
+                ++nnz;
+            }
+        }
+        rows[i] = Row(i, nnz);
+    }
+
+    if (ascending)
+    {
+        std::sort(rows, rows + nov, [](const Row& a, const Row& b) 
+        {
+            return a.second < b.second;
+        });
+    }
+    else
+    {
+        std::sort(rows, rows + nov, [](const Row& a, const Row& b) 
+        {
+            return a.second > b.second;
+        });
+    }
+
+    int split = ceil(double(nov) / alpha) - 1;
+    int front = split;
+    int back = nov - 1;
+    int current = 0;
+    while (split < back)
+    {
+        rowIPermutation[rows[front--].first] = current++;
+        for (unsigned i = 0; i < alpha - 1 && split < back; ++i)
+        {
+            rowIPermutation[rows[back--].first] = current++;
+        }
+    }
+    while (front >= 0)
+    {
+        rowIPermutation[rows[front--].first] = current;
+    }
+
+    applyPermutations(matrix, rowIPermutation, colIPermutation);
+
+    delete[] rowIPermutation;
+    delete[] colIPermutation;
+    delete[] rows;
+}
+
+template<class S>
+void IO::randomOrder(Matrix<S>* matrix)
+{
+    int nov = matrix->nov;
+    int* rowIPermutation = new int[nov];
+    int* colIPermutation = new int[nov];
+
+    for (unsigned i = 0; i < nov; ++i)
+    {
+        rowIPermutation[i] = i;
+        colIPermutation[i] = i;
+    }
+
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(rowIPermutation, rowIPermutation + nov, g);
+    applyPermutations(matrix, rowIPermutation, colIPermutation);
+
+    delete[] rowIPermutation;
+    delete[] colIPermutation;
 }
 
 template<class S>

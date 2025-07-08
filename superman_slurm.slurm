@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --partition=kolyoz-cuda
 #SBATCH --gres=gpu:1
-#SBATCH --time=0-0:10:00
+#SBATCH --time=0-1:00:00
 #SBATCH --output=/arf/home/delbek/SUPerman/res/wr-%j.out
 #SBATCH --error=/arf/home/delbek/SUPerman/res/wr-%j.err
 #SBATCH --export=NONE
@@ -36,14 +36,25 @@ if [ $? -ne 0 ]; then
 fi
 
 repo_directory=/arf/home/delbek/SUPerman/
-matrix_directory=/arf/home/delbek/SUPerman/ExampleMatrices/
+matrix_directory=/arf/home/delbek/SUPerman/medium/
 build_directory=/arf/home/delbek/SUPerman/build/
-output_directory=${repo_directory}wr/
+output_directory=${repo_directory}tests/
 
 mkdir -p ${output_directory}
 
 filenames=(
-"mycielskian6.mtx"
+"dwt_193.mtx"
+#"grid1_dual.mtx"
+#"gent113.mtx"
+#"mycielskian9.mtx"
+#"sphere3.mtx"
+#"will199.mtx"
+#"bcspwr02.mtx"
+#"chesapeake.mtx"
+#"curtis54.mtx"
+#"dwt_59.mtx"
+#"mycielskian6.mtx"
+#"will57.mtx"
 )
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based.

@@ -16,9 +16,11 @@
 using namespace cooperative_groups;
 
 #define X_SIZE 63
-#define NO_SAMPLES 67108864
+#define NO_SAMPLES 100000
 #define ALPHA 1
-#define BETA 2
+#define BETA 10
+#define FULL_SCALING
+#define DECOMPOSITION
 #define INITIAL_BETA 50
 #define scaleType float
 
@@ -41,7 +43,7 @@ using ApproximateSparseKernelPointer = void(*)(
     int* const __restrict__ /* colElems */,
     double* const __restrict__ /* result */,
     unsigned* const __restrict__ /* stack */,
-    unsigned* const __restrict__ /* sampleCounter */
+    unsigned long long* const __restrict__ /* sampleCounter */
 );
 
 template <typename C, typename S>

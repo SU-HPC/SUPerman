@@ -27,6 +27,15 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     unsigned* colPtrs = reinterpret_cast<unsigned*>(sp->cptrs);
     unsigned* rows = reinterpret_cast<unsigned*>(sp->rows);
 
+    /*
+    unsigned maxNNZ = 0;
+    for (unsigned i = 0; i < nov; ++i)
+    {
+        maxNNZ = std::max(maxNNZ, rowPtrs[i + 1] - rowPtrs[i]);
+    }
+    std::cout << "Max nnz located in any row: " << maxNNZ << std::endl;
+    */
+
     scaleType* h_rvInit = new scaleType[nov];
     scaleType* h_cvInit = new scaleType[nov];
     for (unsigned i = 0; i < nov; ++i)
@@ -51,7 +60,7 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     int* d_colElems;
     double* d_result;
     unsigned* d_stack;
-    unsigned* d_sampleCounter;
+    unsigned long long* d_sampleCounter;
 
     int gridSize, blockSize;
     cudaOccupancyMaxPotentialBlockSize(&gridSize, &blockSize, Algo, 0, 0);
@@ -86,10 +95,9 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk(cudaMalloc(&d_result, sizeof(double)))
     gpuErrchk(cudaMemset(d_result, 0, sizeof(double)))
 
-    gpuErrchk(cudaMalloc(&d_sampleCounter, sizeof(unsigned)))
-    gpuErrchk(cudaMemset(d_sampleCounter, 0, sizeof(unsigned)))
+    gpuErrchk(cudaMalloc(&d_sampleCounter, sizeof(unsigned long long)))
+    gpuErrchk(cudaMemset(d_sampleCounter, 0, sizeof(unsigned long long)))
 
-    double start = omp_get_wtime();
     Algo<<<gridSize, blockSize>>>(
                                     d_rowPtrs, d_cols, 
                                     d_colPtrs, d_rows, 
