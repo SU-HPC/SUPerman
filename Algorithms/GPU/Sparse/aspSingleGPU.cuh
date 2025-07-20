@@ -27,15 +27,6 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     unsigned* colPtrs = reinterpret_cast<unsigned*>(sp->cptrs);
     unsigned* rows = reinterpret_cast<unsigned*>(sp->rows);
 
-    /*
-    unsigned maxNNZ = 0;
-    for (unsigned i = 0; i < nov; ++i)
-    {
-        maxNNZ = std::max(maxNNZ, rowPtrs[i + 1] - rowPtrs[i]);
-    }
-    std::cout << "Max nnz located in any row: " << maxNNZ << std::endl;
-    */
-
     scaleType* h_rvInit = new scaleType[nov];
     scaleType* h_cvInit = new scaleType[nov];
     for (unsigned i = 0; i < nov; ++i)

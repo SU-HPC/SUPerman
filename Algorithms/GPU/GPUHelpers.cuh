@@ -16,10 +16,10 @@
 using namespace cooperative_groups;
 
 #define X_SIZE 63
-#define NO_SAMPLES 100000
+#define NO_SAMPLES 100000000
 #define ALPHA 1
 #define BETA 10
-#define FULL_SCALING
+//#define FULL_SCALING
 #define DECOMPOSITION
 #define INITIAL_BETA 50
 #define scaleType float

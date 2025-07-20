@@ -176,7 +176,7 @@ namespace ApproximateSparseDefinitions
         while (*sampleCounter < NO_SAMPLES)
         {
             atomicAdd(sampleCounter, noIter);
-            for (unsigned long long iter = tid; iter < NO_SAMPLES; iter += noThreads)
+            for (unsigned long long iter = 0; iter < noIter; ++iter)
             {
                 for (unsigned i = 0; i < nov; ++i)
                 {
