@@ -42,7 +42,7 @@ double KernelGenMultiGPU<C, S, Algo, Shared>::permanentFunction()
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
     }
-    this->productSum = product;
+    double productSum = product;
 
     int k = 0;
     generateKernels(k, mat, x, nov, this->m_Settings);
@@ -95,15 +95,15 @@ double KernelGenMultiGPU<C, S, Algo, Shared>::permanentFunction()
             static std::vector<bool> printed(gpuNum, false);
             if (!printed[gpuNo])
             {
-                printf("%s (%d): Number of streaming multiprocessors: %d\n", prop.name, gpuNo, noSM);
-                printf("%s (%d): Total number of registers available across the GPU: %d\n", prop.name, gpuNo, totalRegs);
-                printf("%s (%d): Total number of registers used across the GPU: %d\n", prop.name, gpuNo, std::min(regsUsed, totalRegs));
-                printf("%s (%d): %f%% of the entire register file is in use\n", prop.name, gpuNo, std::min((double(regsUsed) / double(totalRegs)) * 100, double(100)));
-                printf("%s (%d): Grid Dimension: %d\n", prop.name, gpuNo, gridDim);
-                printf("%s (%d): Block Dimension: %d\n", prop.name, gpuNo, blockDim);
-                printf("%s (%d): Total number of threads: %d\n", prop.name, gpuNo, totalThreadCount);
-                printf("%s (%d): Maximum number of blocks running concurrently on each SM: %d\n", prop.name, gpuNo, maxBlocks);
-                printf("%s (%d): Maximum number of blocks running concurrently throughout the GPU: %d\n", prop.name, gpuNo, maxBlocks * noSM);
+                std::cout << prop.name << " (" << gpuNo << "): Number of streaming multiprocessors: " << noSM << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Total number of registers available across the GPU: " << totalRegs << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Total number of registers used across the GPU: " << std::min(regsUsed, totalRegs) << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): " << std::min((double(regsUsed) / double(totalRegs)) * 100, double(100)) << "% of the entire register file is in use" << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Grid Dimension: " << gridDim << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Block Dimension: " << blockDim << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Total number of threads: " << totalThreadCount << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Maximum number of blocks running concurrently on each SM: " << maxBlocks << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Maximum number of blocks running concurrently throughout the GPU: " << (maxBlocks * noSM) << std::endl;
                 printed[gpuNo] = true;
             }
         }
@@ -195,11 +195,11 @@ double KernelGenMultiGPU<C, S, Algo, Shared>::permanentFunction()
         delete[] h_products;
 
         #pragma omp atomic
-            this->productSum += myProductSum;
+            productSum += myProductSum;
     }
     omp_destroy_lock(&lock);
 
-    return 0;
+    return ((4 * (nov % 2) - 2) * productSum);
 }
 
 

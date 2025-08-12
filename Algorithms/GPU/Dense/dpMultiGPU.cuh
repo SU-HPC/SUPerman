@@ -46,7 +46,7 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
     }
-    this->productSum = product;
+    double productSum = product;
 
     for (int i = 0; i < nov; ++i)
     {
@@ -107,17 +107,17 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
             static std::vector<bool> printed(gpuNum, false);
             if (!printed[gpuNo])
             {
-                printf("%s (%d): Number of streaming multiprocessors: %d\n", prop.name, gpuNo, noSM);
-                printf("%s (%d): Shared memory used per block: %d bytes\n", prop.name, gpuNo, sharedMemoryPerBlock);
-                printf("%s (%d): Shared memory used per SM: %d bytes\n", prop.name, gpuNo, sharedMemoryPerBlock * maxBlocks);
-                printf("%s (%d): %f%% of the entire shared memory dedicated per block is used\n", prop.name, gpuNo, (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
-                printf("%s (%d): %f%% of the entire shared memory dedicated per SM is used\n", prop.name, gpuNo, ((double(sharedMemoryPerBlock) * maxBlocks) / double(maxSharedMemoryPerSM)) * 100);
-                printf("%s (%d): Maximum number of registers that could be used per SM: %d\n", prop.name, gpuNo, maxRegsPerSM);
-                printf("%s (%d): Grid Dimension: %d\n", prop.name, gpuNo, gridDim);
-                printf("%s (%d): Block Dimension: %d\n", prop.name, gpuNo, blockDim);
-                printf("%s (%d): Total number of threads: %d\n", prop.name, gpuNo, totalThreadCount);
-                printf("%s (%d): Maximum number of blocks running concurrently on each SM: %d\n", prop.name, gpuNo, maxBlocks);
-                printf("%s (%d): Maximum number of blocks running concurrently throughout the GPU: %d\n", prop.name, gpuNo, maxBlocks * noSM);
+                std::cout << prop.name << " (" << gpuNo << "): Number of streaming multiprocessors: " << noSM << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Shared memory used per block: " << sharedMemoryPerBlock << " bytes" << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Shared memory used per SM: " << (sharedMemoryPerBlock * maxBlocks) << " bytes" << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): " << (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100 << "% of the entire shared memory dedicated per block is used" << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): " << ((double(sharedMemoryPerBlock) * maxBlocks) / double(maxSharedMemoryPerSM)) * 100 << "% of the entire shared memory dedicated per SM is used" << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Maximum number of registers that could be used per SM: " << maxRegsPerSM << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Grid Dimension: " << gridDim << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Block Dimension: " << blockDim << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Total number of threads: " << totalThreadCount << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Maximum number of blocks running concurrently on each SM: " << maxBlocks << std::endl;
+                std::cout << prop.name << " (" << gpuNo << "): Maximum number of blocks running concurrently throughout the GPU: " << (maxBlocks * noSM) << std::endl;
                 printed[gpuNo] = true;
             }
         }
@@ -213,13 +213,13 @@ double dpMultiGPU<C, S, Algo, Shared>::permanentFunction()
         delete[] h_products;
 
         #pragma omp atomic
-            this->productSum += myProductSum;
+            productSum += myProductSum;
     }
     omp_destroy_lock(&lock);
 
     delete[] matTransposed;
 
-    return 0;
+    return ((4 * (nov % 2) - 2) * productSum);
 }
 
 

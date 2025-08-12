@@ -44,6 +44,15 @@ void cpuComputeComplex(Matrix<std::complex<S>>* matrix, Settings* settings)
     long long start = 1;
     long long end = (1LL << (nov - 1));
 
+#ifndef SILENT
+    static bool printed = false;
+    if (!printed)
+    {
+        std::cout << "Permanent is being computed on the CPU" << std::endl;
+        printed = true;
+    }
+#endif
+
     double timeStart = omp_get_wtime();
 #pragma omp parallel num_threads(threads)
     {

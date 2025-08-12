@@ -2,8 +2,8 @@
 // Created by deniz on 4/22/24.
 //
 
-#ifndef SUPERMAN_ALLEXACTALGORITHMS_H
-#define SUPERMAN_ALLEXACTALGORITHMS_H
+#ifndef SUPERMAN_ALLALGORITHMS_H
+#define SUPERMAN_ALLALGORITHMS_H
 
 
 // CPU
@@ -62,4 +62,4 @@ void complexPerman(Matrix<std::complex<S>>* matrix, Settings* settings)
 }
 
 
-#endif //SUPERMAN_ALLEXACTALGORITHMS_H
+#endif //SUPERMAN_ALLALGORITHMS_H

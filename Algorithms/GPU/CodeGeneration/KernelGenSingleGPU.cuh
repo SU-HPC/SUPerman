@@ -47,7 +47,7 @@ double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
     }
-    this->productSum = product;
+    double productSum = product;
 
     int k = 0;
     generateKernels(k, mat, x, nov, this->m_Settings);
@@ -80,16 +80,16 @@ double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
         static bool printed = false;
         if (!printed)
         {
-            printf("Permanent is being computed on device id: %d, %s\n", this->m_Settings.deviceID, prop.name);
-            printf("Number of streaming multiprocessors: %d\n", noSM);
-            printf("Total number of registers available across the GPU: %d\n", totalRegs);
-            printf("Total number of registers used across the GPU: %d\n", std::min(regsUsed, totalRegs));
-            printf("%f%% of the entire register file is in use\n", std::min((double(regsUsed) / double(totalRegs)) * 100, double(100)));
-            printf("Grid Dimension: %d\n", gridDim);
-            printf("Block Dimension: %d\n", blockDim);
-            printf("Total number of threads: %d\n", totalThreadCount);
-            printf("Maximum number of blocks running concurrently on each SM: %d\n", maxBlocks);
-            printf("Maximum number of blocks running concurrently throughout the GPU: %d\n", maxBlocks * noSM);
+            std::cout << "Permanent is being computed on device id: " << this->m_Settings.deviceID << ", " << prop.name << std::endl;
+            std::cout << "Number of streaming multiprocessors: " << noSM << std::endl;
+            std::cout << "Total number of registers available across the GPU: " << totalRegs << std::endl;
+            std::cout << "Total number of registers used across the GPU: " << std::min(regsUsed, totalRegs) << std::endl;
+            std::cout << (std::min((double(regsUsed) / double(totalRegs)) * 100, double(100))) << "% of the entire register file is in use" << std::endl;
+            std::cout << "Grid Dimension: " << gridDim << std::endl;
+            std::cout << "Block Dimension: " << blockDim << std::endl;
+            std::cout << "Total number of threads: " << totalThreadCount << std::endl;
+            std::cout << "Maximum number of blocks running concurrently on each SM: " << maxBlocks << std::endl;
+            std::cout << "Maximum number of blocks running concurrently throughout the GPU: " << (maxBlocks * noSM) << std::endl;
             printed = true;
         }
     }
@@ -154,7 +154,7 @@ double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     for (int i = 0; i < totalThreadCount; ++i)
     {
-        this->productSum += h_products[i];
+        productSum += h_products[i];
     }
 
     gpuErrchk( cudaFree(d_products) )
@@ -162,7 +162,7 @@ double KernelGenSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     delete[] h_products;
 
-    return 0;
+    return ((4 * (nov % 2) - 2) * productSum);
 }
 
 

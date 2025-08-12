@@ -103,9 +103,10 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     gpuErrchk(cudaDeviceSynchronize())
 
     unsigned h_sampleCounter;
-    gpuErrchk(cudaMemcpy(&this->productSum, d_result, sizeof(double), cudaMemcpyDeviceToHost))
+    double res;
+    gpuErrchk(cudaMemcpy(&res, d_result, sizeof(double), cudaMemcpyDeviceToHost))
     gpuErrchk(cudaMemcpy(&h_sampleCounter, d_sampleCounter, sizeof(unsigned), cudaMemcpyDeviceToHost))
-    this->productSum /= h_sampleCounter;
+    res /= h_sampleCounter;
 
     gpuErrchk(cudaFree(d_nov))
     gpuErrchk(cudaFree(d_nnz))
@@ -126,7 +127,7 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     delete[] h_rvInit;
     delete[] h_cvInit;
 
-    return 0;
+    return res;
 }
 
 #endif //SUPERMAN_ASPSINGLEGPU_CUH

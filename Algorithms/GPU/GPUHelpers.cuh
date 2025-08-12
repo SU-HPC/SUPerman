@@ -20,7 +20,6 @@ using namespace cooperative_groups;
 #define ALPHA 1
 #define BETA 10
 //#define FULL_SCALING
-#define DECOMPOSITION
 #define INITIAL_BETA 50
 #define scaleType float
 

@@ -42,7 +42,7 @@ double dpNaivePerman<C, S>::permanentFunction()
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
     }
-    this->productSum = product;
+    double productSum = product;
 
     S* matTransposed = new S[nov * nov];
     for (int i = 0; i < nov; ++i)
@@ -60,7 +60,7 @@ double dpNaivePerman<C, S>::permanentFunction()
     static bool printed = false;
     if (!printed)
     {
-        printf("Permanent is being computed on the CPU\n");
+        std::cout << "Permanent is being computed on the CPU" << std::endl;
         printed = true;
     }
 #endif
@@ -113,12 +113,12 @@ double dpNaivePerman<C, S>::permanentFunction()
         }
 
         #pragma omp atomic
-            this->productSum += myResult;
+            productSum += myResult;
     }
 
     delete[] matTransposed;
 
-    return 0;
+    return ((4 * (nov % 2) - 2) * productSum);
 }
 
 

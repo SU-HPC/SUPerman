@@ -253,20 +253,20 @@ void gpuComputeComplex(Matrix<std::complex<double>>* matrix, Settings* settings)
         static bool printed = false;
         if (!printed)
         {
-            printf("Permanent is being computed on device id: %d, %s\n", settings->deviceID, prop.name);
-            printf("Matrix Size: %d bytes\n", (nov * nov) * sizeof(cuDoubleComplex));
-            printf("X Vector Size: %d bytes\n", nov * sizeof(cuDoubleComplex));
-            printf("Number of streaming multiprocessors: %d\n", noSM);
-            printf("Shared memory used per block: %d bytes\n", sharedMemoryPerBlock);
-            printf("Shared memory used per SM: %d bytes\n", sharedMemoryPerBlock * maxBlocks);
-            printf("%f%% of the entire shared memory dedicated per block is used\n", (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
-            printf("%f%% of the entire shared memory dedicated per SM is used\n", ((double(sharedMemoryPerBlock) * maxBlocks) / double(maxSharedMemoryPerSM)) * 100);
-            printf("Maximum number of registers that could be used per SM: %d\n", maxRegsPerSM);
-            printf("Grid Dimension: %d\n", gridDim);
-            printf("Block Dimension: %d\n", blockDim);
-            printf("Total number of threads: %d\n", totalThreadCount);
-            printf("Maximum number of blocks running concurrently on each SM: %d\n", maxBlocks);
-            printf("Maximum number of blocks running concurrently throughout the GPU: %d\n", maxBlocks * noSM);
+            std::cout << "Permanent is being computed on device id: " << settings->deviceID << ", " << prop.name << std::endl;
+            std::cout << "Matrix Size: " << (nov * nov) * sizeof(cuDoubleComplex) << " bytes" << std::endl;
+            std::cout << "X Vector Size: " << (nov * sizeof(cuDoubleComplex)) << " bytes" << std::endl;
+            std::cout << "Number of streaming multiprocessors: " << noSM << std::endl;
+            std::cout << "Shared memory used per block: " << sharedMemoryPerBlock << " bytes" << std::endl;
+            std::cout << "Shared memory used per SM: " << (sharedMemoryPerBlock * maxBlocks) << " bytes" << std::endl;
+            std::cout << (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100 << "% of the entire shared memory dedicated per block is used" << std::endl;
+            std::cout << ((double(sharedMemoryPerBlock) * maxBlocks) / double(maxSharedMemoryPerSM)) * 100 << "% of the entire shared memory dedicated per SM is used" << std::endl;
+            std::cout << "Maximum number of registers that could be used per SM: " << maxRegsPerSM << std::endl;
+            std::cout << "Grid Dimension: " << gridDim << std::endl;
+            std::cout << "Block Dimension: " << blockDim << std::endl;
+            std::cout << "Total number of threads: " << totalThreadCount << std::endl;
+            std::cout << "Maximum number of blocks running concurrently on each SM: " << maxBlocks << std::endl;
+            std::cout << "Maximum number of blocks running concurrently throughout the GPU: " << (maxBlocks * noSM) << std::endl;
             printed = true;
         }
     }

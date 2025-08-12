@@ -1,9 +1,7 @@
-build/
 wrapper
 .vscode/
+build/
 res/
-wr/
-small/
-medium/
-large/
 tests/
+experiments/
+*.mtx

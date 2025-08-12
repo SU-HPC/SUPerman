@@ -12,24 +12,9 @@ struct Result
     :   time(time),
         permanent(permanent) {}
 
-    inline Result& operator+=(const Result& rightResult)
-    {
-        time += rightResult.time;
-        permanent += rightResult.permanent;
-        return *this;
-    }
-
     double time;
     double permanent;
 };
-
-inline Result operator+(const Result& left, const Result& right)
-{
-    Result ret;
-    ret.time = (left.time + right.time);
-    ret.permanent = (left.permanent + right.permanent);
-    return ret;
-}
 
 
 #endif //SUPERMAN_RESULT_H

@@ -5,7 +5,7 @@
 #ifndef SUPERMAN_ALGORITHMSELECTOR_H
 #define SUPERMAN_ALGORITHMSELECTOR_H
 
-#include "AllExactAlgorithms.h"
+#include "AllAlgorithms.h"
 #include "Matrix.h"
 #include "SparseMatrix.h"
 #include "Settings.h"
@@ -21,12 +21,12 @@ public:
     typedef Result (*Algorithm)(Matrix<S>* matrix, Settings* settings);
 
 public:
-    static AlgorithmSelector<C, S>::Algorithm selectAlgorithm(Matrix<S>* matrix, Settings* settings);
+    static AlgorithmSelector<C, S>::Algorithm selectAlgorithm(Matrix<S>* matrix, Settings* settings, unsigned biggestComponentSize);
 };
 
 
 template<class C, class S>
-typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgorithm(Matrix<S> *matrix, Settings *settings)
+typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgorithm(Matrix<S> *matrix, Settings *settings, unsigned biggestComponentSize)
 {
     #ifdef GPU_AVAILABLE
     if (settings->algorithm == AlgorithmEnds && settings->mode != Mode::CPU)
@@ -38,8 +38,9 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
             stream << "SELECTED ALGORITHM IS: APPROXIMATION" << std::endl;
             print(stream, settings->rank, settings->PID, 1);
         }
-        if ((matrix->nov * matrix->sparsity / 100 <= 4) || matrix->nov <= 40)
+        else if ((matrix->nov * matrix->sparsity / 100 <= 4) || matrix->nov <= 40 || (biggestComponentSize <= (matrix->nov - 3)))
         {
+            std::cout << "Biggest component size: " << biggestComponentSize << std::endl;
             settings->algorithm = XREGISTERMSHARED;
             stream << "SELECTED ALGORITHM IS: xregister_mshared" << std::endl;
             print(stream, settings->rank, settings->PID, 1);

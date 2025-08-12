@@ -236,6 +236,12 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
             {
                 settings.algorithm = APPROXIMATION;
             }
+            /*
+            else if (value == "ryser")
+            {
+                settings.algorithm = RYSER;
+            }
+            */
             else
             {
                 stream << "UNKNOWN ALGORITHM: " << value << " - selecting automatically instead." << std::endl;
@@ -413,8 +419,12 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
         file.ignore(2048, '\n');
     }
 
-    int nov, noLines;
-    file >> nov >> nov >> noLines;
+    int nov, test, noLines;
+    file >> nov >> test >> noLines;
+    if (nov != test)
+    {
+        throw std::runtime_error("Your matrix is not square, and therefore the permanent of it is trivially equal to 0.");
+    }
 
     S val;
     int i, j;
@@ -429,6 +439,11 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
         // binary read check
         if (!settings.binary) file >> val;
         else val = 1;
+
+        if (val == 0)
+        {
+            continue;
+        }
 
         if (isMTX)
         {
@@ -491,13 +506,8 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     // for dm
 
     size = nov * nov;
-    sparsity = (double(nnz) / double(size)) * 100;
+    sparsity = (double(nnz) / size) * 100;
     matrix->sparsity = sparsity;
-
-    stream = std::stringstream();
-    stream << "Total number of nonzeros after DM is: " << nnz << std::endl;
-    stream << "Sparsity of the matrix after DM is determined to be: " << sparsity << std::endl;
-    print(stream, settings.rank, settings.PID, 1);
 
     return matrix;
 }
@@ -523,8 +533,12 @@ Matrix<std::complex<S>> *IO::readComplex(std::string filename, Settings &setting
         file.ignore(2048, '\n');
     }
 
-    int nov, noLines;
-    file >> nov >> nov >> noLines;
+    int nov, test, noLines;
+    file >> nov >> test >> noLines;
+    if (nov != test)
+    {
+        throw std::runtime_error("Your matrix is not square, and therefore the permanent of it is trivially equal to 0.");
+    }
 
     std::complex<S> entry;
     S real;

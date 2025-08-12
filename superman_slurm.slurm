@@ -1,14 +1,14 @@
 #!/bin/bash
-#SBATCH -J wr
+#SBATCH -J SUPERMAN
 #SBATCH --account=proj13
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=16
 #SBATCH --partition=kolyoz-cuda
 #SBATCH --gres=gpu:1
-#SBATCH --time=0-1:00:00
-#SBATCH --output=/arf/home/delbek/SUPerman/res/wr-%j.out
-#SBATCH --error=/arf/home/delbek/SUPerman/res/wr-%j.err
+#SBATCH --time=0-8:00:00
+#SBATCH --output=/arf/home/delbek/SUPerman/res/SUPERMAN-%j.out
+#SBATCH --error=/arf/home/delbek/SUPerman/res/SUPERMAN-%j.err
 #SBATCH --export=NONE
 
 module purge
@@ -36,32 +36,32 @@ if [ $? -ne 0 ]; then
 fi
 
 repo_directory=/arf/home/delbek/SUPerman/
-matrix_directory=/arf/home/delbek/SUPerman/medium/
+matrix_directory=/arf/home/delbek/SUPerman/experiments/
 build_directory=/arf/home/delbek/SUPerman/build/
 output_directory=${repo_directory}tests/
 
 mkdir -p ${output_directory}
 
 filenames=(
-"dwt_193.mtx"
-#"grid1_dual.mtx"
-#"gent113.mtx"
-#"mycielskian9.mtx"
-#"sphere3.mtx"
-#"will199.mtx"
-#"bcspwr02.mtx"
-#"chesapeake.mtx"
-#"curtis54.mtx"
-#"dwt_59.mtx"
-#"mycielskian6.mtx"
-#"will57.mtx"
+"bcspwr02.mtx"
+"impcol_b.mtx"
+"dwt_59.mtx"
+"will57.mtx"
+"bfwb62.mtx"
+"dolphins.mtx"
+"lesmis.mtx"
+"ww_36_pmec_36.mtx"
+"curtis54.mtx"
+"steam3.mtx"
+"GlossGT.mtx"
+"CAG_mat72.mtx"
 )
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based.
 # Otherwise, it assumes them to be 0-based.
 # NO DEFAULT, absence of it is undefined!
 
-algorithms=("approximation")
+algorithms=("xregister_mshared")
 # The algorithm used to compute the permanent of your matrix.
 # "auto" lets the library select the fastest algorithm available.
 # DEFAULT: "auto"
@@ -100,11 +100,11 @@ is_complex=("false")
 # If true, the library assumes the matrix to contain complex entries of the form (a + bi).
 # DEFAULT: "false"
 
-is_binary=("true")
+is_binary=("true" "false" "true" "true" "false" "true" "false" "false" "true" "false" "true" "false")
 # If true, the library assumes that the matrix edges are unweighted.
 # DEFAULT: "false"
 
-is_undirected=("true")
+is_undirected=("true" "false" "true" "false" "true" "true" "true" "false" "false" "false" "false" "false")
 # If true, the library assumes that the matrix is undirected, meaning for every edge u -> v,
 #                                                              there is also an edge v -> u.
 # DEFAULT: "false"
@@ -140,49 +140,81 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+set -euo pipefail
+get_at()
+{
+  local -n _arr="$1"
+  local _idx="$2"
+  local _n="${#_arr[@]}"
+
+  if (( _n == 0 )); then
+    printf '%s' ""
+  elif (( _idx >= _n )); then
+    printf '%s' "${_arr[$((_n-1))]}"
+  else
+    printf '%s' "${_arr[$_idx]}"
+  fi
+}
+
 for i in "${!filenames[@]}"; do
-  output_file="${output_directory}${filenames[$i]}_out.txt"
-  if [ "${matrix_specific_compilation[$i]}" = "true" ]; then
+  fname="$(get_at filenames "$i")"
+  output_file="${output_directory}${fname}_out.txt"
+
+  proc_num="$(get_at processor_num "$i")"
+  msc="$(get_at matrix_specific_compilation "$i")"
+  mss="$(get_at matrix_specific_size "$i")"
+  alg="$(get_at algorithms "$i")"
+  mode="$(get_at modes "$i")"
+  threads="$(get_at thread_counts "$i")"
+  dev_id="$(get_at device_ids "$i")"
+  gpu_num="$(get_at gpu_nums "$i")"
+  complex="$(get_at is_complex "$i")"
+  binary="$(get_at is_binary "$i")"
+  undirected="$(get_at is_undirected "$i")"
+  calc_prec="$(get_at calculation_precision "$i")"
+  print_prec="$(get_at printing_precision "$i")"
+
+  if [[ "$msc" == "true" ]]; then
     "${repo_directory}wrapper" \
-      "${processor_num[$i]}" \
-      "${build_directory}" \
-      "${matrix_specific_compilation[$i]}" \
-      "${matrix_specific_size[$i]}" \
+      "$proc_num" \
+      "$build_directory" \
+      "$msc" \
+      "$mss" \
       repo_dir="${repo_directory}" \
-      filename="${matrix_directory}${filenames[$i]}" \
-      algorithm="${algorithms[$i]}" \
-      mode="${modes[$i]}" \
-      thread_count="${thread_counts[$i]}" \
-      device_id="${device_ids[$i]}" \
-      gpu_num="${gpu_nums[$i]}" \
-      complex="${is_complex[$i]}" \
-      binary="${is_binary[$i]}" \
-      undirected="${is_undirected[$i]}" \
-      calculation_precision="${calculation_precision[$i]}" \
-      printing_precision="${printing_precision[$i]}" >> "${output_file}" 2>&1
-    if [ $? -ne 0 ]; then
-      echo "Execution of wrapper failed for matrix-specific compilation on file ${filenames[$i]}" >&2
+      filename="${matrix_directory}${fname}" \
+      algorithm="$alg" \
+      mode="$mode" \
+      thread_count="$threads" \
+      device_id="$dev_id" \
+      gpu_num="$gpu_num" \
+      complex="$complex" \
+      binary="$binary" \
+      undirected="$undirected" \
+      calculation_precision="$calc_prec" \
+      printing_precision="$print_prec" >> "${output_file}" 2>&1
+    if [[ $? -ne 0 ]]; then
+      echo "Execution of wrapper failed for matrix-specific compilation on file ${fname}" >&2
       exit 1
     fi
   else
     "${repo_directory}wrapper" \
-      "${processor_num[$i]}" \
-      "${build_directory}" \
-      "${matrix_specific_compilation[$i]}" \
+      "$proc_num" \
+      "$build_directory" \
+      "$msc" \
       repo_dir="${repo_directory}" \
-      filename="${matrix_directory}${filenames[$i]}" \
-      algorithm="${algorithms[$i]}" \
-      mode="${modes[$i]}" \
-      thread_count="${thread_counts[$i]}" \
-      device_id="${device_ids[$i]}" \
-      gpu_num="${gpu_nums[$i]}" \
-      complex="${is_complex[$i]}" \
-      binary="${is_binary[$i]}" \
-      undirected="${is_undirected[$i]}" \
-      calculation_precision="${calculation_precision[$i]}" \
-      printing_precision="${printing_precision[$i]}" >> "${output_file}" 2>&1
-    if [ $? -ne 0 ]; then
-      echo "Execution of wrapper failed on file ${filenames[$i]}" >&2
+      filename="${matrix_directory}${fname}" \
+      algorithm="$alg" \
+      mode="$mode" \
+      thread_count="$threads" \
+      device_id="$dev_id" \
+      gpu_num="$gpu_num" \
+      complex="$complex" \
+      binary="$binary" \
+      undirected="$undirected" \
+      calculation_precision="$calc_prec" \
+      printing_precision="$print_prec" >> "${output_file}" 2>&1
+    if [[ $? -ne 0 ]]; then
+      echo "Execution of wrapper failed on file ${fname}" >&2
       exit 1
     fi
   fi

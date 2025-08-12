@@ -51,7 +51,7 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
     }
-    this->productSum = product;
+    double productSum = product;
 
     for (int i = 0; i < nov; ++i)
     {
@@ -92,20 +92,20 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
         static bool printed = false;
         if (!printed)
         {
-            printf("Permanent is being computed on device id: %d, %s\n", this->m_Settings.deviceID, prop.name);
-            printf("Matrix Size: %d bytes\n", (nov * nov) * sizeof(S));
-            printf("X Vector Size: %d bytes\n", nov * sizeof(C));
-            printf("Number of streaming multiprocessors: %d\n", noSM);
-            printf("Shared memory used per block: %d bytes\n", sharedMemoryPerBlock);
-            printf("Shared memory used per SM: %d bytes\n", sharedMemoryPerBlock * maxBlocks);
-            printf("%f%% of the entire shared memory dedicated per block is used\n", (double(sharedMemoryPerBlock) / double(maxSharedMemoryPerBlock)) * 100);
-            printf("%f%% of the entire shared memory dedicated per SM is used\n", ((double(sharedMemoryPerBlock) * maxBlocks) / double(maxSharedMemoryPerSM)) * 100);
-            printf("Maximum number of registers that could be used per SM: %d\n", maxRegsPerSM);
-            printf("Grid Dimension: %d\n", gridDim);
-            printf("Block Dimension: %d\n", blockDim);
-            printf("Total number of threads: %d\n", totalThreadCount);
-            printf("Maximum number of blocks running concurrently on each SM: %d\n", maxBlocks);
-            printf("Maximum number of blocks running concurrently throughout the GPU: %d\n", maxBlocks * noSM);
+            std::cout << "Permanent is being computed on device id: " << this->m_Settings.deviceID << ", " << prop.name << std::endl;
+            std::cout << "Matrix Size: " << (nov * nov) * sizeof(S) << " bytes" << std::endl;
+            std::cout << "X Vector Size: " << nov * sizeof(C) << " bytes" << std::endl;
+            std::cout << "Number of streaming multiprocessors: " << noSM << std::endl;
+            std::cout << "Shared memory used per block: " << sharedMemoryPerBlock << " bytes" << std::endl;
+            std::cout << "Shared memory used per SM: " << sharedMemoryPerBlock * maxBlocks << " bytes" << std::endl;
+            std::cout << (double(sharedMemoryPerBlock) / maxSharedMemoryPerBlock) * 100 << "% of the entire shared memory dedicated per block is used" << std::endl;
+            std::cout << ((double(sharedMemoryPerBlock) * maxBlocks) / maxSharedMemoryPerSM) * 100 << "% of the entire shared memory dedicated per SM is used" << std::endl;
+            std::cout << "Maximum number of registers that could be used per SM: " << maxRegsPerSM << std::endl;
+            std::cout << "Grid Dimension: " << gridDim << std::endl;
+            std::cout << "Block Dimension: " << blockDim << std::endl;
+            std::cout << "Total number of threads: " << totalThreadCount << std::endl;
+            std::cout << "Maximum number of blocks running concurrently on each SM: " << maxBlocks << std::endl;
+            std::cout << "Maximum number of blocks running concurrently throughout the GPU: " << maxBlocks * noSM << std::endl;
             printed = true;
         }
     }
@@ -174,7 +174,7 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
     for (int i = 0; i < totalThreadCount; ++i)
     {
-        this->productSum += h_products[i];
+        productSum += h_products[i];
     }
 
     gpuErrchk( cudaFree(d_x) )
@@ -184,7 +184,7 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
     delete[] h_products;
     delete[] matTransposed;
 
-    return 0;
+    return ((4 * (nov % 2) - 2) * productSum);
 }
 
 

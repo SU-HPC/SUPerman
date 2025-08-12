@@ -50,7 +50,7 @@ double spNaivePerman<C, S>::permanentFunction()
         x[i] = mat[(i * nov) + (nov - 1)] - (rowSum / 2);
         product *= x[i];
     }
-    this->productSum = product;
+    double productSum = product;
 
     long long start = 1;
     long long end = (1LL << (nov - 1));
@@ -59,7 +59,7 @@ double spNaivePerman<C, S>::permanentFunction()
     static bool printed = false;
     if (!printed)
     {
-        printf("Permanent is being computed on the CPU\n");
+        std::cout << "Permanent is being computed on the CPU" << std::endl;
         printed = true;
     }
 #endif
@@ -146,10 +146,10 @@ double spNaivePerman<C, S>::permanentFunction()
         }
 
         #pragma omp atomic
-            this->productSum += myResult;
+            productSum += myResult;
     }
 
-    return 0;
+    return ((4 * (nov % 2) - 2) * productSum);
 }
 
 

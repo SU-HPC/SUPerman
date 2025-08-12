@@ -224,7 +224,6 @@ namespace ApproximateSparseDefinitions
                     rv[i * noThreads + tid] = 0;
                     cv[column * noThreads + tid] = 0;
 
-                    #ifdef DECOMPOSITION
                     bool zero = ApproximateSparseDefinitions::d1Reduce(
                                                                             nov, 
                                                                             rowPtrs, cols, 
@@ -246,7 +245,6 @@ namespace ApproximateSparseDefinitions
                         permanent = 0;
                         break;
                     }
-                    #endif
                 }
                 approx += permanent;
             }

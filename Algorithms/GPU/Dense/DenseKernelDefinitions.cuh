@@ -530,6 +530,49 @@ namespace DenseDefinitions
 
         p[globalThreadID] += myResult;
     }
+
+    template <class C, class S>
+    __global__ void ryserMGlobal(S* mat,
+                            C* x,
+                            C* p,
+                            int nov,
+                            long long start,
+                            long long end,
+                            long long chunkSize)
+    {
+        unsigned threadID = (blockIdx.x * blockDim.x) + threadIdx.x;
+        unsigned totalThreadCount = gridDim.x * blockDim.x;
+
+        C myResult = 0;
+
+        if (chunkSize == -1)
+        {
+            chunkSize = (end - start) / totalThreadCount + 1;
+        }
+        long long myStart = start + (threadID * chunkSize);
+        long long myEnd = min(start + ((threadID + 1) * chunkSize), end);
+
+        for (long long mask = myStart; mask < myEnd; ++mask)
+        {
+            C prod = 1;
+            for (int i = 0; i < nov; ++i)
+            {
+                C sum = 0;
+                for (int j = 0; j < nov; ++j) 
+                {
+                    if (mask & (1LL << j)) 
+                    {
+                        sum += mat[i * nov + j];
+                    }
+                }
+                prod *= sum;
+            }
+    
+            myResult += (1 - ((__popcll(mask) & 1) << 1)) * prod;
+        }
+        
+        p[threadID] += myResult;
+    }
 }
 
 

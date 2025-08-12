@@ -7,6 +7,9 @@
 
 #include <string>
 
+extern double avgN;
+extern double avgNNZ;
+extern unsigned count;
 
 enum Algorithm
 {
@@ -19,6 +22,7 @@ enum Algorithm
     NAIVECODEGENERATION,
     REGEFFICIENTCODEGENERATION,
     APPROXIMATION,
+    RYSER,
     AlgorithmEnds
 };
 

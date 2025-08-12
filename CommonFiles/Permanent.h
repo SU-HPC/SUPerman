@@ -32,19 +32,17 @@ public:
         delete m_Matrix;
     }
 
-    Result computePermanent();
+    double computePermanent();
     virtual double permanentFunction() = 0;
 
 public:
     Matrix<S>* m_Matrix;
     Settings m_Settings;
-    
-    double productSum;
 };
 
 
 template <class C, class S>
-Result Permanent<C, S>::computePermanent()
+double Permanent<C, S>::computePermanent()
 {
     // cases for sparse
     if (m_Settings.algorithm == NAIVECODEGENERATION)
@@ -68,13 +66,7 @@ Result Permanent<C, S>::computePermanent()
         m_Matrix = sparseMatrix;
     }
 
-    double start = omp_get_wtime();
-    double permanent = this->permanentFunction();
-    double end = omp_get_wtime();
-
-    Result result(end - start, permanent);
-
-    return result;
+    return this->permanentFunction();
 }
 
 

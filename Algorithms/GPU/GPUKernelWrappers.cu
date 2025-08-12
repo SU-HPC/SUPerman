@@ -27,6 +27,7 @@
 #include "DenseKernelDefinitions.cuh"
 #include "dpSingleGPU.cuh"
 #include "dpMultiGPU.cuh"
+#include "dpRyser.cuh"
 
 // Kernel Generation
 #include "generatedKernels.cuh"
@@ -236,6 +237,12 @@ extern Result gpuDPSingleGPU(Matrix<S>* matrix, Settings* settings)
     else if (selectedAlgorithm == Algorithm::XSHAREDMSHARED)
     {
         auto permanent = new DecomposePerman<C, S, dpSingleGPU<C, S, &DenseDefinitions::xSharedMShared, dpXSharedMShared<C, S> > >(matrix, *settings);
+        result = permanent->computePermanentRecursively();
+        delete permanent;
+    }
+    else if (selectedAlgorithm == Algorithm::RYSER)
+    {
+        auto permanent = new DecomposePerman<C, S, dpRyser<C, S, &DenseDefinitions::ryserMGlobal, dpNoShared<C, S> > >(matrix, *settings);
         result = permanent->computePermanentRecursively();
         delete permanent;
     }
