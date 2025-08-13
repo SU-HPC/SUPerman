@@ -154,15 +154,15 @@ double KernelGenMultiGPUMPI<C, S, Algo, Shared>::permanentFunction()
             static std::vector<bool> printed(gpuNum, false);
             if (!printed[gpuNo])
             {
-                std::cout << prop.name << " (" << gpuNo << "): Number of streaming multiprocessors: " << noSM << std::endl;
-                std::cout << prop.name << " (" << gpuNo << "): Total number of registers available across the GPU: " << totalRegs << std::endl;
-                std::cout << prop.name << " (" << gpuNo << "): Total number of registers used across the GPU: " << std::min(regsUsed, totalRegs) << std::endl;
-                std::cout << prop.name << " (" << gpuNo << "): " << std::min((double(regsUsed) / double(totalRegs)) * 100, double(100)) << "% of the entire register file is in use" << std::endl;
-                std::cout << prop.name << " (" << gpuNo << "): Grid Dimension: " << gridDim << std::endl;
-                std::cout << prop.name << " (" << gpuNo << "): Block Dimension: " << blockDim << std::endl;
-                std::cout << prop.name << " (" << gpuNo << "): Total number of threads: " << totalThreadCount << std::endl;
-                std::cout << prop.name << " (" << gpuNo << "): Maximum number of blocks running concurrently on each SM: " << maxBlocks << std::endl;
-                std::cout << prop.name << " (" << gpuNo << "): Maximum number of blocks running concurrently throughout the GPU: " << (maxBlocks * noSM) << std::endl;
+                std::cout << "RANK: " << rank << ", " << prop.name << " (" << gpuNo << "): Number of streaming multiprocessors: " << noSM << std::endl;
+                std::cout << "RANK: " << rank << ", " << prop.name << " (" << gpuNo << "): Total number of registers available across the GPU: " << totalRegs << std::endl;
+                std::cout << "RANK: " << rank << ", " << prop.name << " (" << gpuNo << "): Total number of registers used across the GPU: " << std::min(regsUsed, totalRegs) << std::endl;
+                std::cout << "RANK: " << rank << ", " << prop.name << " (" << gpuNo << "): " << std::min((double(regsUsed) / double(totalRegs)) * 100, double(100)) << "% of the entire register file is in use" << std::endl;
+                std::cout << "RANK: " << rank << ", " << prop.name << " (" << gpuNo << "): Grid Dimension: " << gridDim << std::endl;
+                std::cout << "RANK: " << rank << ", " << prop.name << " (" << gpuNo << "): Block Dimension: " << blockDim << std::endl;
+                std::cout << "RANK: " << rank << ", " << prop.name << " (" << gpuNo << "): Total number of threads: " << totalThreadCount << std::endl;
+                std::cout << "RANK: " << rank << ", " << prop.name << " (" << gpuNo << "): Maximum number of blocks running concurrently on each SM: " << maxBlocks << std::endl;
+                std::cout << "RANK: " << rank << ", " << prop.name << " (" << gpuNo << "): Maximum number of blocks running concurrently throughout the GPU: " << (maxBlocks * noSM) << std::endl;
                 printed[gpuNo] = true;
             }
         }

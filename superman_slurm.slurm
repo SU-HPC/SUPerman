@@ -2,11 +2,11 @@
 #SBATCH -J SUPERMAN
 #SBATCH --account=proj13
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
+#SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=16
 #SBATCH --partition=kolyoz-cuda
-#SBATCH --gres=gpu:1
-#SBATCH --time=0-8:00:00
+#SBATCH --gres=gpu:4
+#SBATCH --time=0-1:00:00
 #SBATCH --output=/arf/home/delbek/SUPerman/res/SUPERMAN-%j.out
 #SBATCH --error=/arf/home/delbek/SUPerman/res/SUPERMAN-%j.err
 #SBATCH --export=NONE
@@ -35,44 +35,39 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+module load lib/openmpi/4.1.6
+if [ $? -ne 0 ]; then
+  echo "Failed to load lib/openmpi/4.1.6"
+  exit 1
+fi
+
 repo_directory=/arf/home/delbek/SUPerman/
-matrix_directory=/arf/home/delbek/SUPerman/experiments/
+matrix_directory=/arf/home/delbek/SUPerman/ExampleMatrices/
 build_directory=/arf/home/delbek/SUPerman/build/
 output_directory=${repo_directory}tests/
 
 mkdir -p ${output_directory}
 
 filenames=(
-"bcspwr02.mtx"
-"impcol_b.mtx"
-"dwt_59.mtx"
-"will57.mtx"
-"bfwb62.mtx"
-"dolphins.mtx"
-"lesmis.mtx"
-"ww_36_pmec_36.mtx"
-"curtis54.mtx"
-"steam3.mtx"
-"GlossGT.mtx"
-"CAG_mat72.mtx"
+"dense.mtx"
 )
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based.
 # Otherwise, it assumes them to be 0-based.
 # NO DEFAULT, absence of it is undefined!
 
-algorithms=("xregister_mshared")
+algorithms=("register_efficient_code_generation")
 # The algorithm used to compute the permanent of your matrix.
 # "auto" lets the library select the fastest algorithm available.
 # DEFAULT: "auto"
 
-modes=("single_gpu")
+modes=("multi_gpu_mpi")
 # The mode in which the matrix permanent is computed.
 # Available modes are:
 # - cpu: Uses only the CPU (very slow; avoid if your matrix size exceeds 40x40).
-# - single_gpu: Utilizes a single GPU (specified by device_id) during computation.
-# - multi_gpu: Uses multiple GPUs (number specified by gpu_num) for computation.
-# - multi_gpu_mpi: Uses multiple nodes, each with possibly multiple GPUs.
+# - single_gpu: Utilizes a single GPU (specified by device_id) during the computation.
+# - multi_gpu: Uses multiple GPUs (number specified by gpu_num) per-task for the computation.
+# - multi_gpu_mpi: Uses multiple tasks (perhaps coming from multiple nodes), each with possibly multiple GPUs.
 # DEFAULT: "cpu"
 
 thread_counts=(88)
@@ -86,12 +81,12 @@ device_ids=(0)
 # DEFAULT: 0
 
 gpu_nums=(1)
-# The number of GPUs used for computation.
+# The number of GPUs used for the computation per-task.
 # Only relevant if the mode is "multi_gpu" or "multi_gpu_mpi".
 # DEFAULT: 1
 
-processor_num=(1)
-# The number of MPI nodes to use for the computation.
+processor_num=(4)
+# The number of MPI tasks (perhaps coming from multiple nodes) to use for the computation.
 # Only relevant if the mode is "multi_gpu_mpi".
 # NO DEFAULT, absence of it is undefined!
 # UNDEFINED EXECUTION PATTERN IF: processor_num > 1 and mode != multi_gpu_mpi
@@ -100,11 +95,11 @@ is_complex=("false")
 # If true, the library assumes the matrix to contain complex entries of the form (a + bi).
 # DEFAULT: "false"
 
-is_binary=("true" "false" "true" "true" "false" "true" "false" "false" "true" "false" "true" "false")
+is_binary=("false")
 # If true, the library assumes that the matrix edges are unweighted.
 # DEFAULT: "false"
 
-is_undirected=("true" "false" "true" "false" "true" "true" "true" "false" "false" "false" "false" "false")
+is_undirected=("false")
 # If true, the library assumes that the matrix is undirected, meaning for every edge u -> v,
 #                                                              there is also an edge v -> u.
 # DEFAULT: "false"

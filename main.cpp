@@ -46,7 +46,7 @@ int main(int argv, char* argc[])
         findCCs<S>(matrix, rowComponents, colComponents, biggestComponentSize);
         AlgorithmSelector<C, S>::Algorithm algorithm = AlgorithmSelector<C, S>::selectAlgorithm(matrix, &settings, biggestComponentSize);
 
-        bool connectedComponentBased = (settings.algorithm != REGEFFICIENTCODEGENERATION && settings.algorithm != NAIVECODEGENERATION);
+        bool connectedComponentBased = false; //(settings.algorithm != REGEFFICIENTCODEGENERATION && settings.algorithm != NAIVECODEGENERATION);
         Result result;
         if (connectedComponentBased)
         {

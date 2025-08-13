@@ -105,20 +105,9 @@ void generateKernels(int& k, S* mat, C* x, int nov, Settings& settings)
             }
         }
 
-        std::cout << "************KERNELS ARE BEING GENERATED************" << std::endl;
-        std::string kernelFile = settings.REPO_DIR + "Algorithms/GPU/CodeGeneration/generatedKernels.cuh";
-        std::ofstream kernelWriter;
-        try 
-        {
-            kernelWriter.exceptions(std::ios::badbit | std::ios::failbit);
-            kernelWriter.open(kernelFile);
-        } 
-        catch(std::exception &e) 
-        {
-            throw std::runtime_error("File to generate codes into cannot be opened.\n  what(): "
-                    + std::string(e.what()) + "\n  errno : "
-                    + strerror(errno) + "!\n");
-        }
+        std::stringstream stream;
+        stream << "************KERNELS ARE BEING GENERATED************" << std::endl;
+        print(stream, settings.rank, settings.PID, 1);
         KernelGenerator<C, S> kernelGenerator(matTransposed, nov, x, settings);
         std::string kernel;
         if (settings.algorithm == NAIVECODEGENERATION)
@@ -130,8 +119,25 @@ void generateKernels(int& k, S* mat, C* x, int nov, Settings& settings)
         {
             kernel = kernelGenerator.generateUTOrderedKernelCode(k);
         }
-        kernelWriter << kernel << std::flush;
-        kernelWriter.close();
+
+        if (settings.rank == 0)
+        {
+            std::string kernelFile = settings.REPO_DIR + "Algorithms/GPU/CodeGeneration/generatedKernels.cuh";
+            std::ofstream kernelWriter;
+            try 
+            {
+                kernelWriter.exceptions(std::ios::badbit | std::ios::failbit);
+                kernelWriter.open(kernelFile);
+            } 
+            catch(std::exception &e) 
+            {
+                throw std::runtime_error("File to generate codes into cannot be opened.\n  what(): "
+                        + std::string(e.what()) + "\n  errno : "
+                        + strerror(errno) + "!\n");
+            }
+            kernelWriter << kernel << std::flush;
+            kernelWriter.close();
+        }
 
         delete[] matTransposed;
         writePipe(k, settings.rank);

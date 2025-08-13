@@ -38,9 +38,8 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
             stream << "SELECTED ALGORITHM IS: APPROXIMATION" << std::endl;
             print(stream, settings->rank, settings->PID, 1);
         }
-        else if ((matrix->nov * matrix->sparsity / 100 <= 4) || matrix->nov <= 40 || (biggestComponentSize <= (matrix->nov - 3)))
+        else if ((matrix->nov * matrix->sparsity / 100 <= 5) || (matrix->nov <= 40) || (biggestComponentSize <= (matrix->nov - 3)))
         {
-            std::cout << "Biggest component size: " << biggestComponentSize << std::endl;
             settings->algorithm = XREGISTERMSHARED;
             stream << "SELECTED ALGORITHM IS: xregister_mshared" << std::endl;
             print(stream, settings->rank, settings->PID, 1);
