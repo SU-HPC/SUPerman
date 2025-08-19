@@ -96,5 +96,3 @@ Below is a compact summary of the settings in the `run_superman.sh` script:
 - **Printing Precision (`printing_precision`):**
     - **Description:** Precision in which to print the computed permanent.
     - **Default:** `30`
-
----

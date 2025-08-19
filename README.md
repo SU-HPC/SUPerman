@@ -48,5 +48,3 @@ chmod +x run_superman.sh
 ### WARNING
 
 Each source directory (i.e, a SUPerman clone) must be devoted to one SUPerman execution at a time.
-
----

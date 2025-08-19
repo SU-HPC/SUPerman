@@ -63,5 +63,3 @@
 │   │   └── X-Register M-Shared (xregister_mshared) (Matrix-Specific Compilation is supported)
 -----------------------------------------------------------------------------------------------------------
 ```
-
----

@@ -18,5 +18,3 @@ As was the case in the `run_superman.sh`, the batch script should be submitted t
 ```bash
 sbatch superman_slurm.slurm
 ```
-
----
