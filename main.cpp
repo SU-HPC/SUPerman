@@ -46,7 +46,7 @@ int main(int argv, char* argc[])
         findCCs<S>(matrix, rowComponents, colComponents, biggestComponentSize);
         AlgorithmSelector<C, S>::Algorithm algorithm = AlgorithmSelector<C, S>::selectAlgorithm(matrix, &settings, biggestComponentSize);
 
-        bool connectedComponentBased = false; //(settings.algorithm != REGEFFICIENTCODEGENERATION && settings.algorithm != NAIVECODEGENERATION);
+        bool connectedComponentBased = (settings.algorithm != REGEFFICIENTCODEGENERATION && settings.algorithm != NAIVECODEGENERATION);
         Result result;
         if (connectedComponentBased)
         {
@@ -104,7 +104,7 @@ int main(int argv, char* argc[])
         stream << "MATRIX NAME: " << settings.filename << std::endl;
         print(stream, rank, settings.PID, 1);
         Matrix<std::complex<S>>* matrix = IO::readComplex<S>(settings.filename, settings);
-        recompilationStatus(0, settings.rank);
+        recompilationStatus(settings.pipe, 0, settings.rank);
         complexPerman<C, S>(matrix, &settings);
         delete matrix;
     }

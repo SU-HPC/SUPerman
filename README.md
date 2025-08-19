@@ -6,6 +6,8 @@ If you use this library in your research, please cite:
 <br/><br/>
 D. Elbek, F. Taşyaran, B. Uçar, and K. Kaya. SUperman: Efficient Permanent Computation on GPUs (2025). arXiv:2502.16577. URL https://www.arxiv.org/abs/2502.16577
 
+---
+
 ### Hard Requirements
 
 | **Requirement** | **Minimum Version** |
@@ -22,6 +24,7 @@ D. Elbek, F. Taşyaran, B. Uçar, and K. Kaya. SUperman: Efficient Permanent Com
 | CUDA            | `12.3`           |
 | OpenMPI         | `4.1.4`          |
 
+---
 
 ## Step-by-Step Guide
 
@@ -39,3 +42,11 @@ chmod +x run_superman.sh
 ```bash
 ./run_superman.sh
 ```
+
+---
+
+### WARNING
+
+Each source directory (i.e, a SUPerman clone) must be devoted to one SUPerman execution at a time.
+
+---

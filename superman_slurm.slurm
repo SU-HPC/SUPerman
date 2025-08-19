@@ -2,10 +2,10 @@
 #SBATCH -J SUPERMAN
 #SBATCH --account=proj13
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=4
+#SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=16
 #SBATCH --partition=kolyoz-cuda
-#SBATCH --gres=gpu:4
+#SBATCH --gres=gpu:1
 #SBATCH --time=0-1:00:00
 #SBATCH --output=/arf/home/delbek/SUPerman/res/SUPERMAN-%j.out
 #SBATCH --error=/arf/home/delbek/SUPerman/res/SUPERMAN-%j.err
@@ -42,8 +42,8 @@ if [ $? -ne 0 ]; then
 fi
 
 repo_directory=/arf/home/delbek/SUPerman/
+build_directory=${repo_directory}build/ # never modify this
 matrix_directory=/arf/home/delbek/SUPerman/ExampleMatrices/
-build_directory=/arf/home/delbek/SUPerman/build/
 output_directory=${repo_directory}tests/
 
 mkdir -p ${output_directory}
@@ -56,12 +56,12 @@ filenames=(
 # Otherwise, it assumes them to be 0-based.
 # NO DEFAULT, absence of it is undefined!
 
-algorithms=("register_efficient_code_generation")
+algorithms=("auto")
 # The algorithm used to compute the permanent of your matrix.
 # "auto" lets the library select the fastest algorithm available.
 # DEFAULT: "auto"
 
-modes=("multi_gpu_mpi")
+modes=("single_gpu")
 # The mode in which the matrix permanent is computed.
 # Available modes are:
 # - cpu: Uses only the CPU (very slow; avoid if your matrix size exceeds 40x40).
@@ -85,7 +85,7 @@ gpu_nums=(1)
 # Only relevant if the mode is "multi_gpu" or "multi_gpu_mpi".
 # DEFAULT: 1
 
-processor_num=(4)
+processor_num=(1)
 # The number of MPI tasks (perhaps coming from multiple nodes) to use for the computation.
 # Only relevant if the mode is "multi_gpu_mpi".
 # NO DEFAULT, absence of it is undefined!
@@ -108,7 +108,7 @@ matrix_specific_compilation=("false")
 # Although not recommended to be set as "true" (unless the matrix has complex entries, in which case we highly recommend it), if so,
 # the library compiles itself with specific matrix size (to be determined in the following argument) for improved efficiency,
 # details of which is accessible in our paper.
-# DEFAULT: "false"
+# NO DEFAULT, absence of it is undefined!
 matrix_specific_size=("40")
 # NO DEFAULT, must be indicated if matrix_specific_compilation is true.
 

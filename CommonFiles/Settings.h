@@ -22,7 +22,6 @@ enum Algorithm
     NAIVECODEGENERATION,
     REGEFFICIENTCODEGENERATION,
     APPROXIMATION,
-    RYSER,
     AlgorithmEnds
 };
 
@@ -48,6 +47,7 @@ struct Settings
     std::string filename;
     int PID;
     std::string REPO_DIR;
+    std::string pipe;
     Algorithm algorithm;
     Mode mode;
 

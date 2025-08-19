@@ -88,7 +88,6 @@ set(GPU_HEADER_FILES
 	Algorithms/GPU/Dense/dpSingleGPU.cuh
 	Algorithms/GPU/Dense/dpMultiGPU.cuh
 	Algorithms/GPU/Dense/dpMultiGPUMPI.cuh
-	Algorithms/GPU/Dense/dpRyser.cuh
 	Algorithms/GPU/Registers.cuh
 	Algorithms/GPU/PrecisionHelpers.cuh
 	Algorithms/GPU/CodeGeneration/KernelGenSingleGPU.cuh

@@ -140,14 +140,14 @@ void generateKernels(int& k, S* mat, C* x, int nov, Settings& settings)
         }
 
         delete[] matTransposed;
-        writePipe(k, settings.rank);
+        writePipe(settings.pipe, k, settings.rank);
 
         #ifdef MPI_AVAILABLE
             finalizeMPI();
         #endif
         exit(0);
     }
-    k = readPipe(settings.rank);
+    k = readPipe(settings.pipe, settings.rank);
 }
 
 

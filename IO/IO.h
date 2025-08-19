@@ -187,6 +187,7 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
         else if (arg == "repo_dir")
         {
             settings.REPO_DIR = value;
+            settings.pipe = value + "build/wrapper_pipe";
             repoDirFound = true;
         }
         else if (arg == "filename")
@@ -236,16 +237,11 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
             {
                 settings.algorithm = APPROXIMATION;
             }
-            /*
-            else if (value == "ryser")
-            {
-                settings.algorithm = RYSER;
-            }
-            */
             else
             {
                 stream << "UNKNOWN ALGORITHM: " << value << " - selecting automatically instead." << std::endl;
                 print(stream, settings.rank, settings.PID, 1);
+                settings.algorithm = AlgorithmEnds;
             }
         }
         else if (arg == "mode")
@@ -253,6 +249,7 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
             if (value == "cpu")
             {
                 settings.mode = CPU;
+                settings.algorithm = AlgorithmEnds;
             }
             else if (value == "single_gpu")
             {
@@ -271,6 +268,7 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
                 stream << "UNKNOWN MODE: " << value << " - selecting CPU by default instead." << std::endl;
                 print(stream, settings.rank, settings.PID, 1);
                 settings.mode = CPU;
+                settings.algorithm = AlgorithmEnds;
             }
         }
         else if (arg == "thread_count")

@@ -2,12 +2,7 @@
 
 `SUPerman` employs advanced compilation strategies to maximize performance. For certain algorithms, it uses code generation techniques that require the separate compilation of generated kernels and additional linking during runtime.
 
-To make the library accessible to users from all backgrounds, we provide the `run_superman.sh` script, which automates all the necessary intermediate steps for a successful execution. This script:
-
-- Internally calls a C++ program (`wrapper.cpp`) that handles recompilation phases.
-- Manages communication between successive `SUPerman` runs using Linux interprocess communication primitives (e.g., named pipes).
-- Relies on named pipes located under the `/tmp/` directory, which are critical during compilation.
-
+To make the library accessible to users from all backgrounds, we provide the `run_superman.sh` script, which automates all the necessary intermediate steps for a successful execution.
 Using the `run_superman.sh` script to compute matrix permanents is incredibly straightforward. The detailed usage is provided below.
 
 ---

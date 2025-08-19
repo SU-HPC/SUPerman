@@ -15,42 +15,82 @@
 #include <cstring>
 #include <sys/wait.h>
 
-#define PIPE_NAME "/tmp/wrapper_pipe"
-
-inline int readPipe(int rank)
+inline int readPipe(const std::string& pipe, int rank)
 {
-    std::string pipeName = std::string(PIPE_NAME) + '_' + std::to_string(rank);
-    int fd = open(pipeName.c_str(), O_RDONLY);
-    if (fd == -1)
-    {
-        throw std::runtime_error("CHILD: Failed to open pipe for reading!\n");
-    }
+    std::string path = pipe + "_p2c_" + std::to_string(rank) + ".msg";
 
-    int val;
-    if (read(fd, &val, sizeof(int)) != sizeof(int))
+    for (;;)
     {
-        throw std::runtime_error("CHILD: Failed to read integer from pipe!\n");
+        int fd = open(path.c_str(), O_RDONLY);
+        if (fd >= 0)
+        {
+            int val = 0;
+            ssize_t got = 0;
+            char* p = reinterpret_cast<char*>(&val);
+            size_t n = sizeof(int);
+            while (n > 0)
+            {
+                ssize_t k = read(fd, p + got, n);
+                if (k <= 0) {close(fd); unlink(path.c_str()); throw std::runtime_error("CHILD: read() failed!\n");}
+                got += k; n -= size_t(k);
+            }
+            close(fd);
+            unlink(path.c_str());
+            return val;
+        }
+        if (errno != ENOENT)
+        {
+            throw std::runtime_error("CHILD: open(mailbox) failed!\n");
+        }
+        usleep(2000);
     }
-
-    close(fd);
-    return val;
 }
 
-inline void writePipe(int value, int rank)
+inline void writePipe(const std::string& pipe, int value, int rank)
 {
-    std::string pipeName = std::string(PIPE_NAME) + '_' + std::to_string(rank);
-    int fd = open(pipeName.c_str(), O_WRONLY);
+    std::string dst = pipe + "_c2p_" + std::to_string(rank) + ".msg";
+    std::string tmp = dst + ".tmp." + std::to_string(getpid());
+
+    while (access(dst.c_str(), F_OK) == 0)
+    {
+        usleep(2000);
+    }
+
+    int fd = open(tmp.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0666);
     if (fd == -1)
     {
-        throw std::runtime_error("CHILD: Failed to open pipe for writing!\n");
+        throw std::runtime_error("CHILD: open(tmp) failed for writing!\n");
     }
 
-    if (write(fd, &value, sizeof(int)) != sizeof(int))
+    const char* p = reinterpret_cast<const char*>(&value);
+    size_t n = sizeof(int);
+    while (n > 0)
     {
-        throw std::runtime_error("CHILD: Failed to write integer to pipe!\n");
+        ssize_t k = write(fd, p, n);
+        if (k <= 0)
+        {
+            int err = errno; close(fd); unlink(tmp.c_str());
+            throw std::runtime_error(std::string("CHILD: write() failed: ") + std::strerror(err) + "\n");
+        }
+        p += k; n -= size_t(k);
     }
 
+    if (fsync(fd) != 0)
+    {
+        int err = errno; close(fd); unlink(tmp.c_str());
+        throw std::runtime_error(std::string("CHILD: fsync() failed: ") + std::strerror(err) + "\n");
+    }
     close(fd);
+
+    while (access(dst.c_str(), F_OK) == 0)
+    {
+        usleep(2000);
+    }
+    if (rename(tmp.c_str(), dst.c_str()) != 0)
+    {
+        int err = errno; unlink(tmp.c_str());
+        throw std::runtime_error(std::string("CHILD: rename() failed: ") + std::strerror(err) + "\n");
+    }
 }
 
 struct ScalingCompact
@@ -141,9 +181,9 @@ inline bool isRankDeficient(Matrix<S>* matrix)
     return false;
 }
 
-inline void recompilationStatus(int value, int rank)
+inline void recompilationStatus(const std::string& pipe, int value, int rank)
 {
-    writePipe(value, rank);
+    writePipe(pipe, value, rank);
 }
 
 inline void print(const std::stringstream& str, int rank, int pid, int pidAllowed)

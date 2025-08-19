@@ -57,11 +57,11 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
     {
         if (settings->algorithm == NAIVECODEGENERATION || settings->algorithm == REGEFFICIENTCODEGENERATION)
         {
-            recompilationStatus(1, settings->rank);
+            recompilationStatus(settings->pipe, 1, settings->rank);
         }
         else
         {
-            recompilationStatus(0, settings->rank);
+            recompilationStatus(settings->pipe, 0, settings->rank);
         }
     }
 
