@@ -6,9 +6,9 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --partition=kolyoz-cuda
 #SBATCH --gres=gpu:1
-#SBATCH --time=0-1:00:00
-#SBATCH --output=/arf/home/delbek/SUPerman/res/SUPERMAN-%j.out
-#SBATCH --error=/arf/home/delbek/SUPerman/res/SUPERMAN-%j.err
+#SBATCH --time=2-23:00:00
+#SBATCH --output=res/SUPERMAN-%j.out
+#SBATCH --error=res/SUPERMAN-%j.err
 #SBATCH --export=NONE
 
 module purge
@@ -19,37 +19,39 @@ source /etc/profile.d/modules.sh
 module use /arf/sw/modulefiles
 module load comp/cmake/3.31.1
 if [ $? -ne 0 ]; then
-  echo "Failed to load comp/cmake/3.31.1"
+  echo "Failed to load comp/cmake/3.31.1" >&2
   exit 1
 fi
 
 module load comp/gcc/12.3.0
 if [ $? -ne 0 ]; then
-  echo "Failed to load comp/gcc/12.3.0"
+  echo "Failed to load comp/gcc/12.3.0" >&2
   exit 1
 fi
 
 module load lib/cuda/12.4
 if [ $? -ne 0 ]; then
-  echo "Failed to load lib/cuda/12.4"
+  echo "Failed to load lib/cuda/12.4" >&2
   exit 1
 fi
 
 module load lib/openmpi/4.1.6
 if [ $? -ne 0 ]; then
-  echo "Failed to load lib/openmpi/4.1.6"
+  echo "Failed to load lib/openmpi/4.1.6" >&2
   exit 1
 fi
 
-repo_directory=/arf/home/delbek/SUPerman/
+script="$(scontrol show job "$SLURM_JOB_ID" | awk -F= '/Command=/{print $2}')"
+script_dir="$(dirname "$script")"
+repo_directory=${script_dir}/
 build_directory=${repo_directory}build/ # never modify this
-matrix_directory=/arf/home/delbek/SUPerman/ExampleMatrices/
-output_directory=${repo_directory}tests/
+matrix_directory=${repo_directory}ExampleMatrices/
+output_directory=${repo_directory}tests/ 
 
 mkdir -p ${output_directory}
 
 filenames=(
-"dense.mtx"
+"world_record_60.mtx"
 )
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based.

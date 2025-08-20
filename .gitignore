@@ -4,4 +4,4 @@ build/
 res/
 tests/
 experiments/
-*.mtx
+/*.mtx

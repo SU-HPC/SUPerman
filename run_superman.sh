@@ -1,6 +1,7 @@
 #!/bin/bash
 
-repo_directory="/home/delbek/SUPerman/"
+script_dir="$(dirname "$(readlink -f "$0")")"
+repo_directory=${script_dir}/
 # The directory belonging to the repository.
 # NO DEFAULT, absence of it is undefined!
 
@@ -8,7 +9,7 @@ build_directory=${repo_directory}build/ # never modify this
 # The directory into which the build files will be dumped.
 # NO DEFAULT, absence of it is undefined!
 
-matrix_directory="/home/delbek/SUPerman/ExampleMatrices/"
+matrix_directory=${repo_directory}ExampleMatrices/
 # The directory under which your matrix files are located.
 # NO DEFAULT, absence of it is undefined!
 
@@ -86,13 +87,13 @@ printing_precision=(50)
 
 g++ -std=c++17 "${repo_directory}wrapper.cpp" -o "${repo_directory}wrapper"
 if [ $? -ne 0 ]; then
-  echo "Compilation of wrapper.cpp failed!" >&2
+  echo "Compilation of wrapper.cpp failed!"
   exit 1
 fi
 
 chmod +x "${repo_directory}wrapper"
 if [ $? -ne 0 ]; then
-  echo "chmod failed!" >&2
+  echo "chmod failed!"
   exit 1
 fi
 
@@ -113,9 +114,8 @@ get_at()
 }
 
 for i in "${!filenames[@]}"; do
-  fname="$(get_at filenames "$i")"
-  output_file="${output_directory}${fname}_out.txt"
 
+  fname="$(get_at filenames "$i")"
   proc_num="$(get_at processor_num "$i")"
   msc="$(get_at matrix_specific_compilation "$i")"
   mss="$(get_at matrix_specific_size "$i")"
@@ -147,9 +147,9 @@ for i in "${!filenames[@]}"; do
       binary="$binary" \
       undirected="$undirected" \
       calculation_precision="$calc_prec" \
-      printing_precision="$print_prec" >> "${output_file}" 2>&1
+      printing_precision="$print_prec"
     if [[ $? -ne 0 ]]; then
-      echo "Execution of wrapper failed for matrix-specific compilation on file ${fname}" >&2
+      echo "Execution of wrapper failed for matrix-specific compilation on file ${fname}"
       exit 1
     fi
   else
@@ -168,9 +168,9 @@ for i in "${!filenames[@]}"; do
       binary="$binary" \
       undirected="$undirected" \
       calculation_precision="$calc_prec" \
-      printing_precision="$print_prec" >> "${output_file}" 2>&1
+      printing_precision="$print_prec"
     if [[ $? -ne 0 ]]; then
-      echo "Execution of wrapper failed on file ${fname}" >&2
+      echo "Execution of wrapper failed on file ${fname}"
       exit 1
     fi
   fi
