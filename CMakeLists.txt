@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.24)
 project(SUPerman)
 
 ### MATRIX SPECIFIC COMPILATION (SHOULD NEVER BE MODIFIED)
@@ -22,7 +22,7 @@ endif()
 # CUDA
 find_package(CUDAToolkit QUIET)
 if(CUDAToolkit_FOUND)
-    set(CMAKE_CUDA_ARCHITECTURES 90)
+    set(CMAKE_CUDA_ARCHITECTURES native)
     enable_language(CUDA)
     add_definitions(-DGPU_AVAILABLE)
 endif()
@@ -155,5 +155,5 @@ endif()
 # Set compilation flags
 target_compile_options(SUPerman PRIVATE
     -O3
-    $<$<COMPILE_LANGUAGE:CUDA>:-arch=sm_90;-O3;--generate-line-info>
+	$<$<COMPILE_LANGUAGE:CUDA>:-O3;--generate-line-info>
 )

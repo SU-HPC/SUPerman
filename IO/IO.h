@@ -172,11 +172,11 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
     settings.scaling = false;
     settings.scalingIterationNo = 100;
     settings.scaleInto = 2;
-    settings.printingPrecision = 50;
+    settings.printingPrecision = 300;
     settings.threadC = omp_get_max_threads();
     settings.deviceID = 0;
     settings.gpuNum = 1;
-    settings.partition = 1;
+    settings.partition = 1; // deprecated
     settings.calculationPrecision = KAHAN;
 
     bool pidFound = false;

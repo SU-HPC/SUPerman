@@ -14,15 +14,16 @@ D. Elbek, F. Taşyaran, B. Uçar, and K. Kaya. SUperman: Efficient Permanent Com
 | --------------- |---------------------|
 | C++             | `17`                |
 | GCC             | `10.5`              |
-| CMake           | `3.18`              |
+| CMake           | `3.24`              |
 | Linux OS        | -                   |
 
 ### Soft Requirements
 
 | **Requirement** | **Minimum Version** |
 | --------------- | ------------------- |
-| CUDA            | `12.3`           |
-| OpenMPI         | `4.1.4`          |
+| CUDA            | `12.3`              |
+| GPU Compute Cap.| `70`                |
+| OpenMPI         | `4.1.4`             |
 
 ---
 
@@ -45,6 +46,7 @@ chmod +x run_superman.sh
 
 ---
 
-### WARNING
+## WARNING
 
-Each source directory (i.e, a SUPerman clone) must be devoted to one SUPerman execution at a time.
+1. Each source directory (i.e, a SUPerman clone) must be devoted to one SUPerman execution at a time.
+2. SUPerman can deterministically compute the permanent of matrices up to size 63x63, provided sufficient computational resources are available.
