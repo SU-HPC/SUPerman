@@ -67,7 +67,7 @@ calculation_precision=("kahan")
 # Precision in which to compute the permanent
 
 printing_precision=(300)
-# Precision in which to print the permanent result
+# Precision in which to print the computed permanent
 
 g++ -std=c++17 "${repo_directory}wrapper.cpp" -o "${repo_directory}wrapper"
 if [ $? -ne 0 ]; then

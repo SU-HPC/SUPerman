@@ -20,62 +20,64 @@ Upon opening this script, you will see a variety of settings that you can modify
 Below is a compact summary of the settings in the `run_superman.sh` script:
 
 - **Repository Directory (`repo_directory`):**
-    - **Description:** The directory belonging to the repository.
+    - The directory belonging to the repository.
 
 - **Build Directory (`build_directory`):**
-    - **Description:** The directory where build files will be dumped.
+    - The directory into which the build files will be dumped.
+    - **WARNING:** Please never modify this.
 
 - **Matrix Directory (`matrix_directory`):**
-    - **Description:** The directory where your matrix files are located.
-  
--**Note:** Following settings can be given as an array of parameters, with the `ith` parameter in every setting determining a configuration for the `ith` matrix for which permanent computation will be made.
+    - The directory under which your matrix files are located.
 
 - **Matrix Filenames (`filenames`):**
-    - **Description:** Matrix filename to be processed.
-    - **Note:** If the filename ends with `.mtx`, the library assumes that the nonzero coordinates are 1-based; otherwise, 0-based.
+    - The filename of your matrix.
+    - **Note:** If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based. Otherwise, it assumes them to be 0-based.
 
 - **Algorithm (`algorithms`):**
-    - **Description:** The algorithm used to compute the permanent of your matrix.
-    - **Note:** Although `"auto"` is recommended, you can manually select an algorithm. Supported algorithms are listed in [supported_algorithms.md](supported_algorithms.md).
+    - The algorithm used to compute the permanent of your matrix.
+    - **Note:** "auto" lets the library select the fastest algorithm available.
 
 - **Computation Mode (`modes`):**
-    - **Description:** The mode in which the matrix permanent is computed.
+    - The mode in which the matrix permanent is computed.
     - **Options:**
-        - `cpu`: Uses only the CPU (avoid if your matrix size exceeds 40x40).
-        - `single_gpu`: Utilizes a single GPU (specified by `device_ids`).
-        - `multi_gpu`: Uses multiple GPUs (number specified by `gpu_nums`).
-        - `multi_gpu_mpi`: Uses multiple nodes, each with possibly multiple GPUs.
+        - cpu: Uses only the CPU (very slow; avoid if your matrix size exceeds 40x40).
+        - single_gpu: Utilizes a single GPU (specified by device_id) during the computation.
+        - multi_gpu: Uses multiple GPUs (number specified by gpu_num) per-task for the computation.
+        - multi_gpu_mpi: Uses multiple tasks (perhaps coming from multiple nodes), each with possibly multiple GPUs.
 
 - **CPU Thread Count (`thread_counts`):**
-    - **Description:** Number of CPU threads to use when computing on the CPU.
+    - The number of CPU threads the library will use when computing the permanent on the CPU.
+    - **Note:** Only relevant if the mode is "cpu".
 
-- **GPU Device ID (`device_ids`):**
-    - **Description:** The GPU device ID used for `single_gpu` mode, or the target device for GPU kernel generation in multi-GPU modes.
+- **GPU Device IDs (`device_ids`):**
+    - Either the device ID of the GPU used for the computation if the mode is "single_gpu" or the device ID for which the GPU kernels are generated if the mode is "multi_gpu" or "multi_gpu_mpi".
 
 - **Number of GPUs (`gpu_nums`):**
-    - **Description:** Number of GPUs to use for computation (relevant for multi-GPU modes).
+    - The number of GPUs used for the computation per-task.
+    - **Note:** Only relevant if the mode is "multi_gpu" or "multi_gpu_mpi".
 
 - **Processor Count (`processor_num`):**
-    - **Description:** The number of MPI nodes to use (only relevant for `multi_gpu_mpi` mode).
-    - **Note:** Undefined execution if `processor_num > 1` and `mode is not multi_gpu_mpi`.
+    - The number of MPI tasks (perhaps coming from multiple nodes) to use for the computation.
+    - **Note:** Only relevant if the mode is "multi_gpu_mpi".
+    - **WARNING:** Undefined execution pattern if: processor_num > 1 and mode != multi_gpu_mpi.
 
 - **Complex Matrix Flag (`is_complex`):**
-    - **Description:** If `"true"`, the library assumes the matrix contains complex entries (formatted as `a + bi`).
+    - If true, the library assumes the matrix to contain complex entries of the form (a + bi).
 
 - **Binary Matrix Flag (`is_binary`):**
-    - **Description:** If `"true"`, the library assumes that the matrix edges are unweighted.
+    - If true, the library assumes that the matrix edges are unweighted.
 
 - **Undirected Matrix Flag (`is_undirected`):**
-    - **Description:** If `"true"`, the matrix is assumed to be undirected (for every edge `u → v`, there is also an edge `v → u`).
+    - If true, the library assumes that the matrix is undirected, meaning for every edge u -> v, there is also an edge v -> u.
 
 - **Matrix-Specific Compilation (`matrix_specific_compilation`):**
-    - **Description:** If `"true"`, the library compiles itself with a specific matrix size for improved efficiency (see our paper for details).
+    - Although not recommended to be set as "true" (unless the matrix has complex entries, in which case we highly recommend it), if so, the library compiles itself with specific matrix size (to be determined in the following argument) for improved efficiency, details of which is accessible in our paper.
 
 - **Matrix Specific Size (`matrix_specific_size`):**
-    - **Description:** The specific matrix size to use if matrix-specific compilation is enabled.
+    - The specific matrix size to use if matrix-specific compilation is enabled.
 
 - **Calculation Precision (`calculation_precision`):**
-    - **Description:** Precision in which to compute the matrix permanent.
+    - Precision in which to compute the permanent.
 
 - **Printing Precision (`printing_precision`):**
-    - **Description:** Precision in which to print the computed permanent.
+    - Precision in which to print the computed permanent.

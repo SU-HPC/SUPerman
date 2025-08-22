@@ -8,7 +8,7 @@ An example Slurm script is provided [here](../superman_slurm.slurm). In this scr
 
 ## Module Loading and Directory Paths
 
-It is essential to ensure that the correct modules are loaded within the Slurm script. These modules must meet the minimum hard/soft requirements as specified in [README.md](../README.md). Also, make sure to correctly specify the absolute paths for the repository, build, and matrix directories, as these paths are crucial during the compilation process.
+It is essential to ensure that the correct modules are loaded within the Slurm script. These modules must meet the minimum hard/soft requirements as specified in [README.md](../README.md).
 
 ---
 

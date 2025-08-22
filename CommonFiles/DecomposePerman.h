@@ -82,6 +82,10 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
     startRecursion(m_Matrix);
 
     double overall = 0;
+    if (m_Permanents.size() > 1)
+    {
+        printing = false;
+    }
     for (int p = 0; p < m_Permanents.size(); ++p)
     {
         auto derived = dynamic_cast<Permanent*>(m_Permanents[p]);

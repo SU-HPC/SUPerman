@@ -313,6 +313,10 @@ void gpuComputeComplex(Matrix<std::complex<double>>* matrix, Settings* settings)
     long long end = (1LL << (nov - 1));
     long long left = (end - start);
 
+    double current = 0;
+    double next = 50;
+    printProgressBar(current, settings->rank, settings->PID);
+
     while (totalThreadCount < left)
     {
         long long chunkSize = 1;
@@ -349,6 +353,10 @@ void gpuComputeComplex(Matrix<std::complex<double>>* matrix, Settings* settings)
 
         gpuErrchk( cudaDeviceSynchronize() )
 
+        current += next;
+        next /= 2;
+        printProgressBar(current, settings->rank, settings->PID);
+
         long long thisIteration = totalThreadCount * chunkSize;
         left -= thisIteration;
         start += thisIteration;
@@ -375,6 +383,9 @@ void gpuComputeComplex(Matrix<std::complex<double>>* matrix, Settings* settings)
     #endif
 
     gpuErrchk( cudaDeviceSynchronize() )
+
+    current = 100;
+    printProgressBar(current, settings->rank, settings->PID);
 
     gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(cuDoubleComplex), cudaMemcpyDeviceToHost) )
 

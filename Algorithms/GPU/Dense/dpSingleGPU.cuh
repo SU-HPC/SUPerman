@@ -150,6 +150,10 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
     long long end = (1LL << (nov - 1));
     long long left = (end - start);
 
+    double current = 0;
+    double next = 50;
+    printProgressBar(current, this->m_Settings.rank, this->m_Settings.PID);
+
     while (totalThreadCount < left)
     {
         long long chunkSize = 1;
@@ -175,6 +179,10 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
 
         gpuErrchk( cudaDeviceSynchronize() )
 
+        current += next;
+        next /= 2;
+        printProgressBar(current, this->m_Settings.rank, this->m_Settings.PID);
+
         long long thisIteration = totalThreadCount * chunkSize;
         left -= thisIteration;
         start += thisIteration;
@@ -190,6 +198,9 @@ double dpSingleGPU<C, S, Algo, Shared>::permanentFunction()
             -1);
             
     gpuErrchk( cudaDeviceSynchronize() )
+
+    current = 100;
+    printProgressBar(current, this->m_Settings.rank, this->m_Settings.PID);
 
     gpuErrchk( cudaMemcpy( h_products, d_products, totalThreadCount * sizeof(C), cudaMemcpyDeviceToHost) )
 

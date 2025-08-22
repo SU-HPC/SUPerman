@@ -107,7 +107,7 @@ calculation_precision=("kahan")
 # Precision in which to compute the permanent
 
 printing_precision=(300)
-# Precision in which to print the permanent result
+# Precision in which to print the computed permanent
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK

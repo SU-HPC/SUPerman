@@ -1063,7 +1063,7 @@ void IO::alphaOrder(Matrix<S>* matrix, unsigned alpha, bool ascending)
         });
     }
 
-    int split = ceil(double(nov) / alpha) - 1;
+    int split = std::ceil(double(nov) / alpha) - 1;
     int front = split;
     int back = nov - 1;
     int current = 0;

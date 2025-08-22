@@ -152,10 +152,60 @@ void KernelGenerator<C, S>::prodReduce_ut(int k)
 
     m_File += "{\n";
 
-    for (int i = 0; i < k; ++i)
+    const unsigned UNROLL = 8;
+    for (unsigned inner = 0; inner < UNROLL; ++inner)
     {
-        m_File += "\tproduct *= reg" + std::to_string(i) + ";\n";
+        m_File += "\t" + std::string("C t") + std::to_string(inner) + ";\n";
     }
+    m_File += "\n";
+
+    bool* one = new bool[UNROLL];
+    unsigned chunks = (k + (UNROLL * 2) - 1) / (UNROLL * 2);
+    for (unsigned iter = 0; iter < chunks; ++iter)
+    {
+        unsigned start = iter * UNROLL * 2;
+
+        std::fill(one, one + UNROLL, false);
+        for (unsigned inner = 0; inner < UNROLL; ++inner)
+        {
+            unsigned i = start + inner * 2;
+            std::string tname = std::string("t") + std::to_string(inner);
+    
+            if (i < k)
+            {
+                m_File += "\t" + tname + " = reg" + std::to_string(i);
+                if (i + 1 < k)
+                {
+                    m_File += " * reg" + std::to_string(i + 1) + ";\n";
+                }
+                else
+                {
+                    m_File += ";\n";
+                }
+            }
+            else
+            {
+                one[inner] = true;
+                m_File += "\t" + tname + " = 1;\n";
+            }
+        }
+
+        for (unsigned offset = 1; offset < UNROLL; offset *= 2)
+        {
+            for (unsigned inner = 0; inner < UNROLL; inner += offset * 2)
+            {
+                if (one[inner])
+                {
+                    continue;
+                }
+                m_File += "\tt" + std::to_string(inner) + " *= t" + std::to_string(inner + offset) + ";\n";
+            }
+        }
+
+        m_File += "\tproduct *= t0;\n\n";
+    }
+    delete[] one;
+    
     m_File += "\tproduct *= globalProduct;\n";
 
     m_File += "}\n\n";

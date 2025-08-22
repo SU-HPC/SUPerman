@@ -31,6 +31,7 @@
 extern double avgN;
 extern double avgNNZ;
 extern unsigned count;
+extern bool printing;
 
 enum Algorithm
 {

@@ -37,6 +37,7 @@
 double avgN = 0;
 double avgNNZ = 0;
 unsigned count = 0;
+bool printing = true;
 
 int main(int argv, char* argc[])
 {
@@ -74,6 +75,10 @@ int main(int argv, char* argc[])
             result.time = 0;
             result.permanent = 0;
             if (matrix->nov != 0) result.permanent = 1;
+            if (rowComponents.size() > 1)
+            {
+                printing = false;
+            }
             for (unsigned component = 0; component < rowComponents.size(); ++component)
             {
                 std::vector<unsigned>& rowVerts = rowComponents[component];

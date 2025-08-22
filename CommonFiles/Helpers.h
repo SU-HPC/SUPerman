@@ -35,6 +35,7 @@
 #include <unistd.h>
 #include <cstring>
 #include <sys/wait.h>
+#include <iomanip>
 
 inline int readPipe(const std::string& pipe, int rank)
 {
@@ -211,7 +212,32 @@ inline void print(const std::stringstream& str, int rank, int pid, int pidAllowe
 {
     if (rank == 0 && (pid == pidAllowed || pidAllowed == -1))
     {
-        std::cout << str.str();
+        std::cout << str.str() << std::flush;
+    }
+}
+
+inline void printProgressBar(double percent, int rank, int pid)
+{
+    if (printing)
+    {
+        const int barWidth = 50;
+        int filledLength = static_cast<int>(barWidth * (percent / 100.0));
+    
+        std::stringstream stream;
+        stream << "[";
+        for (int i = 0; i < barWidth; ++i)
+        {
+            if (i < filledLength)
+            {
+                stream << "#";
+            }
+            else
+            {
+                stream << "-";
+            }
+        }
+        stream << "] " << std::fixed << std::setprecision(3) << percent << '%' << std::endl;
+        print(stream, rank, pid, -1);
     }
 }
 
