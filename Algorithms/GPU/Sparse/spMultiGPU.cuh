@@ -182,7 +182,7 @@ double spMultiGPU<C, S, Algo, Shared>::permanentFunction()
             while (totalThreadCount < left)
             {
                 long long chunkSize = 1;
-                while ((chunkSize * totalThreadCount) < left)
+                while ((chunkSize * totalThreadCount) <= left)
                 {
                     chunkSize *= 2;
                 }

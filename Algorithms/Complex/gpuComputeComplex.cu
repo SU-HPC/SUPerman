@@ -76,7 +76,7 @@ __global__ void xRegisterMSharedComplex(cuDoubleComplex* mat,
 
     if (chunkSize == -1)
     {
-        chunkSize = (end - start) / totalThreadCount + 1;
+        chunkSize = (end - start + totalThreadCount - 1) / totalThreadCount;
     }
     long long myStart = start + (threadID * chunkSize);
     long long myEnd = min(start + ((threadID + 1) * chunkSize), end);
@@ -156,7 +156,7 @@ __global__ void xRegisterMSharedComplexMatSpecific(cuDoubleComplex* mat,
 
     if (chunkSize == -1)
     {
-        chunkSize = (end - start) / totalThreadCount + 1;
+        chunkSize = (end - start + totalThreadCount - 1) / totalThreadCount;
     }
     long long myStart = start + (threadID * chunkSize);
     long long myEnd = min(start + ((threadID + 1) * chunkSize), end);
@@ -316,7 +316,7 @@ void gpuComputeComplex(Matrix<std::complex<double>>* matrix, Settings* settings)
     while (totalThreadCount < left)
     {
         long long chunkSize = 1;
-        while ((chunkSize * totalThreadCount) < left)
+        while ((chunkSize * totalThreadCount) <= left)
         {
             chunkSize *= 2;
         }

@@ -82,7 +82,7 @@ void cpuComputeComplex(Matrix<std::complex<S>>* matrix, Settings* settings)
         std::complex<C> myX[nov];
         memcpy(myX, x, sizeof(std::complex<C>) * nov);
 
-        long long chunkSize = (end - start) / threads + 1;
+        long long chunkSize = (end - start + threads - 1) / threads;
         int threadID = omp_get_thread_num();
         long long myStart = start + threadID * chunkSize;
         long long myEnd = std::min(start + (threadID + 1) * chunkSize, end);

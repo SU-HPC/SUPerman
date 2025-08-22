@@ -236,7 +236,7 @@ void KernelGenerator<C, S>::globalKernel()
 
     globalKernel += "    if (chunkSize == -1)\n"
                     "    {\n"
-                    "        chunkSize = (end - start) / totalThreadCount + 1;\n"
+                    "        chunkSize = (end - start + totalThreadCount - 1) / totalThreadCount;\n"
                     "    }\n"
                     "    long long myStart = start + (threadID * chunkSize);\n"
                     "    long long myEnd = min(start + ((threadID + 1) * chunkSize), end);\n"

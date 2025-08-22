@@ -93,7 +93,7 @@ double spNaivePerman<C, S>::permanentFunction()
         C myX[nov];
         memcpy(myX, x, sizeof(C) * nov);
 
-        long long chunkSize = (end - start) / threads + 1;
+        long long chunkSize = (end - start + threads - 1) / threads;
         long long myStart = start + (threadID * chunkSize);
         long long myEnd = std::min(start + ((threadID + 1) * chunkSize), end);
 

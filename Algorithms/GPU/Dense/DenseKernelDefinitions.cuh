@@ -56,8 +56,8 @@ namespace DenseDefinitions
         extern __shared__ char sharedMemory[];
         S* sharedMat = (S*)sharedMemory;
 
-        unsigned threadNNZ = ceil(double(NOV * NOV) / blockDim.x);
-        for (unsigned i = threadIdx.x * threadNNZ; i < min((threadIdx.x + 1) * threadNNZ, NOV * NOV); ++i)
+        const unsigned N = nov * nov;
+        for (unsigned i = threadIdx.x; i < N; i += blockDim.x) 
         {
             sharedMat[i] = mat[i];
         }
@@ -70,7 +70,7 @@ namespace DenseDefinitions
 
         if (chunkSize == -1)
         {
-            chunkSize = (end - start) / totalThreadCount + 1;
+            chunkSize = (end - start + totalThreadCount - 1) / totalThreadCount;
         }
         long long myStart = start + (threadID * chunkSize);
         long long myEnd = min(start + ((threadID + 1) * chunkSize), end);
@@ -132,8 +132,8 @@ namespace DenseDefinitions
         extern __shared__ char sharedMemory[];
         S* sharedMat = (S*)sharedMemory;
 
-        unsigned threadNNZ = ceil(double(NOV * NOV) / blockDim.x);
-        for (unsigned i = threadIdx.x * threadNNZ; i < min((threadIdx.x + 1) * threadNNZ, NOV * NOV); ++i)
+        const unsigned N = nov * nov;
+        for (unsigned i = threadIdx.x; i < N; i += blockDim.x) 
         {
             sharedMat[i] = mat[i];
         }
@@ -146,7 +146,7 @@ namespace DenseDefinitions
 
         if (chunkSize == -1)
         {
-            chunkSize = (end - start) / totalThreadCount + 1;
+            chunkSize = (end - start + totalThreadCount - 1) / totalThreadCount;
         }
         long long myStart = start + (threadID * chunkSize);
         long long myEnd = min(start + ((threadID + 1) * chunkSize), end);
@@ -209,8 +209,8 @@ namespace DenseDefinitions
         extern __shared__ char sharedMemory[];
         S* sharedMat = (S*)sharedMemory;
 
-        unsigned threadNNZ = ceil(double(nov * nov) / blockDim.x);
-        for (unsigned i = threadIdx.x * threadNNZ; i < min((threadIdx.x + 1) * threadNNZ, nov * nov); ++i)
+        const unsigned N = nov * nov;
+        for (unsigned i = threadIdx.x; i < N; i += blockDim.x) 
         {
             sharedMat[i] = mat[i];
         }
@@ -223,7 +223,7 @@ namespace DenseDefinitions
 
         if (chunkSize == -1)
         {
-            chunkSize = (end - start) / totalThreadCount + 1;
+            chunkSize = (end - start + totalThreadCount - 1) / totalThreadCount;
         }
         long long myStart = start + (threadID * chunkSize);
         long long myEnd = min(start + ((threadID + 1) * chunkSize), end);
@@ -288,7 +288,7 @@ namespace DenseDefinitions
 
         if (chunkSize == -1)
         {
-            chunkSize = (end - start) / totalThreadCount + 1;
+            chunkSize = (end - start + totalThreadCount - 1) / totalThreadCount;
         }
         long long myStart = start + (threadID * chunkSize);
         long long myEnd = min(start + ((threadID + 1) * chunkSize), end);
@@ -350,8 +350,8 @@ namespace DenseDefinitions
         extern __shared__ char sharedMemory[];
         S* sharedMat = (S*)sharedMemory;
 
-        unsigned threadNNZ = ceil(double(nov * nov) / blockDim.x);
-        for (unsigned i = threadIdx.x * threadNNZ; i < min((threadIdx.x + 1) * threadNNZ, nov * nov); ++i)
+        const unsigned N = nov * nov;
+        for (unsigned i = threadIdx.x; i < N; i += blockDim.x) 
         {
             sharedMat[i] = mat[i];
         }
@@ -364,7 +364,7 @@ namespace DenseDefinitions
 
         if (chunkSize == -1)
         {
-            chunkSize = (end - start) / totalThreadCount + 1;
+            chunkSize = (end - start + totalThreadCount - 1) / totalThreadCount;
         }
         long long myStart = start + (threadID * chunkSize);
         long long myEnd = min(start + ((threadID + 1) * chunkSize), end);
@@ -429,7 +429,7 @@ namespace DenseDefinitions
 
         if (chunkSize == -1)
         {
-            chunkSize = (end - start) / totalThreadCount + 1;
+            chunkSize = (end - start + totalThreadCount - 1) / totalThreadCount;
         }
         long long myStart = start + (globalThreadID * chunkSize);
         long long myEnd = min(start + ((globalThreadID + 1) * chunkSize), end);
@@ -492,8 +492,8 @@ namespace DenseDefinitions
         C* sharedX = (C*)sharedMemory; // size: nov * threadsPerBlock
         S* sharedMat = (S*)&sharedX[nov * blockDim.x]; // size: nov * nov
 
-        unsigned threadNNZ = ceil(double(nov * nov) / blockDim.x);
-        for (unsigned i = threadIdx.x * threadNNZ; i < min((threadIdx.x + 1) * threadNNZ, nov * nov); ++i)
+        const unsigned N = nov * nov;
+        for (unsigned i = threadIdx.x; i < N; i += blockDim.x) 
         {
             sharedMat[i] = mat[i];
         }
@@ -507,7 +507,7 @@ namespace DenseDefinitions
 
         if (chunkSize == -1)
         {
-            chunkSize = (end - start) / totalThreadCount + 1;
+            chunkSize = (end - start + totalThreadCount - 1) / totalThreadCount;
         }
         long long myStart = start + (globalThreadID * chunkSize);
         long long myEnd = min(start + ((globalThreadID + 1) * chunkSize), end);

@@ -56,7 +56,7 @@ namespace SparseDefinitions
 
         if (chunkSize == -1)
         {
-            chunkSize = (end - start) / totalThreadCount + 1;
+            chunkSize = (end - start + totalThreadCount - 1) / totalThreadCount;
         }
         long long myStart = start + (globalThreadID * chunkSize);
         long long myEnd = min(start + ((globalThreadID + 1) * chunkSize), end);
@@ -190,7 +190,7 @@ namespace SparseDefinitions
 
         if (chunkSize == -1)
         {
-            chunkSize = (end - start) / totalThreadCount + 1;
+            chunkSize = (end - start + totalThreadCount - 1) / totalThreadCount;
         }
         long long myStart = start + (globalThreadID * chunkSize);
         long long myEnd = min(start + ((globalThreadID + 1) * chunkSize), end);
@@ -297,7 +297,7 @@ namespace SparseDefinitions
 
         if (chunkSize == -1)
         {
-            chunkSize = (end - start) / totalThreadCount + 1;
+            chunkSize = (end - start + totalThreadCount - 1) / totalThreadCount;
         }
         long long myStart = start + (globalThreadID * chunkSize);
         long long myEnd = min(start + ((globalThreadID + 1) * chunkSize), end);
@@ -433,7 +433,7 @@ namespace SparseDefinitions
 
         if (chunkSize == -1)
         {
-            chunkSize = (end - start) / totalThreadCount + 1;
+            chunkSize = (end - start + totalThreadCount - 1) / totalThreadCount;
         }
         long long myStart = start + (globalThreadID * chunkSize);
         long long myEnd = min(start + ((globalThreadID + 1) * chunkSize), end);

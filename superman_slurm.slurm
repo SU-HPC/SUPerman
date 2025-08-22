@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --partition=kolyoz-cuda
 #SBATCH --gres=gpu:1
-#SBATCH --time=2-23:00:00
+#SBATCH --time=0-0:10:00
 #SBATCH --output=res/SUPERMAN-%j.out
 #SBATCH --error=res/SUPERMAN-%j.err
 #SBATCH --export=NONE
@@ -51,7 +51,7 @@ output_directory=${repo_directory}tests/
 mkdir -p ${output_directory}
 
 filenames=(
-"world_record_60.mtx"
+"dense.mtx"
 )
 # The filename of your matrix.
 # If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based.

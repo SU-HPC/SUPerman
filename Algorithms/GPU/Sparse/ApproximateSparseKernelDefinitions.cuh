@@ -197,7 +197,7 @@ namespace ApproximateSparseDefinitions
         curandState state;
         curand_init(clock64(), tid, 0, &state);
         
-        unsigned noIter = ceilf(NO_SAMPLES / float(noThreads) / 10);
+        unsigned long long noIter = (NO_SAMPLES + noThreads * 10 - 1) / (noThreads * 10);
         while (*sampleCounter < NO_SAMPLES)
         {
             atomicAdd(sampleCounter, noIter);
