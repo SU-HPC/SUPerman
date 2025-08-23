@@ -81,7 +81,17 @@ double aspSingleGPU<C, S, Algo, Shared>::permanentFunction()
     int gridSize, blockSize;
     cudaOccupancyMaxPotentialBlockSize(&gridSize, &blockSize, Algo, 0, 0);
     unsigned noThreads = gridSize * blockSize;
-    std::cout << "Grid Size: " << gridSize << " Block Size: " << blockSize << std::endl;
+
+#ifndef SILENT
+    static bool printed = false;
+    if (!printed)
+    {
+        std::cout << "Grid Dimension: " << gridSize << std::endl;
+        std::cout << "Block Dimension: " << blockSize << std::endl;
+        std::cout << "Total number of threads: " << noThreads << std::endl;
+        printed = true;
+    }
+#endif
 
     gpuErrchk(cudaMalloc(&d_nov, sizeof(unsigned)))
     gpuErrchk(cudaMalloc(&d_nnz, sizeof(unsigned)))

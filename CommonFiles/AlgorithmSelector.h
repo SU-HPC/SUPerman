@@ -53,13 +53,13 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
     if (settings->algorithm == AlgorithmEnds && settings->mode != Mode::CPU)
     {
         std::stringstream stream;
-        if (matrix->nov > 63)
+        if (biggestComponentSize > 63)
         {
             settings->algorithm = APPROXIMATION;
             stream << "SELECTED ALGORITHM IS: APPROXIMATION" << std::endl;
             print(stream, settings->rank, settings->PID, 1);
         }
-        else if ((matrix->nov * matrix->sparsity / 100 <= 5) || (matrix->nov <= 40) || (biggestComponentSize <= (matrix->nov - 3)))
+        else if ((matrix->nov * matrix->sparsity / 100 <= 5) || (biggestComponentSize <= 40))
         {
             settings->algorithm = XREGISTERMSHARED;
             stream << "SELECTED ALGORITHM IS: xregister_mshared" << std::endl;

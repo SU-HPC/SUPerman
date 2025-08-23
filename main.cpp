@@ -119,7 +119,14 @@ int main(int argv, char* argc[])
 
         stream = std::stringstream();
         stream << "Submatrix count: " << count << " - Average N: " << avgN << " - Average NNZ: " << avgNNZ << std::endl;
-        stream << "Permanent: " << std::setprecision (settings.printingPrecision) << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl << std::endl;
+        if (std::isnan(result.permanent))
+        {
+            stream << "Permanent computation has overflowed." << " - Computed in: " << result.time << " seconds." << std::endl;
+        }
+        else
+        {
+            stream << "Permanent: " << std::setprecision (settings.printingPrecision) << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl;
+        }
         print(stream, rank, settings.PID, -1);
 
         delete matrix;
