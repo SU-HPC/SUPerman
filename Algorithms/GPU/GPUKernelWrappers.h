@@ -23,19 +23,40 @@
  * }
  */
 
-#ifndef SUPERMAN_RESULT_H
-#define SUPERMAN_RESULT_H
+#ifndef SUPERMAN_GPUKERNELWRAPPERS_H
+#define SUPERMAN_GPUKERNELWRAPPERS_H
+
+#include "Result.h"
+#include "Settings.h"
+#include "Matrix.h"
 
 
-struct Result
-{
-    Result(double time = 0, double permanent = 0)
-    :   time(time),
-        permanent(permanent) {}
+// SPARSE KERNEL WRAPPERS
+template <class C, class S>
+extern Result gpuSPSingleGPU(Matrix<S>* matrix, Settings* settings);
 
-    double time;
-    double permanent;
-};
+template <class C, class S>
+extern Result gpuSPMultiGPU(Matrix<S>* matrix, Settings* settings);
+
+#ifdef MPI_AVAILABLE
+template <class C, class S>
+extern Result gpuSPMultiGPUMPI(Matrix<S>* matrix, Settings* settings);
+#endif
+// SPARSE KERNEL WRAPPERS
 
 
-#endif //SUPERMAN_RESULT_H
+// DENSE KERNEL WRAPPERS
+template <class C, class S>
+extern Result gpuDPSingleGPU(Matrix<S>* matrix, Settings* settings);
+
+template <class C, class S>
+extern Result gpuDPMultiGPU(Matrix<S>* matrix, Settings* settings);
+
+#ifdef MPI_AVAILABLE
+template <class C, class S>
+extern Result gpuDPMultiGPUMPI(Matrix<S>* matrix, Settings* settings);
+#endif
+// DENSE KERNEL WRAPPERS
+
+
+#endif //SUPERMAN_GPUKERNELWRAPPERS_H

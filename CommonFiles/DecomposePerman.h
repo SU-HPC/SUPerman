@@ -1,6 +1,27 @@
-//
-// Created by delbek on 6/6/24.
-//
+/*
+ * This file is part of the SUperman repository: https://github.com/SU-HPC/SUPerman
+ * Author(s): Deniz Elbek, Fatih Taşyaran, Bora Uçar, and Kamer Kaya.
+ *
+ * Please see the papers:
+ * 
+ * @article{Elbek2025SUperman,
+ *   title   = {SUperman: Efficient Permanent Computation on GPUs},
+ *   author  = {Elbek, Deniz and Taşyaran, Fatih and Uçar, Bora and Kaya, Kamer},
+ *   journal = {arXiv preprint arXiv:2502.16577},
+ *   year    = {2025},
+ *   doi     = {10.48550/arXiv.2502.16577},
+ *   url     = {https://arxiv.org/abs/2502.16577}
+ * }
+ *
+ * @article{Elbek2025FullyAutomated,
+ *   title   = {Fully-Automated Code Generation for Efficient Computation of Sparse Matrix Permanents on GPUs},
+ *   author  = {Elbek, Deniz and Kaya, Kamer},
+ *   journal = {arXiv preprint arXiv:2501.15126},
+ *   year    = {2025},
+ *   doi     = {10.48550/arXiv.2501.15126},
+ *   url     = {https://arxiv.org/abs/2501.15126}
+ * }
+ */
 
 #ifndef SUPERMAN_DECOMPOSEPERMAN_H
 #define SUPERMAN_DECOMPOSEPERMAN_H
@@ -50,20 +71,12 @@ protected:
     Settings m_Settings;
     std::vector<Permanent*> m_Permanents;
     std::vector<ScalingCompact*> m_ScalingValues;
-
-    unsigned m_1Decompose;
-    unsigned m_2Decompose;
-    unsigned m_34Decompose;
 };
 
 
 template <class C, class S, class Permanent>
 Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
 {
-    m_1Decompose = 0;
-    m_2Decompose = 0;
-    m_34Decompose = 0;
-
     double start = omp_get_wtime();
 
     startRecursion(m_Matrix);
@@ -71,14 +84,17 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
     double overall = 0;
     if (m_Permanents.size() > 1)
     {
-        std::stringstream stream;
-        stream << "The computation of the original permanent is partitioned into the computation of the " << m_Permanents.size() << " sub-permanent." << std::endl;
-        print(stream, this->m_Settings.rank, this->m_Settings.PID, -1);
+        printing = false;
     }
     for (int p = 0; p < m_Permanents.size(); ++p)
     {
         auto derived = dynamic_cast<Permanent*>(m_Permanents[p]);
-        double result = ((4 * (derived->m_Matrix->nov % 2) - 2) * derived->productSum);
+
+        avgN += derived->m_Matrix->nov;
+        avgNNZ += ((derived->m_Matrix->nov * derived->m_Matrix->nov) * (derived->m_Matrix->sparsity / 100));
+        ++count;
+
+        double result = derived->computePermanent();
         if (m_Settings.scaling)
         {
             auto scalingCompact = m_ScalingValues[p];
@@ -104,21 +120,19 @@ Result DecomposePerman<C, S, Permanent>::computePermanentRecursively()
 template <class C, class S, class Permanent>
 void DecomposePerman<C, S, Permanent>::startRecursion(Matrix<S>* matrix)
 {
+    if (this->m_Settings.algorithm == APPROXIMATION)
+    {
+        addQueue(matrix);
+        return;
+    }
+
     bool isCompressed = true;
     while (isCompressed && matrix->nov > 30)
     {
-        isCompressed = compress1NNZ(matrix);
+        isCompressed = (compress1NNZ(matrix) || compress2NNZ(matrix));
 
-        if (!isCompressed)
+        if (isRankDeficient(matrix))
         {
-            isCompressed = compress2NNZ(matrix);
-        }
-
-        if (isCompressed && isRankDeficient(matrix))
-        {
-            std::stringstream stream;
-            stream << "Matrix is rank deficient." << std::endl;
-            print(stream, this->m_Settings.rank, this->m_Settings.PID, -1);
             return;
         }
     }
@@ -167,30 +181,20 @@ template <class C, class S, class Permanent>
 void DecomposePerman<C, S, Permanent>::addQueue(Matrix<S> *matrix)
 {
     int nnz = getNNZ(matrix);
-    matrix->sparsity = (double(nnz) / double(matrix->nov * matrix->nov)) * 100;
+    matrix->sparsity = (double(nnz) / (matrix->nov * matrix->nov)) * 100;
 
-    std::stringstream stream;
-    stream << "Number of rows/columns of matrix after decomposition is: " << matrix->nov << std::endl;
-    stream << "Total number of nonzeros after decomposition is: " << nnz << std::endl;
-    stream << "Sparsity of the matrix after decomposition is determined to be: " << matrix->sparsity << std::endl;
-    stream << "Number of 1 NNZ decompositions performed: " << m_1Decompose << std::endl;
-    stream << "Number of 2 NNZ decompositions performed: " << m_2Decompose << std::endl;
-    stream << "Number of 3-4 NNZ decompositions performed: " << m_34Decompose << std::endl;
-    print(stream, this->m_Settings.rank, this->m_Settings.PID, 1);
-
-    Matrix<S>* newMatrix = new Matrix<S>(*matrix);
-    if (newMatrix->nov > 63)
+    if (matrix->nov > 63 && m_Settings.algorithm != APPROXIMATION)
     {
         throw std::runtime_error("Permanent is an #P-complete problem. The size of the matrix you want to calculate the permanent for exceeds the limit of what is computationally possible. Try approximation algorithms.\n");
     }
     if (m_Settings.scaling)
     {
         ScalingCompact* scalingCompact = new ScalingCompact;
-        IO::scale<C, S>(newMatrix, m_Settings, scalingCompact);
+        IO::scale<C, S>(matrix, m_Settings, scalingCompact);
         m_ScalingValues.push_back(scalingCompact);
     }
+    Matrix<S>* newMatrix = new Matrix<S>(*matrix);
     Permanent* newPermanent = new Permanent(newMatrix, m_Settings);
-    newPermanent->computePermanent();
     m_Permanents.push_back(newPermanent);
 }
 
@@ -221,8 +225,6 @@ bool DecomposePerman<C, S, Permanent>::compress1NNZ(Matrix<S> *matrix)
     {
         return false;
     }
-
-    ++m_1Decompose;
 
     S val;
     if (row != -1) // if there is a row of degree 1
@@ -317,8 +319,6 @@ bool DecomposePerman<C, S, Permanent>::compress2NNZ(Matrix<S>* matrix)
     {
         return false;
     }
-
-    ++m_2Decompose;
 
     int firstNNZ = -1;
     int secondNNZ = -1;
@@ -460,8 +460,6 @@ bool DecomposePerman<C, S, Permanent>::compress34NNZ(Matrix<S>* matrix1, Matrix<
     {
         return false;
     }
-
-    ++m_34Decompose;
 
     S* transposeMatrix = new S[nov * nov];
     if (row == -1)

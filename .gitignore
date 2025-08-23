@@ -1,8 +1,7 @@
-build/
 wrapper
 .vscode/
+build/
 res/
-wr/
-*.txt
-*.mtx
-*.py
+tests/
+experiments/
+/*.mtx

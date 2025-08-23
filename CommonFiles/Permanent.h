@@ -1,6 +1,27 @@
-//
-// Created by deniz on 4/13/24.
-//
+/*
+ * This file is part of the SUperman repository: https://github.com/SU-HPC/SUPerman
+ * Author(s): Deniz Elbek, Fatih Taşyaran, Bora Uçar, and Kamer Kaya.
+ *
+ * Please see the papers:
+ * 
+ * @article{Elbek2025SUperman,
+ *   title   = {SUperman: Efficient Permanent Computation on GPUs},
+ *   author  = {Elbek, Deniz and Taşyaran, Fatih and Uçar, Bora and Kaya, Kamer},
+ *   journal = {arXiv preprint arXiv:2502.16577},
+ *   year    = {2025},
+ *   doi     = {10.48550/arXiv.2502.16577},
+ *   url     = {https://arxiv.org/abs/2502.16577}
+ * }
+ *
+ * @article{Elbek2025FullyAutomated,
+ *   title   = {Fully-Automated Code Generation for Efficient Computation of Sparse Matrix Permanents on GPUs},
+ *   author  = {Elbek, Deniz and Kaya, Kamer},
+ *   journal = {arXiv preprint arXiv:2501.15126},
+ *   year    = {2025},
+ *   doi     = {10.48550/arXiv.2501.15126},
+ *   url     = {https://arxiv.org/abs/2501.15126}
+ * }
+ */
 
 #ifndef SUPERMAN_PERMANENT_H
 #define SUPERMAN_PERMANENT_H
@@ -32,20 +53,19 @@ public:
         delete m_Matrix;
     }
 
-    Result computePermanent();
+    double computePermanent();
     virtual double permanentFunction() = 0;
 
 public:
     Matrix<S>* m_Matrix;
     Settings m_Settings;
-    
-    double productSum;
 };
 
 
 template <class C, class S>
-Result Permanent<C, S>::computePermanent()
+double Permanent<C, S>::computePermanent()
 {
+    // cases for sparse
     if (m_Settings.algorithm == NAIVECODEGENERATION)
     {
 
@@ -54,20 +74,20 @@ Result Permanent<C, S>::computePermanent()
     {
         IO::UTOrder(m_Matrix);
     }
+    else if (m_Settings.algorithm == APPROXIMATION)
+    {
+        IO::rowSort(m_Matrix);
+        Matrix<S>* sparseMatrix = new SparseMatrix<S>(m_Matrix, getNNZ(m_Matrix));
+        m_Matrix = sparseMatrix;
+    }
     else if (m_Settings.algorithm != XREGISTERMSHARED && m_Settings.algorithm != XREGISTERMGLOBAL && m_Matrix->sparsity < 50)
     {
-        IO::sortOrder(m_Matrix);
+        IO::colSort(m_Matrix);
         Matrix<S>* sparseMatrix = new SparseMatrix<S>(m_Matrix, getNNZ(m_Matrix));
         m_Matrix = sparseMatrix;
     }
 
-    double start = omp_get_wtime();
-    double permanent = this->permanentFunction();
-    double end = omp_get_wtime();
-
-    Result result(end - start, permanent);
-
-    return result;
+    return this->permanentFunction();
 }
 
 

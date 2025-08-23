@@ -1,6 +1,27 @@
-//
-// Created by deniz on 4/13/24.
-//
+/*
+ * This file is part of the SUperman repository: https://github.com/SU-HPC/SUPerman
+ * Author(s): Deniz Elbek, Fatih Taşyaran, Bora Uçar, and Kamer Kaya.
+ *
+ * Please see the papers:
+ * 
+ * @article{Elbek2025SUperman,
+ *   title   = {SUperman: Efficient Permanent Computation on GPUs},
+ *   author  = {Elbek, Deniz and Taşyaran, Fatih and Uçar, Bora and Kaya, Kamer},
+ *   journal = {arXiv preprint arXiv:2502.16577},
+ *   year    = {2025},
+ *   doi     = {10.48550/arXiv.2502.16577},
+ *   url     = {https://arxiv.org/abs/2502.16577}
+ * }
+ *
+ * @article{Elbek2025FullyAutomated,
+ *   title   = {Fully-Automated Code Generation for Efficient Computation of Sparse Matrix Permanents on GPUs},
+ *   author  = {Elbek, Deniz and Kaya, Kamer},
+ *   journal = {arXiv preprint arXiv:2501.15126},
+ *   year    = {2025},
+ *   doi     = {10.48550/arXiv.2501.15126},
+ *   url     = {https://arxiv.org/abs/2501.15126}
+ * }
+ */
 
 #ifndef SUPERMAN_IO_H
 #define SUPERMAN_IO_H
@@ -19,13 +40,15 @@
 #include <cstdint>
 #include "dm.h"
 #include <complex>
+#include <cassert>
+#include <random>
 
 
 class IO
 {
 public:
     template <class S>
-    static void readSettings(std::string& filename, Settings& settings, int argc, char* argv[]);
+    static void readSettings(Settings& settings, int argc, char* argv[]);
 
     template <class S>
     static Matrix<S>* readMatrix(std::string filename, Settings& settings);
@@ -37,10 +60,22 @@ public:
     static void skipOrder(Matrix<S>* matrix);
 
     template <class S>
-    static void sortOrder(Matrix<S>* matrix);
+    static void colSort(Matrix<S>* matrix, bool ascending = true);
+
+    template <class S>
+    static void rowSort(Matrix<S>* matrix, bool ascending = true);
+
+    template <class S>
+    static void alphaOrder(Matrix<S>* matrix, unsigned alpha, bool ascending = false);
+
+    template <class S>
+    static void colIndexMinimizationOrder(Matrix<S>* matrix);
 
     template <class S>
     static void UTOrder(Matrix<S>* matrix);
+
+    template <class S>
+    static void randomOrder(Matrix<S>* matrix);
 
     template <class C, class S>
     static void scale(Matrix<S>* matrix, const Settings& settings, ScalingCompact* scalingCompact);
@@ -48,15 +83,27 @@ public:
     template <class S>
     static void writeMatrixToFile(Matrix<S>* matrix, std::string filename);
 
-private:
-    template <class S>
-    static void applyPermutations(Matrix<S>* matrix, int* rowIPermutation, int* colIPermutation);
-
     template <class S>
     static void trim(std::string &s);
 
     template <class S>
     static std::vector<std::string> split(const std::string& s, char delimiter);
+
+private:
+    template <class S>
+    static void applyPermutations(Matrix<S>* matrix, int* rowIPermutation, int* colIPermutation);
+
+    template <class S>
+    static void ascendingColSort(Matrix<S>* matrix);
+
+    template <class S>
+    static void descendingColSort(Matrix<S>* matrix);
+
+    template <class S>
+    static void ascendingRowSort(Matrix<S>* matrix);
+
+    template <class S>
+    static void descendingRowSort(Matrix<S>* matrix);
 };
 
 
@@ -115,7 +162,7 @@ void IO::scale(Matrix<S> *matrix, const Settings& settings, ScalingCompact* scal
 }
 
 template <class S>
-void IO::readSettings(std::string& filename, Settings& settings, int argc, char* argv[])
+void IO::readSettings(Settings& settings, int argc, char* argv[])
 {
     settings.algorithm = AlgorithmEnds;
     settings.mode = Mode::CPU;
@@ -125,11 +172,11 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
     settings.scaling = false;
     settings.scalingIterationNo = 100;
     settings.scaleInto = 2;
-    settings.printingPrecision = 50;
+    settings.printingPrecision = 300;
     settings.threadC = omp_get_max_threads();
     settings.deviceID = 0;
     settings.gpuNum = 1;
-    settings.partition = 1;
+    settings.partition = 1; // deprecated
     settings.calculationPrecision = KAHAN;
 
     bool pidFound = false;
@@ -161,11 +208,12 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
         else if (arg == "repo_dir")
         {
             settings.REPO_DIR = value;
+            settings.pipe = value + "build/wrapper_pipe";
             repoDirFound = true;
         }
         else if (arg == "filename")
         {
-            filename = value;
+            settings.filename = value;
             filenameFound = true;
         }
         else if (arg == "algorithm")
@@ -206,10 +254,15 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             {
                 settings.algorithm = REGEFFICIENTCODEGENERATION;
             }
+            else if (value == "approximation")
+            {
+                settings.algorithm = APPROXIMATION;
+            }
             else
             {
                 stream << "UNKNOWN ALGORITHM: " << value << " - selecting automatically instead." << std::endl;
                 print(stream, settings.rank, settings.PID, 1);
+                settings.algorithm = AlgorithmEnds;
             }
         }
         else if (arg == "mode")
@@ -217,6 +270,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
             if (value == "cpu")
             {
                 settings.mode = CPU;
+                settings.algorithm = AlgorithmEnds;
             }
             else if (value == "single_gpu")
             {
@@ -235,6 +289,7 @@ void IO::readSettings(std::string& filename, Settings& settings, int argc, char*
                 stream << "UNKNOWN MODE: " << value << " - selecting CPU by default instead." << std::endl;
                 print(stream, settings.rank, settings.PID, 1);
                 settings.mode = CPU;
+                settings.algorithm = AlgorithmEnds;
             }
         }
         else if (arg == "thread_count")
@@ -383,8 +438,12 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
         file.ignore(2048, '\n');
     }
 
-    int nov, noLines;
-    file >> nov >> nov >> noLines;
+    int nov, test, noLines;
+    file >> nov >> test >> noLines;
+    if (nov != test)
+    {
+        throw std::runtime_error("Your matrix is not square, and therefore the permanent of it is trivially equal to 0.");
+    }
 
     S val;
     int i, j;
@@ -399,6 +458,11 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
         // binary read check
         if (!settings.binary) file >> val;
         else val = 1;
+
+        if (val == 0)
+        {
+            continue;
+        }
 
         if (isMTX)
         {
@@ -461,13 +525,8 @@ Matrix<S> *IO::readMatrix(std::string filename, Settings& settings)
     // for dm
 
     size = nov * nov;
-    sparsity = (double(nnz) / double(size)) * 100;
+    sparsity = (double(nnz) / size) * 100;
     matrix->sparsity = sparsity;
-
-    stream = std::stringstream();
-    stream << "Total number of nonzeros after DM is: " << nnz << std::endl;
-    stream << "Sparsity of the matrix after DM is determined to be: " << sparsity << std::endl;
-    print(stream, settings.rank, settings.PID, 1);
 
     return matrix;
 }
@@ -493,8 +552,12 @@ Matrix<std::complex<S>> *IO::readComplex(std::string filename, Settings &setting
         file.ignore(2048, '\n');
     }
 
-    int nov, noLines;
-    file >> nov >> nov >> noLines;
+    int nov, test, noLines;
+    file >> nov >> test >> noLines;
+    if (nov != test)
+    {
+        throw std::runtime_error("Your matrix is not square, and therefore the permanent of it is trivially equal to 0.");
+    }
 
     std::complex<S> entry;
     S real;
@@ -633,7 +696,20 @@ void IO::skipOrder(Matrix<S>* matrix)
 }
 
 template<class S>
-void IO::sortOrder(Matrix<S>* matrix)
+void IO::colSort(Matrix<S>* matrix, bool ascending)
+{
+    if (ascending)
+    {
+        ascendingColSort<S>(matrix);
+    }
+    else
+    {
+        descendingColSort<S>(matrix);
+    }
+}
+
+template<class S>
+void IO::ascendingColSort(Matrix<S>* matrix)
 {
     S* mat = matrix->mat;
     int nov = matrix->nov;
@@ -659,7 +735,7 @@ void IO::sortOrder(Matrix<S>* matrix)
         int chosen = 0;
         for (int j = 0; j < nov; ++j) 
         {
-            if (indegrees[j] < mindegree) 
+            if (indegrees[j] < mindegree)
             {
                 mindegree = indegrees[j];
                 chosen = j;
@@ -676,6 +752,192 @@ void IO::sortOrder(Matrix<S>* matrix)
 
     matrix->mat = newMat;
     delete[] mat;
+}
+
+template<class S>
+void IO::descendingColSort(Matrix<S>* matrix)
+{
+    S* mat = matrix->mat;
+    int nov = matrix->nov;
+
+    std::vector<int> indegrees(nov);
+    for (int j = 0; j < nov; ++j) 
+    {
+        int indegree = 0;
+        for (int i = 0; i < nov; ++i)
+        {
+            if (mat[i * nov + j] != 0)
+            {
+                ++indegree;
+            }
+        }
+        indegrees[j] = indegree;
+    }
+
+    S* newMat = new S[nov * nov];
+    for (int col = 0; col < nov; ++col) 
+    {
+        int maxDegree = INT32_MIN;
+        int chosen = 0;
+        for (int j = 0; j < nov; ++j) 
+        {
+            if (indegrees[j] > maxDegree)
+            {
+                maxDegree = indegrees[j];
+                chosen = j;
+            }
+        }
+
+        indegrees[chosen] = INT32_MIN;
+
+        for (int i = 0; i < nov; ++i) 
+        {
+            newMat[i * nov + col] = mat[i * nov + chosen];
+        }
+    }
+
+    matrix->mat = newMat;
+    delete[] mat;
+}
+
+template<class S>
+void IO::rowSort(Matrix<S>* matrix, bool ascending)
+{
+    if (ascending)
+    {
+        ascendingRowSort<S>(matrix);
+    }
+    else
+    {
+        descendingRowSort<S>(matrix);
+    }
+}
+
+template<class S>
+void IO::ascendingRowSort(Matrix<S>* matrix)
+{
+    S* mat = matrix->mat;
+    int nov = matrix->nov;
+
+    std::vector<int> outDegrees(nov);
+    for (int i = 0; i < nov; ++i)
+    {
+        int outDegree = 0;
+        for (int j = 0; j < nov; ++j)
+        {
+            if (mat[i * nov + j] != 0)
+            {
+                ++outDegree;
+            } 
+        }
+        outDegrees[i] = outDegree;
+    }
+
+    S* newMat = new S[nov * nov];
+    for (int row = 0; row < nov; ++row)
+    {
+        int mindegree = INT32_MAX;
+        int chosen = 0;
+        for (int i = 0; i < nov; ++i) 
+        {
+            if (outDegrees[i] < mindegree)
+            {
+                mindegree = outDegrees[i];
+                chosen = i;
+            }
+        }
+
+        outDegrees[chosen] = INT32_MAX;
+
+        for (int j = 0; j < nov; ++j) 
+        {
+            newMat[row * nov + j] = mat[chosen * nov + j];
+        }
+    }
+
+    matrix->mat = newMat;
+    delete[] mat;
+}
+
+template<class S>
+void IO::descendingRowSort(Matrix<S>* matrix)
+{
+    S* mat = matrix->mat;
+    int nov = matrix->nov;
+
+    std::vector<int> outDegrees(nov);
+    for (int i = 0; i < nov; ++i)
+    {
+        int outDegree = 0;
+        for (int j = 0; j < nov; ++j)
+        {
+            if (mat[i * nov + j] != 0)
+            {
+                ++outDegree;
+            } 
+        }
+        outDegrees[i] = outDegree;
+    }
+
+    S* newMat = new S[nov * nov];
+    for (int row = 0; row < nov; ++row)
+    {
+        int maxDegree = INT32_MIN;
+        int chosen = 0;
+        for (int i = 0; i < nov; ++i) 
+        {
+            if (outDegrees[i] > maxDegree)
+            {
+                maxDegree = outDegrees[i];
+                chosen = i;
+            }
+        }
+
+        outDegrees[chosen] = INT32_MIN;
+
+        for (int j = 0; j < nov; ++j) 
+        {
+            newMat[row * nov + j] = mat[chosen * nov + j];
+        }
+    }
+
+    matrix->mat = newMat;
+    delete[] mat;
+}
+
+template<class S>
+void IO::colIndexMinimizationOrder(Matrix<S>* matrix)
+{
+    int nov = matrix->nov;
+    S* mat = matrix->mat;
+
+    int* rowIPermutation = new int[nov];
+    for (unsigned i = 0; i < nov; ++i)
+    {
+        rowIPermutation[i] = i;
+    }
+    int* colIPermutation = new int[nov];
+    
+    bool* permuted = new bool[nov];
+    std::fill(permuted, permuted + nov, false);
+
+    unsigned currentCol = 0;
+    for (unsigned i = 0; i < nov; ++i)
+    {
+        for (unsigned j = 0; j < nov; ++j)
+        {
+            if (mat[i * nov + j] != 0 && permuted[j] == false)
+            {
+                colIPermutation[j] = currentCol++;
+                permuted[j] = true;
+            }
+        }
+    }
+    applyPermutations(matrix, rowIPermutation, colIPermutation);
+
+    delete[] rowIPermutation;
+    delete[] colIPermutation;
+    delete[] permuted;
 }
 
 template<class S>
@@ -754,6 +1016,97 @@ void IO::UTOrder(Matrix<S>* matrix)
     }
 
     applyPermutations(matrix, rowPerm.data(), colPerm.data());
+}
+
+template<class S>
+void IO::alphaOrder(Matrix<S>* matrix, unsigned alpha, bool ascending)
+{
+    int nov = matrix->nov;
+    S* mat = matrix->mat;
+
+    int* rowIPermutation = new int[nov];
+    int* colIPermutation = new int[nov];
+
+    for (unsigned i = 0; i < nov; ++i)
+    {
+        colIPermutation[i] = i;
+    }
+
+    typedef std::pair<int, unsigned> Row;
+    Row* rows = new Row[nov];
+    
+    for (int i = 0; i < nov; ++i)
+    {
+        unsigned nnz = 0;
+        for (int j = 0; j < nov; ++j)
+        {
+            if (mat[i * nov + j] != 0)
+            {
+                ++nnz;
+            }
+        }
+        rows[i] = Row(i, nnz);
+    }
+
+    if (ascending)
+    {
+        std::sort(rows, rows + nov, [](const Row& a, const Row& b) 
+        {
+            return a.second < b.second;
+        });
+    }
+    else
+    {
+        std::sort(rows, rows + nov, [](const Row& a, const Row& b) 
+        {
+            return a.second > b.second;
+        });
+    }
+
+    int split = std::ceil(double(nov) / alpha) - 1;
+    int front = split;
+    int back = nov - 1;
+    int current = 0;
+    while (split < back)
+    {
+        rowIPermutation[rows[front--].first] = current++;
+        for (unsigned i = 0; i < alpha - 1 && split < back; ++i)
+        {
+            rowIPermutation[rows[back--].first] = current++;
+        }
+    }
+    while (front >= 0)
+    {
+        rowIPermutation[rows[front--].first] = current;
+    }
+
+    applyPermutations(matrix, rowIPermutation, colIPermutation);
+
+    delete[] rowIPermutation;
+    delete[] colIPermutation;
+    delete[] rows;
+}
+
+template<class S>
+void IO::randomOrder(Matrix<S>* matrix)
+{
+    int nov = matrix->nov;
+    int* rowIPermutation = new int[nov];
+    int* colIPermutation = new int[nov];
+
+    for (unsigned i = 0; i < nov; ++i)
+    {
+        rowIPermutation[i] = i;
+        colIPermutation[i] = i;
+    }
+
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(rowIPermutation, rowIPermutation + nov, g);
+    applyPermutations(matrix, rowIPermutation, colIPermutation);
+
+    delete[] rowIPermutation;
+    delete[] colIPermutation;
 }
 
 template<class S>

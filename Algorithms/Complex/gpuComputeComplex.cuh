@@ -23,19 +23,15 @@
  * }
  */
 
-#ifndef SUPERMAN_RESULT_H
-#define SUPERMAN_RESULT_H
+#ifndef SUPERMAN_GPUCOMPUTECOMPLEX_CUH
+#define SUPERMAN_GPUCOMPUTECOMPLEX_CUH
+
+#include "Matrix.h"
+#include "Settings.h"
+#include <complex>
 
 
-struct Result
-{
-    Result(double time = 0, double permanent = 0)
-    :   time(time),
-        permanent(permanent) {}
-
-    double time;
-    double permanent;
-};
+void gpuComputeComplex(Matrix<std::complex<double>>* matrix, Settings* settings);
 
 
-#endif //SUPERMAN_RESULT_H
+#endif //SUPERMAN_GPUCOMPUTECOMPLEX_CUH

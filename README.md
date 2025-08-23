@@ -6,22 +6,26 @@ If you use this library in your research, please cite:
 <br/><br/>
 D. Elbek, F. Taşyaran, B. Uçar, and K. Kaya. SUperman: Efficient Permanent Computation on GPUs (2025). arXiv:2502.16577. URL https://www.arxiv.org/abs/2502.16577
 
+---
+
 ### Hard Requirements
 
 | **Requirement** | **Minimum Version** |
 | --------------- |---------------------|
 | C++             | `17`                |
 | GCC             | `10.5`              |
-| CMake           | `3.18`              |
-| Linux OS        | -                   |
+| CMake           | `3.24`              |
+| Linux OS        |  -                   |
 
 ### Soft Requirements
 
 | **Requirement** | **Minimum Version** |
 | --------------- | ------------------- |
-| CUDA            | `12.3`           |
-| OpenMPI         | `4.1.4`          |
+| CUDA            | `12.3`              |
+| GPU Compute Cap.| `70`                |
+| OpenMPI         | `4.1.4`             |
 
+---
 
 ## Step-by-Step Guide
 
@@ -32,10 +36,17 @@ D. Elbek, F. Taşyaran, B. Uçar, and K. Kaya. SUperman: Efficient Permanent Com
 2. Make the run_superman.sh executable by running the following command:
 
 ```bash 
-  chmod +x run_superman.sh
+chmod +x run_superman.sh
 ```
 
-3. Execute the run_superman.sh file from within the source directory:
+3. Execute the run_superman.sh file from directly within the source directory:
 ```bash
-  ./run_superman.sh
+./run_superman.sh
 ```
+
+---
+
+## WARNING
+
+1. Each source directory (i.e, a SUPerman clone) must be devoted to one SUPerman execution at a time.
+2. SUPerman can deterministically compute the permanent of matrices up to size 63x63, provided sufficient computational resources are available.
