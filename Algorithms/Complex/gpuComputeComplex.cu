@@ -406,8 +406,14 @@ void gpuComputeComplex(Matrix<std::complex<double>>* matrix, Settings* settings)
 
     cuDoubleComplex result = cuCmul(make_cuDoubleComplex((4 * (nov % 2) - 2), 0), productSum);
     std::stringstream stream;
-    stream << "Permanent: " << '(' << std::setprecision(settings->printingPrecision) << result.x << ',' << result.y << ')' << std::endl;
-    stream << "Time took: " << timeEnd - timeStart << std::endl << std::endl;
+    if (std::isnan(result.x) || std::isnan(result.y))
+    {
+        stream << "Permanent computation has overflowed." << " - Computed in: " << timeEnd - timeStart << " seconds." << std::endl;
+    }
+    else
+    {
+        stream << "Permanent: (" << std::setprecision(settings->printingPrecision) << result.x << ',' << result.y << ") - Computed in: " << timeEnd - timeStart << " seconds." << std::endl;
+    }
     print(stream, settings->rank, settings->PID, -1);
 }
 

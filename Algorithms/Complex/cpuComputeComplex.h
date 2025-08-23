@@ -127,8 +127,16 @@ void cpuComputeComplex(Matrix<std::complex<S>>* matrix, Settings* settings)
     double timeEnd = omp_get_wtime();
 
     std::complex<C> result = std::complex<C>((4 * (nov % 2) - 2), 0) * productSum;
-    std::cout << "Permanent: " << std::setprecision(settings->printingPrecision) << result << std::endl;
-    std::cout << "Time took: " << timeEnd - timeStart << std::endl;
+    std::stringstream stream = std::stringstream();
+    if (std::isnan(result.real()) || std::isnan(result.imag()))
+    {
+        stream << "Permanent computation has overflowed." << " - Computed in: " << timeEnd - timeStart << " seconds." << std::endl;
+    }
+    else
+    {
+        stream << "Permanent: " << std::setprecision (settings->printingPrecision) << result << " - Computed in: " << timeEnd - timeStart << " seconds." << std::endl;
+    }
+    print(stream, settings->rank, settings->PID, -1);
 
     delete[] matTransposed;
 }
