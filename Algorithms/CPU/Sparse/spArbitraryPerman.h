@@ -63,7 +63,7 @@ double spArbitraryPerman<C, S>::permanentFunction()
     mpf_set_default_prec(this->m_Settings.arbitraryPrecision);
 
     mpf_class x[nov];
-    mpf_class productValue(1, this->m_Settings.arbitraryPrecision);
+    mpf_class productSum(1, this->m_Settings.arbitraryPrecision);
     for (int i = 0; i < nov; ++i)
     {
         mpf_class rowSum(0, this->m_Settings.arbitraryPrecision);
@@ -72,9 +72,8 @@ double spArbitraryPerman<C, S>::permanentFunction()
             rowSum += rvals[ptr];
         }
         x[i] = mpf_class(mat[(i * nov) + (nov - 1)], this->m_Settings.arbitraryPrecision) - (rowSum / 2);
-        productValue *= x[i];
+        productSum *= x[i];
     }
-    mpf_class productSum(productValue, this->m_Settings.arbitraryPrecision);
 
     long long start = 1;
     long long end = (1LL << (nov - 1));
@@ -94,16 +93,20 @@ double spArbitraryPerman<C, S>::permanentFunction()
         mpf_class myResult(0, this->m_Settings.arbitraryPrecision);
 
         mpf_class myX[nov];
-        for (int t = 0; t < nov; ++t) myX[t] = x[t];
+        for (int t = 0; t < nov; ++t) 
+        {
+            myX[t] = x[t];
+        }
 
         long long chunkSize = (end - start + threads - 1) / threads;
         long long myStart = start + (threadID * chunkSize);
         long long myEnd = std::min(start + ((threadID + 1) * chunkSize), end);
 
-        long long gray = (myStart - 1) ^ ((myStart - 1) >> 1);
+        long long gray = (myStart - 1) ^ ((myStart - 1) >> 1); // gray code for the previous subset
+        // getting the x vector from the previous subset
         for (int j = 0; j < (nov - 1); ++j)
         {
-            if ((gray >> j) & 1LL)
+            if ((gray >> j) & 1LL) // was jth column included?
             {
                 for (int i = cptrs[j]; i < cptrs[j + 1]; ++i)
                 {
@@ -121,13 +124,15 @@ double spArbitraryPerman<C, S>::permanentFunction()
             }
         }
 
+        // are we starting with a negative product sign?
         int productSign = (myStart & 1LL) ? -1 : 1;
 
         for (long long i = myStart; i < myEnd; ++i)
         {
-            int columnChanged = __builtin_ctzll(i);
+            int columnChanged = __builtin_ctzll(i); // column no that was added or removed
             gray ^= (1LL << columnChanged);
 
+            // is column removed or added
             C added = ((1LL << columnChanged) & gray) ? 1 : -1;
 
             for (int j = cptrs[columnChanged]; j < cptrs[columnChanged + 1]; ++j)
@@ -135,6 +140,7 @@ double spArbitraryPerman<C, S>::permanentFunction()
                 int rowNeigbour = rows[j];
                 mpf_class xValue = myX[rowNeigbour];
 
+                // excluding
                 if (xValue == 0)
                 {
                     --zeroNumber;
@@ -142,6 +148,7 @@ double spArbitraryPerman<C, S>::permanentFunction()
 
                 xValue += added * cvals[j];
 
+                // including
                 if (xValue == 0)
                 {
                     ++zeroNumber;

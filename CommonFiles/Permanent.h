@@ -80,12 +80,13 @@ double Permanent<C, S>::computePermanent()
         Matrix<S>* sparseMatrix = new SparseMatrix<S>(m_Matrix, getNNZ(m_Matrix));
         m_Matrix = sparseMatrix;
     }
-    else if (m_Settings.algorithm != XREGISTERMSHARED && m_Settings.algorithm != XREGISTERMGLOBAL && m_Matrix->sparsity < 50)
+    else if (sparse)
     {
         IO::colSort(m_Matrix);
         Matrix<S>* sparseMatrix = new SparseMatrix<S>(m_Matrix, getNNZ(m_Matrix));
         m_Matrix = sparseMatrix;
     }
+    //
 
     return this->permanentFunction();
 }

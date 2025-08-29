@@ -56,7 +56,6 @@ double dpArbitraryPerman<C, S>::permanentFunction()
 
     mpf_class x[nov];
     mpf_class productSum(1, this->m_Settings.arbitraryPrecision);
-
     for (int i = 0; i < nov; ++i)
     {
         mpf_class rowSum(0, this->m_Settings.arbitraryPrecision);
@@ -93,11 +92,13 @@ double dpArbitraryPerman<C, S>::permanentFunction()
 #pragma omp parallel num_threads(threads)
     {
         int threadID = omp_get_thread_num();
-
         mpf_class myResult(0, this->m_Settings.arbitraryPrecision);
 
         mpf_class myX[nov];
-        for (int t = 0; t < nov; ++t) myX[t] = x[t];
+        for (int t = 0; t < nov; ++t) 
+        {
+            myX[t] = x[t];
+        }
 
         long long chunkSize = (end - start + threads - 1) / threads;
         long long myStart = start + (threadID * chunkSize);

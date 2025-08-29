@@ -111,7 +111,6 @@ double spNaivePerman<C, S>::permanentFunction()
         }
 
         int zeroNumber = 0;
-        // product from the previous subset
         for (int i = 0; i < nov; ++i)
         {
             if (myX[i] == 0)

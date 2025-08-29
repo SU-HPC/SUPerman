@@ -356,17 +356,6 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
                 throw std::runtime_error("An integer value should be provided to the scale_into argument!\n");
             }
         }
-        else if (arg == "chunk_partitioning")
-        {
-            try
-            {
-                settings.partition = std::stoul(value);
-            }
-            catch (const std::exception& e)
-            {
-                throw std::runtime_error("An unsigned integer value should be provided to the chunk_partitioning argument!\n");
-            }
-        }
         else if (arg == "calculation_precision")
         {
             try

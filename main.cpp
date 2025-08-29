@@ -38,6 +38,7 @@ double avgN = 0;
 double avgNNZ = 0;
 unsigned count = 0;
 bool printing = true;
+bool sparse = false;
 
 int main(int argv, char* argc[])
 {

@@ -75,7 +75,6 @@ namespace SparseDefinitions
         }
 
         int zeroNumber = 0;
-        // product from the previous subset
         for (int i = 0; i < nov; ++i)
         {
             unsigned index = totalThreadCount * i + globalThreadID;
@@ -209,7 +208,6 @@ namespace SparseDefinitions
         }
 
         int zeroNumber = 0;
-        // product from the previous subset
         for (int i = 0; i < nov; ++i)
         {
             unsigned index = totalThreadCount * i + globalThreadID;
@@ -316,7 +314,6 @@ namespace SparseDefinitions
         }
 
         int zeroNumber = 0;
-        // product from the previous subset
         for (int i = 0; i < nov; ++i)
         {
             unsigned index = blockDim.x * i + threadIdx.x;
@@ -452,7 +449,6 @@ namespace SparseDefinitions
         }
 
         int zeroNumber = 0;
-        // product from the previous subset
         for (int i = 0; i < nov; ++i)
         {
             unsigned index = blockDim.x * i + threadIdx.x;

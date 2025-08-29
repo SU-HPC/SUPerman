@@ -83,8 +83,9 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
     // cpu
     if (settings->mode == Mode::CPU)
     {
-        if (matrix->sparsity < 50)  // sparse
+        if (matrix->sparsity < 30)  // sparse
         {
+            sparse = true;
             return cpuSPNaivePerman<C, S>;
         }
         else                        // dense
@@ -95,11 +96,12 @@ typename AlgorithmSelector<C, S>::Algorithm AlgorithmSelector<C, S>::selectAlgor
 
     // gpu-mpi
     if (
-           (settings->algorithm != XREGISTERMSHARED && settings->algorithm != XREGISTERMGLOBAL && matrix->sparsity < 50) 
+           (settings->algorithm != XREGISTERMSHARED && settings->algorithm != XREGISTERMGLOBAL && matrix->sparsity < 30) 
         ||  settings->algorithm == NAIVECODEGENERATION || settings->algorithm == REGEFFICIENTCODEGENERATION
         ||  settings->algorithm == APPROXIMATION
     ) // sparse
     {
+        sparse = true;
         #ifdef GPU_AVAILABLE
         if (settings->mode == Mode::SingleGPU)
         {
