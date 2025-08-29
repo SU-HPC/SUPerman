@@ -134,7 +134,8 @@ void cpuComputeComplex(Matrix<std::complex<S>>* matrix, Settings* settings)
     }
     else
     {
-        stream << "Permanent: " << std::setprecision (settings->printingPrecision) << result << " - Computed in: " << timeEnd - timeStart << " seconds." << std::endl;
+        unsigned maxPrec = std::min(effectivePrecision(result.real()), effectivePrecision(result.imag()));
+        stream << "Permanent: " << std::setprecision (maxPrec) << result << " - Computed in: " << timeEnd - timeStart << " seconds." << std::endl;
     }
     print(stream, settings->rank, settings->PID, -1);
 

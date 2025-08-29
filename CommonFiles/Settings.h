@@ -60,6 +60,7 @@ enum Precision
 {
     DD,
     KAHAN,
+    ARBITRARY,
     PrecisionEnds
 };
 
@@ -84,7 +85,7 @@ struct Settings
     unsigned scaleInto;
 
     // Precision Related
-    unsigned printingPrecision;
+    unsigned arbitraryPrecision;
     Precision calculationPrecision;
 
     // CPU Specific

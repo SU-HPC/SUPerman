@@ -172,7 +172,6 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
     settings.scaling = false;
     settings.scalingIterationNo = 100;
     settings.scaleInto = 2;
-    settings.printingPrecision = 300;
     settings.threadC = omp_get_max_threads();
     settings.deviceID = 0;
     settings.gpuNum = 1;
@@ -202,7 +201,7 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
             }
             catch (const std::exception& e)
             {
-                throw std::runtime_error("An integer value should be provided to the pid argument!\n");
+                throw std::runtime_error("The pid argument must be either 1 or 2. If you are reading this, you are probably doing something you should not be doing. Use ./run_superman.sh located directly under the source directory instead!\n");
             }
         }
         else if (arg == "repo_dir")
@@ -260,9 +259,7 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
             }
             else
             {
-                stream << "UNKNOWN ALGORITHM: " << value << " - selecting automatically instead." << std::endl;
-                print(stream, settings.rank, settings.PID, 1);
-                settings.algorithm = AlgorithmEnds;
+                throw std::runtime_error("UNKNOWN ALGORITHM: " + value + '\n');
             }
         }
         else if (arg == "mode")
@@ -286,10 +283,7 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
             }
             else
             {
-                stream << "UNKNOWN MODE: " << value << " - selecting CPU by default instead." << std::endl;
-                print(stream, settings.rank, settings.PID, 1);
-                settings.mode = CPU;
-                settings.algorithm = AlgorithmEnds;
+                throw std::runtime_error("UNKNOWN MODE: " + value + '\n');
             }
         }
         else if (arg == "thread_count")
@@ -363,17 +357,6 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
                 throw std::runtime_error("An integer value should be provided to the scale_into argument!\n");
             }
         }
-        else if (arg == "printing_precision")
-        {
-            try
-            {
-                settings.printingPrecision = std::stoul(value);
-            }
-            catch (const std::exception& e)
-            {
-                throw std::runtime_error("An integer value should be provided to the printing_precision argument!\n");
-            }
-        }
         else if (arg == "chunk_partitioning")
         {
             try
@@ -387,13 +370,29 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
         }
         else if (arg == "calculation_precision")
         {
-            if (value == "kahan")
+            try
             {
-                settings.calculationPrecision = KAHAN;
+                if (settings.mode != CPU || settings.complex != false)
+                {
+                    throw std::runtime_error("SUperman currently supports arbitrary precision only when the mode is CPU and the matrix is not complex!\n");
+                }
+                settings.calculationPrecision = ARBITRARY;
+                settings.arbitraryPrecision = std::stoul(value);
             }
-            else
+            catch (const std::exception& e)
             {
-                settings.calculationPrecision = DD;
+                if (value == "kahan")
+                {
+                    settings.calculationPrecision = KAHAN;
+                }
+                else if (value == "dd")
+                {
+                    settings.calculationPrecision = DD;
+                }
+                else
+                {
+                    throw std::runtime_error("Calculation precision can either be kahan or dd or an arbitrary precision given as an unsigned integer that will launch SUperman with arbitrarily selected mantissa (check IEEE 754)!\n");
+                }
             }
         }
         else
@@ -409,7 +408,7 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
     }
     if (!repoDirFound)
     {
-        throw std::runtime_error("You are required to provide the absolute path of the repository directory to the executable of this program!\n");
+        throw std::runtime_error("You are required to provide the absolute path of the repository directory to the executable of this program. If you are reading this, you are probably doing something you should not be doing. Use ./run_superman.sh located directly under the source directory instead!\n");
     }
     if (!filenameFound)
     {

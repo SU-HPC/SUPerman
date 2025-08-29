@@ -1,0 +1,66 @@
+include(FindPackageHandleStandardArgs)
+
+set(_GMP_HINT_DIRS)
+if(DEFINED GMP_ROOT)
+  list(APPEND _GMP_HINT_DIRS "${GMP_ROOT}" "${GMP_ROOT}/include" "${GMP_ROOT}/lib" "${GMP_ROOT}/lib64")
+endif()
+
+set(_GMP_INC_HINTS)
+set(_GMP_LIB_HINTS)
+find_package(PkgConfig QUIET)
+if(PkgConfig_FOUND)
+  pkg_check_modules(_GMP_PC QUIET gmp)
+  pkg_check_modules(_GMPXX_PC QUIET gmpxx)
+  if(_GMP_PC_FOUND)
+    set(_GMP_INC_HINTS ${_GMP_PC_INCLUDE_DIRS})
+    set(_GMP_LIB_HINTS ${_GMP_PC_LIBRARY_DIRS})
+  endif()
+endif()
+
+find_path(GMP_INCLUDE_DIR NAMES gmp.h HINTS ${_GMP_INC_HINTS} ${_GMP_HINT_DIRS})
+find_library(GMP_LIBRARY NAMES gmp libgmp HINTS ${_GMP_LIB_HINTS} ${_GMP_HINT_DIRS})
+find_library(GMPXX_LIBRARY NAMES gmpxx libgmpxx HINTS ${_GMP_LIB_HINTS} ${_GMP_HINT_DIRS})
+
+set(GMP_VERSION "")
+if(GMP_INCLUDE_DIR AND EXISTS "${GMP_INCLUDE_DIR}/gmp.h")
+  file(READ "${GMP_INCLUDE_DIR}/gmp.h" _gmp_h)
+  string(REGEX MATCH "#define[ \t]+__GNU_MP_VERSION[ \t]+([0-9]+)" _m "${_gmp_h}")
+  string(REGEX MATCH "#define[ \t]+__GNU_MP_VERSION_MINOR[ \t]+([0-9]+)" _n "${_gmp_h}")
+  string(REGEX MATCH "#define[ \t]+__GNU_MP_VERSION_PATCHLEVEL[ \t]+([0-9]+)" _p "${_gmp_h}")
+  if(_m AND _n)
+    string(REGEX REPLACE ".*__GNU_MP_VERSION[ \t]+([0-9]+).*" "\\1" _maj "${_m}")
+    string(REGEX REPLACE ".*__GNU_MP_VERSION_MINOR[ \t]+([0-9]+).*" "\\1" _min "${_n}")
+    if(_p)
+      string(REGEX REPLACE ".*__GNU_MP_VERSION_PATCHLEVEL[ \t]+([0-9]+).*" "\\1" _pat "${_p}")
+      set(GMP_VERSION "${_maj}.${_min}.${_pat}")
+    else()
+      set(GMP_VERSION "${_maj}.${_min}")
+    endif()
+  endif()
+endif()
+
+find_package_handle_standard_args(GMP REQUIRED_VARS GMP_INCLUDE_DIR GMP_LIBRARY VERSION_VAR GMP_VERSION)
+
+if(GMP_FOUND)
+  if(NOT TARGET GMP::gmp)
+    add_library(GMP::gmp UNKNOWN IMPORTED)
+    set_target_properties(GMP::gmp PROPERTIES
+      IMPORTED_LOCATION "${GMP_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${GMP_INCLUDE_DIR}")
+  endif()
+  if(GMPXX_LIBRARY AND NOT TARGET GMP::gmpxx)
+    add_library(GMP::gmpxx UNKNOWN IMPORTED)
+    set_target_properties(GMP::gmpxx PROPERTIES
+      IMPORTED_LOCATION "${GMPXX_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${GMP_INCLUDE_DIR}"
+      INTERFACE_LINK_LIBRARIES "GMP::gmp")
+  endif()
+  set(GMP_INCLUDE_DIRS "${GMP_INCLUDE_DIR}")
+  if(TARGET GMP::gmpxx)
+    set(GMP_LIBRARIES "${GMPXX_LIBRARY};${GMP_LIBRARY}")
+  else()
+    set(GMP_LIBRARIES "${GMP_LIBRARY}")
+  endif()
+endif()
+
+mark_as_advanced(GMP_INCLUDE_DIR GMP_LIBRARY GMPXX_LIBRARY)

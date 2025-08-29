@@ -15,7 +15,7 @@ D. Elbek, F. Taşyaran, B. Uçar, and K. Kaya. SUperman: Efficient Permanent Com
 | C++             | `17`                |
 | GCC             | `10.5`              |
 | CMake           | `3.24`              |
-| Linux OS        |  -                   |
+| Linux OS        |  -                  |
 
 ### Soft Requirements
 
@@ -24,6 +24,7 @@ D. Elbek, F. Taşyaran, B. Uçar, and K. Kaya. SUperman: Efficient Permanent Com
 | CUDA            | `12.3`              |
 | GPU Compute Cap.| `70`                |
 | OpenMPI         | `4.1.4`             |
+| GMP             | `6.2.1`             |
 
 ---
 

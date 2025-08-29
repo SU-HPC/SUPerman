@@ -125,7 +125,8 @@ int main(int argv, char* argc[])
         }
         else
         {
-            stream << "Permanent: " << std::setprecision (settings.printingPrecision) << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl;
+            unsigned maxPrec = effectivePrecision(result.permanent);
+            stream << "Permanent: " << std::setprecision (maxPrec) << result.permanent << " - Computed in: " << result.time << " seconds." << std::endl;
         }
         print(stream, rank, settings.PID, -1);
 

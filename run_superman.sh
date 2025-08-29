@@ -66,9 +66,6 @@ matrix_specific_size=("40")
 calculation_precision=("kahan")
 # Precision in which to compute the permanent
 
-printing_precision=(300)
-# Precision in which to print the computed permanent
-
 g++ -std=c++17 "${repo_directory}wrapper.cpp" -o "${repo_directory}wrapper"
 if [ $? -ne 0 ]; then
   echo "Compilation of wrapper.cpp failed!"
@@ -112,7 +109,6 @@ for i in "${!filenames[@]}"; do
   binary="$(get_at is_binary "$i")"
   undirected="$(get_at is_undirected "$i")"
   calc_prec="$(get_at calculation_precision "$i")"
-  print_prec="$(get_at printing_precision "$i")"
 
   if [[ "$msc" == "true" ]]; then
     "${repo_directory}wrapper" \
@@ -130,8 +126,7 @@ for i in "${!filenames[@]}"; do
       complex="$complex" \
       binary="$binary" \
       undirected="$undirected" \
-      calculation_precision="$calc_prec" \
-      printing_precision="$print_prec"
+      calculation_precision="$calc_prec"
     if [[ $? -ne 0 ]]; then
       echo "Execution of wrapper failed for matrix-specific compilation on file ${fname}"
       exit 1
@@ -151,8 +146,7 @@ for i in "${!filenames[@]}"; do
       complex="$complex" \
       binary="$binary" \
       undirected="$undirected" \
-      calculation_precision="$calc_prec" \
-      printing_precision="$print_prec"
+      calculation_precision="$calc_prec"
     if [[ $? -ne 0 ]]; then
       echo "Execution of wrapper failed on file ${fname}"
       exit 1

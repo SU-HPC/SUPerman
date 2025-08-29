@@ -4,7 +4,7 @@
 -------------------------------------------------------------------------------------------------------------------
 ├── Dense
 │   ├── CPU (cpu)
-│   │   ├── Parallel Ryser
+│   │   ├── Parallel Ryser (Arbitrary precision is supported)
 │   ├── Single-GPU (single_gpu)
 │   │   ├── Naive Code Generation (naive_code_generation) (Kahan (kahan) is supported)
 │   │   └── Hybrid Code Generation (register_efficient_code_generation) (Kahan (kahan) is supported)
@@ -58,7 +58,7 @@
 │   │   └── X-Global M-Global (xshared_mglobal)
 ├── Complex (a + bi)
 │   ├── CPU (cpu)
-│   │   ├── Parallel SpaRyser
+│   │   ├── Parallel SpaRyser (Arbitrary precision is supported)
 │   ├── Single-GPU (single_gpu)
 │   │   └── X-Register M-Shared (xregister_mshared) (Matrix-Specific Compilation is supported)
 -------------------------------------------------------------------------------------------------------------------
