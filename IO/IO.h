@@ -186,7 +186,6 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
         std::vector<std::string> argumentSplitted = split<S>(argv[i], '=');
         std::string arg = argumentSplitted[0];
         std::string value = argumentSplitted[1];
-        std::stringstream stream;
 
         if (arg == "pid")
         {
@@ -376,6 +375,9 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
                 {
                     throw std::runtime_error("SUperman currently supports arbitrary precision only when the mode is CPU and the matrix is not complex!\n");
                 }
+                #ifndef GMP_AVAILABLE
+                    throw std::runtime_error("The GMP library is not found to be installed on your system!\n");
+                #endif
                 settings.calculationPrecision = ARBITRARY;
                 settings.arbitraryPrecision = std::stoul(value);
             }
@@ -397,6 +399,7 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
         }
         else
         {
+            std::stringstream stream;
             stream << "UNKNOWN ARGUMENT: " << arg << " - skipping it." << std::endl;
             print(stream, settings.rank, settings.PID, 1);
         }
