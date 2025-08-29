@@ -30,24 +30,52 @@
 // CPU
 #include "spNaivePerman.h"
 #include "dpNaivePerman.h"
+#ifdef GMP_AVAILABLE
+#include "spArbitraryPerman.h"
+#include "dpArbitraryPerman.h"
+#endif
 #include "DecomposePerman.h"
 
 template <typename C, typename S>
 Result cpuSPNaivePerman(Matrix<S>* matrix, Settings* settings)
 {
-    auto permanent = new DecomposePerman<C, S, spNaivePerman<C, S> >(matrix, *settings);
-    Result result = permanent->computePermanentRecursively();
-    delete permanent;
-    return result;
+    #ifdef GMP_AVAILABLE
+    if (settings->calculationPrecision == ARBITRARY)
+    {
+        auto permanent = new DecomposePerman<C, S, spArbitraryPerman<C, S> >(matrix, *settings);
+        Result result = permanent->computePermanentRecursively();
+        delete permanent;
+        return result;
+    }
+    else
+    #endif
+    {
+        auto permanent = new DecomposePerman<C, S, spNaivePerman<C, S> >(matrix, *settings);
+        Result result = permanent->computePermanentRecursively();
+        delete permanent;
+        return result;
+    }
 }
 
 template <typename C, typename S>
 Result cpuDPNaivePerman(Matrix<S>* matrix, Settings* settings)
 {
-    auto permanent = new DecomposePerman<C, S, dpNaivePerman<C, S> >(matrix, *settings);
-    Result result = permanent->computePermanentRecursively();
-    delete permanent;
-    return result;
+    #ifdef GMP_AVAILABLE
+    if (settings->calculationPrecision == ARBITRARY)
+    {
+        auto permanent = new DecomposePerman<C, S, dpArbitraryPerman<C, S> >(matrix, *settings);
+        Result result = permanent->computePermanentRecursively();
+        delete permanent;
+        return result;
+    }
+    else
+    #endif
+    {
+        auto permanent = new DecomposePerman<C, S, dpNaivePerman<C, S> >(matrix, *settings);
+        Result result = permanent->computePermanentRecursively();
+        delete permanent;
+        return result;
+    }
 }
 
 

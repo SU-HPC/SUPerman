@@ -36,6 +36,7 @@
 #include <cstring>
 #include <sys/wait.h>
 #include <iomanip>
+#include <limits>
 
 inline int readPipe(const std::string& pipe, int rank)
 {
@@ -239,6 +240,12 @@ inline void printProgressBar(double percent, int rank, int pid)
         stream << "] " << std::fixed << std::setprecision(3) << percent << '%' << std::endl;
         print(stream, rank, pid, -1);
     }
+}
+
+template <class T>
+constexpr int effectivePrecision(T) noexcept 
+{
+    return std::numeric_limits<T>::max_digits10;
 }
 
 

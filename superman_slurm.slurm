@@ -106,9 +106,6 @@ matrix_specific_size=("40")
 calculation_precision=("kahan")
 # Precision in which to compute the permanent
 
-printing_precision=(300)
-# Precision in which to print the computed permanent
-
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
 
@@ -156,7 +153,6 @@ for i in "${!filenames[@]}"; do
   binary="$(get_at is_binary "$i")"
   undirected="$(get_at is_undirected "$i")"
   calc_prec="$(get_at calculation_precision "$i")"
-  print_prec="$(get_at printing_precision "$i")"
 
   if [[ "$msc" == "true" ]]; then
     "${repo_directory}wrapper" \
@@ -174,8 +170,7 @@ for i in "${!filenames[@]}"; do
       complex="$complex" \
       binary="$binary" \
       undirected="$undirected" \
-      calculation_precision="$calc_prec" \
-      printing_precision="$print_prec" >> "${output_file}" 2>&1
+      calculation_precision="$calc_prec" >> "${output_file}" 2>&1
     if [[ $? -ne 0 ]]; then
       echo "Execution of wrapper failed for matrix-specific compilation on file ${fname}" >&2
       exit 1
@@ -195,8 +190,7 @@ for i in "${!filenames[@]}"; do
       complex="$complex" \
       binary="$binary" \
       undirected="$undirected" \
-      calculation_precision="$calc_prec" \
-      printing_precision="$print_prec" >> "${output_file}" 2>&1
+      calculation_precision="$calc_prec" >> "${output_file}" 2>&1
     if [[ $? -ne 0 ]]; then
       echo "Execution of wrapper failed on file ${fname}" >&2
       exit 1

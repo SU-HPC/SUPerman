@@ -52,75 +52,25 @@ include_directories(Algorithms/GPU/Sparse)
 include_directories(Algorithms/GPU/CodeGeneration)
 include_directories(Algorithms/Complex)
 
-# Files
-set(COMMON_HEADER_FILES
-	CommonFiles/Settings.h
-	CommonFiles/Result.h
-	CommonFiles/Helpers.h
-	CommonFiles/Permanent.h
-	CommonFiles/DecomposePerman.h
-	Structures/Matrix.h
-	Structures/SparseMatrix.h
-	IO/IO.h
-	IO/dm.h
-	IO/dm.cpp
-	CommonFiles/AlgorithmSelector.h
-	Algorithms/AllAlgorithms.h
-)
-
-# CPU Files
-set(CPU_HEADER_FILES
-	Algorithms/CPU/Dense/dpNaivePerman.h
-	Algorithms/CPU/Sparse/spNaivePerman.h
-	Algorithms/Complex/cpuComputeComplex.h
-)
-
-# GPU Files
-set(GPU_HEADER_FILES
-	Algorithms/GPU/GPUHelpers.cuh
-	Algorithms/GPU/Sparse/SparseKernelDefinitions.cuh
-	Algorithms/GPU/Sparse/spSingleGPU.cuh
-	Algorithms/GPU/Sparse/spMultiGPU.cuh
-	Algorithms/GPU/Sparse/spMultiGPUMPI.cuh
-	Algorithms/GPU/Sparse/ApproximateSparseKernelDefinitions.cuh
-	Algorithms/GPU/Sparse/aspSingleGPU.cuh
-	Algorithms/GPU/Dense/DenseKernelDefinitions.cuh
-	Algorithms/GPU/Dense/dpSingleGPU.cuh
-	Algorithms/GPU/Dense/dpMultiGPU.cuh
-	Algorithms/GPU/Dense/dpMultiGPUMPI.cuh
-	Algorithms/GPU/Registers.cuh
-	Algorithms/GPU/PrecisionHelpers.cuh
-	Algorithms/GPU/CodeGeneration/KernelGenSingleGPU.cuh
-	Algorithms/GPU/CodeGeneration/KernelGenMultiGPU.cuh
-	Algorithms/GPU/CodeGeneration/KernelGenMultiGPUMPI.cuh
-	Algorithms/GPU/CodeGeneration/KernelGenerator.cuh
-	Algorithms/GPU/CodeGeneration/NaiveKernelCodeGen.cuh
-	Algorithms/GPU/CodeGeneration/UTOrderedKernelCodeGen.cuh
-	Algorithms/GPU/CodeGeneration/generatedKernels.cuh
-	Algorithms/Complex/gpuComputeComplex.cuh
-)
-
 set(GPU_WRAPPER_FILES
-	Algorithms/GPU/GPUKernelWrappers.h
 	Algorithms/GPU/GPUKernelWrappers.cu
 	Algorithms/Complex/gpuComputeComplex.cu
 )
 
 # MPI Files
 set(MPI_WRAPPER_FILES
-	MPIWrappers/mpi_wrapper.h
 	MPIWrappers/mpi_wrapper.cpp
 )
 
 # All Files
 set(FILES
-	${COMMON_HEADER_FILES}
+	main.cpp
+	IO/dm.cpp
 	${CPU_HEADER_FILES}
 )
 
 # Add GPU Files to All Files if CUDA detected
 if(CUDAToolkit_FOUND)
-    list(APPEND FILES ${GPU_HEADER_FILES})
     list(APPEND FILES ${GPU_WRAPPER_FILES})
 endif()
 
@@ -132,24 +82,42 @@ endif()
 # Create executable
 add_executable(SUPerman
 	main.cpp
+	IO/dm.cpp
 	${FILES}
 )
 
 # Link shared libraries
-target_link_libraries(SUPerman OpenMP::OpenMP_CXX)
+target_link_libraries(SUPerman PRIVATE
+	OpenMP::OpenMP_CXX
+)
 
 if(CMAKE_CUDA_COMPILER)
-    target_link_libraries(SUPerman
+	target_link_libraries(SUPerman PRIVATE
         cuda
         CUDA::cudart
         ${CUDA_LIBRARIES}
-)
+	)
 endif()
 
 if(MPI_FOUND)
-    target_link_libraries(SUPerman
+    target_link_libraries(SUPerman PRIVATE
 		MPI::MPI_CXX
     )
+endif()
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+find_package(GMP QUIET)
+if(GMP_FOUND)
+  add_definitions(-DGMP_AVAILABLE)
+  if(TARGET GMP::gmpxx)
+    target_link_libraries(SUPerman PRIVATE 
+		GMP::gmpxx
+	)
+  else()
+    target_link_libraries(SUPerman PRIVATE 
+		GMP::gmp
+	)
+  endif()
 endif()
 
 # Set compilation flags

@@ -412,7 +412,8 @@ void gpuComputeComplex(Matrix<std::complex<double>>* matrix, Settings* settings)
     }
     else
     {
-        stream << "Permanent: (" << std::setprecision(settings->printingPrecision) << result.x << ',' << result.y << ") - Computed in: " << timeEnd - timeStart << " seconds." << std::endl;
+        unsigned maxPrec = std::min(effectivePrecision(result.x), effectivePrecision(result.y));
+        stream << "Permanent: (" << std::setprecision(maxPrec) << result.x << ',' << result.y << ") - Computed in: " << timeEnd - timeStart << " seconds." << std::endl;
     }
     print(stream, settings->rank, settings->PID, -1);
 }
