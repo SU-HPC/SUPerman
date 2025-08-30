@@ -51,11 +51,10 @@ output_directory=${repo_directory}tests/
 mkdir -p ${output_directory}
 
 filenames=(
-"dense.mtx"
+"sparse.mtx"
 )
 # The filename of your matrix.
-# If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based.
-# Otherwise, it assumes them to be 0-based.
+# If the filename ends with .mtx, the library assumes that the nonzero coordinates are 1-based. Otherwise, it assumes them to be 0-based.
 
 algorithms=("auto")
 # The algorithm used to compute the permanent of your matrix.
@@ -64,18 +63,17 @@ algorithms=("auto")
 modes=("single_gpu")
 # The mode in which the matrix permanent is computed.
 # Available modes are:
-# - cpu: Uses only the CPU (very slow; avoid if your matrix size exceeds 40x40).
-# - single_gpu: Utilizes a single GPU (specified by device_id) during the computation.
-# - multi_gpu: Uses multiple GPUs (number specified by gpu_num) per-task for the computation.
-# - multi_gpu_mpi: Uses multiple tasks (perhaps coming from multiple nodes), each with possibly multiple GPUs.
+# - "cpu": Uses only the CPU (very slow; avoid if your matrix size exceeds 40x40).
+# - "single_gpu": Utilizes a single GPU (specified by device_id) during the computation.
+# - "multi_gpu": Uses multiple GPUs (number specified by gpu_num) per-task for the computation.
+# - "multi_gpu_mpi": Uses multiple tasks (perhaps coming from multiple nodes), each with possibly multiple GPUs.
 
 thread_counts=(88)
 # The number of CPU threads the library will use when computing the permanent on the CPU.
 # Only relevant if the mode is "cpu".
 
 device_ids=(0)
-# Either the device ID of the GPU used for the computation if the mode is "single_gpu"
-# or the device ID for which the GPU kernels are generated if the mode is "multi_gpu" or "multi_gpu_mpi".
+# Either the device ID of the GPU used for the computation if the mode is "single_gpu" or the device ID for which the GPU kernels are generated if the mode is "multi_gpu" or "multi_gpu_mpi".
 
 gpu_nums=(1)
 # The number of GPUs used for the computation per-task.
@@ -84,7 +82,7 @@ gpu_nums=(1)
 processor_num=(1)
 # The number of MPI tasks (perhaps coming from multiple nodes) to use for the computation.
 # Only relevant if the mode is "multi_gpu_mpi".
-# UNDEFINED EXECUTION PATTERN IF: processor_num > 1 and mode != multi_gpu_mpi
+# UNDEFINED EXECUTION PATTERN IF: processor_num > 1 and mode != "multi_gpu_mpi"
 
 is_complex=("false")
 # If true, the library assumes the matrix to contain complex entries of the form (a + bi).
@@ -97,14 +95,16 @@ is_undirected=("false")
 #                                                              there is also an edge v -> u.
 
 matrix_specific_compilation=("false")
-# Although not recommended to be set as "true" (unless the matrix has complex entries, in which case we highly recommend it), if so,
-# the library compiles itself with specific matrix size (to be determined in the following argument) for improved efficiency,
-# details of which is accessible in our paper.
+# Although not recommended to be set as "true" (unless the matrix has complex entries, in which case we highly recommend it), if so, the library compiles itself with specific matrix size (to be determined in the following argument) for improved efficiency, details of which is accessible in our paper.
 matrix_specific_size=("40")
 # The specific matrix size to use if matrix-specific compilation is enabled.
 
 calculation_precision=("kahan")
 # Precision in which to compute the permanent
+# Available options are:
+# - "dd": Uses double precision only; fast but prone to precision errors.
+# - "kahan": Uses compensated summation; slightly slower than double (about 4%) but more robust against precision errors.
+# - An arbitrary unsigned integer: Specifies the width of the mantissa in IEEE 754 format. Only available in "cpu" mode and can be extremely slow (up to 100× slower compared to normal CPU execution).
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK

@@ -40,10 +40,10 @@ Below is a compact summary of the settings in the `run_superman.sh` script:
 - **Computation Mode (`modes`):**
     - The mode in which the matrix permanent is computed.
     - **Options:**
-        - cpu: Uses only the CPU (very slow; avoid if your matrix size exceeds 40x40).
-        - single_gpu: Utilizes a single GPU (specified by device_id) during the computation.
-        - multi_gpu: Uses multiple GPUs (number specified by gpu_num) per-task for the computation.
-        - multi_gpu_mpi: Uses multiple tasks (perhaps coming from multiple nodes), each with possibly multiple GPUs.
+        - "cpu": Uses only the CPU (very slow; avoid if your matrix size exceeds 40x40).
+        - "single_gpu": Utilizes a single GPU (specified by device_id) during the computation.
+        - "multi_gpu": Uses multiple GPUs (number specified by gpu_num) per-task for the computation.
+        - "multi_gpu_mpi": Uses multiple tasks (perhaps coming from multiple nodes), each with possibly multiple GPUs.
 
 - **CPU Thread Count (`thread_counts`):**
     - The number of CPU threads the library will use when computing the permanent on the CPU.
@@ -59,7 +59,7 @@ Below is a compact summary of the settings in the `run_superman.sh` script:
 - **Processor Count (`processor_num`):**
     - The number of MPI tasks (perhaps coming from multiple nodes) to use for the computation.
     - **Note:** Only relevant if the mode is "multi_gpu_mpi".
-    - **WARNING:** Undefined execution pattern if: processor_num > 1 and mode != multi_gpu_mpi.
+    - **WARNING:** Undefined execution pattern if: processor_num > 1 and mode != "multi_gpu_mpi".
 
 - **Complex Matrix Flag (`is_complex`):**
     - If true, the library assumes the matrix to contain complex entries of the form (a + bi).
@@ -78,6 +78,7 @@ Below is a compact summary of the settings in the `run_superman.sh` script:
 
 - **Calculation Precision (`calculation_precision`):**
     - Precision in which to compute the permanent.
-
-- **Printing Precision (`printing_precision`):**
-    - Precision in which to print the computed permanent.
+    - **Options:**
+        - "dd": Uses double precision only; fast but prone to precision errors.
+        - "kahan": Uses compensated summation; slightly slower than double (about 4%) but more robust against precision errors.
+        - An arbitrary unsigned integer: Specifies the width of the mantissa in IEEE 754 format. Only available in "cpu" mode and can be extremely slow (up to 100× slower compared to normal CPU execution).

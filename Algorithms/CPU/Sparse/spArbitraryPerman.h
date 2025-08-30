@@ -201,7 +201,7 @@ double spArbitraryPerman<C, S>::permanentFunction()
         return digits.substr(0, static_cast<size_t>(expInt)) + "." + digits.substr(static_cast<size_t>(expInt));
     };
 
-    std::cout << "Arbitrary Precision Permanent (decimal): " << mpfToDecimal(retValue) << "\n";
+    std::cout << "Arbitrary Precision Permanent: " << mpfToDecimal(retValue) << std::endl;
 
     return retValue.get_d();
 }

@@ -3,5 +3,3 @@ wrapper
 build/
 res/
 tests/
-experiments/
-/*.mtx
