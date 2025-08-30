@@ -370,7 +370,7 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
                 settings.calculationPrecision = ARBITRARY;
                 settings.arbitraryPrecision = std::stoul(value);
             }
-            catch (const std::exception& e)
+            catch (const std::invalid_argument& e)
             {
                 if (value == "kahan")
                 {
