@@ -360,17 +360,10 @@ void IO::readSettings(Settings& settings, int argc, char* argv[])
         {
             try
             {
-                if (settings.mode != CPU || settings.complex != false)
-                {
-                    throw std::runtime_error("SUperman currently supports arbitrary precision only when the mode is CPU and the matrix is not complex!\n");
-                }
-                #ifndef GMP_AVAILABLE
-                    throw std::runtime_error("The GMP library is not found to be installed on your system!\n");
-                #endif
-                settings.calculationPrecision = ARBITRARY;
                 settings.arbitraryPrecision = std::stoul(value);
+                settings.calculationPrecision = ARBITRARY;
             }
-            catch (const std::invalid_argument& e)
+            catch (const std::exception& e)
             {
                 if (value == "kahan")
                 {
