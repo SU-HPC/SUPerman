@@ -186,7 +186,6 @@ void KernelGenerator<C, S>::prodReduce_ut(int k)
             else
             {
                 one[inner] = true;
-                m_File += "\t" + tname + " = 1;\n";
             }
         }
 
@@ -194,7 +193,7 @@ void KernelGenerator<C, S>::prodReduce_ut(int k)
         {
             for (unsigned inner = 0; inner < UNROLL; inner += offset * 2)
             {
-                if (one[inner])
+                if (one[inner] || one[inner + offset])
                 {
                     continue;
                 }
