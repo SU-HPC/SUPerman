@@ -3,8 +3,30 @@
 SUPerman is a state-of-the-art, complete software suite built for the efficient computation of matrix permanents. It supports a diverse range of matrix types, including real, complex, binary, sparse, and dense matrices, with specialized handling tailored to each type to maximize performance.
 
 If you use this library in your research, please cite:
-<br/><br/>
-D. Elbek, F. Taşyaran, B. Uçar, and K. Kaya. SUperman: Efficient Permanent Computation on GPUs (2025). arXiv:2502.16577. URL https://www.arxiv.org/abs/2502.16577
+
+```bibtex
+@article{Elbek2026SUperman,
+  title   = {SUperman: Efficient permanent computation on GPUs},
+  author  = {Elbek, Deniz and Ta{\c{s}}yaran, Fatih and U{\c{c}}ar, Bora and Kaya, Kamer},
+  journal = {Computer Physics Communications},
+  volume  = {321},
+  pages   = {110027},
+  year    = {2026},
+  doi     = {10.1016/j.cpc.2026.110027}
+}
+```
+
+If you use the ideas behind our state-of-the-art sparse matrix permanent code generation method in your research, please cite:
+
+```bibtex
+@article{Elbek2025CodeGeneration,
+  title   = {Fully-Automated Code Generation for Efficient Computation of Sparse Matrix Permanents on GPUs},
+  author  = {Elbek, Deniz and Kaya, Kamer},
+  journal = {arXiv preprint arXiv:2501.15126},
+  year    = {2025},
+  doi     = {10.48550/arXiv.2501.15126},
+}
+```
 
 ---
 

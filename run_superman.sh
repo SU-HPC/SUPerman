@@ -28,7 +28,7 @@ modes=("single_gpu")
 # - "multi_gpu": Uses multiple GPUs (number specified by gpu_num) per-task for the computation.
 # - "multi_gpu_mpi": Uses multiple tasks (perhaps coming from multiple nodes), each with possibly multiple GPUs.
 
-thread_counts=(88)
+thread_counts=(16)
 # The number of CPU threads the library will use when computing the permanent on the CPU.
 # Only relevant if the mode is "cpu".
 
@@ -66,7 +66,7 @@ calculation_precision=("kahan")
 # - "kahan": Uses compensated summation; slightly slower than double (about 4%) but more robust against precision errors.
 # - An arbitrary unsigned integer: Specifies the width of the mantissa in IEEE 754 format. Only available in "cpu" mode and can be extremely slow (up to 100× slower compared to normal CPU execution).
 
-g++ -std=c++17 "${repo_directory}wrapper.cpp" -o "${repo_directory}wrapper"
+g++ -O3 -fopenmp -std=c++17 "${repo_directory}wrapper.cpp" -o "${repo_directory}wrapper"
 if [ $? -ne 0 ]; then
   echo "Compilation of wrapper.cpp failed!"
   exit 1

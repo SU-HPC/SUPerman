@@ -6,7 +6,8 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --partition=kolyoz-cuda
 #SBATCH --gres=gpu:1
-#SBATCH --time=0-0:10:00
+#SBATCH -C H100
+#SBATCH --time=0-1:00:00
 #SBATCH --output=res/SUPERMAN-%j.out
 #SBATCH --error=res/SUPERMAN-%j.err
 #SBATCH --export=NONE
@@ -46,7 +47,7 @@ script_dir="$(dirname "$script")"
 repo_directory=${script_dir}/
 build_directory=${repo_directory}build/ # never modify this
 matrix_directory=${repo_directory}ExampleMatrices/
-output_directory=${repo_directory}tests/ 
+output_directory=${repo_directory}tests/
 
 mkdir -p ${output_directory}
 
@@ -68,7 +69,7 @@ modes=("single_gpu")
 # - "multi_gpu": Uses multiple GPUs (number specified by gpu_num) per-task for the computation.
 # - "multi_gpu_mpi": Uses multiple tasks (perhaps coming from multiple nodes), each with possibly multiple GPUs.
 
-thread_counts=(88)
+thread_counts=(16)
 # The number of CPU threads the library will use when computing the permanent on the CPU.
 # Only relevant if the mode is "cpu".
 
@@ -109,7 +110,7 @@ calculation_precision=("kahan")
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
 
-g++ -std=c++17 "${repo_directory}wrapper.cpp" -o "${repo_directory}wrapper"
+g++ -O3 -fopenmp -std=c++17 "${repo_directory}wrapper.cpp" -o "${repo_directory}wrapper"
 if [ $? -ne 0 ]; then
   echo "Compilation of wrapper.cpp failed!" >&2
   exit 1
