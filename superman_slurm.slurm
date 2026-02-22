@@ -6,11 +6,12 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --partition=kolyoz-cuda
 #SBATCH --gres=gpu:1
-#SBATCH -C H100
-#SBATCH --time=0-1:00:00
+#SBATCH --time=3-00:00:00
 #SBATCH --output=res/SUPERMAN-%j.out
 #SBATCH --error=res/SUPERMAN-%j.err
 #SBATCH --export=NONE
+
+hostname
 
 module purge
 unset SLURM_EXPORT_ENV

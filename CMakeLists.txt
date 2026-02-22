@@ -14,26 +14,26 @@ set(CMAKE_CXX_STANDARD 17)
 # OpenMP
 find_package(OpenMP REQUIRED)
 if(OpenMP_FOUND)
-	set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler ${OpenMP_CXX_FLAGS}")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler ${OpenMP_CXX_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
 # CUDA
 find_package(CUDAToolkit QUIET)
 if(CUDAToolkit_FOUND)
-    set(CMAKE_CUDA_ARCHITECTURES native)
-    enable_language(CUDA)
-    add_definitions(-DGPU_AVAILABLE)
+  set(CMAKE_CUDA_ARCHITECTURES native)
+  enable_language(CUDA)
+  add_definitions(-DGPU_AVAILABLE)
 endif()
 
 # MPI
 find_package(MPI QUIET)
 if(MPI_FOUND)
-    add_definitions(-DMPI_AVAILABLE)
-    include_directories(${MPI_INCLUDE_PATH})
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MPI_CXX_COMPILE_FLAGS}")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${MPI_CXX_LINK_FLAGS}")
+  add_definitions(-DMPI_AVAILABLE)
+  include_directories(${MPI_INCLUDE_PATH})
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MPI_CXX_COMPILE_FLAGS}")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${MPI_CXX_LINK_FLAGS}")
 endif()
 
 # Directories
@@ -53,56 +53,52 @@ include_directories(Algorithms/GPU/CodeGeneration)
 include_directories(Algorithms/Complex)
 
 set(GPU_WRAPPER_FILES
-	Algorithms/GPU/GPUKernelWrappers.cu
-	Algorithms/Complex/gpuComputeComplex.cu
+  Algorithms/GPU/GPUKernelWrappers.cu
+  Algorithms/Complex/gpuComputeComplex.cu
 )
 
 # MPI Files
 set(MPI_WRAPPER_FILES
-	MPIWrappers/mpi_wrapper.cpp
+  MPIWrappers/mpi_wrapper.cpp
 )
 
 # All Files
 set(FILES
-	main.cpp
-	IO/dm.cpp
-	${CPU_HEADER_FILES}
+  main.cpp
+  IO/dm.cpp
+  ${CPU_HEADER_FILES}
 )
 
 # Add GPU Files to All Files if CUDA detected
 if(CUDAToolkit_FOUND)
-    list(APPEND FILES ${GPU_WRAPPER_FILES})
+  list(APPEND FILES ${GPU_WRAPPER_FILES})
 endif()
 
 # Add MPI Files to All Files if MPI detected
 if(MPI_FOUND)
-    list(APPEND FILES ${MPI_WRAPPER_FILES})
+  list(APPEND FILES ${MPI_WRAPPER_FILES})
 endif()
 
 # Create executable
 add_executable(SUPerman
-	main.cpp
-	IO/dm.cpp
-	${FILES}
+  ${FILES}
 )
 
 # Link shared libraries
 target_link_libraries(SUPerman PRIVATE
-	OpenMP::OpenMP_CXX
+  OpenMP::OpenMP_CXX
 )
 
-if(CMAKE_CUDA_COMPILER)
-	target_link_libraries(SUPerman PRIVATE
-        cuda
-        CUDA::cudart
-        ${CUDA_LIBRARIES}
+if(CUDAToolkit_FOUND)
+  target_link_libraries(SUPerman PRIVATE
+    CUDA::cudart
 	)
 endif()
 
 if(MPI_FOUND)
-    target_link_libraries(SUPerman PRIVATE
-		MPI::MPI_CXX
-    )
+  target_link_libraries(SUPerman PRIVATE
+    MPI::MPI_CXX
+  )
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
